@@ -10,4 +10,11 @@
 // 여기에 미리 컴파일하려는 헤더 추가
 #include "framework.h"
 
+// 윈도우 API
+#include <Windows.h>
+#include <stdlib.h>
+
+// 솔루션 전체에서 참조
+#include "Global.h"
+
 #endif //PCH_H

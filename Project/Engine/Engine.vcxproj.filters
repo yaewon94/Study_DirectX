@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="Engine.h" />
+    <ClInclude Include="framework.h">
+      <Filter>Default</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>Default</Filter>
+    </ClInclude>
+    <ClInclude Include="Device.h">
+      <Filter>1.Device</Filter>
+    </ClInclude>
+    <ClInclude Include="Singleton.h">
+      <Filter>0.Header\DesignPattern</Filter>
+    </ClInclude>
+    <ClInclude Include="Global.h">
+      <Filter>0.Header</Filter>
+    </ClInclude>
+    <ClInclude Include="SimpleMath.h">
+      <Filter>0.Header\DirectX</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Engine.cpp" />
+    <ClCompile Include="main.cpp">
+      <Filter>Default</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>Default</Filter>
+    </ClCompile>
+    <ClCompile Include="Device.cpp">
+      <Filter>1.Device</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Default">
+      <UniqueIdentifier>{c201226f-21ad-40d2-b0f2-ad8fd85cc96b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0.Header">
+      <UniqueIdentifier>{81f83232-21d8-492a-acb9-b8823bd70e70}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1.Device">
+      <UniqueIdentifier>{5ff6eb73-6d63-40fb-8a82-4810cc532401}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0.Header\DesignPattern">
+      <UniqueIdentifier>{77dc491f-691c-46f3-bfc2-951a36d18880}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0.Header\DirectX">
+      <UniqueIdentifier>{9b650aa1-6b12-4e84-bab8-a5131af01046}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="SimpleMath.inl">
+      <Filter>0.Header\DirectX</Filter>
+    </None>
+  </ItemGroup>
+</Project>

@@ -10,14 +10,19 @@
 #define MAX_LOADSTRING 100
 
 // [라이브러리 링크]
-// 사용할 헤더 파일 $(SolutionDir)External > Include > $(ProjectName) 에 복사해야함
 // 프로젝트 우클릭 > 속성 > VC++ 디렉터리
 // > 포함 경로
-#include <StaticLib/Test.h>
-#include <Dll/Test.h>
+#include <Engine/Global.h>
+#include <Engine/Engine.h>
 // > 라이브러리 경로
-#pragma comment(lib, "StaticLib\\StaticLib.lib")
-//#pragma comment(lib, "Dll\\Dll.lib")    // 동적 라이브러리 암시적 링크 (프로그램 실행때부터 링크됨)
+#ifdef _DEBUG
+#pragma comment(lib, "Engine\\Engine_D")
+#else
+#pragma comment(lib, "Engine\\Engine")
+#endif
+
+// [라이브러리 빌드 순서 설정]
+// 프로젝트 우클릭 > 빌드 종속성 > 프로젝트 종속성 설정
 
 // 전역 변수:
 HINSTANCE g_hInst;
@@ -38,19 +43,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_ LPWSTR    lpCmdLine,
                      _In_ int       nCmdShow)
 {
-    // 라이브러리 테스트
-    std::string library1 = GetLibraryName();
-    //std::string library2 = GetLibraryNameDll();
-
-    // 동적 라이브러리 링크
-    HMODULE hLibrary = LoadLibrary(L"Dll.dll"); // .exe 파일과 같은 디렉터리의 상대경로
-
-    typedef std::string(*FUNC_TYPE)();
-    FUNC_TYPE pFunc = (FUNC_TYPE)GetProcAddress(hLibrary, "GetLibraryNameDll");
-    std::string library2 = pFunc();
-
-    FreeLibrary(hLibrary);
-
     // 전역 문자열을 초기화합니다.
     LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
     LoadStringW(hInstance, IDC_CLIENT, szWindowClass, MAX_LOADSTRING);
@@ -60,6 +52,12 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     // 애플리케이션 초기화를 수행합니다:
     if (!InitInstance (hInstance, nCmdShow))
+    {
+        return FALSE;
+    }
+
+    // 게임엔진 초기화
+    if (FAILED(Engine::GetInstance()->Init(g_hWnd)))
     {
         return FALSE;
     }
@@ -84,6 +82,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         }
         else
         {
+            // 게임 엔진 구동
+            Engine::GetInstance()->Progress();
         }
     }
 

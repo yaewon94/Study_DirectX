@@ -1,0 +1,35 @@
+#pragma once
+
+// GPU 제어 클래스
+class Device final : public Singleton<Device>
+{
+	SINGLETON(Device);
+
+private:
+	HWND hwnd;
+
+	ComPtr<ID3D11Device> device;			// GPU 제어, GPU 메모리에 데이터 생성
+	ComPtr<ID3D11DeviceContext> context;	// GPU 동작 명령, 렌더링, GPGPU
+
+	ComPtr<IDXGISwapChain> swapChain;		// 백버퍼 관리, 최종 렌더링 제출
+	
+	ComPtr<ID3D11Texture2D> rtTex;			// 백버퍼
+	ComPtr<ID3D11RenderTargetView> rtView;	// 백버퍼 중간 전달자
+	
+	ComPtr<ID3D11Texture2D> dsTex;			// Depth, Stencil, Texture
+	ComPtr<ID3D11DepthStencilView> dsView;
+
+	D3D11_VIEWPORT viewPort;
+
+	/*ID3D11RasterizerState* rsState;
+	ID3D11DepthStencilState* dsState;
+	ID3D11BlendState* bsState;
+	ID3D11SamplerState* samplerState;*/
+
+public:
+	int Init(HWND hwnd);
+
+private:
+	int CreateSwapChain();
+	int CreateView();
+};
