@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "Engine.h"
 #include "Device.h"
+#include "PathManager.h"
+#include "RenderTest.h"
 
 Engine::Engine() : hwnd(nullptr)
 {
@@ -8,6 +10,8 @@ Engine::Engine() : hwnd(nullptr)
 
 Engine::~Engine()
 {
+	// 렌더링 관련 자원 해제
+	ReleaseTest();
 }
 
 int Engine::Init(HWND hwnd)
@@ -22,9 +26,18 @@ int Engine::Init(HWND hwnd)
 	// 디바이스 초기화
 	if (FAILED(Device::GetInstance()->Init(this->hwnd))) return E_FAIL;
 
+	// 매니저 클래스 초기화
+	PathManager::GetInstance()->Init();
+
+	// 렌더링 테스트 초기화
+	if (FAILED(InitTest())) return E_FAIL;
+
 	return S_OK;
 }
 
 void Engine::Progress()
 {
+	// 매 프레임마다 호출
+	TickTest();
+	RenderTest();
 }
