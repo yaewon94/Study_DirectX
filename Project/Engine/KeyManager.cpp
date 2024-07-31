@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "KeyManager.h"
 #include "Engine.h"
+#include "RenderTest.h"
 
 KeyManager::KeyManager()
 {
@@ -28,6 +29,10 @@ void KeyManager::Tick()
 			{
 				if (key.second == KEY_STATE::NONE) key.second = KEY_STATE::TAP;
 				else if (key.second == KEY_STATE::TAP) key.second = KEY_STATE::KEY_DOWN;
+
+				// [임시코드]
+				MoveTest(key.first);
+
 			}
 			// 안눌림
 			else

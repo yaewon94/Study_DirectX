@@ -2,6 +2,7 @@
 #include "RenderTest.h"
 #include "Device.h"
 #include "PathManager.h"
+#include "TimeManager.h"
 
 #define SQUARE_VERTEX_COUNT 6
 #define SQUARE_INDEX_COUNT 4
@@ -225,4 +226,28 @@ void RenderTest()
 
 void ReleaseTest()
 {
+}
+
+void MoveTest(KEY_CODE key)
+{
+	float DT = TimeManager::GetInstance()->GetDeltaTime();
+	float dir = 0.f;
+
+	if (key == KEY_CODE::LEFT) dir = -1.f;
+	else if (key == KEY_CODE::RIGHT) dir = 1.f;
+
+	for (int i=0; i<SQUARE_INDEX_COUNT; ++i)
+	{
+		g_vertexArr[i].pos.x += dir * DT;
+	}
+
+	D3D11_MAPPED_SUBRESOURCE sub = {};
+	Device::GetInstance()->GetContext()->Map(g_vertexBuff.Get()
+		, 0
+		, D3D11_MAP_WRITE_DISCARD
+		, 0
+		, &sub);
+	memcpy(sub.pData, g_vertexArr, sizeof(Vertex) * SQUARE_INDEX_COUNT);
+	Device::GetInstance()->GetContext()->Unmap(g_vertexBuff.Get(), 0);
+
 }
