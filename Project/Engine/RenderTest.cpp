@@ -4,10 +4,11 @@
 #include "PathManager.h"
 
 #define SQUARE_VERTEX_COUNT 6
+#define SQUARE_INDEX_COUNT 4
 #define LAYOUT_FIELD_COUNT 3
 
 // 정점
-Vertex g_vertexArr[SQUARE_VERTEX_COUNT] = {};
+Vertex g_vertexArr[SQUARE_INDEX_COUNT] = {};
 ComPtr<ID3D11Buffer> g_vertexBuff;
 ComPtr<ID3D11Buffer> g_indexBuff;	// 인덱스 버퍼
 
@@ -27,14 +28,6 @@ int InitTest()
 	// 정점 위치 설정 (viewport 좌표)
 	// 각 픽셀 사이의 컬러값은 보간되서 나옴
 	int index = 0;
-	g_vertexArr[index].pos = Vec3(-0.5f, 0.5f, 0.f);
-	g_vertexArr[index++].color = Vec4(1.f, 0.f, 0.f, 1.f);
-
-	g_vertexArr[index].pos = Vec3(0.5f, -0.5f, 0.f);
-	g_vertexArr[index++].color = Vec4(0.f, 0.f, 1.f, 1.f);
-
-	g_vertexArr[index].pos = Vec3(-0.5f, -0.5f, 0.f);
-	g_vertexArr[index++].color = Vec4(0.f, 1.f, 0.f, 1.f);
 
 	g_vertexArr[index].pos = Vec3(-0.5f, 0.5f, 0.f);
 	g_vertexArr[index++].color = Vec4(1.f, 0.f, 0.f, 1.f);
@@ -43,12 +36,15 @@ int InitTest()
 	g_vertexArr[index++].color = Vec4(0.f, 0.f, 1.f, 1.f);
 
 	g_vertexArr[index].pos = Vec3(0.5f, -0.5f, 0.f);
-	g_vertexArr[index].color = Vec4(0.f, 0.f, 1.f, 1.f);
+	g_vertexArr[index++].color = Vec4(0.f, 1.f, 0.f, 1.f);
+
+	g_vertexArr[index].pos = Vec3(-0.5f, -0.5f, 0.f);
+	g_vertexArr[index++].color = Vec4(1.f, 0.f, 1.f, 1.f);
 
 	// 정점 데이터 시스템 메모리 => GPU에 적재
 	D3D11_BUFFER_DESC vbDesc = {};
 
-	vbDesc.ByteWidth = sizeof(Vertex) * SQUARE_VERTEX_COUNT;
+	vbDesc.ByteWidth = sizeof(Vertex) * SQUARE_INDEX_COUNT;
 	vbDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 
 	vbDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;	// 변경 가능
@@ -60,6 +56,22 @@ int InitTest()
 
 	// 정점 버퍼 객체 생성
 	if (FAILED(Device::GetInstance()->GetDevice()->CreateBuffer(&vbDesc, &sub, g_vertexBuff.GetAddressOf())))
+	{
+		return E_FAIL;
+	}
+
+	// 인덱스 버퍼 생성
+	UINT indexArr[SQUARE_VERTEX_COUNT] = { 0, 1, 2, 0, 2, 3 };
+	D3D11_BUFFER_DESC ibDesc = {};
+
+	ibDesc.ByteWidth = sizeof(UINT) * SQUARE_VERTEX_COUNT;
+	ibDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
+	ibDesc.CPUAccessFlags = 0;	// 변경 불가
+	ibDesc.Usage = D3D11_USAGE_DEFAULT;
+
+	sub.pSysMem = indexArr;
+
+	if (FAILED(Device::GetInstance()->GetDevice()->CreateBuffer(&ibDesc, &sub, g_indexBuff.GetAddressOf())))
 	{
 		return E_FAIL;
 	}
@@ -188,6 +200,7 @@ void RenderTest()
 	UINT Stride = sizeof(Vertex);
 	UINT Offset = 0;
 	Device::GetInstance()->GetContext()->IASetVertexBuffers(0, 1, g_vertexBuff.GetAddressOf(), &Stride, &Offset);
+	Device::GetInstance()->GetContext()->IASetIndexBuffer(g_indexBuff.Get(), DXGI_FORMAT_R32_UINT, 0);
 	Device::GetInstance()->GetContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	Device::GetInstance()->GetContext()->IASetInputLayout(g_layout.Get());
 
@@ -204,7 +217,7 @@ void RenderTest()
 	// Blend Stage
 
 	// 렌더링
-	Device::GetInstance()->GetContext()->Draw(SQUARE_VERTEX_COUNT, 0);
+	Device::GetInstance()->GetContext()->DrawIndexed(SQUARE_VERTEX_COUNT, 0, 0);
 
 	// 윈도우에 RenderTarget에 그려진 것 출력
 	Device::GetInstance()->Present();
