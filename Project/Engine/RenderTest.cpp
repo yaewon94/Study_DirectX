@@ -3,11 +3,13 @@
 #include "Device.h"
 #include "PathManager.h"
 
-#define TRIANGLE 3
+#define SQUARE_VERTEX_COUNT 6
+#define LAYOUT_FIELD_COUNT 3
 
 // 정점
-Vertex g_vertexArr[TRIANGLE] = {};
+Vertex g_vertexArr[SQUARE_VERTEX_COUNT] = {};
 ComPtr<ID3D11Buffer> g_vertexBuff;
+ComPtr<ID3D11Buffer> g_indexBuff;	// 인덱스 버퍼
 
 // 셰이더
 ComPtr<ID3DBlob> g_vertexShaderBlob;
@@ -23,15 +25,30 @@ ComPtr<ID3D11InputLayout> g_layout;
 int InitTest()
 {
 	// 정점 위치 설정 (viewport 좌표)
+	// 각 픽셀 사이의 컬러값은 보간되서 나옴
 	int index = 0;
-	g_vertexArr[index++].pos = Vec3(0.f, 1.f, 0.f);
-	g_vertexArr[index++].pos = Vec3(1.f, -1.f, 0.f);
-	g_vertexArr[index].pos = Vec3(-1.f, -1.f, 0.f);
+	g_vertexArr[index].pos = Vec3(-0.5f, 0.5f, 0.f);
+	g_vertexArr[index++].color = Vec4(1.f, 0.f, 0.f, 1.f);
+
+	g_vertexArr[index].pos = Vec3(0.5f, -0.5f, 0.f);
+	g_vertexArr[index++].color = Vec4(0.f, 0.f, 1.f, 1.f);
+
+	g_vertexArr[index].pos = Vec3(-0.5f, -0.5f, 0.f);
+	g_vertexArr[index++].color = Vec4(0.f, 1.f, 0.f, 1.f);
+
+	g_vertexArr[index].pos = Vec3(-0.5f, 0.5f, 0.f);
+	g_vertexArr[index++].color = Vec4(1.f, 0.f, 0.f, 1.f);
+
+	g_vertexArr[index].pos = Vec3(0.5f, 0.5f, 0.f);
+	g_vertexArr[index++].color = Vec4(0.f, 0.f, 1.f, 1.f);
+
+	g_vertexArr[index].pos = Vec3(0.5f, -0.5f, 0.f);
+	g_vertexArr[index].color = Vec4(0.f, 0.f, 1.f, 1.f);
 
 	// 정점 데이터 시스템 메모리 => GPU에 적재
 	D3D11_BUFFER_DESC vbDesc = {};
 
-	vbDesc.ByteWidth = sizeof(Vertex) * TRIANGLE;
+	vbDesc.ByteWidth = sizeof(Vertex) * SQUARE_VERTEX_COUNT;
 	vbDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 
 	vbDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;	// 변경 가능
@@ -121,7 +138,7 @@ int InitTest()
 		, g_pixelShader.GetAddressOf());
 
 	// Input Layout 설정
-	D3D11_INPUT_ELEMENT_DESC layoutDesc[TRIANGLE] = {};
+	D3D11_INPUT_ELEMENT_DESC layoutDesc[LAYOUT_FIELD_COUNT] = {};
 	layoutDesc[0].AlignedByteOffset = 0;
 	layoutDesc[0].Format = DXGI_FORMAT_R32G32B32_FLOAT;
 	layoutDesc[0].InputSlot = 0;
@@ -139,7 +156,7 @@ int InitTest()
 	layoutDesc[1].SemanticIndex = 0;
 
 	layoutDesc[2].AlignedByteOffset = 20;
-	layoutDesc[2].Format = DXGI_FORMAT_R32G32B32_FLOAT;
+	layoutDesc[2].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
 	layoutDesc[2].InputSlot = 0;
 	layoutDesc[2].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
 	layoutDesc[2].InstanceDataStepRate = 0;
@@ -147,7 +164,7 @@ int InitTest()
 	layoutDesc[2].SemanticIndex = 0;
 
 	if (FAILED(Device::GetInstance()->GetDevice()->CreateInputLayout(layoutDesc
-		, TRIANGLE
+		, LAYOUT_FIELD_COUNT
 		, g_vertexShaderBlob->GetBufferPointer()
 		, g_vertexShaderBlob->GetBufferSize()
 		, g_layout.GetAddressOf())))
@@ -187,7 +204,7 @@ void RenderTest()
 	// Blend Stage
 
 	// 렌더링
-	Device::GetInstance()->GetContext()->Draw(TRIANGLE, 0);
+	Device::GetInstance()->GetContext()->Draw(SQUARE_VERTEX_COUNT, 0);
 
 	// 윈도우에 RenderTarget에 그려진 것 출력
 	Device::GetInstance()->Present();
