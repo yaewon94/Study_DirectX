@@ -1,6 +1,18 @@
 #pragma once
 
-#include "singleton.h"
+// 자료구조
+#include <vector>
+using std::vector;
+#include <list>
+using std::list;
+#include <map>
+using std::map;
+using std::make_pair;
+
+// 문자열
+#include <string>
+using std::string;
+using std::wstring;
 
 // DirectX 11
 #include <d3d11.h>
@@ -25,3 +37,7 @@ typedef DirectX::SimpleMath::Matrix Matrix;
 // ComPtr
 #include <wrl.h>
 using namespace Microsoft::WRL;
+
+// 사용자 정의 헤더
+#include "Singleton.h"
+#include "Types.h"

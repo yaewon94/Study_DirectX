@@ -20,6 +20,13 @@
     <ClInclude Include="SimpleMath.h">
       <Filter>0.Header\DirectX</Filter>
     </ClInclude>
+    <ClInclude Include="RenderTest.h" />
+    <ClInclude Include="Types.h">
+      <Filter>0.Header</Filter>
+    </ClInclude>
+    <ClInclude Include="PathManager.h">
+      <Filter>2.Util</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp" />
@@ -31,6 +38,10 @@
     </ClCompile>
     <ClCompile Include="Device.cpp">
       <Filter>1.Device</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderTest.cpp" />
+    <ClCompile Include="PathManager.cpp">
+      <Filter>2.Util</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -49,10 +60,21 @@
     <Filter Include="0.Header\DirectX">
       <UniqueIdentifier>{9b650aa1-6b12-4e84-bab8-a5131af01046}</UniqueIdentifier>
     </Filter>
+    <Filter Include="HLSL">
+      <UniqueIdentifier>{7af9394b-b2b7-4cf6-996b-cc1d92d5aa1d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2.Util">
+      <UniqueIdentifier>{15c8395b-d4d0-4183-bc30-ccd9ffd46ded}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleMath.inl">
       <Filter>0.Header\DirectX</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Shader.fx">
+      <Filter>HLSL</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

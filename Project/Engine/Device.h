@@ -1,5 +1,7 @@
 #pragma once
 
+#define SHADER_MODEL_VER "vs_5_0"
+
 // GPU 제어 클래스
 class Device final : public Singleton<Device>
 {
@@ -27,7 +29,15 @@ private:
 	ID3D11SamplerState* samplerState;*/
 
 public:
+	ComPtr<ID3D11Device> GetDevice() { return device; }
+	ComPtr<ID3D11DeviceContext> GetContext() { return context; }
+
+public:
 	int Init(HWND hwnd);
+	
+public:
+	void Clear();
+	void Present();
 
 private:
 	int CreateSwapChain();

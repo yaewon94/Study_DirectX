@@ -67,13 +67,21 @@ int Device::Init(HWND hwnd)
 	// Rendering 목적지를 지정
 	context->OMSetRenderTargets(1, rtView.GetAddressOf(), dsView.Get());
 
-	Vec4 vClearColor = Vec4(0.f, 0.f, 0.f, 1.f);
-	context->ClearRenderTargetView(rtView.Get(), vClearColor);
-
-	// 윈도우 에 RenderTarget 에 그려진 이미지를 출력시킨다.
-	swapChain->Present(0, 0);
-
 	return S_OK;
+}
+
+void Device::Clear()
+{
+	// RenderTarget, DepthStencilTexture 클리어
+	Vec4 clearColor = Vec4(0.f, 0.f, 0.f, 1.f);
+	context->ClearRenderTargetView(rtView.Get(), clearColor);
+	context->ClearDepthStencilView(dsView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
+}
+
+void Device::Present()
+{
+	// 윈도우에 RenderTarget에 그려진 이미지 출력
+	swapChain->Present(0, 0);
 }
 
 int Device::CreateSwapChain()
