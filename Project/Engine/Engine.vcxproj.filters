@@ -27,6 +27,12 @@
     <ClInclude Include="PathManager.h">
       <Filter>2.Util</Filter>
     </ClInclude>
+    <ClInclude Include="TimeManager.h">
+      <Filter>2.Util</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyManager.h">
+      <Filter>2.Util</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp" />
@@ -41,6 +47,12 @@
     </ClCompile>
     <ClCompile Include="RenderTest.cpp" />
     <ClCompile Include="PathManager.cpp">
+      <Filter>2.Util</Filter>
+    </ClCompile>
+    <ClCompile Include="TimeManager.cpp">
+      <Filter>2.Util</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyManager.cpp">
       <Filter>2.Util</Filter>
     </ClCompile>
   </ItemGroup>

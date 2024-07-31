@@ -1,7 +1,9 @@
 #include "pch.h"
 #include "Engine.h"
 #include "Device.h"
+#include "KeyManager.h"
 #include "PathManager.h"
+#include "TimeManager.h"
 #include "RenderTest.h"
 
 Engine::Engine() : hwnd(nullptr)
@@ -28,6 +30,8 @@ int Engine::Init(HWND hwnd)
 
 	// 매니저 클래스 초기화
 	PathManager::GetInstance()->Init();
+	TimeManager::GetInstance()->Init();
+	KeyManager::GetInstance()->Init();
 
 	// 렌더링 테스트 초기화
 	if (FAILED(InitTest())) return E_FAIL;
@@ -37,6 +41,10 @@ int Engine::Init(HWND hwnd)
 
 void Engine::Progress()
 {
+	// 매니저 클래스 Tick()
+	TimeManager::GetInstance()->Tick();
+	KeyManager::GetInstance()->Tick();
+
 	// 매 프레임마다 호출
 	TickTest();
 	RenderTest();

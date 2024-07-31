@@ -14,6 +14,7 @@ private:
 
 public:
 	Vec2 GetResolution() { return resolution; }
+	HWND GetHwnd() const { return hwnd; }
 
 public:
 	int Init(HWND hwnd);
