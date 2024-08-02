@@ -1,6 +1,15 @@
 #pragma once
 #include "Asset.h"
 
+// 정점 정보 구조체
+struct Vertex
+{
+	Vec3 pos;
+	Vec2 uv;
+	Vec4 color;
+};
+
+// 메쉬 에셋 클래스
 class Mesh final : public Asset
 {
 private:
@@ -21,5 +30,9 @@ public:
 	~Mesh();
 
 public:
-	void Create(Vertex* vertexSysMem, UINT vertexCount, UINT* indexSysMem, UINT indexCount);
+	int Create(Vertex* vertexSysMem, UINT vertexCount, UINT* indexSysMem, UINT indexCount);
+	void Render();
+
+private:
+	void Bind();
 };

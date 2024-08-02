@@ -19,7 +19,7 @@ protected:
 	Entity();
 	Entity(const wstring& name);
 	Entity(const Entity& origin);
-	~Entity();
+	virtual ~Entity();
 
 protected:
 	virtual Entity* Clone() = 0;
