@@ -15,6 +15,9 @@ protected:
 	Asset(const wstring& key, const wstring& relativePath);
 	~Asset();
 
+protected:
+	const wstring& GetPath() { return relativePath; }
+
 protected:	// ªË¡¶
 	Asset(const Asset&) = delete;
 	virtual Asset* Clone() final { return nullptr; }

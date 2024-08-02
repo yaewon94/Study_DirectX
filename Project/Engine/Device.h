@@ -1,6 +1,7 @@
 #pragma once
 
-#define SHADER_MODEL_VER "vs_5_0"
+#define VERTEX_SHADER_VER "vs_5_0"
+#define PIXEL_SHADER_VER "ps_5_0"
 
 #define CONTEXT Device::GetInstance()->GetContext()
 #define DEVICE Device::GetInstance()->GetDevice()
