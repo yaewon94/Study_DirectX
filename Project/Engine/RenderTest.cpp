@@ -1,28 +1,21 @@
 #include "pch.h"
 #include "RenderTest.h"
 #include "Device.h"
-#include "PathManager.h"
 #include "TimeManager.h"
+#include "Mesh.h"
+#include "GraphicShader.h"
 
-#define SQUARE_VERTEX_COUNT 6
-#define SQUARE_INDEX_COUNT 4
+#define SQUARE_VERTEX_COUNT 4
+#define SQUARE_INDEX_COUNT 6
 #define LAYOUT_FIELD_COUNT 3
 
-// 정점
-Vertex g_vertexArr[SQUARE_INDEX_COUNT] = {};
-ComPtr<ID3D11Buffer> g_vertexBuff;
-ComPtr<ID3D11Buffer> g_indexBuff;	// 인덱스 버퍼
+// 오브젝트 위치
+Vec3 g_objPos = Vec3(0.f, 0.f, 0.f);
 
-// 셰이더
-ComPtr<ID3DBlob> g_vertexShaderBlob;
-ComPtr<ID3DBlob> g_pixelShaderBlob;
-ComPtr<ID3DBlob> g_errorBlob;
+ComPtr<ID3D11Buffer> g_constBuff;	// 상수 버퍼
 
-ComPtr<ID3D11VertexShader> g_vertexShader;
-ComPtr<ID3D11PixelShader> g_pixelShader;
-
-// Input Layout
-ComPtr<ID3D11InputLayout> g_layout;
+Mesh* g_mesh = nullptr;
+GraphicShader* g_shader = nullptr;
 
 int InitTest()
 {
@@ -30,157 +23,45 @@ int InitTest()
 	// 각 픽셀 사이의 컬러값은 보간되서 나옴
 	int index = 0;
 
-	g_vertexArr[index].pos = Vec3(-0.5f, 0.5f, 0.f);
-	g_vertexArr[index++].color = Vec4(1.f, 0.f, 0.f, 1.f);
+	Vertex vertexArr[SQUARE_VERTEX_COUNT] = {};
+	vertexArr[index].pos = Vec3(-0.5f, 0.5f, 0.f);
+	vertexArr[index++].color = Vec4(1.f, 0.f, 0.f, 1.f);
 
-	g_vertexArr[index].pos = Vec3(0.5f, 0.5f, 0.f);
-	g_vertexArr[index++].color = Vec4(0.f, 0.f, 1.f, 1.f);
+	vertexArr[index].pos = Vec3(0.5f, 0.5f, 0.f);
+	vertexArr[index++].color = Vec4(0.f, 0.f, 1.f, 1.f);
 
-	g_vertexArr[index].pos = Vec3(0.5f, -0.5f, 0.f);
-	g_vertexArr[index++].color = Vec4(0.f, 1.f, 0.f, 1.f);
+	vertexArr[index].pos = Vec3(0.5f, -0.5f, 0.f);
+	vertexArr[index++].color = Vec4(0.f, 1.f, 0.f, 1.f);
 
-	g_vertexArr[index].pos = Vec3(-0.5f, -0.5f, 0.f);
-	g_vertexArr[index++].color = Vec4(1.f, 0.f, 1.f, 1.f);
+	vertexArr[index].pos = Vec3(-0.5f, -0.5f, 0.f);
+	vertexArr[index++].color = Vec4(1.f, 0.f, 1.f, 1.f);
 
-	// 정점 데이터 시스템 메모리 => GPU에 적재
-	D3D11_BUFFER_DESC vbDesc = {};
-
-	vbDesc.ByteWidth = sizeof(Vertex) * SQUARE_INDEX_COUNT;
-	vbDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-
-	vbDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;	// 변경 가능
-	vbDesc.Usage = D3D11_USAGE_DYNAMIC;
-
-	// 생성시킬 버퍼의 초기데이터
-	D3D11_SUBRESOURCE_DATA sub = {};
-	sub.pSysMem = g_vertexArr;
-
-	// 정점 버퍼 객체 생성
-	if (FAILED(Device::GetInstance()->GetDevice()->CreateBuffer(&vbDesc, &sub, g_vertexBuff.GetAddressOf())))
+	// 인덱스 값 설정
+	UINT indexArr[SQUARE_INDEX_COUNT] = { 0, 1, 2, 0, 2, 3 };
+	
+	// 메쉬 에셋 생성
+	g_mesh = new Mesh(L"MeshTest", L"");
+	if (FAILED(g_mesh->Create(vertexArr, SQUARE_VERTEX_COUNT, indexArr, SQUARE_INDEX_COUNT)))
 	{
 		return E_FAIL;
 	}
 
-	// 인덱스 버퍼 생성
-	UINT indexArr[SQUARE_VERTEX_COUNT] = { 0, 1, 2, 0, 2, 3 };
-	D3D11_BUFFER_DESC ibDesc = {};
+	// 상수 버퍼 생성
+	D3D11_BUFFER_DESC cbDesc = {};
 
-	ibDesc.ByteWidth = sizeof(UINT) * SQUARE_VERTEX_COUNT;
-	ibDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
-	ibDesc.CPUAccessFlags = 0;	// 변경 불가
-	ibDesc.Usage = D3D11_USAGE_DEFAULT;
+	cbDesc.ByteWidth = sizeof(CB_Transform);
+	cbDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+	cbDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;	// 변경 가능
+	cbDesc.Usage = D3D11_USAGE_DYNAMIC;
 
-	sub.pSysMem = indexArr;
-
-	if (FAILED(Device::GetInstance()->GetDevice()->CreateBuffer(&ibDesc, &sub, g_indexBuff.GetAddressOf())))
+	if (FAILED(DEVICE->CreateBuffer(&cbDesc, nullptr, g_constBuff.GetAddressOf())))
 	{
 		return E_FAIL;
 	}
 
-	// 정점 셰이더 파일 컴파일
-	wstring contentPath = PathManager::GetInstance()->GetContentPath();
-	UINT flag = D3DCOMPILE_DEBUG;
-	HRESULT result = S_OK;
-
-	result = D3DCompileFromFile(wstring(contentPath + L"Shader\\Shader.fx").c_str()
-		, nullptr
-		, D3D_COMPILE_STANDARD_FILE_INCLUDE
-		, "VS_Test"
-		, SHADER_MODEL_VER
-		, flag
-		, 0
-		, g_vertexShaderBlob.GetAddressOf()
-		, g_errorBlob.GetAddressOf());
-
-	if (FAILED(result))
-	{
-		errno_t errNum = GetLastError();
-
-		if (errNum == 2 || errNum == 3)
-		{
-			MessageBoxA(nullptr, "셰이더 파일이 존재하지 않음", "정점 셰이더 컴파일 실패", MB_OK);
-		}
-		else
-		{
-			char* errMsg = (char*)g_errorBlob->GetBufferPointer();
-			MessageBoxA(nullptr, errMsg, "정점 셰이더 컴파일 실패", MB_OK);
-		}
-		
-		return E_FAIL;
-	}
-
-	// 정점 셰이더 생성
-	Device::GetInstance()->GetDevice()->CreateVertexShader(g_vertexShaderBlob->GetBufferPointer()
-		, g_vertexShaderBlob->GetBufferSize()
-		, nullptr
-		, g_vertexShader.GetAddressOf());
-
-	// 픽셀 셰이더 파일 컴파일
-	result = D3DCompileFromFile(wstring(contentPath + L"Shader\\Shader.fx").c_str()
-		, nullptr
-		, D3D_COMPILE_STANDARD_FILE_INCLUDE
-		, "PS_Test"
-		, SHADER_MODEL_VER
-		, flag
-		, 0
-		, g_pixelShaderBlob.GetAddressOf()
-		, g_errorBlob.GetAddressOf());
-
-	if (FAILED(result))
-	{
-		errno_t errNum = GetLastError();
-
-		if (errNum == 2 || errNum == 3)
-		{
-			MessageBoxA(nullptr, "셰이더 파일이 존재하지 않습니다.", "픽셀 셰이더 컴파일 실패", MB_OK);
-		}
-
-		else
-		{
-			char* pErrMsg = (char*)g_errorBlob->GetBufferPointer();
-			MessageBoxA(nullptr, pErrMsg, "픽셀 셰이더 컴파일 실패", MB_OK);
-		}
-
-		return E_FAIL;
-	}
-
-	// 픽셀 셰이더 생성
-	Device::GetInstance()->GetDevice()->CreatePixelShader(g_pixelShaderBlob->GetBufferPointer()
-		, g_pixelShaderBlob->GetBufferSize()
-		, nullptr
-		, g_pixelShader.GetAddressOf());
-
-	// Input Layout 설정
-	D3D11_INPUT_ELEMENT_DESC layoutDesc[LAYOUT_FIELD_COUNT] = {};
-	layoutDesc[0].AlignedByteOffset = 0;
-	layoutDesc[0].Format = DXGI_FORMAT_R32G32B32_FLOAT;
-	layoutDesc[0].InputSlot = 0;
-	layoutDesc[0].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
-	layoutDesc[0].InstanceDataStepRate = 0;
-	layoutDesc[0].SemanticName = "POSITION";
-	layoutDesc[0].SemanticIndex = 0;
-
-	layoutDesc[1].AlignedByteOffset = 12;
-	layoutDesc[1].Format = DXGI_FORMAT_R32G32B32_FLOAT;
-	layoutDesc[1].InputSlot = 0;
-	layoutDesc[1].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
-	layoutDesc[1].InstanceDataStepRate = 0;
-	layoutDesc[1].SemanticName = "TEXCOORD";
-	layoutDesc[1].SemanticIndex = 0;
-
-	layoutDesc[2].AlignedByteOffset = 20;
-	layoutDesc[2].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
-	layoutDesc[2].InputSlot = 0;
-	layoutDesc[2].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
-	layoutDesc[2].InstanceDataStepRate = 0;
-	layoutDesc[2].SemanticName = "COLOR";
-	layoutDesc[2].SemanticIndex = 0;
-
-	if (FAILED(Device::GetInstance()->GetDevice()->CreateInputLayout(layoutDesc
-		, LAYOUT_FIELD_COUNT
-		, g_vertexShaderBlob->GetBufferPointer()
-		, g_vertexShaderBlob->GetBufferSize()
-		, g_layout.GetAddressOf())))
+	// 셰이더 에셋 생성
+	g_shader = new GraphicShader(L"ShaderTest", L"Shader.fx");
+	if (FAILED(g_shader->Create("VS_Test", "PS_Test")))
 	{
 		return E_FAIL;
 	}
@@ -197,28 +78,10 @@ void RenderTest()
 	// 이전 프레임 RenderTarget, DepthStencil 클리어
 	Device::GetInstance()->Clear();
 
-	// Input Assembler Stage : 렌더링 정점 정보
-	UINT Stride = sizeof(Vertex);
-	UINT Offset = 0;
-	Device::GetInstance()->GetContext()->IASetVertexBuffers(0, 1, g_vertexBuff.GetAddressOf(), &Stride, &Offset);
-	Device::GetInstance()->GetContext()->IASetIndexBuffer(g_indexBuff.Get(), DXGI_FORMAT_R32_UINT, 0);
-	Device::GetInstance()->GetContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	Device::GetInstance()->GetContext()->IASetInputLayout(g_layout.Get());
-
-	// Vertex Shader Stage
-	Device::GetInstance()->GetContext()->VSSetShader(g_vertexShader.Get(), nullptr, 0);
-
-	// Rasterizer Stage
-
-	// Pixel Shader Stage
-	Device::GetInstance()->GetContext()->PSSetShader(g_pixelShader.Get(), nullptr, 0);
-
-	// Output Merge Stage
-	// Depth Stencil Stage
-	// Blend Stage
-
-	// 렌더링
-	Device::GetInstance()->GetContext()->DrawIndexed(SQUARE_VERTEX_COUNT, 0, 0);
+	// 값 세팅, 렌더링
+	Device::GetInstance()->GetContext()->VSSetConstantBuffers(0, 1, g_constBuff.GetAddressOf());
+	g_shader->Bind();
+	g_mesh->Render();
 
 	// 윈도우에 RenderTarget에 그려진 것 출력
 	Device::GetInstance()->Present();
@@ -226,6 +89,17 @@ void RenderTest()
 
 void ReleaseTest()
 {
+	if (g_mesh != nullptr)
+	{
+		delete g_mesh;
+		g_mesh = nullptr;
+	}
+
+	if (g_shader != nullptr)
+	{
+		delete g_shader;
+		g_shader = nullptr;
+	}
 }
 
 void MoveTest(KEY_CODE key)
@@ -233,21 +107,22 @@ void MoveTest(KEY_CODE key)
 	float DT = TimeManager::GetInstance()->GetDeltaTime();
 	float dir = 0.f;
 
+	// 방향에 맞게 오브젝트 이동
 	if (key == KEY_CODE::LEFT) dir = -1.f;
 	else if (key == KEY_CODE::RIGHT) dir = 1.f;
 
-	for (int i=0; i<SQUARE_INDEX_COUNT; ++i)
-	{
-		g_vertexArr[i].pos.x += dir * DT;
-	}
+	g_objPos.x += dir * DT;
+
+	// 상수 버퍼 값 변경
+	CB_Transform tr;
+	tr.pos = g_objPos;
 
 	D3D11_MAPPED_SUBRESOURCE sub = {};
-	Device::GetInstance()->GetContext()->Map(g_vertexBuff.Get()
+	Device::GetInstance()->GetContext()->Map(g_constBuff.Get()
 		, 0
 		, D3D11_MAP_WRITE_DISCARD
 		, 0
 		, &sub);
-	memcpy(sub.pData, g_vertexArr, sizeof(Vertex) * SQUARE_INDEX_COUNT);
-	Device::GetInstance()->GetContext()->Unmap(g_vertexBuff.Get(), 0);
-
+	memcpy(sub.pData, &tr, sizeof(CB_Transform));
+	Device::GetInstance()->GetContext()->Unmap(g_constBuff.Get(), 0);
 }

@@ -37,6 +37,15 @@
     <ClInclude Include="Asset.h">
       <Filter>3.Asset</Filter>
     </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>3.Asset\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>3.Asset\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicShader.h">
+      <Filter>3.Asset\Shader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp" />
@@ -63,6 +72,15 @@
     <ClCompile Include="Asset.cpp">
       <Filter>3.Asset</Filter>
     </ClCompile>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>3.Asset\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>3.Asset\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicShader.cpp">
+      <Filter>3.Asset\Shader</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Default">
@@ -88,6 +106,12 @@
     </Filter>
     <Filter Include="3.Asset">
       <UniqueIdentifier>{d631d89d-24d8-4bfc-b669-f9896cd36967}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3.Asset\Mesh">
+      <UniqueIdentifier>{dd4a25bb-8b96-42b0-b512-9c371a8487c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3.Asset\Shader">
+      <UniqueIdentifier>{869c6a89-d19f-41b1-90fe-1833c04fa05c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
