@@ -34,6 +34,9 @@
       <Filter>2.Util</Filter>
     </ClInclude>
     <ClInclude Include="Entity.h" />
+    <ClInclude Include="Asset.h">
+      <Filter>3.Asset</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp" />
@@ -57,6 +60,9 @@
       <Filter>2.Util</Filter>
     </ClCompile>
     <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="Asset.cpp">
+      <Filter>3.Asset</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Default">
@@ -79,6 +85,9 @@
     </Filter>
     <Filter Include="2.Util">
       <UniqueIdentifier>{15c8395b-d4d0-4183-bc30-ccd9ffd46ded}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3.Asset">
+      <UniqueIdentifier>{d631d89d-24d8-4bfc-b669-f9896cd36967}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
