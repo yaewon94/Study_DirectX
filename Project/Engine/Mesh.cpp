@@ -30,6 +30,10 @@ int Mesh::Create(Vertex* vertexSysMem, UINT vertexCount, UINT* indexSysMem, UINT
 	// =============================================
 	// Vertex
 	// =============================================
+	this->vertexCount = vertexCount;
+	this->vertexSysMem = new Vertex[vertexCount];
+	memcpy(this->vertexSysMem, vertexSysMem, sizeof(Vertex) * vertexCount);
+
 	// 정점 데이터 시스템 메모리 => GPU 메모리로 이동
 	vertexBufferDesc.ByteWidth = sizeof(Vertex) * vertexCount;
 	vertexBufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
@@ -49,6 +53,10 @@ int Mesh::Create(Vertex* vertexSysMem, UINT vertexCount, UINT* indexSysMem, UINT
 	//================
 	// Index
 	// ===============
+	this->indexCount = indexCount;
+	this->indexSysMem = new UINT[indexCount];
+	memcpy(this->indexSysMem, indexSysMem, sizeof(UINT) * indexCount);
+
 	indexBufferDesc.ByteWidth = sizeof(UINT) * indexCount;
 	indexBufferDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
 	indexBufferDesc.CPUAccessFlags = 0;
