@@ -26,7 +26,8 @@ protected:
 protected:
 	virtual Entity* Clone() = 0;
 
-public:
+private:
+	template<typename T> requires std::derived_from<T,Entity> friend class Ptr;
 	void AddRefCount() { ++refCount; }
 	void Release()
 	{
