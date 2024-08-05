@@ -1,4 +1,5 @@
 #pragma once
+#include "ConstBuffer.h"
 
 #define VERTEX_SHADER_VER "vs_5_0"
 #define PIXEL_SHADER_VER "ps_5_0"
@@ -27,6 +28,8 @@ private:
 
 	D3D11_VIEWPORT viewPort;
 
+	Ptr<ConstBuffer> cbArr[(UINT)CB_TYPE::COUNT_END];	// 타입별 상수버퍼
+
 	/*ID3D11RasterizerState* rsState;
 	ID3D11DepthStencilState* dsState;
 	ID3D11BlendState* bsState;
@@ -35,6 +38,7 @@ private:
 public:
 	ComPtr<ID3D11Device> GetDevice() { return device; }
 	ComPtr<ID3D11DeviceContext> GetContext() { return context; }
+	Ptr<ConstBuffer> GetConstBuffer(CB_TYPE type) { return cbArr[(UINT)type]; }
 
 public:
 	int Init(HWND hwnd);
@@ -46,4 +50,5 @@ public:
 private:
 	int CreateSwapChain();
 	int CreateView();
+	int CreateConstBuffer();
 };

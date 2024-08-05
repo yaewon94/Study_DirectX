@@ -21,9 +21,6 @@
       <Filter>0.Header\DirectX</Filter>
     </ClInclude>
     <ClInclude Include="RenderTest.h" />
-    <ClInclude Include="Types.h">
-      <Filter>0.Header</Filter>
-    </ClInclude>
     <ClInclude Include="PathManager.h">
       <Filter>2.Util</Filter>
     </ClInclude>
@@ -45,6 +42,15 @@
     </ClInclude>
     <ClInclude Include="GraphicShader.h">
       <Filter>3.Asset\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="ConstBuffer.h">
+      <Filter>1.Device\ConstBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="Ptr.h">
+      <Filter>2.Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Message.h">
+      <Filter>0.Header\Constant</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -81,6 +87,9 @@
     <ClCompile Include="GraphicShader.cpp">
       <Filter>3.Asset\Shader</Filter>
     </ClCompile>
+    <ClCompile Include="ConstBuffer.cpp">
+      <Filter>1.Device\ConstBuffer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Default">
@@ -112,6 +121,12 @@
     </Filter>
     <Filter Include="3.Asset\Shader">
       <UniqueIdentifier>{869c6a89-d19f-41b1-90fe-1833c04fa05c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1.Device\ConstBuffer">
+      <UniqueIdentifier>{2e82f871-771d-4da4-9323-55f9b7eef149}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0.Header\Constant">
+      <UniqueIdentifier>{a6fcac6d-b7b6-42f9-9334-923807ea1dec}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -12,10 +12,8 @@
 // 오브젝트 위치
 Vec3 g_objPos = Vec3(0.f, 0.f, 0.f);
 
-ComPtr<ID3D11Buffer> g_constBuff;	// 상수 버퍼
-
-Mesh* g_mesh = nullptr;
-GraphicShader* g_shader = nullptr;
+Ptr<Mesh> g_mesh;
+Ptr<GraphicShader> g_shader;
 
 int InitTest()
 {
@@ -40,27 +38,14 @@ int InitTest()
 	UINT indexArr[SQUARE_INDEX_COUNT] = { 0, 1, 2, 0, 2, 3 };
 	
 	// 메쉬 에셋 생성
-	g_mesh = new Mesh(L"MeshTest", L"");
+	g_mesh = Ptr(new Mesh(L"MeshTest", L""));
 	if (FAILED(g_mesh->Create(vertexArr, SQUARE_VERTEX_COUNT, indexArr, SQUARE_INDEX_COUNT)))
 	{
 		return E_FAIL;
 	}
 
-	// 상수 버퍼 생성
-	D3D11_BUFFER_DESC cbDesc = {};
-
-	cbDesc.ByteWidth = sizeof(CB_Transform);
-	cbDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-	cbDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;	// 변경 가능
-	cbDesc.Usage = D3D11_USAGE_DYNAMIC;
-
-	if (FAILED(DEVICE->CreateBuffer(&cbDesc, nullptr, g_constBuff.GetAddressOf())))
-	{
-		return E_FAIL;
-	}
-
 	// 셰이더 에셋 생성
-	g_shader = new GraphicShader(L"ShaderTest", L"Shader.fx");
+	g_shader = Ptr(new GraphicShader(L"ShaderTest", L"Shader.fx"));
 	if (FAILED(g_shader->Create("VS_Test", "PS_Test")))
 	{
 		return E_FAIL;
@@ -69,17 +54,13 @@ int InitTest()
 	return S_OK;
 }
 
-void TickTest()
-{
-}
-
 void RenderTest()
 {
 	// 이전 프레임 RenderTarget, DepthStencil 클리어
 	Device::GetInstance()->Clear();
 
 	// 값 세팅, 렌더링
-	Device::GetInstance()->GetContext()->VSSetConstantBuffers(0, 1, g_constBuff.GetAddressOf());
+	Device::GetInstance()->GetConstBuffer(CB_TYPE::TRANSFORM)->Bind();
 	g_shader->Bind();
 	g_mesh->Render();
 
@@ -89,17 +70,6 @@ void RenderTest()
 
 void ReleaseTest()
 {
-	if (g_mesh != nullptr)
-	{
-		delete g_mesh;
-		g_mesh = nullptr;
-	}
-
-	if (g_shader != nullptr)
-	{
-		delete g_shader;
-		g_shader = nullptr;
-	}
 }
 
 void MoveTest(KEY_CODE key)
@@ -117,12 +87,6 @@ void MoveTest(KEY_CODE key)
 	CB_Transform tr;
 	tr.pos = g_objPos;
 
-	D3D11_MAPPED_SUBRESOURCE sub = {};
-	Device::GetInstance()->GetContext()->Map(g_constBuff.Get()
-		, 0
-		, D3D11_MAP_WRITE_DISCARD
-		, 0
-		, &sub);
-	memcpy(sub.pData, &tr, sizeof(CB_Transform));
-	Device::GetInstance()->GetContext()->Unmap(g_constBuff.Get(), 0);
+	Ptr<ConstBuffer> cb = Device::GetInstance()->GetConstBuffer(CB_TYPE::TRANSFORM);
+	cb->SetData(&tr);
 }

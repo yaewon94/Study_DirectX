@@ -3,7 +3,7 @@
 #include "Engine.h"
 
 Device::Device() 
-	: hwnd(nullptr), viewPort{}
+	: hwnd(nullptr), viewPort{}, cbArr{}
 	/*, rsState(nullptr), dsState(nullptr), bsState(nullptr), samplerState(nullptr)*/
 {
 }
@@ -66,6 +66,14 @@ int Device::Init(HWND hwnd)
 
 	// Rendering 목적지를 지정
 	context->OMSetRenderTargets(1, rtView.GetAddressOf(), dsView.Get());
+
+	// ===============
+	// 상수버퍼 생성
+	// ===============
+	if (FAILED(CreateConstBuffer()))
+	{
+		return E_FAIL;
+	}
 
 	return S_OK;
 }
@@ -176,6 +184,14 @@ int Device::CreateView()
 	{
 		return E_FAIL;
 	}
+
+	return S_OK;
+}
+
+int Device::CreateConstBuffer()
+{
+	cbArr[(UINT)CB_TYPE::TRANSFORM] = Ptr(new ConstBuffer(CB_TYPE::TRANSFORM));
+	cbArr[(UINT)CB_TYPE::TRANSFORM]->Create(sizeof(CB_Transform));
 
 	return S_OK;
 }

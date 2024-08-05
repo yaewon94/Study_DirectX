@@ -46,6 +46,5 @@ void Engine::Progress()
 	KeyManager::GetInstance()->Tick();
 
 	// 매 프레임마다 호출
-	TickTest();
 	RenderTest();
 }

@@ -61,7 +61,7 @@ int GraphicShader::Create(const string& vertexFuncName, const string& pixelFuncN
 	layoutDesc[0].AlignedByteOffset = 0;
 	layoutDesc[0].Format = DXGI_FORMAT_R32G32B32_FLOAT;
 	layoutDesc[0].InputSlot = 0;
-	layoutDesc[0].InputSlotClass - D3D11_INPUT_PER_VERTEX_DATA;
+	layoutDesc[0].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
 	layoutDesc[0].InstanceDataStepRate = 0;
 	layoutDesc[0].SemanticName = "POSITION";
 	layoutDesc[0].SemanticIndex = 0;
