@@ -1,5 +1,9 @@
 #pragma once
 
+// cpp
+#include <stdexcept>
+#include <concepts>
+
 // 자료구조
 #include <vector>
 using std::vector;
@@ -40,4 +44,5 @@ using namespace Microsoft::WRL;
 
 // 사용자 정의 헤더
 #include "Singleton.h"
-#include "Types.h"
+#include "Message.h"
+#include "Ptr.h"
