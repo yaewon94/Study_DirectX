@@ -7,5 +7,17 @@ AssetManager::AssetManager()
 
 AssetManager::~AssetManager()
 {
-	// 스마트 포인터에서 Asset* 해제
+	for (auto& map : assetMapArr)
+	{
+		for (auto& pair : map)
+		{
+			if (pair.second != nullptr)
+			{
+				delete pair.second;
+				pair.second = nullptr;
+			}
+		}
+
+		map.clear();
+	}
 }

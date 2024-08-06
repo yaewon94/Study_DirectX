@@ -10,6 +10,8 @@ enum class ASSET_TYPE : UINT
 // 에셋 최상위 클래스
 class Asset : public Entity
 {
+	friend class AssetManager;
+
 private:
 	const wstring Key;
 	wstring relativePath;

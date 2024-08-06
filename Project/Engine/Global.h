@@ -5,6 +5,8 @@
 #include <concepts>
 
 // 자료구조
+#include <array>
+using std::array;
 #include <vector>
 using std::vector;
 #include <list>

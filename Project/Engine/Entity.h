@@ -29,9 +29,5 @@ protected:
 private:
 	template<typename T> requires std::derived_from<T,Entity> friend class Ptr;
 	void AddRefCount() { ++refCount; }
-	void Release()
-	{
-		assert(refCount > 0);
-		if (--refCount == 0) delete this;
-	}
+	void Release() { assert(refCount-- > 1); }
 };

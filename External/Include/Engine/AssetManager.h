@@ -7,7 +7,7 @@ class AssetManager final : public Singleton<AssetManager>
 	SINGLETON(AssetManager);
 
 private:
-	map<wstring, Asset*> assetMapArr[(UINT)ASSET_TYPE::COUNT_END];
+	array<map<wstring, Asset*>, (UINT)ASSET_TYPE::COUNT_END> assetMapArr;
 
 public:
 	template<typename T> requires std::derived_from<T, Asset> Ptr<T> AddAsset(const wstring& Key, const wstring& relativePath);
