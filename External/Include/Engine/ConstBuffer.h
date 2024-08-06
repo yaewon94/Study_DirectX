@@ -36,5 +36,4 @@ public:
 private:
 	ConstBuffer(const ConstBuffer&) = delete;
 	ConstBuffer& operator=(const ConstBuffer&) = delete;
-	virtual ConstBuffer* Clone() final { return nullptr; }
 };

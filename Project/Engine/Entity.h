@@ -23,9 +23,6 @@ protected:
 	Entity(const Entity& origin);
 	virtual ~Entity();
 
-protected:
-	virtual Entity* Clone() = 0;
-
 private:
 	template<typename T> requires std::derived_from<T,Entity> friend class Ptr;
 	void AddRefCount() { ++refCount; }

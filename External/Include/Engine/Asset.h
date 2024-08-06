@@ -26,5 +26,5 @@ protected:
 
 protected:	// ªË¡¶
 	Asset(const Asset&) = delete;
-	virtual Asset* Clone() final { return nullptr; }
+	Asset& operator=(const Asset&) = delete;
 };
