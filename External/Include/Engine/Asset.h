@@ -10,6 +10,7 @@ enum class ASSET_TYPE : UINT
 // 에셋 최상위 클래스
 class Asset : public Entity
 {
+	NO_COPY_ASSIGN(Asset);
 	friend class AssetManager;
 
 private:
@@ -23,8 +24,4 @@ protected:
 
 protected:
 	const wstring& GetPath() { return relativePath; }
-
-protected:	// 삭제
-	Asset(const Asset&) = delete;
-	Asset& operator=(const Asset&) = delete;
 };

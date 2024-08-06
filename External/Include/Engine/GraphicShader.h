@@ -3,6 +3,8 @@
 
 class GraphicShader final : public Shader
 {
+	NO_COPY_ASSIGN(GraphicShader);
+
 	friend class AssetManager;
 
 private:

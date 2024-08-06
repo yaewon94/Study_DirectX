@@ -12,6 +12,7 @@ struct Vertex
 // 메쉬 에셋 클래스
 class Mesh final : public Asset
 {
+	NO_COPY_ASSIGN(Mesh);
 	friend class AssetManager;
 
 private:

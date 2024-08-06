@@ -45,6 +45,7 @@ typedef DirectX::SimpleMath::Matrix Matrix;
 using namespace Microsoft::WRL;
 
 // 사용자 정의 헤더
+#include "DesignPatternDefine.h"
 #include "Singleton.h"
 #include "Message.h"
 #include "Ptr.h"

@@ -36,7 +36,6 @@ template<typename T> T* Singleton<T>::instance = nullptr;
 // 싱글톤 클래스 정의 매크로
 #define SINGLETON(TYPE) private:\
 							TYPE();\
-							TYPE(const TYPE&) = delete;\
 							~TYPE();\
-							TYPE& operator=(const TYPE&) = delete;\
-							friend class Singleton;
+							friend class Singleton;\
+							NO_COPY_ASSIGN(TYPE)

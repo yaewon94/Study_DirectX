@@ -16,6 +16,8 @@ struct CB_Transform
 // 상수 버퍼 클래스
 class ConstBuffer final : public Entity
 {
+	NO_COPY_ASSIGN(ConstBuffer);
+
 private:
 	CB_TYPE type;
 	ComPtr<ID3D11Buffer> buffer;
@@ -31,9 +33,4 @@ public:
 public:
 	int Create(UINT bufferSize);
 	void Bind();
-
-// delete
-private:
-	ConstBuffer(const ConstBuffer&) = delete;
-	ConstBuffer& operator=(const ConstBuffer&) = delete;
 };
