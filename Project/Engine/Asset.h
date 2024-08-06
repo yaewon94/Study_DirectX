@@ -1,18 +1,22 @@
 #pragma once
 #include "Entity.h"
 
+// 에셋 타입
+enum class ASSET_TYPE : UINT
+{
+	MESH, GRAPHIC_SHADER, COUNT_END
+};
+
 // 에셋 최상위 클래스
 class Asset : public Entity
 {
 private:
-	wstring key;
+	const wstring Key;
 	wstring relativePath;
+	const ASSET_TYPE Type;
 
-public:
-	const wstring& GetKey() { return key; }
-	
 protected:
-	Asset(const wstring& key, const wstring& relativePath);
+	Asset(ASSET_TYPE Type, const wstring& Key, const wstring& relativePath);
 	~Asset();
 
 protected:

@@ -3,7 +3,7 @@
 #include "Device.h"
 
 GraphicShader::GraphicShader(const wstring& key, const wstring& relativePath) 
-	: Shader(key, relativePath)
+	: Shader(ASSET_TYPE::GRAPHIC_SHADER, key, relativePath)
 	, topology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST)
 {
 }

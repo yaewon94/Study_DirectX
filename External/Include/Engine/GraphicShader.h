@@ -3,6 +3,11 @@
 
 class GraphicShader final : public Shader
 {
+	friend class AssetManager;
+
+private:
+	const static ASSET_TYPE Type = ASSET_TYPE::GRAPHIC_SHADER;
+
 private:
 	ComPtr<ID3D11VertexShader> vertexShader;
 	ComPtr<ID3DBlob> vertexShaderBlob;
@@ -14,7 +19,7 @@ private:
 
 	D3D11_PRIMITIVE_TOPOLOGY topology;
 
-public:
+private:
 	GraphicShader(const wstring& key, const wstring& relativePath);
 	~GraphicShader();
 

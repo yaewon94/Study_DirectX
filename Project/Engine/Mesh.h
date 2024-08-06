@@ -12,6 +12,11 @@ struct Vertex
 // 메쉬 에셋 클래스
 class Mesh final : public Asset
 {
+	friend class AssetManager;
+
+private:
+	const static ASSET_TYPE Type = ASSET_TYPE::MESH;
+
 private:
 	ComPtr<ID3D11Buffer> vertexBuffer;
 	ComPtr<ID3D11Buffer> indexBuffer;
@@ -25,7 +30,7 @@ private:
 	D3D11_BUFFER_DESC indexBufferDesc;
 	UINT indexCount;
 
-public:
+private:
 	Mesh(const wstring& key, const wstring& relativePath);
 	~Mesh();
 

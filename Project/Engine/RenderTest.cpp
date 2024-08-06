@@ -4,6 +4,7 @@
 #include "TimeManager.h"
 #include "Mesh.h"
 #include "GraphicShader.h"
+#include "AssetManager.h"
 
 #define SQUARE_VERTEX_COUNT 4
 #define SQUARE_INDEX_COUNT 6
@@ -38,14 +39,16 @@ int InitTest()
 	UINT indexArr[SQUARE_INDEX_COUNT] = { 0, 1, 2, 0, 2, 3 };
 	
 	// 메쉬 에셋 생성
-	g_mesh = Ptr(new Mesh(L"MeshTest", L""));
+	//g_mesh = Ptr(new Mesh(L"MeshTest", L""));
+	g_mesh = AssetManager::GetInstance()->FindAsset<Mesh>(L"MeshTest", L"MeshTest");
 	if (FAILED(g_mesh->Create(vertexArr, SQUARE_VERTEX_COUNT, indexArr, SQUARE_INDEX_COUNT)))
 	{
 		return E_FAIL;
 	}
 
 	// 셰이더 에셋 생성
-	g_shader = Ptr(new GraphicShader(L"ShaderTest", L"Shader.fx"));
+	//g_shader = Ptr(new GraphicShader(L"ShaderTest", L"Shader.fx"));
+	g_shader = AssetManager::GetInstance()->FindAsset<GraphicShader>(L"ShaderTest", L"Shader.fx");
 	if (FAILED(g_shader->Create("VS_Test", "PS_Test")))
 	{
 		return E_FAIL;

@@ -3,7 +3,7 @@
 #include "Device.h"
 
 Mesh::Mesh(const wstring& key, const wstring& relativePath) 
-	: Asset(key, L"Mesh\\" + relativePath)
+	: Asset(ASSET_TYPE::MESH, key, relativePath)
 	, vertexSysMem(nullptr), indexSysMem(nullptr)
 	, vertexBufferDesc{}, vertexCount(0)
 	, indexBufferDesc{}, indexCount(0)

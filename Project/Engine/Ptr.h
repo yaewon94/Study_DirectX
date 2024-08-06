@@ -10,7 +10,6 @@ private:
 
 public:
 	Ptr();
-	Ptr(nullptr_t) = delete;
 	Ptr(T* ptr);
 	Ptr(const Ptr& origin);
 	~Ptr();
@@ -24,6 +23,11 @@ public:
 	T* operator->() const { if (ptr == nullptr) throw std::exception(MSG_NULLPTR_EXCEPTION); return ptr; }
 	bool operator==(const Ptr& other);
 	bool operator!=(const Ptr& other);
+
+public:	// delete
+	Ptr(nullptr_t) = delete;
+	bool operator==(nullptr_t) = delete;
+	bool operator!=(nullptr_t) = delete;
 };
 
 template<typename T> requires std::derived_from<T, Entity>
@@ -59,13 +63,15 @@ inline Ptr<T>::~Ptr()
 template<typename T> requires std::derived_from<T, Entity>
 inline Ptr<T>& Ptr<T>::operator=(const Ptr& other)
 {
-	if (other.ptr == nullptr) throw std::exception(MSG_NULLPTR_EXCEPTION);
-
 	if (*this != other)
 	{
 		if(ptr != nullptr) ptr->Release();
-		ptr = other.ptr;
-		ptr->AddRefCount();
+
+		if (other.ptr != nullptr)
+		{
+			ptr = other.ptr;
+			ptr->AddRefCount();
+		}
 	}
 
 	return *this;

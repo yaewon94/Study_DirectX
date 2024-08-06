@@ -158,6 +158,7 @@ call EngineHeaderCopy.bat
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Asset.h" />
+    <ClInclude Include="AssetManager.h" />
     <ClInclude Include="ConstBuffer.h" />
     <ClInclude Include="Device.h" />
     <ClInclude Include="Engine.h" />
@@ -179,6 +180,7 @@ call EngineHeaderCopy.bat
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Asset.cpp" />
+    <ClCompile Include="AssetManager.cpp" />
     <ClCompile Include="ConstBuffer.cpp" />
     <ClCompile Include="Device.cpp" />
     <ClCompile Include="Engine.cpp" />

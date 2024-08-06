@@ -2,8 +2,10 @@
 #include "Asset.h"
 #include "PathManager.h"
 
-Asset::Asset(const wstring& key, const wstring& relativePath) 
-	: key(key), relativePath(PathManager::GetInstance()->GetContentPath() + L"Asset\\" + relativePath)
+Asset::Asset(ASSET_TYPE Type, const wstring& Key, const wstring& relativePath)
+	: Type(Type)
+	, Key(Key)
+	, relativePath(PathManager::GetInstance()->GetContentPath() + L"Asset\\" + relativePath)
 {
 }
 

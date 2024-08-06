@@ -52,6 +52,9 @@
     <ClInclude Include="Message.h">
       <Filter>0.Header\Constant</Filter>
     </ClInclude>
+    <ClInclude Include="AssetManager.h">
+      <Filter>3.Asset</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp" />
@@ -89,6 +92,9 @@
     </ClCompile>
     <ClCompile Include="ConstBuffer.cpp">
       <Filter>1.Device\ConstBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="AssetManager.cpp">
+      <Filter>3.Asset</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
