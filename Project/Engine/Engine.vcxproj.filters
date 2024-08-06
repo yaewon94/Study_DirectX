@@ -55,9 +55,23 @@
     <ClInclude Include="AssetManager.h">
       <Filter>3.Asset</Filter>
     </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>4.Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Component.h">
+      <Filter>5.Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Transform.h">
+      <Filter>5.Component</Filter>
+    </ClInclude>
+    <ClInclude Include="DesignPatternDefine.h">
+      <Filter>0.Header\DesignPattern</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshRender.h">
+      <Filter>5.Component</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Engine.cpp" />
     <ClCompile Include="main.cpp">
       <Filter>Default</Filter>
     </ClCompile>
@@ -96,6 +110,19 @@
     <ClCompile Include="AssetManager.cpp">
       <Filter>3.Asset</Filter>
     </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>4.Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Component.cpp">
+      <Filter>5.Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Transform.cpp">
+      <Filter>5.Component</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshRender.cpp">
+      <Filter>5.Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Default">
@@ -133,6 +160,12 @@
     </Filter>
     <Filter Include="0.Header\Constant">
       <UniqueIdentifier>{a6fcac6d-b7b6-42f9-9334-923807ea1dec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4.Object">
+      <UniqueIdentifier>{b508f522-0397-4da3-bf25-4b0983b36d54}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5.Component">
+      <UniqueIdentifier>{d09526ea-195d-496c-b964-6127eef7d192}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
