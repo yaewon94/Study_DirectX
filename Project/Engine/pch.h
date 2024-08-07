@@ -14,6 +14,9 @@
 #include <Windows.h>
 #include <stdlib.h>
 
+// 전역상수
+#include "KeyEnum.h"
+
 // 솔루션 전체에서 참조
 #include "Global.h"
 

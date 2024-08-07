@@ -15,7 +15,7 @@ public:
 	~Ptr();
 
 public:
-	T* Get() const { if (ptr == nullptr) throw std::exception(MSG_NULLPTR_EXCEPTION); return ptr; }
+	T* Get() const { return ptr; }	// TODO : Get()으로 받은 것을 외부에서 delete 하는 것 방지
 	T** GetAddressOf() const { if (ptr == nullptr) throw std::exception(MSG_NULLPTR_EXCEPTION); return &ptr; }
 
 public:

@@ -24,13 +24,16 @@ public:
 
 public:
 	Vec3 GetPos() { return pos; }
-	void SetPos(Vec3 pos) { this->pos = pos; }
+	void SetPos(const Vec3& pos) { this->pos = pos; }
+	void SetPosX(float x) { pos.x = x; }
+	void SetPosY(float y) { pos.y = y; }
+	void SetPosZ(float z) { pos.z = z; }
 
 	Vec3 GetScale() { return scale; }
-	void SetScale(Vec3 scale) { this->scale = scale; }
+	void SetScale(const Vec3& scale) { this->scale = scale; }
 
 	Vec3 GetRotation() { return rotation; }
-	void SetRotation() { this->rotation = rotation; }
+	void SetRotation(const Vec3& rotation) { this->rotation = rotation; }
 
 public:
 	virtual void FinalTick() final;

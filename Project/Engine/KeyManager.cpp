@@ -13,8 +13,12 @@ KeyManager::~KeyManager()
 
 void KeyManager::Init()
 {
+	// 키 값 초기화
 	AddKey(KEY_CODE::LEFT);
 	AddKey(KEY_CODE::RIGHT);
+
+	// 플레이어 필드 초기화
+	player = Ptr<Player>((Player*)g_player);
 }
 
 void KeyManager::Tick()
@@ -31,7 +35,7 @@ void KeyManager::Tick()
 				else if (key.second == KEY_STATE::TAP) key.second = KEY_STATE::KEY_DOWN;
 
 				// [임시코드]
-				MoveTest(key.first);
+				player->Move(key.first);
 
 			}
 			// 안눌림
