@@ -44,6 +44,7 @@ void Engine::Progress()
 	// 매니저 클래스 Tick()
 	TimeManager::GetInstance()->Tick();
 	KeyManager::GetInstance()->Tick();
+	TickTest();
 
 	// 매 프레임마다 호출
 	RenderTest();

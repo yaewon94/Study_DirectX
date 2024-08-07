@@ -1,8 +1,9 @@
 #pragma once
-#include "KeyManager.h"
+class GameObject;
+
+GameObject* g_player = nullptr;
 
 int InitTest();
+void TickTest();
 void RenderTest();
 void ReleaseTest();
-
-void MoveTest(KEY_CODE key);

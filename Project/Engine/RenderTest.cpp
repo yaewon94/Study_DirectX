@@ -1,23 +1,22 @@
 #include "pch.h"
 #include "RenderTest.h"
 #include "Device.h"
-#include "TimeManager.h"
-#include "Mesh.h"
-#include "GraphicShader.h"
 #include "AssetManager.h"
+#include "GameObject.h"
+#include "MeshRender.h"
+#include "Player.h"
 
 #define SQUARE_VERTEX_COUNT 4
 #define SQUARE_INDEX_COUNT 6
 #define LAYOUT_FIELD_COUNT 3
 
-// 오브젝트 위치
-Vec3 g_objPos = Vec3(0.f, 0.f, 0.f);
-
-Ptr<Mesh> g_mesh;
-Ptr<GraphicShader> g_shader;
-
 int InitTest()
 {
+	// 게임오브젝트 생성
+	g_player = GameObject::Create();
+	g_player->AddComponent<MeshRender>();
+	g_player->AddComponent<Player>();
+
 	// 정점 위치 설정 (viewport 좌표)
 	// 각 픽셀 사이의 컬러값은 보간되서 나옴
 	int index = 0;
@@ -39,22 +38,28 @@ int InitTest()
 	UINT indexArr[SQUARE_INDEX_COUNT] = { 0, 1, 2, 0, 2, 3 };
 	
 	// 메쉬 에셋 생성
-	//g_mesh = Ptr(new Mesh(L"MeshTest", L""));
-	g_mesh = AssetManager::GetInstance()->FindAsset<Mesh>(L"MeshTest", L"MeshTest");
-	if (FAILED(g_mesh->GpuInit(vertexArr, SQUARE_VERTEX_COUNT, indexArr, SQUARE_INDEX_COUNT)))
+	Ptr<Mesh> mesh = AssetManager::GetInstance()->FindAsset<Mesh>(L"MeshTest", L"MeshTest");
+	if (FAILED(mesh->GpuInit(vertexArr, SQUARE_VERTEX_COUNT, indexArr, SQUARE_INDEX_COUNT)))
 	{
 		return E_FAIL;
 	}
+	g_player->GetComponent<MeshRender>()->SetMesh(mesh);
 
 	// 셰이더 에셋 생성
-	//g_shader = Ptr(new GraphicShader(L"ShaderTest", L"Shader.fx"));
-	g_shader = AssetManager::GetInstance()->FindAsset<GraphicShader>(L"ShaderTest", L"Shader.fx");
-	if (FAILED(g_shader->GpuInit("VS_Test", "PS_Test")))
+	Ptr<GraphicShader> shader = AssetManager::GetInstance()->FindAsset<GraphicShader>(L"ShaderTest", L"Shader.fx");
+	if (FAILED(shader->GpuInit("VS_Test", "PS_Test")))
 	{
 		return E_FAIL;
 	}
+	g_player->GetComponent<MeshRender>()->SetShader(shader);
 
 	return S_OK;
+}
+
+void TickTest()
+{
+	g_player->Tick();
+	g_player->FinalTick();
 }
 
 void RenderTest()
@@ -62,10 +67,8 @@ void RenderTest()
 	// 이전 프레임 RenderTarget, DepthStencil 클리어
 	Device::GetInstance()->Clear();
 
-	// 값 세팅, 렌더링
-	Device::GetInstance()->GetConstBuffer(CB_TYPE::TRANSFORM)->Bind();
-	g_shader->Bind();
-	g_mesh->Render();
+	// 게임오브젝트 렌더링
+	g_player->Render();
 
 	// 윈도우에 RenderTarget에 그려진 것 출력
 	Device::GetInstance()->Present();
@@ -73,23 +76,9 @@ void RenderTest()
 
 void ReleaseTest()
 {
-}
-
-void MoveTest(KEY_CODE key)
-{
-	float DT = TimeManager::GetInstance()->GetDeltaTime();
-	float dir = 0.f;
-
-	// 방향에 맞게 오브젝트 이동
-	if (key == KEY_CODE::LEFT) dir = -1.f;
-	else if (key == KEY_CODE::RIGHT) dir = 1.f;
-
-	g_objPos.x += dir * DT;
-
-	// 상수 버퍼 값 변경
-	CB_Transform tr;
-	tr.pos = g_objPos;
-
-	Ptr<ConstBuffer> cb = Device::GetInstance()->GetConstBuffer(CB_TYPE::TRANSFORM);
-	cb->SetData(&tr);
+	if (g_player != nullptr)
+	{
+		g_player->Destroy();
+		g_player = nullptr;
+	}
 }

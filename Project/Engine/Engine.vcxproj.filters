@@ -55,9 +55,6 @@
     <ClInclude Include="AssetManager.h">
       <Filter>3.Asset</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject.h">
-      <Filter>4.Object</Filter>
-    </ClInclude>
     <ClInclude Include="Component.h">
       <Filter>5.Component</Filter>
     </ClInclude>
@@ -70,6 +67,18 @@
     <ClInclude Include="MeshRender.h">
       <Filter>5.Component</Filter>
     </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>4.Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Script.h">
+      <Filter>5.Component\Script</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>5.Component\Script\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyEnum.h">
+      <Filter>0.Header\Constant</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -81,7 +90,6 @@
     <ClCompile Include="Device.cpp">
       <Filter>1.Device</Filter>
     </ClCompile>
-    <ClCompile Include="RenderTest.cpp" />
     <ClCompile Include="PathManager.cpp">
       <Filter>2.Util</Filter>
     </ClCompile>
@@ -110,41 +118,42 @@
     <ClCompile Include="AssetManager.cpp">
       <Filter>3.Asset</Filter>
     </ClCompile>
-    <ClCompile Include="GameObject.cpp">
-      <Filter>4.Object</Filter>
-    </ClCompile>
-    <ClCompile Include="Component.cpp">
-      <Filter>5.Component</Filter>
-    </ClCompile>
     <ClCompile Include="Transform.cpp">
       <Filter>5.Component</Filter>
     </ClCompile>
     <ClCompile Include="MeshRender.cpp">
       <Filter>5.Component</Filter>
     </ClCompile>
+    <ClCompile Include="RenderTest.cpp" />
     <ClCompile Include="Engine.cpp" />
+    <ClCompile Include="GameObject.cpp">
+      <Filter>4.Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Script.cpp">
+      <Filter>5.Component\Script</Filter>
+    </ClCompile>
+    <ClCompile Include="Component.cpp">
+      <Filter>5.Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>5.Component\Script\Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="Default">
-      <UniqueIdentifier>{c201226f-21ad-40d2-b0f2-ad8fd85cc96b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="0.Header">
       <UniqueIdentifier>{81f83232-21d8-492a-acb9-b8823bd70e70}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="1.Device">
-      <UniqueIdentifier>{5ff6eb73-6d63-40fb-8a82-4810cc532401}</UniqueIdentifier>
     </Filter>
     <Filter Include="0.Header\DesignPattern">
       <UniqueIdentifier>{77dc491f-691c-46f3-bfc2-951a36d18880}</UniqueIdentifier>
     </Filter>
-    <Filter Include="0.Header\DirectX">
-      <UniqueIdentifier>{9b650aa1-6b12-4e84-bab8-a5131af01046}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="HLSL">
-      <UniqueIdentifier>{7af9394b-b2b7-4cf6-996b-cc1d92d5aa1d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="2.Util">
       <UniqueIdentifier>{15c8395b-d4d0-4183-bc30-ccd9ffd46ded}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0.Header\Constant">
+      <UniqueIdentifier>{a6fcac6d-b7b6-42f9-9334-923807ea1dec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5.Component">
+      <UniqueIdentifier>{d09526ea-195d-496c-b964-6127eef7d192}</UniqueIdentifier>
     </Filter>
     <Filter Include="3.Asset">
       <UniqueIdentifier>{d631d89d-24d8-4bfc-b669-f9896cd36967}</UniqueIdentifier>
@@ -155,17 +164,29 @@
     <Filter Include="3.Asset\Shader">
       <UniqueIdentifier>{869c6a89-d19f-41b1-90fe-1833c04fa05c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="1.Device\ConstBuffer">
-      <UniqueIdentifier>{2e82f871-771d-4da4-9323-55f9b7eef149}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="0.Header\Constant">
-      <UniqueIdentifier>{a6fcac6d-b7b6-42f9-9334-923807ea1dec}</UniqueIdentifier>
-    </Filter>
     <Filter Include="4.Object">
       <UniqueIdentifier>{b508f522-0397-4da3-bf25-4b0983b36d54}</UniqueIdentifier>
     </Filter>
-    <Filter Include="5.Component">
-      <UniqueIdentifier>{d09526ea-195d-496c-b964-6127eef7d192}</UniqueIdentifier>
+    <Filter Include="HLSL">
+      <UniqueIdentifier>{7af9394b-b2b7-4cf6-996b-cc1d92d5aa1d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5.Component\Script">
+      <UniqueIdentifier>{ac9fcb2e-40bb-41aa-947e-d6df7cac2a44}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1.Device">
+      <UniqueIdentifier>{5ff6eb73-6d63-40fb-8a82-4810cc532401}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1.Device\ConstBuffer">
+      <UniqueIdentifier>{2e82f871-771d-4da4-9323-55f9b7eef149}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0.Header\DirectX">
+      <UniqueIdentifier>{9b650aa1-6b12-4e84-bab8-a5131af01046}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5.Component\Script\Player">
+      <UniqueIdentifier>{1084495e-508f-4686-8478-63da9f647723}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Default">
+      <UniqueIdentifier>{c201226f-21ad-40d2-b0f2-ad8fd85cc96b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
