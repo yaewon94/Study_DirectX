@@ -5,15 +5,22 @@
 class Transform final : public Component
 {
 	NO_COPY_ASSIGN(Transform);
-	friend class GameObject;
-
-private:
-	const static COMPONENT_TYPE Type = COMPONENT_TYPE::TRANSFORM;
 
 private:
 	Vec3 pos;
 	Vec3 scale;
 	Vec3 rotation;
+
+private:
+	template<typename T> requires std::derived_from<T, Component>
+	friend static T* Component::Create(const GameObject& Owner);
+
+	Transform(const GameObject& Owner);
+	Transform(const Transform& origin, const GameObject& Owner);
+	~Transform();
+
+public:
+	virtual Transform* Clone(const GameObject& Owner) final { return new Transform(*this, Owner); }
 
 public:
 	Vec3 GetPos() { return pos; }
@@ -25,13 +32,7 @@ public:
 	Vec3 GetRotation() { return rotation; }
 	void SetRotation() { this->rotation = rotation; }
 
-private:
-	Transform(const GameObject& Owner);
-	Transform(const Transform& origin, const GameObject& Owner);
-	~Transform();
-	virtual Transform* Clone(const GameObject& Owner) final { return new Transform(*this, Owner); }
-
-private:
+public:
 	virtual void FinalTick() final;
 
 public:

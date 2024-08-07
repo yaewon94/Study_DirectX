@@ -3,12 +3,15 @@
 #include "Component.h"
 #include "MeshRender.h"
 
+class Script;
+
 // 게임오브젝트
 class GameObject final : public Entity
 {
 private:
 	array<Component*, (UINT)COMPONENT_TYPE::COUNT_END> components;
 	Ptr<MeshRender> meshRender;
+	vector<Script*> scripts;
 
 public:
 	GameObject();
@@ -42,11 +45,12 @@ Ptr<T> GameObject::AddComponent()
 	}
 	else
 	{
-		T* t = new T(*this);
+		T* t = Component::Create<T>(*this);
 		Ptr<T> ptr(t);
-		components[(UINT)T::Type] = t;
+		COMPONENT_TYPE type = Component::GetType<T>();
+		components[(UINT)type] = t;
 
-		if (T::Type == COMPONENT_TYPE::MESH_RENDER) meshRender = Ptr<MeshRender>((MeshRender*)t);
+		if (type == COMPONENT_TYPE::MESH_RENDER) meshRender = Ptr<MeshRender>((MeshRender*)t);
 
 		return ptr;
 	}
@@ -55,7 +59,7 @@ Ptr<T> GameObject::AddComponent()
 template<typename T> requires std::derived_from<T, Component>
 Ptr<T> GameObject::GetComponent()
 {
-	Component* component = components[(UINT)T::Type];
+	Component* component = components[(UINT)Component::GetType<T>()];
 
 	if (component != nullptr) return Ptr<T>((T*)component);
 	else return Ptr<T>();
