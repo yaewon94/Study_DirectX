@@ -29,7 +29,11 @@ private:
 	Transform(const GameObject& Owner);
 	Transform(const Transform& origin, const GameObject& Owner);
 	~Transform();
+	virtual Transform* Clone(const GameObject& Owner) final { return new Transform(*this, Owner); }
 
 private:
-	virtual Transform* Clone(const GameObject& Owner) final { return new Transform(*this, Owner); }
+	virtual void FinalTick() final;
+
+public:
+	void Bind();
 };

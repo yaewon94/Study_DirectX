@@ -1,8 +1,6 @@
 #pragma once
 #include "Entity.h"
 
-class GameObject;
-
 // 컴포넌트 타입
 enum class COMPONENT_TYPE : UINT
 {
@@ -22,7 +20,10 @@ protected:
 	Component(const GameObject& Owner);
 	Component(const Component& origin, const GameObject& Owner);
 	~Component();
-
-public:
 	virtual Component* Clone(const GameObject& Owner) = 0;
+
+protected:
+	virtual void Init() {}
+	virtual void Tick() {}
+	virtual void FinalTick() {}
 };
