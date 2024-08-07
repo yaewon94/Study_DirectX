@@ -16,10 +16,9 @@ class Asset : public Entity
 private:
 	const wstring Key;
 	wstring relativePath;
-	const ASSET_TYPE Type;
 
 protected:
-	Asset(ASSET_TYPE Type, const wstring& Key, const wstring& relativePath);
+	Asset(const wstring& Key, const wstring& relativePath);
 	~Asset();
 
 protected:
