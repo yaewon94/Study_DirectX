@@ -13,7 +13,7 @@ AssetManager::~AssetManager()
 		{
 			if (pair.second != nullptr)
 			{
-				delete pair.second;
+				pair.second->Destroy();
 				pair.second = nullptr;
 			}
 		}

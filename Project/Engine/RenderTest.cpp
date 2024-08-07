@@ -41,7 +41,7 @@ int InitTest()
 	// 메쉬 에셋 생성
 	//g_mesh = Ptr(new Mesh(L"MeshTest", L""));
 	g_mesh = AssetManager::GetInstance()->FindAsset<Mesh>(L"MeshTest", L"MeshTest");
-	if (FAILED(g_mesh->Create(vertexArr, SQUARE_VERTEX_COUNT, indexArr, SQUARE_INDEX_COUNT)))
+	if (FAILED(g_mesh->GpuInit(vertexArr, SQUARE_VERTEX_COUNT, indexArr, SQUARE_INDEX_COUNT)))
 	{
 		return E_FAIL;
 	}
@@ -49,7 +49,7 @@ int InitTest()
 	// 셰이더 에셋 생성
 	//g_shader = Ptr(new GraphicShader(L"ShaderTest", L"Shader.fx"));
 	g_shader = AssetManager::GetInstance()->FindAsset<GraphicShader>(L"ShaderTest", L"Shader.fx");
-	if (FAILED(g_shader->Create("VS_Test", "PS_Test")))
+	if (FAILED(g_shader->GpuInit("VS_Test", "PS_Test")))
 	{
 		return E_FAIL;
 	}

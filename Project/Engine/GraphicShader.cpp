@@ -12,7 +12,7 @@ GraphicShader::~GraphicShader()
 {
 }
 
-int GraphicShader::Create(const string& vertexFuncName, const string& pixelFuncName)
+int GraphicShader::GpuInit(const string& vertexFuncName, const string& pixelFuncName)
 {
 	// ===============
 	// Vertex Shader

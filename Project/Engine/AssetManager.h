@@ -17,12 +17,13 @@ public:
 template<typename T> requires std::derived_from<T, Asset>
 inline Ptr<T> AssetManager::AddAsset(const wstring& Key, const wstring& relativePath)
 {
-	auto& assetMap = assetMapArr[(UINT)T::Type];
+	UINT type = (UINT)Asset::GetType<T>();
+	auto& assetMap = assetMapArr[type];
 	auto iter = assetMap.find(Key);
 
 	if (iter == assetMap.end())
 	{
-		assetMapArr[(UINT)T::Type].insert(make_pair(Key, new T(Key, relativePath)));
+		assetMapArr[type].insert(make_pair(Key, Asset::Create<T>(Key, relativePath)));
 		return FindAsset<T>(Key);
 	}
 	else
@@ -35,7 +36,7 @@ inline Ptr<T> AssetManager::AddAsset(const wstring& Key, const wstring& relative
 template<typename T> requires std::derived_from<T, Asset>
 inline Ptr<T> AssetManager::FindAsset(const wstring& Key, const wstring& relativePath)
 {
-	auto& assetMap = assetMapArr[(UINT)T::Type];
+	auto& assetMap = assetMapArr[(UINT)Asset::GetType<T>()];
 	auto iter = assetMap.find(Key);
 
 	if (iter != assetMap.end()) return Ptr((T*)iter->second);

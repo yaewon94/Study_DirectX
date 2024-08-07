@@ -25,7 +25,7 @@ Mesh::~Mesh()
 	}
 }
 
-int Mesh::Create(Vertex* vertexSysMem, UINT vertexCount, UINT* indexSysMem, UINT indexCount)
+int Mesh::GpuInit(Vertex* vertexSysMem, UINT vertexCount, UINT* indexSysMem, UINT indexCount)
 {
 	// =============================================
 	// Vertex

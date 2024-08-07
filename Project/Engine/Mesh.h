@@ -13,10 +13,7 @@ struct Vertex
 class Mesh final : public Asset
 {
 	NO_COPY_ASSIGN(Mesh);
-	friend class AssetManager;
-
-private:
-	const static ASSET_TYPE Type = ASSET_TYPE::MESH;
+	friend class Asset;
 
 private:
 	ComPtr<ID3D11Buffer> vertexBuffer;
@@ -36,7 +33,7 @@ private:
 	~Mesh();
 
 public:
-	int Create(Vertex* vertexSysMem, UINT vertexCount, UINT* indexSysMem, UINT indexCount);
+	int GpuInit(Vertex* vertexSysMem, UINT vertexCount, UINT* indexSysMem, UINT indexCount);
 	void Render();
 
 private:
