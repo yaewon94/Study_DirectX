@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "GameObject.h"
 #include "Transform.h"
+#include "Script.h"
 
 GameObject::GameObject() : components{}
 {
@@ -18,8 +19,17 @@ GameObject::~GameObject()
 	{
 		if (component != nullptr)
 		{
-			delete component;
+			component->Destroy();
 			component = nullptr;
+		}
+	}
+
+	for (auto script : scripts)
+	{
+		if (script != nullptr)
+		{
+			script->Destroy();
+			script = nullptr;
 		}
 	}
 }
@@ -31,8 +41,17 @@ GameObject& GameObject::operator=(const GameObject& other)
 	{
 		if (component != nullptr)
 		{
-			delete component;
+			component->Destroy();
 			component = nullptr;
+		}
+	}
+
+	for (auto script : scripts)
+	{
+		if (script != nullptr)
+		{
+			script->Destroy();
+			script = nullptr;
 		}
 	}
 
@@ -40,6 +59,12 @@ GameObject& GameObject::operator=(const GameObject& other)
 	for (int i = 0; i < components.size(); ++i)
 	{
 		if (other.components[i] != nullptr) components[i] = other.components[i]->Clone(*this);
+	}
+
+	scripts.resize(other.scripts.size());
+	for (int i=0; i<other.scripts.size(); ++i)
+	{
+		scripts[i] = (Script*)(other.scripts[i]->Clone(*this));
 	}
 
 	return *this;
@@ -59,6 +84,11 @@ void GameObject::Tick()
 	{
 		if (component != nullptr) component->Tick();
 	}
+
+	for (auto script : scripts)
+	{
+		script->Tick();
+	}
 }
 
 void GameObject::FinalTick()
@@ -66,6 +96,11 @@ void GameObject::FinalTick()
 	for (auto component : components)
 	{
 		if (component != nullptr) component->FinalTick();
+	}
+
+	for (auto script : scripts)
+	{
+		script->Tick();
 	}
 }
 

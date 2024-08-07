@@ -33,7 +33,7 @@ protected:
 
 public:
 	virtual Component* Clone(const GameObject& Owner) = 0;
-	void Release() { delete this; }
+	void Destroy() { delete this; }
 
 public:
 	virtual void Init() {}
