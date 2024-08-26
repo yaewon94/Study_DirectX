@@ -19,18 +19,18 @@ class ConstBuffer final : public Entity
 	NO_COPY_ASSIGN(ConstBuffer);
 
 private:
-	CB_TYPE type;
+	const CB_TYPE Type;
 	ComPtr<ID3D11Buffer> buffer;
 	D3D11_BUFFER_DESC desc;
 
 public:
-	ConstBuffer(CB_TYPE type);
+	ConstBuffer(const CB_TYPE Type);
 	~ConstBuffer();
 
 public:
 	void SetData(void* data, UINT dataSize = 0);
 
 public:
-	int Create(UINT bufferSize);
-	void Bind();
+	int CreateOnGpu(UINT bufferSize);
+	void BindOnGpu();
 };

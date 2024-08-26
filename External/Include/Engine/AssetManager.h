@@ -7,39 +7,43 @@ class AssetManager final : public Singleton<AssetManager>
 	SINGLETON(AssetManager);
 
 private:
-	array<map<wstring, Asset*>, (UINT)ASSET_TYPE::COUNT_END> assetMapArr;
+	array<map<wstring, Ptr<Asset>>, (UINT)ASSET_TYPE::COUNT_END> assetMapArr;
 
 public:
-	template<typename T> requires std::derived_from<T, Asset> Ptr<T> AddAsset(const wstring& Key, const wstring& relativePath);
-	template<typename T> requires std::derived_from<T, Asset> Ptr<T> FindAsset(const wstring& Key, const wstring& relativePath=L"");
+	template<typename T> requires std::derived_from<T, Asset> 
+	Ptr<T> AddAsset(const wstring& Key, const wstring& relativePath)
+	{
+		Ptr<T> asset = FindAsset<T>();
+
+		if (asset != nullptr)
+		{
+			MessageBoxA(nullptr, "해당 KEY를 가진 에셋이 이미 존재합니다", "에셋 추가 실패", MB_OK);
+			return asset;
+		}
+		else
+		{
+			return AddAssetNoCheck(Key, relativePath);
+		}
+	}
+
+	template<typename T> requires std::derived_from<T, Asset> 
+	Ptr<T> FindAsset(const wstring& Key, const wstring& relativePath = L"")
+	{
+		auto& assetMap = assetMapArr[(UINT)GetType<T>()];
+		const auto iter = assetMap.find(Key);
+
+		if (iter != assetMap.end()) return (iter->second).ptr_dynamic_cast<T>();
+		else if (relativePath != L"") return AddAssetNoCheck<T>(Key, relativePath);
+		else return nullptr;
+	}
+
+private:
+	template<typename T> requires std::derived_from<T, Asset>
+	Ptr<T> AddAssetNoCheck(const wstring& Key, const wstring& relativePath)
+	{
+		Ptr<T> asset = Ptr<T>(Key, relativePath);
+		assetMapArr[(UINT)GetType<T>()].insert(make_pair(Key, asset.ptr_dynamic_cast<Asset>()));
+
+		return asset;
+	}
 };
-
-template<typename T> requires std::derived_from<T, Asset>
-inline Ptr<T> AssetManager::AddAsset(const wstring& Key, const wstring& relativePath)
-{
-	UINT type = (UINT)Asset::GetType<T>();
-	auto& assetMap = assetMapArr[type];
-	auto iter = assetMap.find(Key);
-
-	if (iter == assetMap.end())
-	{
-		assetMapArr[type].insert(make_pair(Key, Asset::Create<T>(Key, relativePath)));
-		return FindAsset<T>(Key);
-	}
-	else
-	{
-		MessageBoxA(nullptr, "해당 KEY를 가진 에셋이 이미 존재합니다", "에셋 추가 실패", MB_OK);
-		return Ptr<T>();
-	}
-}
-
-template<typename T> requires std::derived_from<T, Asset>
-inline Ptr<T> AssetManager::FindAsset(const wstring& Key, const wstring& relativePath)
-{
-	auto& assetMap = assetMapArr[(UINT)Asset::GetType<T>()];
-	auto iter = assetMap.find(Key);
-
-	if (iter != assetMap.end()) return Ptr((T*)iter->second);
-	else if (relativePath != L"") return AddAsset<T>(Key, relativePath);
-	else return Ptr<T>();
-}

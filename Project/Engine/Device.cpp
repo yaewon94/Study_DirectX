@@ -3,7 +3,7 @@
 #include "Engine.h"
 
 Device::Device() 
-	: hwnd(nullptr), viewPort{}, cbArr{}
+	: hwnd(nullptr), viewPort{}
 	/*, rsState(nullptr), dsState(nullptr), bsState(nullptr), samplerState(nullptr)*/
 {
 }
@@ -190,8 +190,8 @@ int Device::CreateView()
 
 int Device::CreateConstBuffer()
 {
-	cbArr[(UINT)CB_TYPE::TRANSFORM] = Ptr(new ConstBuffer(CB_TYPE::TRANSFORM));
-	cbArr[(UINT)CB_TYPE::TRANSFORM]->Create(sizeof(CB_Transform));
+	cbArr[(UINT)CB_TYPE::TRANSFORM] = Ptr<ConstBuffer>(CB_TYPE::TRANSFORM);
+	cbArr[(UINT)CB_TYPE::TRANSFORM]->CreateOnGpu(sizeof(CB_Transform));
 
 	return S_OK;
 }

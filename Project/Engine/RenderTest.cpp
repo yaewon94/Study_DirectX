@@ -2,18 +2,18 @@
 #include "RenderTest.h"
 #include "Device.h"
 #include "AssetManager.h"
-#include "GameObject.h"
 #include "MeshRender.h"
+#include "Mesh.h"
+#include "GraphicShader.h"
 #include "Player.h"
 
 #define SQUARE_VERTEX_COUNT 4
 #define SQUARE_INDEX_COUNT 6
-#define LAYOUT_FIELD_COUNT 3
 
 int InitTest()
 {
 	// 게임오브젝트 생성
-	g_player = GameObject::Create();
+	g_player = Ptr<GameObject>();
 	g_player->AddComponent<MeshRender>();
 	g_player->AddComponent<Player>();
 
@@ -39,7 +39,7 @@ int InitTest()
 	
 	// 메쉬 에셋 생성
 	Ptr<Mesh> mesh = AssetManager::GetInstance()->FindAsset<Mesh>(L"MeshTest", L"MeshTest");
-	if (FAILED(mesh->GpuInit(vertexArr, SQUARE_VERTEX_COUNT, indexArr, SQUARE_INDEX_COUNT)))
+	if (FAILED(mesh->CreateOnGpu(vertexArr, SQUARE_VERTEX_COUNT, indexArr, SQUARE_INDEX_COUNT)))
 	{
 		return E_FAIL;
 	}
@@ -47,7 +47,7 @@ int InitTest()
 
 	// 셰이더 에셋 생성
 	Ptr<GraphicShader> shader = AssetManager::GetInstance()->FindAsset<GraphicShader>(L"ShaderTest", L"Shader.fx");
-	if (FAILED(shader->GpuInit("VS_Test", "PS_Test")))
+	if (FAILED(shader->CreateOnGpu("VS_Test", "PS_Test")))
 	{
 		return E_FAIL;
 	}
@@ -72,13 +72,4 @@ void RenderTest()
 
 	// 윈도우에 RenderTarget에 그려진 것 출력
 	Device::GetInstance()->Present();
-}
-
-void ReleaseTest()
-{
-	if (g_player != nullptr)
-	{
-		g_player->Destroy();
-		g_player = nullptr;
-	}
 }

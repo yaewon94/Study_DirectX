@@ -1,98 +1,144 @@
 #pragma once
-#include "Entity.h"
+//#include "Entity.h"
 
 // 스마트 포인터 템플릿
-template <typename T> requires std::derived_from<T, Entity>
+/*
+// 헤더파일 순환참조 문제 발생
+//template<typename T> requires std::derived_from<T, Entity>
+*/
+template<typename T>
 class Ptr final
 {
 private:
-	T* ptr;
+	T* t;
 
 public:
-	Ptr();
-	Ptr(T* ptr);
-	Ptr(const Ptr& origin);
-	~Ptr();
+	// 깡통만들기 or 디폴트 생성자 있는 객체 생성할 때 호출
+	Ptr() : t(nullptr)
+	{
+		if constexpr (std::is_constructible_v<T>) t = new T;
+	}
+
+	// @ param : 생성할 객체의 생성자 파라미터
+	template<typename... Args>
+	Ptr(Args... args) : t(nullptr)
+	{
+		if constexpr (std::is_constructible_v<T, Args...>)
+		{
+			t = new T(args...);
+		}
+	}
+
+	// args==nullptr인 Ptr(args...) 호출 방지
+	Ptr(nullptr_t) : t(nullptr)
+	{
+	}
+
+	// @ param : 참조할 객체
+	Ptr(T* const t) : t(t)
+	{
+		if (t != nullptr) t->AddRefCount();
+	}
+
+	// 복사생성자 (lValue)
+	Ptr(const Ptr& origin) : t(nullptr)
+	{
+		*this = origin;
+	}
+
+	// 복사생성자 (rValue)
+	Ptr(Ptr&& origin) noexcept : t(nullptr)
+	{
+		*this = origin;
+	}
+
+	// 소멸자
+	~Ptr()
+	{
+		if (t != nullptr)
+		{
+			t->Release();
+			t = nullptr;
+		}
+	}
 
 public:
-	T* Get() const { return ptr; }	// TODO : Get()으로 받은 것을 외부에서 delete 하는 것 방지
-	T** GetAddressOf() const { if (ptr == nullptr) throw std::exception(MSG_NULLPTR_EXCEPTION); return &ptr; }
+	// 대입연산자 (lValue)
+	Ptr& operator=(const Ptr& other)
+	{
+		if (t != nullptr)
+		{
+			t->Release();
+			t = nullptr;
+		}
+
+		if (other.t != nullptr)
+		{
+			t = other.t;
+			t->AddRefCount();
+		}
+
+		return *this;
+	}
+
+	// 대입연산자 (rValue)
+	Ptr& operator=(Ptr&& other) noexcept
+	{
+		if (t != nullptr)
+		{
+			t->Release();
+			t = nullptr;
+		}
+
+		if (other.t != nullptr)
+		{
+			t = other.t;
+			t->AddRefCount();
+
+			other.t->Release();
+			other.t = nullptr;
+		}
+
+		return *this;
+	}
+
+	// 비교 연산자 (==)
+	bool operator==(nullptr_t)
+	{
+		if (this == nullptr || t == nullptr) return true;
+		else return false;
+	}
+
+	// 비교 연산자 (!=)
+	bool operator!=(nullptr_t)
+	{
+		if (this == nullptr || t == nullptr) return false;
+		else return true;
+	}
+
+	// 포인터 참조 연산자
+	T* const operator->()
+	{
+		if (t == nullptr) throw std::logic_error(MSG_NULLPTR_EXCEPTION);
+		return t;
+	}
+
+	// 스마트포인터 형변환
+	template<typename U>
+	Ptr<U> ptr_dynamic_cast()
+	{
+		if (t == nullptr) return nullptr;
+		else if (dynamic_cast<U*>(t) != nullptr) return Ptr<U>((U*)t);
+		else return nullptr;
+	}
 
 public:
-	Ptr& operator=(const Ptr& other);
-	T* operator->() const { if (ptr == nullptr) throw std::exception(MSG_NULLPTR_EXCEPTION); return ptr; }
-	bool operator==(const Ptr& other);
-	bool operator!=(const Ptr& other);
+	// nullptr 대입 방지 (초기화만 가능)
+	Ptr& operator=(nullptr_t) = delete;
 
-public:	// delete
-	Ptr(nullptr_t) = delete;
-	bool operator==(nullptr_t) = delete;
-	bool operator!=(nullptr_t) = delete;
+	// 동적할당,해제 방지
+	void* operator new(size_t) = delete;
+	void* operator new[](size_t) = delete;
+	void operator delete(void*) = delete;
+	void operator delete[](void*) = delete;
 };
-
-template<typename T> requires std::derived_from<T, Entity>
-inline Ptr<T>::Ptr() : ptr(nullptr)
-{
-}
-
-template<typename T> requires std::derived_from<T, Entity>
-inline Ptr<T>::Ptr(T* ptr) : ptr(nullptr)
-{
-	if (ptr == nullptr) throw std::exception(MSG_NULLPTR_EXCEPTION);
-
-	this->ptr = ptr;
-	this->ptr->AddRefCount();
-}
-
-template<typename T> requires std::derived_from<T, Entity>
-inline Ptr<T>::Ptr(const Ptr& origin) : ptr(nullptr)
-{
-	*this = origin;
-}
-
-template<typename T> requires std::derived_from<T, Entity>
-inline Ptr<T>::~Ptr()
-{
-	if (ptr != nullptr)
-	{
-		ptr->Release();
-		ptr = nullptr;
-	}
-}
-
-template<typename T> requires std::derived_from<T, Entity>
-inline Ptr<T>& Ptr<T>::operator=(const Ptr& other)
-{
-	if (*this != other)
-	{
-		if(ptr != nullptr) ptr->Release();
-
-		if (other.ptr != nullptr)
-		{
-			ptr = other.ptr;
-			ptr->AddRefCount();
-		}
-	}
-
-	return *this;
-}
-
-template<typename T> requires std::derived_from<T, Entity>
-inline bool Ptr<T>::operator==(const Ptr& other)
-{
-	if (ptr != nullptr && other.ptr != nullptr)
-	{
-		if (&ptr == &other.ptr)
-		{
-			return true;
-		}
-	}
-
-	return false;
-}
-
-template<typename T> requires std::derived_from<T, Entity>
-inline bool Ptr<T>::operator!=(const Ptr& other)
-{
-	return !(*this == other);
-}

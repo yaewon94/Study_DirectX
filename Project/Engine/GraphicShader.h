@@ -4,7 +4,6 @@
 class GraphicShader final : public Shader
 {
 	NO_COPY_ASSIGN(GraphicShader);
-	friend class Asset;
 
 private:
 	ComPtr<ID3D11VertexShader> vertexShader;
@@ -17,7 +16,7 @@ private:
 
 	D3D11_PRIMITIVE_TOPOLOGY topology;
 
-private:
+public:
 	GraphicShader(const wstring& key, const wstring& relativePath);
 	~GraphicShader();
 
@@ -25,6 +24,6 @@ public:
 	void SetTopology(D3D11_PRIMITIVE_TOPOLOGY topology) { this->topology = topology; }
 
 public:
-	int GpuInit(const string& vertexFuncName, const string& pixelFuncName);
-	void Bind();
+	int CreateOnGpu(const string& vertexFuncName, const string& pixelFuncName);
+	void BindOnGpu();
 };

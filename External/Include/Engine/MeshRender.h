@@ -1,7 +1,8 @@
 #pragma once
 #include "Component.h"
-#include "Mesh.h"
-#include "GraphicShader.h"
+
+class Mesh;
+class GraphicShader;
 
 // 메쉬, 그래픽셰이더 렌더링 담당 컴포넌트
 class MeshRender final : public Component
@@ -12,22 +13,16 @@ private:
 	Ptr<Mesh> mesh;
 	Ptr<GraphicShader> shader;
 
-private:
-	template<typename T> requires std::derived_from<T, Component>
-	friend static T* Component::Create(const GameObject& Owner);
-
-	MeshRender(const GameObject& Owner);
-	MeshRender(const MeshRender& origin, const GameObject& Owner);
+public:
+	MeshRender(const Ptr<GameObject>& owner);
+	MeshRender(const MeshRender& origin, const Ptr<GameObject>& owner);
 	~MeshRender();
 
 public:
-	virtual MeshRender* Clone(const GameObject& Owner) final { return new MeshRender(*this, Owner); }
+	void SetMesh(const Ptr<Mesh>& mesh);
+	void SetShader(const Ptr<GraphicShader>& shader);
 
 public:
-	void SetMesh(const Ptr<Mesh>& mesh) { this->mesh = mesh; }
-	void SetShader(const Ptr<GraphicShader>& shader) { this->shader = shader; }
-
-public:
-	virtual void FinalTick() final;
+	virtual void FinalTick() final {}
 	void Render();
 };

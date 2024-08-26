@@ -3,11 +3,15 @@
 #include "PathManager.h"
 
 Asset::Asset(const wstring& Key, const wstring& relativePath)
-	: Key(Key)
-	, relativePath(PathManager::GetInstance()->GetContentPath() + L"Asset\\" + relativePath)
+	: Key(Key), relativePath(relativePath)
 {
 }
 
 Asset::~Asset()
 {
+}
+
+const wstring Asset::GetFullPath()
+{
+	return PathManager::GetInstance()->GetContentPath() + L"Asset\\" + relativePath;
 }

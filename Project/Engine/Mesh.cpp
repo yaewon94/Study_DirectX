@@ -25,7 +25,7 @@ Mesh::~Mesh()
 	}
 }
 
-int Mesh::GpuInit(Vertex* vertexSysMem, UINT vertexCount, UINT* indexSysMem, UINT indexCount)
+int Mesh::CreateOnGpu(Vertex* vertexSysMem, UINT vertexCount, UINT* indexSysMem, UINT indexCount)
 {
 	// =============================================
 	// Vertex
@@ -74,11 +74,11 @@ int Mesh::GpuInit(Vertex* vertexSysMem, UINT vertexCount, UINT* indexSysMem, UIN
 
 void Mesh::Render()
 {
-	Bind();
+	BindOnGpu();
 	CONTEXT->DrawIndexed(indexCount, 0, 0);
 }
 
-void Mesh::Bind()
+void Mesh::BindOnGpu()
 {
 	// 렌더링할 정점 정보 전달
 	UINT stride = sizeof(Vertex);

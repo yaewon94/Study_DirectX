@@ -160,6 +160,7 @@ call EngineHeaderCopy.bat
     <ClInclude Include="Asset.h" />
     <ClInclude Include="AssetManager.h" />
     <ClInclude Include="Component.h" />
+    <ClInclude Include="ComponentEnums.h" />
     <ClInclude Include="ConstBuffer.h" />
     <ClInclude Include="DesignPatternDefine.h" />
     <ClInclude Include="Device.h" />
@@ -169,7 +170,7 @@ call EngineHeaderCopy.bat
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Global.h" />
     <ClInclude Include="GraphicShader.h" />
-    <ClInclude Include="KeyEnum.h" />
+    <ClInclude Include="KeyEnums.h" />
     <ClInclude Include="KeyManager.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshRender.h" />

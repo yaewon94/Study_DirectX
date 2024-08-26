@@ -1,11 +1,13 @@
 #include "pch.h"
 #include "GameObject.h"
+#include "Component.h"
 #include "Transform.h"
+#include "MeshRender.h"
 #include "Script.h"
 
 GameObject::GameObject() : components{}
 {
-	AddComponent<Transform>();
+	transform = AddComponent<Transform>();
 }
 
 GameObject::GameObject(const GameObject& origin) : components{}
@@ -15,77 +17,40 @@ GameObject::GameObject(const GameObject& origin) : components{}
 
 GameObject::~GameObject()
 {
-	for (auto component : components)
-	{
-		if (component != nullptr)
-		{
-			component->Destroy();
-			component = nullptr;
-		}
-	}
-
-	for (auto script : scripts)
-	{
-		if (script != nullptr)
-		{
-			script->Destroy();
-			script = nullptr;
-		}
-	}
 }
 
 GameObject& GameObject::operator=(const GameObject& other)
 {
-	// 내가 가지고 있던 컴포넌트 삭제
-	for (auto component : components)
+	for (int i=0; i<components.size(); ++i)
 	{
-		if (component != nullptr)
-		{
-			component->Destroy();
-			component = nullptr;
-		}
-	}
-
-	for (auto script : scripts)
-	{
-		if (script != nullptr)
-		{
-			script->Destroy();
-			script = nullptr;
-		}
-	}
-
-	// other이 가지고 있는 컴포넌트 복제
-	for (int i = 0; i < components.size(); ++i)
-	{
-		if (other.components[i] != nullptr) components[i] = other.components[i]->Clone(*this);
+		components[i] = other.components[i];
 	}
 
 	scripts.resize(other.scripts.size());
-	for (int i=0; i<other.scripts.size(); ++i)
+	for (int i=0; i<scripts.size(); ++i)
 	{
-		scripts[i] = (Script*)(other.scripts[i]->Clone(*this));
+		scripts[i] = other.scripts[i];
 	}
 
 	return *this;
 }
 
+Ptr<Transform> GameObject::GetTransform()
+{
+	return transform;
+}
+
 void GameObject::Init()
 {
-	for (auto component : components)
+	for (auto& component : components)
 	{
-		if (component != nullptr) component->Init();
+		component->Init();
 	}
 }
 
 void GameObject::Tick()
 {
-	for (auto component : components)
-	{
-		if (component != nullptr) component->Tick();
-	}
-
-	for (auto script : scripts)
+	for (auto& script : scripts)
 	{
 		script->Tick();
 	}
@@ -93,18 +58,13 @@ void GameObject::Tick()
 
 void GameObject::FinalTick()
 {
-	for (auto component : components)
+	for (auto& component : components)
 	{
-		if (component != nullptr) component->FinalTick();
-	}
-
-	for (auto script : scripts)
-	{
-		script->Tick();
+		component->FinalTick();
 	}
 }
 
 void GameObject::Render()
 {
-	if (meshRender.Get() != nullptr) meshRender->Render();
+	if (meshRender != nullptr) meshRender->Render();
 }

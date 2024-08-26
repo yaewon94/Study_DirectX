@@ -12,22 +12,19 @@
       <Filter>1.Device</Filter>
     </ClInclude>
     <ClInclude Include="Singleton.h">
-      <Filter>0.Header\DesignPattern</Filter>
+      <Filter>0.Common\DesignPattern</Filter>
     </ClInclude>
     <ClInclude Include="Global.h">
-      <Filter>0.Header</Filter>
+      <Filter>0.Common</Filter>
     </ClInclude>
     <ClInclude Include="SimpleMath.h">
-      <Filter>0.Header\DirectX</Filter>
+      <Filter>0.Common\DirectX</Filter>
     </ClInclude>
     <ClInclude Include="RenderTest.h" />
     <ClInclude Include="PathManager.h">
       <Filter>2.Util</Filter>
     </ClInclude>
     <ClInclude Include="TimeManager.h">
-      <Filter>2.Util</Filter>
-    </ClInclude>
-    <ClInclude Include="KeyManager.h">
       <Filter>2.Util</Filter>
     </ClInclude>
     <ClInclude Include="Entity.h" />
@@ -49,9 +46,6 @@
     <ClInclude Include="Ptr.h">
       <Filter>2.Util</Filter>
     </ClInclude>
-    <ClInclude Include="Message.h">
-      <Filter>0.Header\Constant</Filter>
-    </ClInclude>
     <ClInclude Include="AssetManager.h">
       <Filter>3.Asset</Filter>
     </ClInclude>
@@ -62,7 +56,7 @@
       <Filter>5.Component</Filter>
     </ClInclude>
     <ClInclude Include="DesignPatternDefine.h">
-      <Filter>0.Header\DesignPattern</Filter>
+      <Filter>0.Common\DesignPattern</Filter>
     </ClInclude>
     <ClInclude Include="MeshRender.h">
       <Filter>5.Component</Filter>
@@ -76,8 +70,17 @@
     <ClInclude Include="Player.h">
       <Filter>5.Component\Script\Player</Filter>
     </ClInclude>
-    <ClInclude Include="KeyEnum.h">
-      <Filter>0.Header\Constant</Filter>
+    <ClInclude Include="Message.h">
+      <Filter>0.Common</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentEnums.h">
+      <Filter>5.Component</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyManager.h">
+      <Filter>2.Util\Key</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyEnums.h">
+      <Filter>2.Util\Key</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -94,9 +97,6 @@
       <Filter>2.Util</Filter>
     </ClCompile>
     <ClCompile Include="TimeManager.cpp">
-      <Filter>2.Util</Filter>
-    </ClCompile>
-    <ClCompile Include="KeyManager.cpp">
       <Filter>2.Util</Filter>
     </ClCompile>
     <ClCompile Include="Entity.cpp" />
@@ -138,19 +138,13 @@
     <ClCompile Include="Player.cpp">
       <Filter>5.Component\Script\Player</Filter>
     </ClCompile>
+    <ClCompile Include="KeyManager.cpp">
+      <Filter>2.Util\Key</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="0.Header">
-      <UniqueIdentifier>{81f83232-21d8-492a-acb9-b8823bd70e70}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="0.Header\DesignPattern">
-      <UniqueIdentifier>{77dc491f-691c-46f3-bfc2-951a36d18880}</UniqueIdentifier>
-    </Filter>
     <Filter Include="2.Util">
       <UniqueIdentifier>{15c8395b-d4d0-4183-bc30-ccd9ffd46ded}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="0.Header\Constant">
-      <UniqueIdentifier>{a6fcac6d-b7b6-42f9-9334-923807ea1dec}</UniqueIdentifier>
     </Filter>
     <Filter Include="5.Component">
       <UniqueIdentifier>{d09526ea-195d-496c-b964-6127eef7d192}</UniqueIdentifier>
@@ -179,19 +173,28 @@
     <Filter Include="1.Device\ConstBuffer">
       <UniqueIdentifier>{2e82f871-771d-4da4-9323-55f9b7eef149}</UniqueIdentifier>
     </Filter>
-    <Filter Include="0.Header\DirectX">
-      <UniqueIdentifier>{9b650aa1-6b12-4e84-bab8-a5131af01046}</UniqueIdentifier>
-    </Filter>
     <Filter Include="5.Component\Script\Player">
       <UniqueIdentifier>{1084495e-508f-4686-8478-63da9f647723}</UniqueIdentifier>
     </Filter>
     <Filter Include="Default">
       <UniqueIdentifier>{c201226f-21ad-40d2-b0f2-ad8fd85cc96b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="0.Common">
+      <UniqueIdentifier>{81f83232-21d8-492a-acb9-b8823bd70e70}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0.Common\DesignPattern">
+      <UniqueIdentifier>{77dc491f-691c-46f3-bfc2-951a36d18880}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0.Common\DirectX">
+      <UniqueIdentifier>{9b650aa1-6b12-4e84-bab8-a5131af01046}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2.Util\Key">
+      <UniqueIdentifier>{e38672a0-3ecc-4748-8f86-e07d062efda9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleMath.inl">
-      <Filter>0.Header\DirectX</Filter>
+      <Filter>0.Common\DirectX</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

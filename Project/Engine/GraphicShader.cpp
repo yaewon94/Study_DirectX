@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "GraphicShader.h"
 #include "Device.h"
-
+//
 GraphicShader::GraphicShader(const wstring& key, const wstring& relativePath) 
 	: Shader(key, relativePath)
 	, topology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST)
@@ -12,7 +12,7 @@ GraphicShader::~GraphicShader()
 {
 }
 
-int GraphicShader::GpuInit(const string& vertexFuncName, const string& pixelFuncName)
+int GraphicShader::CreateOnGpu(const string& vertexFuncName, const string& pixelFuncName)
 {
 	// ===============
 	// Vertex Shader
@@ -21,7 +21,7 @@ int GraphicShader::GpuInit(const string& vertexFuncName, const string& pixelFunc
 	UINT flag = D3DCOMPILE_DEBUG;
 	HRESULT result = S_OK;
 
-	result = D3DCompileFromFile(GetPath().c_str()
+	result = D3DCompileFromFile(GetFullPath().c_str()
 		, nullptr
 		, D3D_COMPILE_STANDARD_FILE_INCLUDE
 		, vertexFuncName.c_str()
@@ -95,7 +95,7 @@ int GraphicShader::GpuInit(const string& vertexFuncName, const string& pixelFunc
 	// Pixel Shader
 	// ===============
 	// 셰이더 파일 컴파일
-	result = D3DCompileFromFile(GetPath().c_str()
+	result = D3DCompileFromFile(GetFullPath().c_str()
 		, nullptr
 		, D3D_COMPILE_STANDARD_FILE_INCLUDE
 		, pixelFuncName.c_str()
@@ -130,7 +130,7 @@ int GraphicShader::GpuInit(const string& vertexFuncName, const string& pixelFunc
 	return S_OK;
 }
 
-void GraphicShader::Bind()
+void GraphicShader::BindOnGpu()
 {
 	// Input Assembler
 	CONTEXT->IASetPrimitiveTopology(topology);

@@ -13,7 +13,6 @@ struct Vertex
 class Mesh final : public Asset
 {
 	NO_COPY_ASSIGN(Mesh);
-	friend class Asset;
 
 private:
 	ComPtr<ID3D11Buffer> vertexBuffer;
@@ -28,14 +27,14 @@ private:
 	D3D11_BUFFER_DESC indexBufferDesc;
 	UINT indexCount;
 
-private:
+public:
 	Mesh(const wstring& key, const wstring& relativePath);
 	~Mesh();
 
 public:
-	int GpuInit(Vertex* vertexSysMem, UINT vertexCount, UINT* indexSysMem, UINT indexCount);
+	int CreateOnGpu(Vertex* vertexSysMem, UINT vertexCount, UINT* indexSysMem, UINT indexCount);
 	void Render();
 
 private:
-	void Bind();
+	void BindOnGpu();
 };

@@ -16,7 +16,7 @@ void PathManager::Init()
 	GetCurrentDirectory(256, curDir);
 
 	// 부모 디렉터리로 이동
-	for (int i = wcslen(curDir) - 1; i > 0; --i)
+	for (size_t i = wcslen(curDir) - 1; i > 0; --i)
 	{
 		if (curDir[i] == L'\\')
 		{

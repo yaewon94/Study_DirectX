@@ -2,8 +2,8 @@
 #include "ConstBuffer.h"
 #include "Device.h"
 
-ConstBuffer::ConstBuffer(CB_TYPE type) 
-    : type(type), desc{}
+ConstBuffer::ConstBuffer(const CB_TYPE Type) 
+    : Type(Type), desc{}
 {
 }
 
@@ -22,7 +22,7 @@ void ConstBuffer::SetData(void* data, UINT dataSize)
     CONTEXT->Unmap(buffer.Get(), 0);
 }
 
-int ConstBuffer::Create(UINT bufferSize)
+int ConstBuffer::CreateOnGpu(UINT bufferSize)
 {
     desc.ByteWidth = bufferSize;
     desc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
@@ -37,8 +37,8 @@ int ConstBuffer::Create(UINT bufferSize)
     return S_OK;
 }
 
-void ConstBuffer::Bind()
+void ConstBuffer::BindOnGpu()
 {
     // Vertex Shader Stage
-    CONTEXT->VSSetConstantBuffers((UINT)type, 1, buffer.GetAddressOf());
+    CONTEXT->VSSetConstantBuffers((UINT)Type, 1, buffer.GetAddressOf());
 }
