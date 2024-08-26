@@ -17,4 +17,5 @@ Entity::Entity(const Entity& origin) : ID(nextID++), name(origin.name), refCount
 
 Entity::~Entity()
 {
+	if (refCount > 0) throw std::logic_error("해당 객체를 아직 참조중 입니다");
 }
