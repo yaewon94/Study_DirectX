@@ -11,6 +11,7 @@ enum class CB_TYPE : UINT
 struct CB_Transform
 {
 	Vec4 pos;
+	Vec4 scale;
 };
 
 // 상수 버퍼 클래스

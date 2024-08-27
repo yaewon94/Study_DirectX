@@ -6,7 +6,8 @@
 // 상수 버퍼
 cbuffer Transform : register(b0) // 레지스터 번호
 {
-    float4 pos;
+    float4 objPos;
+    float4 objScale;
 };
 
 // Vertex Shader
@@ -25,8 +26,14 @@ struct VS_OUT
 VS_OUT VS_Test(VS_IN input)
 {
     VS_OUT output = (VS_OUT) 0.f;
-    output.pos = float4(input.pos + pos.xyz, 1.f);
+    
+    //output.pos = float4(input.pos + objPos.xyz, 1.f);
+    
+    float3 pos = (input.pos * objScale.xyz) + objPos.xyz;
+    output.pos = float4(pos, 1.f);
+    
     output.color = input.color;
+    
     return output;
 }
 
