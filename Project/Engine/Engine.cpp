@@ -4,7 +4,7 @@
 #include "KeyManager.h"
 #include "PathManager.h"
 #include "TimeManager.h"
-#include "RenderTest.h"
+#include "LevelManager.h"
 
 Engine::Engine() : hwnd(nullptr)
 {
@@ -29,10 +29,8 @@ int Engine::Init(HWND hwnd)
 	// 매니저 클래스 초기화
 	PathManager::GetInstance()->Init();
 	TimeManager::GetInstance()->Init();
-	//KeyManager::GetInstance()->Init();
-
-	// 렌더링 테스트 초기화
-	if (FAILED(InitTest())) return E_FAIL;
+	LevelManager::GetInstance()->Init();
+	KeyManager::GetInstance()->Init();
 
 	return S_OK;
 }
@@ -41,9 +39,13 @@ void Engine::Progress()
 {
 	// 매니저 클래스 Tick()
 	TimeManager::GetInstance()->Tick();
-	//KeyManager::GetInstance()->Tick();
-	TickTest();
+	KeyManager::GetInstance()->Tick();
+	LevelManager::GetInstance()->Tick();
 
-	// 매 프레임마다 호출
-	RenderTest();
+	// 이전 프레임 RenderTarget, DepthStencil 클리어
+	Device::GetInstance()->Clear();
+	// 게임오브젝트 렌더링
+	LevelManager::GetInstance()->Render();
+	// 윈도우에 RenderTarget에 그려진 것 출력
+	Device::GetInstance()->Present();
 }

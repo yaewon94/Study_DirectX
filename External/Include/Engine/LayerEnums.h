@@ -2,5 +2,5 @@
 
 enum class LAYER_TYPE: UINT
 {
-	COUNT_END
+	PLAYER, COUNT_END
 };
