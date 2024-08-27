@@ -10,9 +10,15 @@ Layer::~Layer()
 {
 }
 
-void Layer::AddObject(const Ptr<GameObject>& obj)
+void Layer::AddObject(Ptr<GameObject>& _obj)
 {
-	objs.push_back(obj);
+	// 중복 검사
+	for (auto& obj : objs)
+	{
+		if (_obj.GetAddressOf() == obj.GetAddressOf()) return;
+	}
+
+	objs.push_back(_obj);
 }
 
 void Layer::Init()

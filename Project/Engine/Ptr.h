@@ -13,6 +13,10 @@ private:
 	T* t;
 
 public:
+	T* const Get() { return t; }
+	T** const GetAddressOf() { return &t; }
+
+public:
 	// 깡통만들기 or 디폴트 생성자 있는 객체 생성할 때 호출
 	Ptr() : t(nullptr)
 	{

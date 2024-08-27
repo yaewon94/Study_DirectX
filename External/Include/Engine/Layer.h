@@ -15,7 +15,7 @@ public:
 	~Layer();
 
 public:
-	void AddObject(const Ptr<GameObject>& obj);
+	void AddObject(Ptr<GameObject>& _obj);
 
 public:
 public:
