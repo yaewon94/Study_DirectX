@@ -46,6 +46,11 @@ void GameObject::Init()
 	{
 		component->Init();
 	}
+
+	for (auto& script : scripts)
+	{
+		script->Init();
+	}
 }
 
 void GameObject::Tick()

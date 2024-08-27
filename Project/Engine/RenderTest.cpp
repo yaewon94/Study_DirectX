@@ -52,6 +52,7 @@ int InitTest()
 		return E_FAIL;
 	}
 	g_player->GetComponent<MeshRender>()->SetShader(shader);
+	g_player->Init();
 
 	return S_OK;
 }
