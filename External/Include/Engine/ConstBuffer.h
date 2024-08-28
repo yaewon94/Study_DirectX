@@ -10,8 +10,9 @@ enum class CB_TYPE : UINT
 // 오브젝트의 위치,크기,회전값 상수버퍼
 struct CB_Transform
 {
-	Vec4 pos;
-	Vec4 scale;
+	//Vec4 pos;
+	//Vec4 scale;
+	Matrix worldMatrix;
 };
 
 // 상수 버퍼 클래스

@@ -7,9 +7,10 @@ class Transform final : public Component
 	NO_COPY_ASSIGN(Transform);
 
 private:
-	Vec3 localPos;
-	Vec3 localScale;
-	Vec3 rotation;
+	Vec3 localPos, localScale, localRotation;
+
+	Matrix worldMatrix;
+	Matrix matTrans, matRotation, matScale;
 
 public:
 	Transform(const Ptr<GameObject>& owner);
@@ -18,19 +19,30 @@ public:
 
 public:
 	Vec3 GetLocalPos() { return localPos; }
-	void SetPosX(float x) { localPos.x = x; BindOnGpu(); }
-	void SetPosY(float y) { localPos.y = y; BindOnGpu(); }
-	void SetPosZ(float z) { localPos.z = z; BindOnGpu(); }
+	void SetPosX(float x);
+	void SetPosY(float y);
+	void SetPosZ(float z);
 
 	Vec3 GetLocalScale() { return localScale; }
-	void SetScaleX(float x) { localScale.x = x; BindOnGpu(); }
-	void SetScaleY(float y) { localScale.y = y; BindOnGpu(); }
-	void SetScaleZ(float z) { localScale.z = z; BindOnGpu(); }
+	void SetScaleX(float x);
+	void SetScaleY(float y);
+	void SetScaleZ(float z);
 
+	Vec3 GetLocalRotation() { return localRotation; }
+	void SetRotationX(float x);
+	void SetRotationY(float y);
+	void SetRotationZ(float z);
+		
 public:
 	virtual void Init() final;
 	virtual void FinalTick() final;
 
 private:
 	void BindOnGpu();
+
+private:
+	void OnChangePos();
+	void OnChangeScale();
+	void OnChangeRotation();
+	void OnChangeMatrix();
 };
