@@ -31,7 +31,7 @@ void Player::Move(KEY_CODE key)
 	else if (key == KEY_CODE::RIGHT) dir = 1.f;
 
 	// Transform 컴포넌트에 반영
-	//transform->SetPosX(transform->GetLocalPos().x + dir * DT);
+	transform->SetPosX(transform->GetLocalPos().x + dir * DT);
 
 	// [TEST] 크기 변경
 	//transform->SetScaleX(transform->GetLocalScale().x * 0.1f * DT);
