@@ -26,6 +26,7 @@ void Level::Init()
 		// [임시]
 		// 게임오브젝트 생성
 		Ptr<GameObject> g_player = Ptr<GameObject>();
+		g_player->SetName(L"Player");
 		g_player->AddComponent<MeshRender>();
 		g_player->AddComponent<Player>();
 
@@ -99,7 +100,12 @@ void Level::Render()
 	}
 }
 
-void Level::AddObject(LAYER_TYPE layer, Ptr<GameObject>& obj)
+inline void Level::AddObject(LAYER_TYPE layer, Ptr<GameObject>& obj)
 {
 	layers[(UINT)layer]->AddObject(obj);
+}
+
+Ptr<GameObject> Level::GetGameObject(LAYER_TYPE layer)
+{
+	return layers[(UINT)layer]->GetGameObject();
 }

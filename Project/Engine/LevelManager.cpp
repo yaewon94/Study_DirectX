@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "LevelManager.h"
 #include "Level.h"
+#include "GameObject.h"
 
 LevelManager::LevelManager()
 {
@@ -25,4 +26,9 @@ void LevelManager::Tick()
 void LevelManager::Render()
 {
 	curLevel->Render();
+}
+
+Ptr<GameObject> LevelManager::GetGameObject(LAYER_TYPE layer)
+{
+	return curLevel->GetGameObject(layer);
 }

@@ -24,4 +24,7 @@ public:
 
 public:
 	void AddObject(LAYER_TYPE layer, Ptr<GameObject>& obj);
+
+	// @return : layer의 게임오브젝트 중 가장 먼저 등록된 것
+	Ptr<GameObject> GetGameObject(LAYER_TYPE layer);
 };

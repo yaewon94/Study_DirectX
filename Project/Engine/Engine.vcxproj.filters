@@ -20,7 +20,6 @@
     <ClInclude Include="SimpleMath.h">
       <Filter>0.Common\DirectX</Filter>
     </ClInclude>
-    <ClInclude Include="RenderTest.h" />
     <ClInclude Include="PathManager.h">
       <Filter>2.Util</Filter>
     </ClInclude>
@@ -82,6 +81,18 @@
     <ClInclude Include="KeyEnums.h">
       <Filter>2.Util\Key</Filter>
     </ClInclude>
+    <ClInclude Include="Level.h">
+      <Filter>6.Level</Filter>
+    </ClInclude>
+    <ClInclude Include="Layer.h">
+      <Filter>7.Module\Layer</Filter>
+    </ClInclude>
+    <ClInclude Include="LayerEnums.h">
+      <Filter>7.Module\Layer</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelManager.h">
+      <Filter>6.Level</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -124,7 +135,6 @@
     <ClCompile Include="MeshRender.cpp">
       <Filter>5.Component</Filter>
     </ClCompile>
-    <ClCompile Include="RenderTest.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="GameObject.cpp">
       <Filter>4.Object</Filter>
@@ -140,6 +150,15 @@
     </ClCompile>
     <ClCompile Include="KeyManager.cpp">
       <Filter>2.Util\Key</Filter>
+    </ClCompile>
+    <ClCompile Include="Level.cpp">
+      <Filter>6.Level</Filter>
+    </ClCompile>
+    <ClCompile Include="Layer.cpp">
+      <Filter>7.Module\Layer</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelManager.cpp">
+      <Filter>6.Level</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -190,6 +209,18 @@
     </Filter>
     <Filter Include="2.Util\Key">
       <UniqueIdentifier>{e38672a0-3ecc-4748-8f86-e07d062efda9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6.Level">
+      <UniqueIdentifier>{ed9be017-3351-4776-a2ae-f274c7ef18c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="7.Module">
+      <UniqueIdentifier>{b0cc8a11-f923-4f6f-9218-49ce3b04bcbf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="7.Module\Layer">
+      <UniqueIdentifier>{8dd9980c-1276-4b6e-9222-db1c9a590068}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3.Asset\Material">
+      <UniqueIdentifier>{077c07c8-8c2c-44f8-821a-27d5f55f2cf4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

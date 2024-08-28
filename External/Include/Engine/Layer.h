@@ -16,8 +16,8 @@ public:
 
 public:
 	void AddObject(Ptr<GameObject>& _obj);
+	Ptr<GameObject> GetGameObject() { return objs.at(0); }
 
-public:
 public:
 	void Init();
 	void Tick();

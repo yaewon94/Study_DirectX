@@ -172,6 +172,10 @@ call EngineHeaderCopy.bat
     <ClInclude Include="GraphicShader.h" />
     <ClInclude Include="KeyEnums.h" />
     <ClInclude Include="KeyManager.h" />
+    <ClInclude Include="Layer.h" />
+    <ClInclude Include="LayerEnums.h" />
+    <ClInclude Include="Level.h" />
+    <ClInclude Include="LevelManager.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshRender.h" />
     <ClInclude Include="Message.h" />
@@ -179,7 +183,6 @@ call EngineHeaderCopy.bat
     <ClInclude Include="pch.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Ptr.h" />
-    <ClInclude Include="RenderTest.h" />
     <ClInclude Include="Script.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="SimpleMath.h" />
@@ -198,6 +201,9 @@ call EngineHeaderCopy.bat
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GraphicShader.cpp" />
     <ClCompile Include="KeyManager.cpp" />
+    <ClCompile Include="Layer.cpp" />
+    <ClCompile Include="Level.cpp" />
+    <ClCompile Include="LevelManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="MeshRender.cpp" />
@@ -209,7 +215,6 @@ call EngineHeaderCopy.bat
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Player.cpp" />
-    <ClCompile Include="RenderTest.cpp" />
     <ClCompile Include="Script.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="TimeManager.cpp" />
