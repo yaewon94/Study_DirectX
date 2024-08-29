@@ -15,8 +15,13 @@ private:
 
 public:
 	MeshRender(const Ptr<GameObject>& owner);
-	MeshRender(const MeshRender& origin, const Ptr<GameObject>& owner);
+	MeshRender(const Ptr<Component>& origin, const Ptr<GameObject>& owner);
 	~MeshRender();
+
+	virtual Ptr<Component> Clone(const Ptr<Component>& origin, const Ptr<GameObject>& owner) final
+	{
+		return Ptr<MeshRender>(origin, owner).ptr_dynamic_cast<Component>();
+	}
 
 public:
 	void SetMesh(const Ptr<Mesh>& mesh);

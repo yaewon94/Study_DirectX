@@ -14,8 +14,11 @@ private:
 
 protected:
 	Component(const Ptr<GameObject>& owner);
-	Component(const Component& origin, const Ptr<GameObject>& owner);
+	Component(const Ptr<Component>& origin, const Ptr<GameObject>& owner);
 	~Component();
+
+public:
+	virtual Ptr<Component> Clone(const Ptr<Component>& origin, const Ptr<GameObject>& owner) = 0;
 
 public:
 	Ptr<GameObject> GetOwner() { return owner; }

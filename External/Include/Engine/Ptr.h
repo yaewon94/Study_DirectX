@@ -13,13 +13,14 @@ private:
 	T* t;
 
 public:
-	T* const Get() { return t; }
 	T** const GetAddressOf() { return &t; }
 
 public:
-	// 깡통만들기 or 디폴트 생성자 있는 객체 생성할 때 호출
+	// 초기화 용도 깡통만들기 or 디폴트 생성자 있는 객체 생성할 때 호출
 	Ptr() : t(nullptr)
 	{
+		if constexpr (std::is_abstract_v<T>) throw std::logic_error("추상클래스의 객체를 생성할 수 없습니다");
+		
 		if constexpr (std::is_constructible_v<T>) t = new T;
 	}
 
@@ -27,10 +28,8 @@ public:
 	template<typename... Args>
 	Ptr(Args... args) : t(nullptr)
 	{
-		if constexpr (std::is_constructible_v<T, Args...>)
-		{
-			t = new T(args...);
-		}
+		if constexpr (std::is_constructible_v<T, Args...>) t = new T(args...);
+		else throw std::logic_error("해당 파라미터를 가진 생성자가 존재하지 않습니다");
 	}
 
 	// args==nullptr인 Ptr(args...) 호출 방지
@@ -121,7 +120,7 @@ public:
 	}
 
 	// 포인터 참조 연산자
-	T* const operator->()
+	T* const operator->() const
 	{
 		if (t == nullptr) throw std::logic_error(MSG_NULLPTR_EXCEPTION);
 		return t;
@@ -129,7 +128,7 @@ public:
 
 	// 스마트포인터 형변환
 	template<typename U>
-	Ptr<U> ptr_dynamic_cast()
+	Ptr<U> ptr_dynamic_cast() const
 	{
 		if (t == nullptr) return nullptr;
 		else if (dynamic_cast<U*>(t) != nullptr) return Ptr<U>((U*)t);
@@ -145,4 +144,8 @@ public:
 	void* operator new[](size_t) = delete;
 	void operator delete(void*) = delete;
 	void operator delete[](void*) = delete;
+
+	// 자동 형변환 방지
+	template<typename U>
+	operator Ptr<U>() const = delete;
 };

@@ -14,8 +14,13 @@ private:
 
 public:
 	Transform(const Ptr<GameObject>& owner);
-	Transform(const Transform& origin, const Ptr<GameObject>& owner);
+	Transform(const Ptr<Component>& origin, const Ptr<GameObject>& owner);
 	~Transform();
+
+	virtual Ptr<Component> Clone(const Ptr<Component>& origin, const Ptr<GameObject>& owner) final
+	{
+		return Ptr<Transform>(origin, owner).ptr_dynamic_cast<Component>();
+	}
 
 public:
 	Vec3 GetLocalPos() { return localPos; }

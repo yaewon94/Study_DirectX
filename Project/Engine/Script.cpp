@@ -6,8 +6,8 @@ Script::Script(const Ptr<GameObject>& owner) : Component(owner)
 {
 }
 
-Script::Script(const Script& origin, const Ptr<GameObject>& owner) 
-	: Component(origin, owner)
+Script::Script(const Ptr<Script>& origin, const Ptr<GameObject>& owner)
+	: Component(origin.ptr_dynamic_cast<Component>(), owner)
 {
 }
 

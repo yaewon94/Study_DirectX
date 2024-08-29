@@ -6,7 +6,7 @@ Component::Component(const Ptr<GameObject>& owner) : owner(owner)
 {
 }
 
-Component::Component(const Component& origin, const Ptr<GameObject>& owner)
+Component::Component(const Ptr<Component>& origin, const Ptr<GameObject>& owner)
 	: owner(owner)
 {
 }

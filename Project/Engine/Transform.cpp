@@ -9,10 +9,13 @@ Transform::Transform(const Ptr<GameObject>& owner)
 {
 }
 
-Transform::Transform(const Transform& origin, const Ptr<GameObject>& owner)
+Transform::Transform(const Ptr<Component>& origin, const Ptr<GameObject>& owner)
 	: Component(origin, owner)
-	, localPos(origin.localPos), localScale(origin.localScale), localRotation(origin.localRotation)
 {
+	auto tr = origin.ptr_dynamic_cast<Transform>();
+	localPos = tr->localPos;
+	localScale = tr->localScale;
+	localRotation = tr->localRotation;
 }
 
 Transform::~Transform()

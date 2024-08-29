@@ -8,11 +8,12 @@ MeshRender::MeshRender(const Ptr<GameObject>& owner) : Component(owner)
 {
 }
 
-MeshRender::MeshRender(const MeshRender& origin, const Ptr<GameObject>& owner)
+MeshRender::MeshRender(const Ptr<Component>& origin, const Ptr<GameObject>& owner)
 	: Component(origin, owner)
-	, mesh(origin.mesh)
-	, shader(origin.shader)
 {
+	auto ptr = origin.ptr_dynamic_cast<MeshRender>();
+	mesh = ptr->mesh;
+	shader = ptr->shader;
 }
 
 MeshRender::~MeshRender()

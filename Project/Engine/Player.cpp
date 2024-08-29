@@ -8,7 +8,7 @@ Player::Player(const Ptr<GameObject>& owner) : Script(owner)
 {
 }
 
-Player::Player(const Player& origin, const Ptr<GameObject>& owner) : Script(origin, owner)
+Player::Player(const Ptr<Script>& origin, const Ptr<GameObject>& owner) : Script(origin, owner)
 {
 }
 
