@@ -1,6 +1,7 @@
 #pragma once
 #include "Entity.h"
 #include "ComponentEnums.h"
+#include "LayerEnums.h"
 
 class Component;
 class Transform;
@@ -11,7 +12,9 @@ class Script;
 class GameObject final : public Entity
 {
 private:
-	array<Ptr<Component>, (UINT)COMPONENT_TYPE::COUNT_END> components;
+	LAYER_TYPE layer;
+
+	map<COMPONENT_TYPE, Ptr<Component>> componentMap;
 	Ptr<Transform> transform;
 	Ptr<MeshRender> meshRender;
 	vector<Ptr<Script>> scripts;
@@ -23,6 +26,9 @@ public:
 	GameObject& operator=(const GameObject& other);
 
 public:
+	LAYER_TYPE GetLayer() { return layer; }
+	void SetLayer(LAYER_TYPE layer) { this->layer = layer; }
+
 	Ptr<Transform> GetTransform();
 
 public:
@@ -38,19 +44,21 @@ public:
 		}
 		else
 		{
-			COMPONENT_TYPE type = GetType<T>();
+			constexpr COMPONENT_TYPE Type = GetType<T>();
 			component = Ptr<T>(Ptr<GameObject>(this));
 
-			if (type == COMPONENT_TYPE::SCRIPT)
+			// 사용자 정의 컴포넌트
+			if constexpr (Type == COMPONENT_TYPE::SCRIPT)
 			{
 				scripts.push_back(component.ptr_dynamic_cast<Script>());
 			}
+			// 게임엔진 기본 컴포넌트
 			else
 			{
-				if (type == COMPONENT_TYPE::MESH_RENDER) meshRender = component;
-				//else if (type == COMPONENT_TYPE::TRANSFORM) transform = component; // [ERROR : C2027]
+				if constexpr (Type == COMPONENT_TYPE::MESH_RENDER) meshRender = component;
+				else if constexpr (Type == COMPONENT_TYPE::TRANSFORM) transform = component;
 
-				components[(UINT)type] = component.ptr_dynamic_cast<Component>();
+				componentMap.insert(make_pair(Type, component.ptr_dynamic_cast<Component>()));
 			}
 
 			return component;
@@ -60,9 +68,10 @@ public:
 	template<typename T> requires std::derived_from<T, Component>
 	Ptr<T> GetComponent()
 	{
-		COMPONENT_TYPE type = GetType<T>();
+		constexpr COMPONENT_TYPE Type = GetType<T>();
 
-		if (type == COMPONENT_TYPE::SCRIPT)
+		// 사용자 정의 컴포넌트
+		if constexpr (Type == COMPONENT_TYPE::SCRIPT)
 		{
 			for (auto& script : scripts)
 			{
@@ -72,9 +81,12 @@ public:
 
 			return nullptr;
 		}
+		// 게임엔진 기본 컴포넌트
 		else
 		{
-			return components[(UINT)type].ptr_dynamic_cast<T>();
+			const auto iter = componentMap.find(Type);
+			if (iter == componentMap.end()) return nullptr;
+			else return iter->second.ptr_dynamic_cast<T>();
 		}
 	}
 

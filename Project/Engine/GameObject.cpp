@@ -5,12 +5,12 @@
 #include "MeshRender.h"
 #include "Script.h"
 
-GameObject::GameObject() : components{}
+GameObject::GameObject() : layer(LAYER_TYPE::NONE)
 {
-	transform = AddComponent<Transform>();
+	AddComponent<Transform>();
 }
 
-GameObject::GameObject(const GameObject& origin) : components{}
+GameObject::GameObject(const GameObject& origin)
 {
 	*this = origin;
 }
@@ -21,15 +21,19 @@ GameObject::~GameObject()
 
 GameObject& GameObject::operator=(const GameObject& other)
 {
-	for (int i=0; i<components.size(); ++i)
+	auto pObj = Ptr<GameObject>(this);
+
+	for (auto& component : other.componentMap)
 	{
-		components[i] = other.components[i];
+		auto& origin = component.second;
+		componentMap.insert(make_pair(component.first, origin->Clone(origin, pObj)));
 	}
 
 	scripts.resize(other.scripts.size());
 	for (int i=0; i<scripts.size(); ++i)
 	{
-		scripts[i] = other.scripts[i];
+		auto& origin = other.scripts[i];
+		scripts[i] = origin->Clone(origin, pObj);
 	}
 
 	return *this;
@@ -42,9 +46,9 @@ Ptr<Transform> GameObject::GetTransform()
 
 void GameObject::Init()
 {
-	for (auto& component : components)
+	for (auto& component : componentMap)
 	{
-		component->Init();
+		component.second->Init();
 	}
 
 	for (auto& script : scripts)
@@ -63,9 +67,9 @@ void GameObject::Tick()
 
 void GameObject::FinalTick()
 {
-	for (auto& component : components)
+	for (auto& component : componentMap)
 	{
-		component->FinalTick();
+		component.second->FinalTick();
 	}
 }
 
