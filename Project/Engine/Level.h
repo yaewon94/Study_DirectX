@@ -10,7 +10,7 @@ class GameObject;
 class Level : public Entity
 {
 private:
-	array<Ptr<Layer>, (UINT)LAYER_TYPE::COUNT_END> layers;
+	map<LAYER_TYPE, Ptr<Layer>> m_layerMap;
 
 public:
 	Level();
@@ -24,7 +24,10 @@ public:
 
 public:
 	void AddObject(LAYER_TYPE layer, Ptr<GameObject>& obj);
-
 	// @return : layer의 게임오브젝트 중 가장 먼저 등록된 것
 	Ptr<GameObject> GetGameObject(LAYER_TYPE layer);
+
+private:
+	// 오브젝트 추가 시, 해당 레이어가 없으면 자동 추가
+	void AddLayer(LAYER_TYPE layer);
 };

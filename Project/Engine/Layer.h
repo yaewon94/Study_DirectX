@@ -8,10 +8,11 @@ class GameObject;
 class Layer final : public Entity
 {
 private:
+	const LAYER_TYPE Type;
 	vector<Ptr<GameObject>> objs;
 
 public:
-	Layer();
+	Layer(const LAYER_TYPE Type);
 	~Layer();
 
 public:

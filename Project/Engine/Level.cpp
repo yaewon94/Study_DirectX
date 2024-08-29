@@ -8,23 +8,32 @@
 #include "Mesh.h"
 #include "GraphicShader.h"
 #include "AssetManager.h"
+#include "Camera.h"
 
 #define SQUARE_VERTEX_COUNT 4
 #define SQUARE_INDEX_COUNT 6
 
 Level::Level()
 {
+	//m_layerMap.insert(make_pair(LAYER_TYPE::PLAYER, Ptr<Layer>(LAYER_TYPE::PLAYER)));
 }
 
 Level::~Level()
 {
+	m_layerMap.clear();
 }
 
 void Level::Init()
 {
-	{
+	{	 
 		// [임시]
-		// 게임오브젝트 생성
+		// 메인카메라 추가 (TODO : 인게임 레벨 클래스 Init() 으로 분리해서 구현하기)
+		Ptr<GameObject> camera = Ptr<GameObject>();
+		camera->SetName(L"Main Camera");
+		camera->AddComponent<Camera>();
+		AddObject(LAYER_TYPE::CAMERA, camera);
+
+		//// 플레이어 오브젝트 추가
 		Ptr<GameObject> g_player = Ptr<GameObject>();
 		g_player->SetName(L"Player");
 		g_player->AddComponent<MeshRender>();
@@ -66,46 +75,64 @@ void Level::Init()
 		}
 		g_player->GetComponent<MeshRender>()->SetShader(shader);
 
-		// 오브젝트 등록
 		AddObject(LAYER_TYPE::PLAYER, g_player);
 	}
 
-	for (auto& layer : layers)
+	for (auto& layer : m_layerMap)
 	{
-		layer->Init();
+		layer.second->Init();
 	}
 }
 
 void Level::Tick()
 {
-	for (auto& layer : layers)
+	for (auto& layer : m_layerMap)
 	{
-		layer->Tick();
+		layer.second->Tick();
 	}
 }
 
 void Level::FinalTick()
 {
-	for (auto& layer : layers)
+	for (auto& layer : m_layerMap)
 	{
-		layer->FinalTick();
+		layer.second->FinalTick();
 	}
 }
 
 void Level::Render()
 {
-	for (auto& layer : layers)
+	for (auto& layer : m_layerMap)
 	{
-		layer->Render();
+		layer.second->Render();
 	}
 }
 
-inline void Level::AddObject(LAYER_TYPE layer, Ptr<GameObject>& obj)
+void Level::AddObject(LAYER_TYPE layer, Ptr<GameObject>& obj)
 {
-	layers[(UINT)layer]->AddObject(obj);
+	if (m_layerMap.find(layer) == m_layerMap.end()) AddLayer(layer);
+	m_layerMap.find(layer)->second->AddObject(obj);
 }
 
 Ptr<GameObject> Level::GetGameObject(LAYER_TYPE layer)
 {
-	return layers[(UINT)layer]->GetGameObject();
+	const auto iter = m_layerMap.find(layer);
+
+	if (iter == m_layerMap.end())
+	{
+		MessageBoxA(nullptr, "해당 레이어의 오브젝트가 없습니다", "오브젝트 찾기 실패", MB_OK);
+		return nullptr;
+	}
+	else
+	{
+		return iter->second->GetGameObject();
+	}
+}
+
+void Level::AddLayer(LAYER_TYPE layer)
+{
+	if (m_layerMap.find(layer) == m_layerMap.end())
+	{
+		m_layerMap.insert(make_pair(layer, Ptr<Layer>(layer)));
+	}
 }
