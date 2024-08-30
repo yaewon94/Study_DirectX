@@ -1,11 +1,13 @@
 #pragma once
-#include "ConstBuffer.h"
+#include "Render.h"
 
 #define VERTEX_SHADER_VER "vs_5_0"
 #define PIXEL_SHADER_VER "ps_5_0"
 
 #define CONTEXT Device::GetInstance()->GetContext()
 #define DEVICE Device::GetInstance()->GetDevice()
+
+class ConstBuffer;
 
 // GPU 제어 클래스
 class Device final : public Singleton<Device>
@@ -38,7 +40,7 @@ private:
 public:
 	ComPtr<ID3D11Device> GetDevice() { return device; }
 	ComPtr<ID3D11DeviceContext> GetContext() { return context; }
-	Ptr<ConstBuffer> GetConstBuffer(CB_TYPE type) { return cbArr[(UINT)type]; }
+	Ptr<ConstBuffer> GetConstBuffer(CB_TYPE type);
 
 public:
 	int Init(HWND hwnd);

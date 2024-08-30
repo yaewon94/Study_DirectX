@@ -2,23 +2,17 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClInclude Include="Engine.h" />
-    <ClInclude Include="framework.h">
-      <Filter>Default</Filter>
-    </ClInclude>
-    <ClInclude Include="pch.h">
-      <Filter>Default</Filter>
-    </ClInclude>
     <ClInclude Include="Device.h">
       <Filter>1.Device</Filter>
     </ClInclude>
     <ClInclude Include="Singleton.h">
-      <Filter>0.Common\DesignPattern</Filter>
+      <Filter>0.Header\DesignPattern</Filter>
     </ClInclude>
     <ClInclude Include="Global.h">
-      <Filter>0.Common</Filter>
+      <Filter>0.Header</Filter>
     </ClInclude>
     <ClInclude Include="SimpleMath.h">
-      <Filter>0.Common\DirectX</Filter>
+      <Filter>0.Header\DirectX</Filter>
     </ClInclude>
     <ClInclude Include="PathManager.h">
       <Filter>2.Util</Filter>
@@ -51,14 +45,8 @@
     <ClInclude Include="Component.h">
       <Filter>5.Component</Filter>
     </ClInclude>
-    <ClInclude Include="Transform.h">
-      <Filter>5.Component</Filter>
-    </ClInclude>
     <ClInclude Include="DesignPatternDefine.h">
-      <Filter>0.Common\DesignPattern</Filter>
-    </ClInclude>
-    <ClInclude Include="MeshRender.h">
-      <Filter>5.Component</Filter>
+      <Filter>0.Header\DesignPattern</Filter>
     </ClInclude>
     <ClInclude Include="GameObject.h">
       <Filter>4.Object</Filter>
@@ -70,7 +58,7 @@
       <Filter>5.Component\Script\Player</Filter>
     </ClInclude>
     <ClInclude Include="Message.h">
-      <Filter>0.Common</Filter>
+      <Filter>0.Header</Filter>
     </ClInclude>
     <ClInclude Include="ComponentEnums.h">
       <Filter>5.Component</Filter>
@@ -93,14 +81,29 @@
     <ClInclude Include="LevelManager.h">
       <Filter>6.Level</Filter>
     </ClInclude>
+    <ClInclude Include="MeshRender.h">
+      <Filter>5.Component\MeshRender</Filter>
+    </ClInclude>
+    <ClInclude Include="Transform.h">
+      <Filter>5.Component\Transform</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraEnums.h">
+      <Filter>5.Component\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>5.Component\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="framework.h">
+      <Filter>0.Header</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>0.Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Render.h">
+      <Filter>0.Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Default</Filter>
-    </ClCompile>
-    <ClCompile Include="pch.cpp">
-      <Filter>Default</Filter>
-    </ClCompile>
     <ClCompile Include="Device.cpp">
       <Filter>1.Device</Filter>
     </ClCompile>
@@ -129,12 +132,6 @@
     <ClCompile Include="AssetManager.cpp">
       <Filter>3.Asset</Filter>
     </ClCompile>
-    <ClCompile Include="Transform.cpp">
-      <Filter>5.Component</Filter>
-    </ClCompile>
-    <ClCompile Include="MeshRender.cpp">
-      <Filter>5.Component</Filter>
-    </ClCompile>
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="GameObject.cpp">
       <Filter>4.Object</Filter>
@@ -160,14 +157,20 @@
     <ClCompile Include="LevelManager.cpp">
       <Filter>6.Level</Filter>
     </ClCompile>
+    <ClCompile Include="MeshRender.cpp">
+      <Filter>5.Component\MeshRender</Filter>
+    </ClCompile>
+    <ClCompile Include="Transform.cpp">
+      <Filter>5.Component\Transform</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>5.Component\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="pch.cpp" />
+    <ClCompile Include="extern.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="2.Util">
-      <UniqueIdentifier>{15c8395b-d4d0-4183-bc30-ccd9ffd46ded}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="5.Component">
-      <UniqueIdentifier>{d09526ea-195d-496c-b964-6127eef7d192}</UniqueIdentifier>
-    </Filter>
     <Filter Include="3.Asset">
       <UniqueIdentifier>{d631d89d-24d8-4bfc-b669-f9896cd36967}</UniqueIdentifier>
     </Filter>
@@ -183,32 +186,11 @@
     <Filter Include="HLSL">
       <UniqueIdentifier>{7af9394b-b2b7-4cf6-996b-cc1d92d5aa1d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="5.Component\Script">
-      <UniqueIdentifier>{ac9fcb2e-40bb-41aa-947e-d6df7cac2a44}</UniqueIdentifier>
-    </Filter>
     <Filter Include="1.Device">
       <UniqueIdentifier>{5ff6eb73-6d63-40fb-8a82-4810cc532401}</UniqueIdentifier>
     </Filter>
     <Filter Include="1.Device\ConstBuffer">
       <UniqueIdentifier>{2e82f871-771d-4da4-9323-55f9b7eef149}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="5.Component\Script\Player">
-      <UniqueIdentifier>{1084495e-508f-4686-8478-63da9f647723}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Default">
-      <UniqueIdentifier>{c201226f-21ad-40d2-b0f2-ad8fd85cc96b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="0.Common">
-      <UniqueIdentifier>{81f83232-21d8-492a-acb9-b8823bd70e70}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="0.Common\DesignPattern">
-      <UniqueIdentifier>{77dc491f-691c-46f3-bfc2-951a36d18880}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="0.Common\DirectX">
-      <UniqueIdentifier>{9b650aa1-6b12-4e84-bab8-a5131af01046}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2.Util\Key">
-      <UniqueIdentifier>{e38672a0-3ecc-4748-8f86-e07d062efda9}</UniqueIdentifier>
     </Filter>
     <Filter Include="6.Level">
       <UniqueIdentifier>{ed9be017-3351-4776-a2ae-f274c7ef18c6}</UniqueIdentifier>
@@ -219,13 +201,43 @@
     <Filter Include="7.Module\Layer">
       <UniqueIdentifier>{8dd9980c-1276-4b6e-9222-db1c9a590068}</UniqueIdentifier>
     </Filter>
-    <Filter Include="3.Asset\Material">
-      <UniqueIdentifier>{077c07c8-8c2c-44f8-821a-27d5f55f2cf4}</UniqueIdentifier>
+    <Filter Include="2.Util">
+      <UniqueIdentifier>{15c8395b-d4d0-4183-bc30-ccd9ffd46ded}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2.Util\Key">
+      <UniqueIdentifier>{e38672a0-3ecc-4748-8f86-e07d062efda9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5.Component">
+      <UniqueIdentifier>{d09526ea-195d-496c-b964-6127eef7d192}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5.Component\Script">
+      <UniqueIdentifier>{ac9fcb2e-40bb-41aa-947e-d6df7cac2a44}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5.Component\Script\Player">
+      <UniqueIdentifier>{1084495e-508f-4686-8478-63da9f647723}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5.Component\Camera">
+      <UniqueIdentifier>{e9e2118c-f40a-49a6-a092-bdb3f9efa1d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5.Component\MeshRender">
+      <UniqueIdentifier>{9ba4743b-5009-4b87-ad64-c42165474a77}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5.Component\Transform">
+      <UniqueIdentifier>{3d78f0f9-ddf5-4006-8825-22f84ddeaab6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0.Header">
+      <UniqueIdentifier>{81f83232-21d8-492a-acb9-b8823bd70e70}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0.Header\DesignPattern">
+      <UniqueIdentifier>{77dc491f-691c-46f3-bfc2-951a36d18880}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0.Header\DirectX">
+      <UniqueIdentifier>{9b650aa1-6b12-4e84-bab8-a5131af01046}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleMath.inl">
-      <Filter>0.Common\DirectX</Filter>
+      <Filter>0.Header\DirectX</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

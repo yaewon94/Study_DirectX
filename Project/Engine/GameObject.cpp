@@ -21,6 +21,11 @@ GameObject::~GameObject()
 
 GameObject& GameObject::operator=(const GameObject& other)
 {
+	layer = other.layer;
+	name = other.name;
+	transform = Ptr<Transform>(other.transform);
+	meshRender = Ptr<MeshRender>(other.meshRender);
+
 	auto pObj = Ptr<GameObject>(this);
 
 	for (auto& component : other.componentMap)

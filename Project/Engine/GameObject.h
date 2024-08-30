@@ -12,12 +12,15 @@ class Script;
 class GameObject final : public Entity
 {
 private:
+	wstring name;
 	LAYER_TYPE layer;
 
 	map<COMPONENT_TYPE, Ptr<Component>> componentMap;
+	vector<Ptr<Script>> scripts;
+
+	// GetComponent 없이 바로 이용할 수 있게
 	Ptr<Transform> transform;
 	Ptr<MeshRender> meshRender;
-	vector<Ptr<Script>> scripts;
 
 public:
 	GameObject();
@@ -26,10 +29,12 @@ public:
 	GameObject& operator=(const GameObject& other);
 
 public:
+	const wstring& GetName() { return name; }
 	LAYER_TYPE GetLayer() { return layer; }
-	void SetLayer(LAYER_TYPE layer) { this->layer = layer; }
-
 	Ptr<Transform> GetTransform();
+
+	void SetName(const wstring& name) { this->name = name; }
+	void SetLayer(LAYER_TYPE layer) { this->layer = layer; }
 
 public:
 	template<typename T> requires std::derived_from<T, Component>

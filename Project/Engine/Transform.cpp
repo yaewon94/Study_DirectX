@@ -116,10 +116,12 @@ void Transform::BindOnGpu()
 {
 	Ptr<ConstBuffer> cb = Device::GetInstance()->GetConstBuffer(CB_TYPE::TRANSFORM);
 
-	CB_Transform tr = {};
-	tr.worldMatrix = worldMatrix;
+	//CB_Transform tr = {};
+	//tr.worldMatrix = worldMatrix;
+	//cb->SetData(&tr);
 
-	cb->SetData(&tr);
+	g_transform.worldMatrix = worldMatrix;
+	cb->SetData(&g_transform);
 	cb->BindOnGpu();
 }
 

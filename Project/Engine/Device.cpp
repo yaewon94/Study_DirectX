@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Device.h"
 #include "Engine.h"
+#include "ConstBuffer.h"
 
 Device::Device() 
 	: hwnd(nullptr), viewPort{}
@@ -15,6 +16,11 @@ Device::~Device()
 	//if(dsState != nullptr) dsState->Release();
 	//if(bsState != nullptr) bsState->Release();
 	//if(samplerState != nullptr) samplerState->Release();
+}
+
+Ptr<ConstBuffer> Device::GetConstBuffer(CB_TYPE type)
+{
+	return cbArr[(UINT)type];
 }
 
 int Device::Init(HWND hwnd)

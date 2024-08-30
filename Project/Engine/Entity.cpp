@@ -7,11 +7,8 @@ Entity::Entity() : ID(nextID++), refCount(1)
 {
 }
 
-Entity::Entity(const wstring& name) : ID(nextID++), name(name), refCount(1)
-{
-}
 
-Entity::Entity(const Entity& origin) : ID(nextID++), name(origin.name), refCount(1)
+Entity::Entity(const Entity& origin) : ID(nextID++), refCount(1)
 {
 }
 

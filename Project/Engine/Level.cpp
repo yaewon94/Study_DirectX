@@ -29,7 +29,6 @@ void Level::Init()
 		// [임시]
 		// 메인카메라 추가 (TODO : 인게임 레벨 클래스 Init() 으로 분리해서 구현하기)
 		Ptr<GameObject> camera = Ptr<GameObject>();
-		camera->SetName(L"Main Camera");
 		camera->AddComponent<Camera>();
 		AddObject(LAYER_TYPE::CAMERA, camera);
 
@@ -105,6 +104,19 @@ void Level::Render()
 	for (auto& layer : m_layerMap)
 	{
 		layer.second->Render();
+	}
+}
+
+void Level::Render(LAYER_TYPES layers)
+{
+	// 현재 레벨에 등록된 레이어 중
+	for (auto& pair : m_layerMap)
+	{
+		// 레이어 조합에 등록된 경우 렌더링
+		if (layers & pair.first)
+		{
+			pair.second->Render();
+		}
 	}
 }
 

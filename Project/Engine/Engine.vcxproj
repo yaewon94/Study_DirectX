@@ -159,6 +159,8 @@ call EngineHeaderCopy.bat
   <ItemGroup>
     <ClInclude Include="Asset.h" />
     <ClInclude Include="AssetManager.h" />
+    <ClInclude Include="Camera.h" />
+    <ClInclude Include="CameraEnums.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="ComponentEnums.h" />
     <ClInclude Include="ConstBuffer.h" />
@@ -183,6 +185,7 @@ call EngineHeaderCopy.bat
     <ClInclude Include="pch.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Ptr.h" />
+    <ClInclude Include="Render.h" />
     <ClInclude Include="Script.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="SimpleMath.h" />
@@ -193,11 +196,13 @@ call EngineHeaderCopy.bat
   <ItemGroup>
     <ClCompile Include="Asset.cpp" />
     <ClCompile Include="AssetManager.cpp" />
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="ConstBuffer.cpp" />
     <ClCompile Include="Device.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="extern.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GraphicShader.cpp" />
     <ClCompile Include="KeyManager.cpp" />

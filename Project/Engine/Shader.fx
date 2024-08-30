@@ -9,6 +9,8 @@ cbuffer Transform : register(b0) // 레지스터 번호
     //float4 objPos;
     //float4 objScale;
     row_major matrix worldMatrix;   // 행 우선 행렬
+    row_major matrix viewMatrix;
+    row_major matrix projMatrix;
 };
 
 // Vertex Shader
@@ -29,8 +31,9 @@ VS_OUT VS_Test(VS_IN input)
     VS_OUT output = (VS_OUT) 0.f;
     
     //float3 pos = (input.pos * objScale.xyz) + objPos.xyz;
-   // output.pos = float4(pos, 1.f);
+    //output.pos = float4(pos, 1.f);
     
+    // 상대좌표 => 절대좌표
     output.pos = mul(float4(input.pos, 1.f), worldMatrix);
     output.color = input.color;
     

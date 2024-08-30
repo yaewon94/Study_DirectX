@@ -9,6 +9,8 @@ class GameObject;
 // TODO : 추상클래스 전환
 class Level : public Entity
 {
+	friend class LevelManager;
+
 private:
 	map<LAYER_TYPE, Ptr<Layer>> m_layerMap;
 
@@ -16,15 +18,17 @@ public:
 	Level();
 	~Level();
 
-public:
+private:
 	virtual void Init();
 	virtual void Tick();
 	virtual void FinalTick();
-	virtual void Render() final;
+	virtual void Render() final; // TODO : 지우기
+	virtual void Render(LAYER_TYPES layers) final;
 
-public:
+private:
 	void AddObject(LAYER_TYPE layer, Ptr<GameObject>& obj);
-	// @return : layer의 게임오브젝트 중 가장 먼저 등록된 것
+
+	// @return : layer의 게임오브젝트 중 가장 먼저 등록된 것 리턴
 	Ptr<GameObject> GetGameObject(LAYER_TYPE layer);
 
 private:

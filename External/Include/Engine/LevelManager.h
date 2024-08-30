@@ -16,9 +16,10 @@ private:
 public:
 	void Init();
 	void Tick();
-	void Render();
+	void Render(); // TODO : 지우기
+	void Render(LAYER_TYPES layers);
 
 public:
-	// @return : 현재 레벨 layer의 게임오브젝트 중 가장 먼저 등록된 것
+	// @return : layer의 게임오브젝트 중 가장 먼저 등록된 것 리턴
 	Ptr<GameObject> GetGameObject(LAYER_TYPE layer);
 };

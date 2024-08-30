@@ -1,19 +1,6 @@
 #pragma once
 #include "Entity.h"
-
-// 상수 버퍼 타입
-enum class CB_TYPE : UINT
-{
-	TRANSFORM, COUNT_END
-};
-
-// 오브젝트의 위치,크기,회전값 상수버퍼
-struct CB_Transform
-{
-	//Vec4 pos;
-	//Vec4 scale;
-	Matrix worldMatrix;
-};
+#include "Render.h"
 
 // 상수 버퍼 클래스
 class ConstBuffer final : public Entity
