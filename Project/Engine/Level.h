@@ -22,7 +22,6 @@ private:
 	virtual void Init();
 	virtual void Tick();
 	virtual void FinalTick();
-	virtual void Render() final; // TODO : Áö¿ì±â
 	virtual void Render(LAYER_TYPES layers) final;
 
 private:

@@ -186,6 +186,7 @@ call EngineHeaderCopy.bat
     <ClInclude Include="Player.h" />
     <ClInclude Include="Ptr.h" />
     <ClInclude Include="Render.h" />
+    <ClInclude Include="RenderManager.h" />
     <ClInclude Include="Script.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="SimpleMath.h" />
@@ -220,6 +221,7 @@ call EngineHeaderCopy.bat
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="RenderManager.cpp" />
     <ClCompile Include="Script.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="TimeManager.cpp" />

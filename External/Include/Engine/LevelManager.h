@@ -16,7 +16,6 @@ private:
 public:
 	void Init();
 	void Tick();
-	void Render(); // TODO : Áö¿ì±â
 	void Render(LAYER_TYPES layers);
 
 public:

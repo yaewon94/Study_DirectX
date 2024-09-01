@@ -1,10 +1,11 @@
 #include "pch.h"
 #include "Camera.h"
 #include "Engine.h"
+#include "RenderManager.h"
+#include "LevelManager.h"
 #include "GameObject.h"
 #include "Transform.h"
 #include "Render.h"
-#include "LevelManager.h"
 
 Ptr<Camera> Camera::mainCamera = nullptr;
 
@@ -67,7 +68,8 @@ void Camera::Init()
 		mainCamera = Ptr<Camera>(this);
 	}
 
-	// TODO : RenderManager에 카메라 등록
+	// RenderManager에 카메라 등록
+	RenderManager::GetInstance()->AddCamera(Ptr<Camera>(this));
 
 	// View행렬 계산 (TODO : 값 변동시 변동될 때 마다 호출되도록 구현)
 	Vec3 pos = GetOwner()->GetTransform()->GetLocalPos();

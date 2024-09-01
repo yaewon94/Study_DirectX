@@ -13,7 +13,7 @@ private:
 	T* t;
 
 public:
-	T** const GetAddressOf() { return &t; }
+	T* const* GetAddressOf() const { return &t; }
 
 public:
 	// 초기화 용도 깡통만들기 or 디폴트 생성자 있는 객체 생성할 때 호출

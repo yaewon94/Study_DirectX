@@ -8,7 +8,6 @@
 #include "Mesh.h"
 #include "GraphicShader.h"
 #include "AssetManager.h"
-#include "Camera.h"
 
 #define SQUARE_VERTEX_COUNT 4
 #define SQUARE_INDEX_COUNT 6
@@ -27,12 +26,7 @@ void Level::Init()
 {
 	{	 
 		// [임시]
-		// 메인카메라 추가 (TODO : 인게임 레벨 클래스 Init() 으로 분리해서 구현하기)
-		Ptr<GameObject> camera = Ptr<GameObject>();
-		camera->AddComponent<Camera>();
-		AddObject(LAYER_TYPE::CAMERA, camera);
-
-		//// 플레이어 오브젝트 추가
+		// 플레이어 오브젝트 추가
 		Ptr<GameObject> g_player = Ptr<GameObject>();
 		g_player->SetName(L"Player");
 		g_player->AddComponent<MeshRender>();
@@ -96,14 +90,6 @@ void Level::FinalTick()
 	for (auto& layer : m_layerMap)
 	{
 		layer.second->FinalTick();
-	}
-}
-
-void Level::Render()
-{
-	for (auto& layer : m_layerMap)
-	{
-		layer.second->Render();
 	}
 }
 

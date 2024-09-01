@@ -6,13 +6,13 @@
       <Filter>1.Device</Filter>
     </ClInclude>
     <ClInclude Include="Singleton.h">
-      <Filter>0.Header\DesignPattern</Filter>
+      <Filter>0.Common\DesignPattern</Filter>
     </ClInclude>
     <ClInclude Include="Global.h">
-      <Filter>0.Header</Filter>
+      <Filter>0.Common</Filter>
     </ClInclude>
     <ClInclude Include="SimpleMath.h">
-      <Filter>0.Header\DirectX</Filter>
+      <Filter>0.Common\DirectX</Filter>
     </ClInclude>
     <ClInclude Include="PathManager.h">
       <Filter>2.Util</Filter>
@@ -46,7 +46,7 @@
       <Filter>5.Component</Filter>
     </ClInclude>
     <ClInclude Include="DesignPatternDefine.h">
-      <Filter>0.Header\DesignPattern</Filter>
+      <Filter>0.Common\DesignPattern</Filter>
     </ClInclude>
     <ClInclude Include="GameObject.h">
       <Filter>4.Object</Filter>
@@ -58,7 +58,7 @@
       <Filter>5.Component\Script\Player</Filter>
     </ClInclude>
     <ClInclude Include="Message.h">
-      <Filter>0.Header</Filter>
+      <Filter>0.Common</Filter>
     </ClInclude>
     <ClInclude Include="ComponentEnums.h">
       <Filter>5.Component</Filter>
@@ -94,13 +94,16 @@
       <Filter>5.Component\Camera</Filter>
     </ClInclude>
     <ClInclude Include="framework.h">
-      <Filter>0.Header</Filter>
+      <Filter>0.Common</Filter>
     </ClInclude>
     <ClInclude Include="pch.h">
-      <Filter>0.Header</Filter>
+      <Filter>0.Common</Filter>
     </ClInclude>
     <ClInclude Include="Render.h">
-      <Filter>0.Header</Filter>
+      <Filter>8.Render</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderManager.h">
+      <Filter>8.Render</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -169,6 +172,9 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="extern.cpp" />
+    <ClCompile Include="RenderManager.cpp">
+      <Filter>8.Render</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="3.Asset">
@@ -182,9 +188,6 @@
     </Filter>
     <Filter Include="4.Object">
       <UniqueIdentifier>{b508f522-0397-4da3-bf25-4b0983b36d54}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="HLSL">
-      <UniqueIdentifier>{7af9394b-b2b7-4cf6-996b-cc1d92d5aa1d}</UniqueIdentifier>
     </Filter>
     <Filter Include="1.Device">
       <UniqueIdentifier>{5ff6eb73-6d63-40fb-8a82-4810cc532401}</UniqueIdentifier>
@@ -225,24 +228,30 @@
     <Filter Include="5.Component\Transform">
       <UniqueIdentifier>{3d78f0f9-ddf5-4006-8825-22f84ddeaab6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="0.Header">
+    <Filter Include="0.Common">
       <UniqueIdentifier>{81f83232-21d8-492a-acb9-b8823bd70e70}</UniqueIdentifier>
     </Filter>
-    <Filter Include="0.Header\DesignPattern">
+    <Filter Include="0.Common\DesignPattern">
       <UniqueIdentifier>{77dc491f-691c-46f3-bfc2-951a36d18880}</UniqueIdentifier>
     </Filter>
-    <Filter Include="0.Header\DirectX">
+    <Filter Include="0.Common\DirectX">
       <UniqueIdentifier>{9b650aa1-6b12-4e84-bab8-a5131af01046}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="8.Render">
+      <UniqueIdentifier>{d33e93ef-c6d2-4098-9ddc-5e820e2f56fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="8.Render\HLSL">
+      <UniqueIdentifier>{7af9394b-b2b7-4cf6-996b-cc1d92d5aa1d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleMath.inl">
-      <Filter>0.Header\DirectX</Filter>
+      <Filter>0.Common\DirectX</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Shader.fx">
-      <Filter>HLSL</Filter>
+      <Filter>8.Render\HLSL</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

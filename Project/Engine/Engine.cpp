@@ -5,6 +5,7 @@
 #include "PathManager.h"
 #include "TimeManager.h"
 #include "LevelManager.h"
+#include "RenderManager.h"
 
 Engine::Engine() : hwnd(nullptr)
 {
@@ -41,11 +42,7 @@ void Engine::Progress()
 	TimeManager::GetInstance()->Tick();
 	KeyManager::GetInstance()->Tick();
 	LevelManager::GetInstance()->Tick();
-
-	// 이전 프레임 RenderTarget, DepthStencil 클리어
-	Device::GetInstance()->Clear();
-	// 게임오브젝트 렌더링
-	LevelManager::GetInstance()->Render();
-	// 윈도우에 RenderTarget에 그려진 것 출력
-	Device::GetInstance()->Present();
+	
+	// 렌더링
+	RenderManager::GetInstance()->Render();
 }
