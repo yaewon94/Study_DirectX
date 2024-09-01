@@ -1,5 +1,7 @@
 #pragma once
 
+#define MAX_LAYER_TYPES 0xffffffff
+
 // enum class LAYER_TYPE 값들을 | 로 조합한 결과
 using LAYER_TYPES = UINT;
 

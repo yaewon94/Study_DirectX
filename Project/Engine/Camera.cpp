@@ -14,10 +14,10 @@ Camera::Camera(const Ptr<GameObject>& owner)
 	, m_projType(PROJECTION_TYPE::ORTHOGRAPHIC)
 	, m_near(1.f), m_far(500.f)
 	, m_aspectRatio(Engine::GetInstance()->GetResolution().y / Engine::GetInstance()->GetResolution().x)
-	, m_layers(0xffffffff)	// 모든 레이어 렌더링
+	, m_layers(MAX_LAYER_TYPES)	// 모든 레이어 렌더링
 	, m_fov(XM_PI / 2.f)
 	, m_width(Engine::GetInstance()->GetResolution().x)
-	, m_scale(m_aspectRatio)
+	, m_scale(1.f)
 {
 }
 
@@ -73,12 +73,12 @@ void Camera::Init()
 
 	// View행렬 계산 (TODO : 값 변동시 변동될 때 마다 호출되도록 구현)
 	Vec3 pos = GetOwner()->GetTransform()->GetLocalPos();
-	Matrix matTrans = XMMatrixTranslation(pos.x, pos.y, pos.z);
+	Matrix matTrans = XMMatrixTranslation(-pos.x, -pos.y, -pos.z);
 	m_matView = matTrans;
 	g_transform.viewMatrix = m_matView;
 
 	// 투영행렬 계산 (TODO : 값 변동시 변동될 때 마다 호출되도록 구현)
-	m_matProj = XMMatrixOrthographicLH(m_width, m_width * m_aspectRatio, m_near, m_far);
+	m_matProj = XMMatrixOrthographicLH(m_width * m_scale, m_width * m_aspectRatio * m_scale, m_near, m_far);
 	g_transform.projMatrix = m_matProj;
 }
 

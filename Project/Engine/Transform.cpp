@@ -5,7 +5,8 @@
 #include "ConstBuffer.h"
 
 Transform::Transform(const Ptr<GameObject>& owner)
-	: Component(owner), localScale(Vec3(1.f, 1.f, 1.f))
+	: Component(owner)
+	, localScale(Vec3(100.f, 100.f, 1.f))
 {
 }
 
@@ -20,66 +21,6 @@ Transform::Transform(const Ptr<Component>& origin, const Ptr<GameObject>& owner)
 
 Transform::~Transform()
 {
-}
-
-void Transform::SetPosX(float x)
-{
-	localPos.x = x;
-	//worldMatrix._41 = localPos.x;
-	OnChangePos();
-}
-
-void Transform::SetPosY(float y)
-{
-	localPos.y = y;
-	//worldMatrix._42 = localPos.y;
-	OnChangePos();
-}
-
-void Transform::SetPosZ(float z)
-{
-	localPos.z = z;
-	//worldMatrix._43 = localPos.z;
-	OnChangePos();
-}
-
-void Transform::SetScaleX(float x)
-{
-	localScale.x = x;
-	//worldMatrix._11 = localScale.x;
-	OnChangeScale();
-}
-
-void Transform::SetScaleY(float y)
-{
-	localScale.y = y;
-	//worldMatrix._22 = localScale.y;
-	OnChangeScale();
-}
-
-void Transform::SetScaleZ(float z)
-{
-	localScale.z = z;
-	//worldMatrix._33 = localScale.z;
-	OnChangeScale();
-}
-
-void Transform::SetRotationX(float x)
-{
-	localRotation.x = x;
-	OnChangeRotation();
-}
-
-void Transform::SetRotationY(float y)
-{
-	localRotation.y = y;
-	OnChangeRotation();
-}
-
-void Transform::SetRotationZ(float z)
-{
-	localRotation.z = z;
-	OnChangeRotation();
 }
 
 void Transform::Init()

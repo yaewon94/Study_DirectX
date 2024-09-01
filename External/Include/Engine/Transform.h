@@ -24,19 +24,20 @@ public:
 
 public:
 	Vec3 GetLocalPos() { return localPos; }
-	void SetPosX(float x);
-	void SetPosY(float y);
-	void SetPosZ(float z);
+	void SetPos(const Vec3& pos) { localPos = pos; OnChangePos(); }
+	void SetPosX(float x) { localPos.x = x; OnChangePos(); }
+	void SetPosY(float y) { localPos.y = y; OnChangePos(); }
+	void SetPosZ(float z) { localPos.z = z; OnChangePos(); }
 
 	Vec3 GetLocalScale() { return localScale; }
-	void SetScaleX(float x);
-	void SetScaleY(float y);
-	void SetScaleZ(float z);
+	void SetScaleX(float x) { localScale.x = x; OnChangeScale(); }
+	void SetScaleY(float y) { localScale.y = y; OnChangeScale(); }
+	void SetScaleZ(float z) { localScale.z = z; OnChangeScale(); }
 
 	Vec3 GetLocalRotation() { return localRotation; }
-	void SetRotationX(float x);
-	void SetRotationY(float y);
-	void SetRotationZ(float z);
+	void SetRotationX(float x) { localRotation.x = x; OnChangeRotation(); }
+	void SetRotationY(float y) { localRotation.y = y; OnChangeRotation(); }
+	void SetRotationZ(float z) { localRotation.z = z; OnChangeRotation(); }
 		
 public:
 	virtual void Init() final;
