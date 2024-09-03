@@ -32,9 +32,8 @@ void MeshRender::SetShader(const Ptr<GraphicShader>& shader)
 
 void MeshRender::Render()
 {
-	if (mesh!=nullptr && shader!=nullptr)
+	if (mesh!=nullptr)
 	{
-		shader->BindOnGpu();
 		mesh->Render();
 	}
 }

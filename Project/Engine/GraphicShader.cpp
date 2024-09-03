@@ -5,6 +5,7 @@
 GraphicShader::GraphicShader(const wstring& key, const wstring& relativePath) 
 	: Shader(key, relativePath)
 	, topology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST)
+	, rsType(RASTERIZE_TYPE::CULL_BACK)
 {
 }
 
@@ -127,6 +128,9 @@ int GraphicShader::CreateOnGpu(const string& vertexFuncName, const string& pixel
 		, nullptr
 		, pixelShader.GetAddressOf());
 
+	// 값 바인딩
+	BindOnGpu();
+
 	return S_OK;
 }
 
@@ -141,4 +145,7 @@ void GraphicShader::BindOnGpu()
 
 	// Pixel Shader Stage
 	CONTEXT->PSSetShader(pixelShader.Get(), nullptr, 0);
+
+	// Rasterizer Stage
+	CONTEXT->RSSetState(Device::GetInstance()->GetRasterizerState(rsType).Get());
 }

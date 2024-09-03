@@ -21,10 +21,10 @@ private:
 	ComPtr<ID3D11DeviceContext> context;	// GPU 동작 명령, 렌더링, GPGPU
 
 	ComPtr<IDXGISwapChain> swapChain;		// 백버퍼 관리, 최종 렌더링 제출
-	
+
 	ComPtr<ID3D11Texture2D> rtTex;			// 백버퍼
 	ComPtr<ID3D11RenderTargetView> rtView;	// 백버퍼 중간 전달자
-	
+
 	ComPtr<ID3D11Texture2D> dsTex;			// Depth, Stencil, Texture
 	ComPtr<ID3D11DepthStencilView> dsView;
 
@@ -32,7 +32,8 @@ private:
 
 	Ptr<ConstBuffer> cbArr[(UINT)CB_TYPE::COUNT_END];	// 타입별 상수버퍼
 
-	/*ID3D11RasterizerState* rsState;
+	ComPtr<ID3D11RasterizerState> rsState[(UINT)RASTERIZE_TYPE::COUNT_END];	// Rasterizer state
+	/*
 	ID3D11DepthStencilState* dsState;
 	ID3D11BlendState* bsState;
 	ID3D11SamplerState* samplerState;*/
@@ -41,16 +42,20 @@ public:
 	ComPtr<ID3D11Device> GetDevice() { return device; }
 	ComPtr<ID3D11DeviceContext> GetContext() { return context; }
 	Ptr<ConstBuffer> GetConstBuffer(CB_TYPE type);
+	ComPtr<ID3D11RasterizerState> GetRasterizerState(RASTERIZE_TYPE type) { return rsState[(UINT)type]; }
 
 public:
 	int Init(HWND hwnd);
 	
 public:
+	// 이전 프레임 화면 Clear
 	void Clear();
+	// RenderTargetView => 윈도우 출력
 	void Present();
 
 private:
 	int CreateSwapChain();
 	int CreateView();
 	int CreateConstBuffer();
+	int CreateRasterizerState();
 };

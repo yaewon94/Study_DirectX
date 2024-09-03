@@ -1,5 +1,6 @@
 #pragma once
 #include "Shader.h"
+#include "Render.h"
 
 class GraphicShader final : public Shader
 {
@@ -16,14 +17,19 @@ private:
 
 	D3D11_PRIMITIVE_TOPOLOGY topology;
 
+	RASTERIZE_TYPE rsType;
+
 public:
 	GraphicShader(const wstring& key, const wstring& relativePath);
 	~GraphicShader();
 
 public:
-	void SetTopology(D3D11_PRIMITIVE_TOPOLOGY topology) { this->topology = topology; }
+	void SetTopology(D3D11_PRIMITIVE_TOPOLOGY topology) { this->topology = topology; BindOnGpu(); }
+	void SetRasterizerState(RASTERIZE_TYPE type) { rsType = type; }
 
 public:
 	int CreateOnGpu(const string& vertexFuncName, const string& pixelFuncName);
+
+private:
 	void BindOnGpu();
 };

@@ -52,9 +52,14 @@ int Device::Init(HWND hwnd)
 	if (FAILED(CreateSwapChain())) return E_FAIL;
 
 	// =====================================
-	// View 생성
+	// RenderTargetView, DepthStencilView 생성
 	// =====================================
 	if (FAILED(CreateView())) return E_FAIL;
+
+	// =====================================
+	// Rasterizer State 생성
+	//======================================
+	if (FAILED(CreateRasterizerState())) return E_FAIL;
 
 	// ====================================================
 	// ViewPort 설정
@@ -198,6 +203,31 @@ int Device::CreateConstBuffer()
 {
 	cbArr[(UINT)CB_TYPE::TRANSFORM] = Ptr<ConstBuffer>(CB_TYPE::TRANSFORM);
 	cbArr[(UINT)CB_TYPE::TRANSFORM]->CreateOnGpu(sizeof(CB_Transform));
+
+	return S_OK;
+}
+
+int Device::CreateRasterizerState()
+{
+	D3D11_RASTERIZER_DESC desc = {};
+
+	// 뒷면 컬링
+	rsState[(UINT)RASTERIZE_TYPE::CULL_BACK] = nullptr;
+
+	// 앞면 컬링
+	desc.CullMode = D3D11_CULL_FRONT;
+	desc.FillMode = D3D11_FILL_SOLID;
+	DEVICE->CreateRasterizerState(&desc, rsState[(UINT)RASTERIZE_TYPE::CULL_FRONT].GetAddressOf());
+
+	// 컬링 X
+	desc.CullMode = D3D11_CULL_NONE;
+	desc.FillMode = D3D11_FILL_SOLID;
+	DEVICE->CreateRasterizerState(&desc, rsState[(UINT)RASTERIZE_TYPE::CULL_NONE].GetAddressOf());
+
+	// 와이어프레임 모드
+	desc.CullMode = D3D11_CULL_NONE;
+	desc.FillMode = D3D11_FILL_WIREFRAME;
+	DEVICE->CreateRasterizerState(&desc, rsState[(UINT)RASTERIZE_TYPE::WIRE_FRAME].GetAddressOf());
 
 	return S_OK;
 }
