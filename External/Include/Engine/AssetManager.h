@@ -10,6 +10,7 @@ private:
 	array<map<wstring, Ptr<Asset>>, (UINT)ASSET_TYPE::COUNT_END> assetMapArr;
 
 public:
+	// 에셋 추가
 	template<typename T> requires std::derived_from<T, Asset> 
 	Ptr<T> AddAsset(const wstring& Key, const wstring& relativePath)
 	{
@@ -17,7 +18,7 @@ public:
 
 		if (asset != nullptr)
 		{
-			MessageBoxA(nullptr, "해당 KEY를 가진 에셋이 이미 존재합니다", "에셋 추가 실패", MB_OK);
+			MessageBox(nullptr, L"해당 KEY를 가진 에셋이 이미 존재합니다", L"에셋 추가 실패", MB_OK);
 			return asset;
 		}
 		else
@@ -26,6 +27,7 @@ public:
 		}
 	}
 
+	// 에셋 찾기 (없으면 자동으로 메모리에 로드)
 	template<typename T> requires std::derived_from<T, Asset> 
 	Ptr<T> FindAsset(const wstring& Key, const wstring& relativePath = L"")
 	{
@@ -38,10 +40,18 @@ public:
 	}
 
 private:
+	// 에셋 추가
 	template<typename T> requires std::derived_from<T, Asset>
 	Ptr<T> AddAssetNoCheck(const wstring& Key, const wstring& relativePath)
 	{
 		Ptr<T> asset = Ptr<T>(Key, relativePath);
+
+		if (FAILED(asset->Load()))
+		{
+			MessageBox(nullptr, L"에셋 로드 실패", L"에셋 추가 실패", MB_OK);
+			return nullptr;
+		}
+
 		assetMapArr[(UINT)GetType<T>()].insert(make_pair(Key, asset.ptr_dynamic_cast<Asset>()));
 
 		return asset;

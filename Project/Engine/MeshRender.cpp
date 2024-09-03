@@ -3,6 +3,7 @@
 #include "GameObject.h"
 #include "Mesh.h"
 #include "GraphicShader.h"
+#include "Texture.h"
 
 MeshRender::MeshRender(const Ptr<GameObject>& owner) : Component(owner)
 {
@@ -28,6 +29,11 @@ void MeshRender::SetMesh(const Ptr<Mesh>& mesh)
 void MeshRender::SetShader(const Ptr<GraphicShader>& shader)
 {
 	this->shader = shader;
+}
+
+void MeshRender::SetTexture(const Ptr<Texture>& texture)
+{
+	this->texture = texture;
 }
 
 void MeshRender::Render()

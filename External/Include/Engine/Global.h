@@ -20,11 +20,16 @@ using std::make_pair;
 using std::string;
 using std::wstring;
 
+// ComPtr
+#include <wrl.h>
+using namespace Microsoft::WRL;
+
 // DirectX 11
 #include <d3d11.h>
 #include <d3dcompiler.h>
 #include <DirectXMath.h>
 #include <DirectXPackedVector.h>
+#include <DirectXTex/DirectXTex.h>
 
 using namespace DirectX;
 using namespace DirectX::PackedVector;
@@ -34,15 +39,16 @@ using namespace DirectX::PackedVector;
 #pragma comment(lib, "dxguid")
 
 #include "SimpleMath.h"
-
 typedef DirectX::SimpleMath::Vector2 Vec2;
 typedef DirectX::SimpleMath::Vector3 Vec3;
 typedef DirectX::SimpleMath::Vector4 Vec4;
 typedef DirectX::SimpleMath::Matrix Matrix;
 
-// ComPtr
-#include <wrl.h>
-using namespace Microsoft::WRL;
+#ifdef _DEBUG
+#pragma comment(lib, "DirectXTex\\DirectXTex_debug")
+#else
+#pragma comment(lib, "DirectXTex\\DirectXTex")
+#endif
 
 // 사용자 정의 헤더
 #include "DesignPatternDefine.h"

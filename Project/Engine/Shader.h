@@ -9,4 +9,7 @@ protected:
 protected:
 	Shader(const wstring& key, const wstring& relativePath);
 	~Shader();
+
+public:
+	virtual int Load() final { return S_OK; }
 };

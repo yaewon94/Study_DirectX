@@ -3,8 +3,9 @@
 
 class Mesh;
 class GraphicShader;
+class Texture;
 
-// 메쉬, 그래픽셰이더 렌더링 담당 컴포넌트
+// 렌더링 담당 컴포넌트
 class MeshRender final : public Component
 {
 	NO_COPY_ASSIGN(MeshRender);
@@ -12,6 +13,7 @@ class MeshRender final : public Component
 private:
 	Ptr<Mesh> mesh;
 	Ptr<GraphicShader> shader;
+	Ptr<Texture> texture;
 
 public:
 	MeshRender(const Ptr<GameObject>& owner);
@@ -26,6 +28,7 @@ public:
 public:
 	void SetMesh(const Ptr<Mesh>& mesh);
 	void SetShader(const Ptr<GraphicShader>& shader);
+	void SetTexture(const Ptr<Texture>& texture);
 
 public:
 	virtual void FinalTick() final {}

@@ -108,6 +108,9 @@
     <ClInclude Include="TransformEnums.h">
       <Filter>5.Component\Transform</Filter>
     </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>3.Asset\Texture</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Device.cpp">
@@ -178,6 +181,9 @@
     <ClCompile Include="RenderManager.cpp">
       <Filter>8.Render</Filter>
     </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>3.Asset\Texture</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="3.Asset">
@@ -245,6 +251,9 @@
     </Filter>
     <Filter Include="8.Render\HLSL">
       <UniqueIdentifier>{7af9394b-b2b7-4cf6-996b-cc1d92d5aa1d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3.Asset\Texture">
+      <UniqueIdentifier>{64347930-26be-4a59-89dc-1b210c02141f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

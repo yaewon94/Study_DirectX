@@ -13,5 +13,5 @@ Asset::~Asset()
 
 const wstring Asset::GetFullPath()
 {
-	return PathManager::GetInstance()->GetContentPath() + L"Asset\\" + relativePath;
+	return PathManager::GetInstance()->GetContentPath() + relativePath;
 }

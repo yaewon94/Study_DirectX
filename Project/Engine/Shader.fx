@@ -13,6 +13,9 @@ cbuffer Transform : register(b0) // 레지스터 번호
     row_major matrix g_projMatrix;
 };
 
+// 텍스처
+Texture2D g_tex : register(t0);
+
 // Vertex Shader
 struct VS_IN
 {
