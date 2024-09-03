@@ -193,6 +193,7 @@ call EngineHeaderCopy.bat
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="TimeManager.h" />
     <ClInclude Include="Transform.h" />
+    <ClInclude Include="TransformEnums.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Asset.cpp" />

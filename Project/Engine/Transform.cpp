@@ -24,7 +24,7 @@ Transform::~Transform()
 }
 
 void Transform::Init()
-{
+{	
 	// 행렬값 초기화
 	worldMatrix = XMMatrixIdentity();
 
@@ -35,6 +35,17 @@ void Transform::Init()
 		* XMMatrixRotationZ(localRotation.z);
 
 	worldMatrix = matScale * matRotation * matTrans;	// 행렬 곱셈이므로 순서 중요
+
+	// 방향벡터 초기화
+	localDirVec[(UINT)DIRECTION_VEC::RIGHT] = Vec3(1.f, 0.f, 0.f);
+	localDirVec[(UINT)DIRECTION_VEC::UP] = Vec3(0.f, 1.f, 0.f);
+	localDirVec[(UINT)DIRECTION_VEC::FRONT] = Vec3(0.f, 0.f, 1.f);
+
+	for (int i = 0; i < localDirVec.size(); ++i)
+	{
+		//XMVector3TransformCoord(localDirVec[i], matRotation);
+		localDirVec[i] = XMVector3TransformNormal(localDirVec[i], matRotation);
+	}
 
 	// Bind
 	BindOnGpu();
@@ -80,9 +91,18 @@ void Transform::OnChangeScale()
 
 void Transform::OnChangeRotation()
 {
+	// 회전행렬 재설정
 	matRotation = XMMatrixRotationX(localRotation.x)
 		* XMMatrixRotationY(localRotation.y)
 		* XMMatrixRotationZ(localRotation.z);
+
+	// 방향벡터 재설정
+	for (int i = 0; i < localDirVec.size(); ++i)
+	{
+		//XMVector3TransformCoord(localDirVec[i], matRotation);
+		localDirVec[i] = XMVector3TransformNormal(localDirVec[i], matRotation);
+	}
+
 	OnChangeMatrix();
 }
 

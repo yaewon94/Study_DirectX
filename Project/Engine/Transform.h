@@ -1,5 +1,6 @@
 #pragma once
 #include "Component.h"
+#include "TransformEnums.h"
 
 // 게임오브젝트의 좌표, 크기, 회전 정보
 class Transform final : public Component
@@ -8,6 +9,8 @@ class Transform final : public Component
 
 private:
 	Vec3 localPos, localScale, localRotation;
+
+	array<Vec3, (UINT)DIRECTION_VEC::COUNT_END> localDirVec;	// 방향벡터 (회전에 필요)
 
 	Matrix worldMatrix;
 	Matrix matTrans, matRotation, matScale;
@@ -38,6 +41,8 @@ public:
 	void SetRotationX(float x) { localRotation.x = x; OnChangeRotation(); }
 	void SetRotationY(float y) { localRotation.y = y; OnChangeRotation(); }
 	void SetRotationZ(float z) { localRotation.z = z; OnChangeRotation(); }
+
+	Vec3 GetDirectionVector(DIRECTION_VEC dir) { return localDirVec[(UINT)dir]; }
 		
 public:
 	virtual void Init() final;

@@ -17,7 +17,7 @@ private:
 	LAYER_TYPES m_layers;		// 렌더링할 레이어 조합
 
 	// 원근투영 (PROJECTION_TYPE::PERSPECTIVE)
-	float  m_fov;	// field of view (시야각)
+	float m_fov;	// field of view (시야각)
 
 	// 직교투영 (PROJECTION_TYPE::ORTHOGRAPHIC)
 	float m_width;	// 투영 가로길이
@@ -44,4 +44,7 @@ public:
 	virtual void Init() final;
 	virtual void FinalTick() final;
 	void Render();
+
+private:
+	void OnChangeRotation();
 };
