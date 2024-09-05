@@ -25,7 +25,7 @@ public:
 
 public:
 	void SetTopology(D3D11_PRIMITIVE_TOPOLOGY topology) { this->topology = topology; BindOnGpu(); }
-	void SetRasterizerState(RASTERIZE_TYPE type) { rsType = type; }
+	void SetRasterizerType(RASTERIZE_TYPE type) { rsType = type; }
 
 public:
 	int CreateOnGpu(const string& vertexFuncName, const string& pixelFuncName);

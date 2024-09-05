@@ -33,9 +33,7 @@ public:
 
 public:
 	int CreateOnGpu(Vertex* vertexSysMem, UINT vertexCount, UINT* indexSysMem, UINT indexCount);
+	void BindOnGpu();
 	void Render();
 	virtual int Load() final { return S_OK; }
-
-private:
-	void BindOnGpu();
 };

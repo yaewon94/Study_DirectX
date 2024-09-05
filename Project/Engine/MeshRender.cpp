@@ -41,6 +41,7 @@ void MeshRender::Render()
 {
 	if (mesh!=nullptr)
 	{
+		mesh->BindOnGpu();
 		mesh->Render();
 	}
 }

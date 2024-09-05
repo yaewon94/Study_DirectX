@@ -69,9 +69,6 @@ int Mesh::CreateOnGpu(Vertex* vertexSysMem, UINT vertexCount, UINT* indexSysMem,
 		return E_FAIL;
 	}
 
-	// 값 바인딩
-	BindOnGpu();
-	
 	return S_OK;
 }
 

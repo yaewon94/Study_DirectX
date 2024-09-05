@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Engine.h"
 #include "Device.h"
+#include "AssetManager.h"
 #include "KeyManager.h"
 #include "PathManager.h"
 #include "TimeManager.h"
@@ -29,6 +30,7 @@ int Engine::Init(HWND hwnd)
 
 	// 매니저 클래스 초기화
 	PathManager::GetInstance()->Init();
+	if (FAILED(AssetManager::GetInstance()->Init())) return E_FAIL;
 	TimeManager::GetInstance()->Init();
 	LevelManager::GetInstance()->Init();
 	KeyManager::GetInstance()->Init();

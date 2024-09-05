@@ -5,17 +5,13 @@
 #include "GameObject.h"
 #include "MeshRender.h"
 #include "Player.h"
+#include "AssetManager.h"
 #include "Mesh.h"
 #include "GraphicShader.h"
-#include "AssetManager.h"
 #include "Texture.h"
-
-#define SQUARE_VERTEX_COUNT 4
-#define SQUARE_INDEX_COUNT 6
 
 Level::Level()
 {
-	//m_layerMap.insert(make_pair(LAYER_TYPE::PLAYER, Ptr<Layer>(LAYER_TYPE::PLAYER)));
 }
 
 Level::~Level()
@@ -30,48 +26,10 @@ void Level::Init()
 		// 플레이어 오브젝트 추가
 		Ptr<GameObject> g_player = Ptr<GameObject>();
 		g_player->SetName(L"Player");
-		g_player->AddComponent<MeshRender>();
 		g_player->AddComponent<Player>();
-
-		// 정점 위치 설정 (viewport 좌표)
-		// 각 픽셀 사이의 컬러값은 보간되서 나옴
-		int index = 0;
-
-		Vertex vertexArr[SQUARE_VERTEX_COUNT] = {};
-		vertexArr[index].pos = Vec3(-0.5f, 0.5f, 0.f);
-		vertexArr[index].uv = Vec2(0.f, 0.f);
-		vertexArr[index++].color = Vec4(1.f, 0.f, 0.f, 1.f);
-
-		vertexArr[index].pos = Vec3(0.5f, 0.5f, 0.f);
-		vertexArr[index].uv = Vec2(1.f, 0.f);
-		vertexArr[index++].color = Vec4(0.f, 0.f, 1.f, 1.f);
-
-		vertexArr[index].pos = Vec3(0.5f, -0.5f, 0.f);
-		vertexArr[index].uv = Vec2(1.f, 1.f);
-		vertexArr[index++].color = Vec4(0.f, 1.f, 0.f, 1.f);
-
-		vertexArr[index].pos = Vec3(-0.5f, -0.5f, 0.f);
-		vertexArr[index].uv = Vec2(0.f, 1.f);
-		vertexArr[index++].color = Vec4(1.f, 0.f, 1.f, 1.f);
-
-		// 인덱스 값 설정
-		UINT indexArr[SQUARE_INDEX_COUNT] = { 0, 1, 2, 0, 2, 3 };
-
-		// 메쉬 에셋 생성
-		Ptr<Mesh> mesh = AssetManager::GetInstance()->FindAsset<Mesh>(L"RectMesh", L"RectMesh");
-		if (FAILED(mesh->CreateOnGpu(vertexArr, SQUARE_VERTEX_COUNT, indexArr, SQUARE_INDEX_COUNT)))
-		{
-			assert(nullptr);
-		}
-		g_player->GetComponent<MeshRender>()->SetMesh(mesh);
-
-		// 셰이더 에셋 생성
-		Ptr<GraphicShader> shader = AssetManager::GetInstance()->FindAsset<GraphicShader>(L"ShaderTest", L"Std2D.fx");
-		if (FAILED(shader->CreateOnGpu("VS_Std2D", "PS_Std2D")))
-		{
-			assert(nullptr);
-		}
-		g_player->GetComponent<MeshRender>()->SetShader(shader);
+		Ptr<MeshRender> meshRender = g_player->AddComponent<MeshRender>();
+		meshRender->SetMesh(AssetManager::GetInstance()->FindAsset<Mesh>(L"CircleMesh"));
+		meshRender->SetShader(AssetManager::GetInstance()->FindAsset<GraphicShader>(L"Std2D_Shader"));
 
 		// 텍스처 에셋 생성
 		Ptr<Texture> texture = AssetManager::GetInstance()->FindAsset<Texture>(L"TextureTest", L"Poby.jpeg");

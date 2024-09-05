@@ -10,11 +10,14 @@ private:
 	array<map<wstring, Ptr<Asset>>, (UINT)ASSET_TYPE::COUNT_END> assetMapArr;
 
 public:
+	int Init();
+
+public:
 	// 에셋 추가
 	template<typename T> requires std::derived_from<T, Asset> 
 	Ptr<T> AddAsset(const wstring& Key, const wstring& relativePath)
 	{
-		Ptr<T> asset = FindAsset<T>();
+		Ptr<T> asset = FindAsset<T>(Key);
 
 		if (asset != nullptr)
 		{
@@ -23,7 +26,7 @@ public:
 		}
 		else
 		{
-			return AddAssetNoCheck(Key, relativePath);
+			return AddAssetNoCheck<T>(Key, relativePath);
 		}
 	}
 
@@ -56,4 +59,8 @@ private:
 
 		return asset;
 	}
+
+private:
+	int CreateDefaultMesh();
+	int CreateDefaultShader();
 };
