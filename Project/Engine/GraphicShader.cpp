@@ -128,9 +128,6 @@ int GraphicShader::CreateOnGpu(const string& vertexFuncName, const string& pixel
 		, nullptr
 		, pixelShader.GetAddressOf());
 
-	// 값 바인딩
-	BindOnGpu();
-
 	return S_OK;
 }
 

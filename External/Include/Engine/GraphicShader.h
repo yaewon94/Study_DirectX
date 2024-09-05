@@ -29,7 +29,5 @@ public:
 
 public:
 	int CreateOnGpu(const string& vertexFuncName, const string& pixelFuncName);
-
-private:
 	void BindOnGpu();
 };

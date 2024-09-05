@@ -26,10 +26,12 @@ int AssetManager::Init()
 
 int AssetManager::CreateDefaultMesh()
 {
+	Ptr<Mesh> mesh;
+
+	// =============================
+	// 사각형
+	// =============================
 	{
-		// =============================
-		// 사각형
-		// =============================
 		// 정점 위치 설정 (viewport 좌표)
 		// 각 픽셀 사이의 컬러값은 보간되서 나옴
 		const int SQUARE_VERTEX_COUNT = 4;
@@ -57,57 +59,90 @@ int AssetManager::CreateDefaultMesh()
 		UINT indexArr[SQUARE_INDEX_COUNT] = { 0, 1, 2, 0, 2, 3 };
 
 		// 메쉬 에셋 생성
-		Ptr<Mesh> rectMesh = AddAsset<Mesh>(L"RectMesh", L"RectMesh");
-		if (FAILED(rectMesh->CreateOnGpu(vertexArr, SQUARE_VERTEX_COUNT, indexArr, SQUARE_INDEX_COUNT)))
+		mesh = AddAsset<Mesh>(L"RectMesh", L"RectMesh");
+		if (FAILED(mesh->CreateOnGpu(vertexArr, SQUARE_VERTEX_COUNT, indexArr, SQUARE_INDEX_COUNT)))
 		{
 			MessageBox(nullptr, L"사각형 Mesh 생성 실패", L"에셋 생성 실패", MB_OK);
 			return E_FAIL;
 		}
+
+		// =============================
+		// 디버깅 모드 사각형
+		// =============================
+		{
+			const int DBG_RECT_IDX_COUNT = 5;
+			UINT DbgRectIdx[DBG_RECT_IDX_COUNT] = { 0, 1, 2, 3, 0 };
+			mesh = AddAsset<Mesh>(L"RectMesh_D", L"RectMesh_D");
+			if (FAILED(mesh->CreateOnGpu(vertexArr, SQUARE_VERTEX_COUNT, DbgRectIdx, DBG_RECT_IDX_COUNT)))
+			{
+				MessageBox(nullptr, L"디버깅용 사각형 Mesh 생성 실패", L"에셋 생성 실패", MB_OK);
+				return E_FAIL;
+			}
+		}
 	}
 
+	// =============================
+	// 원
+	// =============================
 	{
-		// =============================
-		// 원
-		// =============================
 		const int SLICE = 40;
 		const float RADIUS = 0.5f;
 
-		vector<Vertex> vertexVec;
-		vector<UINT> indexVec;
+		vector<Vertex> vertexVec(SLICE + 2);
+		vector<UINT> indexVec(SLICE * 3);
 		Vertex vertex;
 		float theta = 0.f;	// 원을 나눈 삼각형의 중심각
 
 		// 중심점
 		vertex.pos = Vec3(0.f, 0.f, 0.f);
 		vertex.uv = Vec2(0.5f, 0.5f);
-		vertexVec.push_back(vertex);
+		vertexVec[0] = vertex;
 
 		// 정점들 좌표 초기화
-		for (int i = 0; i < SLICE + 1; ++i)
+		for (int i = 1; i < SLICE + 2; ++i)
 		{
 			// cos(theta) : x 좌표 / RADIUS
 			// sin(theta) : y 좌표 / RADIUS
 			vertex.pos = Vec3(RADIUS * cosf(theta), RADIUS * sinf(theta), 0.f);
 			vertex.uv = Vec2(vertex.pos.x + 0.5f, 1.f - (vertex.pos.y + 0.5f));
-			vertexVec.push_back(vertex);
+			vertexVec[i] = vertex;
 
 			theta += (XM_PI * 2.f) / SLICE;
 		}
 
 		// 인덱스(원을 이루는 정점들 번호) 초기화
+		int index = -1;
 		for (int i = 0; i < SLICE; ++i)
 		{
-			indexVec.push_back(0);
-			indexVec.push_back(i + 1);
-			indexVec.push_back(i + 2);
+			indexVec[++index] = 0;
+			indexVec[++index] = i + 1;
+			indexVec[++index] = i + 2;
 		}
 
 		// 메쉬 생성
-		Ptr<Mesh> circleMesh = AddAsset<Mesh>(L"CircleMesh", L"CircleMesh");
-		if (FAILED(circleMesh->CreateOnGpu(vertexVec.data(), vertexVec.size(), indexVec.data(), indexVec.size())))
+		mesh = AddAsset<Mesh>(L"CircleMesh", L"CircleMesh");
+		if (FAILED(mesh->CreateOnGpu(vertexVec.data(), vertexVec.size(), indexVec.data(), indexVec.size())))
 		{
 			MessageBox(nullptr, L"원 Mesh 생성 실패", L"에셋 생성 실패", MB_OK);
 			return E_FAIL;
+		}
+
+		// =============================
+		// 디버깅 모드 원
+		// =============================
+		{
+			indexVec.resize(vertexVec.size() - 1);
+			for (int i = 0; i < indexVec.size(); ++i)
+			{
+				indexVec[i] = i + 1;
+			}
+
+			mesh = AddAsset<Mesh>(L"CircleMesh_D", L"CircleMesh_D");
+			if (FAILED(mesh->CreateOnGpu(vertexVec.data(), vertexVec.size(), indexVec.data(), indexVec.size())))
+			{
+				MessageBox(nullptr, L"디버깅용 원 Mesh 생성 실패", L"에셋 생성 실패", MB_OK);
+				return E_FAIL;
+			}
 		}
 	}
 
@@ -116,15 +151,33 @@ int AssetManager::CreateDefaultMesh()
 
 int AssetManager::CreateDefaultShader()
 {
+	Ptr<GraphicShader> shader;
+
 	// ==========================
 	// 기본 2D 셰이더
 	// ==========================
-	Ptr<GraphicShader> shader = AddAsset<GraphicShader>(L"Std2D_Shader", L"Std2D.fx");
-	shader->SetRasterizerType(RASTERIZE_TYPE::CULL_NONE);
-	if (FAILED(shader->CreateOnGpu("VS_Std2D", "PS_Std2D")))
 	{
-		MessageBox(nullptr, L"기본 2D 셰이더 생성 실패", L"에셋 생성 실패", MB_OK);
-		return E_FAIL;
+		shader = AddAsset<GraphicShader>(L"Std2D_Shader", L"Std2D.fx");
+		shader->SetRasterizerType(RASTERIZE_TYPE::CULL_NONE);
+		if (FAILED(shader->CreateOnGpu("VS_Std2D", "PS_Std2D")))
+		{
+			MessageBox(nullptr, L"기본 2D 셰이더 생성 실패", L"에셋 생성 실패", MB_OK);
+			return E_FAIL;
+		}
+	}
+
+	// ==========================
+	// 디버깅 모드 셰이더
+	// ==========================
+	{
+		shader = AddAsset<GraphicShader>(L"Debug_Shader", L"Debug.fx");
+		shader->SetRasterizerType(RASTERIZE_TYPE::CULL_NONE);
+		shader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP);
+		if (FAILED(shader->CreateOnGpu("VS_Debug", "PS_Debug")))
+		{
+			MessageBox(nullptr, L"디버깅 모드 셰이더 생성 실패", L"에셋 생성 실패", MB_OK);
+			return E_FAIL;
+		}
 	}
 
 	return S_OK;

@@ -39,9 +39,10 @@ void MeshRender::SetTexture(const Ptr<Texture>& texture)
 
 void MeshRender::Render()
 {
-	if (mesh!=nullptr)
+	if (mesh != nullptr && shader != nullptr)
 	{
 		mesh->BindOnGpu();
+		shader->BindOnGpu();
 		mesh->Render();
 	}
 }

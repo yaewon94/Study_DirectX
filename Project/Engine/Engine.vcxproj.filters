@@ -268,5 +268,8 @@
     <FxCompile Include="Values.fx">
       <Filter>8.Render\HLSL</Filter>
     </FxCompile>
+    <FxCompile Include="Debug.fx">
+      <Filter>8.Render\HLSL</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

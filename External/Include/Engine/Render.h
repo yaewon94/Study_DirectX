@@ -1,5 +1,8 @@
 #pragma once
 
+// 색상
+#define COLOR_GREEN Vec4(0.f, 1.f, 0.f, 1.f);
+
 // 상수 버퍼 타입
 enum class CB_TYPE : UINT
 {
@@ -17,6 +20,12 @@ struct CB_Transform
 
 	Matrix wv;	// world * view
 	Matrix wvp;	// world * view * projection
+};
+
+// 디버깅 모드 shape
+enum class DEBUG_SHAPE
+{
+	RECT, CIRCLE, CROSS, LINE
 };
 
 // 래스터라이즈 타입
