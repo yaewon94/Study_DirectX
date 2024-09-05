@@ -34,6 +34,7 @@ void MeshRender::SetShader(const Ptr<GraphicShader>& shader)
 void MeshRender::SetTexture(const Ptr<Texture>& texture)
 {
 	this->texture = texture;
+	this->texture->BindOnGpu(0);	// TODO : 레지스터 넘버 상수변수로 받기
 }
 
 void MeshRender::Render()

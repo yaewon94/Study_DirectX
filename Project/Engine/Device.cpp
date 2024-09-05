@@ -5,7 +5,6 @@
 
 Device::Device() 
 	: hwnd(nullptr), viewPort{}
-	/*, rsState(nullptr), dsState(nullptr), bsState(nullptr), samplerState(nullptr)*/
 {
 }
 
@@ -56,10 +55,18 @@ int Device::Init(HWND hwnd)
 	// =====================================
 	if (FAILED(CreateView())) return E_FAIL;
 
-	// =====================================
+	// ============================================
 	// Rasterizer State 생성
-	//======================================
+	// 벡터 그래픽 형식 => 래스터 이미지(bit) 변환
+	//=============================================
 	if (FAILED(CreateRasterizerState())) return E_FAIL;
+
+	// ==============================================================================
+	// Sampler State 생성
+	// 텍스처에서 색상 데이터를 어떻게 추출할지 정의
+	// 특히 텍스처 확대, 축소, 회전 또는 뷰포트의 픽셀과 정확히 일치하지 않을 때 중요
+	//===============================================================================
+	if (FAILED(CreateSamplerState())) return E_FAIL;
 
 	// ====================================================
 	// ViewPort 설정
@@ -228,6 +235,47 @@ int Device::CreateRasterizerState()
 	desc.CullMode = D3D11_CULL_NONE;
 	desc.FillMode = D3D11_FILL_WIREFRAME;
 	DEVICE->CreateRasterizerState(&desc, rsState[(UINT)RASTERIZE_TYPE::WIRE_FRAME].GetAddressOf());
+
+	return S_OK;
+}
+
+int Device::CreateSamplerState()
+{
+	D3D11_SAMPLER_DESC desc = {};
+
+	// 이방성 (비등방성) 필터링
+	// 가로축과 세로축 각각에 대해 밉맵을 따로 만들어두는 것
+	// * 비등방성 : 방향에 따라 물체의 물리적 성질이 다르게 변화하는 현상
+	desc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+	desc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+	desc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+	desc.Filter = D3D11_FILTER_ANISOTROPIC;
+	DEVICE->CreateSamplerState(&desc, spState[(UINT)SAMPLER_TYPE::AF].GetAddressOf());
+
+	// Minification, Magnification Mipmap 선형 필터링
+	// 필터 마스크 영역 중 최솟값(또는 최댓값)을 출력 화소로 결정
+	desc.Filter = D3D11_FILTER_MIN_MAG_POINT_MIP_LINEAR;
+	DEVICE->CreateSamplerState(&desc, spState[(UINT)SAMPLER_TYPE::MIN_MAG_POINT_MIP_LINEAR].GetAddressOf());
+
+	// 바인딩
+	// Vertex Shader : 정점 처리. 노멀공간, 탄젠트공간 => 월드공간
+	// Hull Shader : 표면을 여러 개의 삼각형으로 분할
+	// Domain Shader : 삼각형으로 쪼개어진 지점의 정점 위치 계산
+	// Geometry Shader : 인접한 정점, 삼각형, 선, 점의 기본 형식 처리
+	// Pixel Shader : 픽셀 별 색상 출력 (보간 적용)
+	UINT index = (UINT)SAMPLER_TYPE::AF;
+	CONTEXT->VSSetSamplers(index, 1, spState[index].GetAddressOf());
+	CONTEXT->HSSetSamplers(index, 1, spState[index].GetAddressOf());
+	CONTEXT->DSSetSamplers(index, 1, spState[index].GetAddressOf());
+	CONTEXT->GSSetSamplers(index, 1, spState[index].GetAddressOf());
+	CONTEXT->PSSetSamplers(index, 1, spState[index].GetAddressOf());
+
+	index = (UINT)SAMPLER_TYPE::MIN_MAG_POINT_MIP_LINEAR;
+	CONTEXT->VSSetSamplers(index, 1, spState[index].GetAddressOf());
+	CONTEXT->HSSetSamplers(index, 1, spState[index].GetAddressOf());
+	CONTEXT->DSSetSamplers(index, 1, spState[index].GetAddressOf());
+	CONTEXT->GSSetSamplers(index, 1, spState[index].GetAddressOf());
+	CONTEXT->PSSetSamplers(index, 1, spState[index].GetAddressOf());
 
 	return S_OK;
 }

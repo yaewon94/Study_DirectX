@@ -5,7 +5,7 @@
 struct Vertex
 {
 	Vec3 pos;
-	Vec2 uv;
+	Vec2 uv;	// 텍스처를 3차원에 매핑하기 위해 변환 기준이 되는 2차원 좌표계
 	Vec4 color;
 };
 

@@ -19,7 +19,7 @@ public:
 public:
 	virtual int Load() final;
 
-private:
+public:
 	void BindOnGpu(int _registerNum);
 	void Clear(int _registerNum);
 };

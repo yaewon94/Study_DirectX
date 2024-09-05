@@ -33,10 +33,11 @@ private:
 	Ptr<ConstBuffer> cbArr[(UINT)CB_TYPE::COUNT_END];	// 타입별 상수버퍼
 
 	ComPtr<ID3D11RasterizerState> rsState[(UINT)RASTERIZE_TYPE::COUNT_END];	// Rasterizer state
+	ComPtr<ID3D11SamplerState> spState[(UINT)SAMPLER_TYPE::COUNT_END];	// Sampler state
 	/*
 	ID3D11DepthStencilState* dsState;
 	ID3D11BlendState* bsState;
-	ID3D11SamplerState* samplerState;*/
+	*/
 
 public:
 	ComPtr<ID3D11Device> GetDevice() { return device; }
@@ -58,4 +59,5 @@ private:
 	int CreateView();
 	int CreateConstBuffer();
 	int CreateRasterizerState();
+	int CreateSamplerState();
 };

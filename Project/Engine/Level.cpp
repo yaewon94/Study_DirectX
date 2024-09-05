@@ -8,6 +8,7 @@
 #include "Mesh.h"
 #include "GraphicShader.h"
 #include "AssetManager.h"
+#include "Texture.h"
 
 #define SQUARE_VERTEX_COUNT 4
 #define SQUARE_INDEX_COUNT 6
@@ -38,22 +39,26 @@ void Level::Init()
 
 		Vertex vertexArr[SQUARE_VERTEX_COUNT] = {};
 		vertexArr[index].pos = Vec3(-0.5f, 0.5f, 0.f);
+		vertexArr[index].uv = Vec2(0.f, 0.f);
 		vertexArr[index++].color = Vec4(1.f, 0.f, 0.f, 1.f);
 
 		vertexArr[index].pos = Vec3(0.5f, 0.5f, 0.f);
+		vertexArr[index].uv = Vec2(1.f, 0.f);
 		vertexArr[index++].color = Vec4(0.f, 0.f, 1.f, 1.f);
 
 		vertexArr[index].pos = Vec3(0.5f, -0.5f, 0.f);
+		vertexArr[index].uv = Vec2(1.f, 1.f);
 		vertexArr[index++].color = Vec4(0.f, 1.f, 0.f, 1.f);
 
 		vertexArr[index].pos = Vec3(-0.5f, -0.5f, 0.f);
+		vertexArr[index].uv = Vec2(0.f, 1.f);
 		vertexArr[index++].color = Vec4(1.f, 0.f, 1.f, 1.f);
 
 		// 인덱스 값 설정
 		UINT indexArr[SQUARE_INDEX_COUNT] = { 0, 1, 2, 0, 2, 3 };
 
 		// 메쉬 에셋 생성
-		Ptr<Mesh> mesh = AssetManager::GetInstance()->FindAsset<Mesh>(L"MeshTest", L"MeshTest");
+		Ptr<Mesh> mesh = AssetManager::GetInstance()->FindAsset<Mesh>(L"RectMesh", L"RectMesh");
 		if (FAILED(mesh->CreateOnGpu(vertexArr, SQUARE_VERTEX_COUNT, indexArr, SQUARE_INDEX_COUNT)))
 		{
 			assert(nullptr);
@@ -61,12 +66,20 @@ void Level::Init()
 		g_player->GetComponent<MeshRender>()->SetMesh(mesh);
 
 		// 셰이더 에셋 생성
-		Ptr<GraphicShader> shader = AssetManager::GetInstance()->FindAsset<GraphicShader>(L"ShaderTest", L"Shader.fx");
-		if (FAILED(shader->CreateOnGpu("VS_Test", "PS_Test")))
+		Ptr<GraphicShader> shader = AssetManager::GetInstance()->FindAsset<GraphicShader>(L"ShaderTest", L"Std2D.fx");
+		if (FAILED(shader->CreateOnGpu("VS_Std2D", "PS_Std2D")))
 		{
 			assert(nullptr);
 		}
 		g_player->GetComponent<MeshRender>()->SetShader(shader);
+
+		// 텍스처 에셋 생성
+		Ptr<Texture> texture = AssetManager::GetInstance()->FindAsset<Texture>(L"TextureTest", L"Poby.jpeg");
+		if (texture == nullptr)
+		{
+			assert(nullptr);
+		}
+		g_player->GetComponent<MeshRender>()->SetTexture(texture);
 
 		AddObject(LAYER_TYPE::PLAYER, g_player);
 	}
