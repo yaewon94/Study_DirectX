@@ -51,6 +51,7 @@ typedef DirectX::SimpleMath::Matrix Matrix;
 #endif
 
 // 사용자 정의 헤더
+#include "CommonTypes.h"
 #include "DesignPatternDefine.h"
 #include "Singleton.h"
 #include "Message.h"
