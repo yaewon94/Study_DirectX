@@ -1,11 +1,13 @@
 #include "pch.h"
 #include "GraphicShader.h"
 #include "Device.h"
-//
+
 GraphicShader::GraphicShader(const wstring& key, const wstring& relativePath) 
 	: Shader(key, relativePath)
+	, domain(SHADER_DOMAIN::DOMAIN_OPAQUE)
 	, topology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST)
 	, rsType(RASTERIZE_TYPE::CULL_BACK)
+	, bsType(BLEND_TYPE::DEFAULT)
 {
 }
 
@@ -145,4 +147,7 @@ void GraphicShader::BindOnGpu()
 
 	// Rasterizer Stage
 	CONTEXT->RSSetState(Device::GetInstance()->GetRasterizerState(rsType).Get());
+
+	// Output Merge : Blend
+	CONTEXT->OMSetBlendState(Device::GetInstance()->GetBlendState(bsType).Get(), nullptr, 0xffffffff);
 }

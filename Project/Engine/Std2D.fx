@@ -51,14 +51,25 @@ float4 PS_Std2D(VS_OUT input) : SV_Target
     // texture가 바인딩 되어있지 않으면 디버그 색상 출력
     // 방법 1. Shader 상에서 해결
     // 문제점 : 모든 픽셀을 검사하기 때문에 성능 매우 떨어짐
-    int width = 0;
-    int height = 0;
-    g_tex_0.GetDimensions(width, height);
+    //int width = 0;
+    //int height = 0;
+    //g_tex_0.GetDimensions(width, height);
+    //if (!width || !height)
+    //    return GetDebugColor(input.uv, 10);
+    //else
+    //    return g_tex_0.Sample(g_sampler0, input.uv);
     
-    if (!width || !height)
-        return GetDebugColor(input.uv, 10);
+    // 방법 2. Material을 통해서 해결
+    float4 color = (float4) 0.f;
+    if (g_bTex_0)
+        color = g_tex_0.Sample(g_sampler0, input.uv);
     else
-        return g_tex_0.Sample(g_sampler0, input.uv);
+        color = GetDebugColor(input.uv, 10);
+    
+    if (color.a == 0.f)
+        discard;
+    
+    return color;
     
     ////// 중도폐기
     ////clip(-1);
@@ -71,6 +82,19 @@ float4 PS_Std2D(VS_OUT input) : SV_Target
     
     //if (g_int_0 == 10) return float4(0.f, 0.f, 1.f, 1.f);
     //else return color;
+}
+
+float4 PS_Std2D_AlphaBlend(VS_OUT input) : SV_Target
+{
+    float4 color = (float4) 0.f;
+    
+    if (g_bTex_0)
+        color = g_tex_0.Sample(g_sampler0, input.uv);
+    else
+        color = GetDebugColor(input.uv, 10);
+    
+    return color;
+
 }
 
 #endif

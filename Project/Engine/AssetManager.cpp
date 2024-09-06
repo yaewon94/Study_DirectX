@@ -161,9 +161,26 @@ int AssetManager::CreateDefaultShader()
 	{
 		shader = AddAsset<GraphicShader>(L"Std2D_Shader", L"Std2D.fx");
 		shader->SetRasterizerType(RASTERIZE_TYPE::CULL_NONE);
+		shader->SetBlendType(BLEND_TYPE::DEFAULT);
+		shader->SetDomain(SHADER_DOMAIN::DOMAIN_MASK);
 		if (FAILED(shader->CreateOnGpu("VS_Std2D", "PS_Std2D")))
 		{
 			MessageBox(nullptr, L"기본 2D 셰이더 생성 실패", L"에셋 생성 실패", MB_OK);
+			return E_FAIL;
+		}
+	}
+
+	// ==========================
+	// 기본 알파블렌드 2D 셰이더
+	// ==========================
+	{
+		shader = AddAsset<GraphicShader>(L"Std2D_AlphaBlend_Shader", L"Std2D.fx");
+		shader->SetRasterizerType(RASTERIZE_TYPE::CULL_NONE);
+		shader->SetBlendType(BLEND_TYPE::ALPHABLEND);
+		shader->SetDomain(SHADER_DOMAIN::DOMAIN_TRANSPARENT);
+		if (FAILED(shader->CreateOnGpu("VS_Std2D", "PS_Std2D_AlphaBlend")))
+		{
+			MessageBox(nullptr, L"기본 알파블렌드 2D 셰이더 생성 실패", L"에셋 생성 실패", MB_OK);
 			return E_FAIL;
 		}
 	}
@@ -194,6 +211,12 @@ int AssetManager::CreateDefaultMaterial()
 	// ==========================
 	material = AddAsset<Material>(L"Std2D_Material", L"Std2D_Material");
 	material->SetShader(FindAsset<GraphicShader>(L"Std2D_Shader"));
+
+	// ==========================
+	// 기본 알파블렌드 2D 재질
+	// ==========================
+	material = AddAsset<Material>(L"Std2D_AlphaBlend_Material", L"Std2D_AlphaBlend_Material");
+	material->SetShader(FindAsset<GraphicShader>(L"Std2D_AlphaBlend_Shader"));
 
 	// ==========================
 	// 디버깅 모드 재질

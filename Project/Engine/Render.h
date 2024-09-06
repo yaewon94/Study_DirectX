@@ -14,6 +14,16 @@ enum TEXTURE_PARAM
 	COUNT_END
 };
 
+// Blend State
+enum class BLEND_TYPE : UINT
+{
+	DEFAULT,				// 강제출력
+	ALPHABLEND,				// 알파값 적용
+	ALPHABLEND_COVERAGE,	// 알파블렌드 + AlphaToCoverage
+	ONE_ONE,				// 1:1 블렌딩
+	COUNT_END
+};
+
 // 상수 버퍼 타입
 enum class CB_TYPE : UINT
 {
@@ -77,6 +87,15 @@ enum SCALAR_PARAM
 	VEC2_0, VEC2_1, VEC2_2, VEC2_3,
 	VEC4_0, VEC4_1, VEC4_2, VEC4_3,
 	MATRIX_0, MATRIX_1
+};
+
+// 셰이더 동작 분류
+enum class SHADER_DOMAIN
+{
+	DOMAIN_OPAQUE,			// 불투명
+	DOMAIN_MASK,			// 불투명 or 투명
+	DOMAIN_TRANSPARENT,		// 반투명 + 투명
+	DOMAIN_POSTPROCESS		// 후처리
 };
 
 // ==============================

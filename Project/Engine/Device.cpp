@@ -61,6 +61,12 @@ int Device::Init(HWND hwnd)
 	//=============================================
 	if (FAILED(CreateRasterizerState())) return E_FAIL;
 
+	// ============================================
+	// Blend State 생성
+	// 픽셀 셰이더를 거쳐 생성된 단편이 렌더 타겟에 어떻게 적용될지를 결정
+	//=============================================
+	if (FAILED(CreateBlendState())) return E_FAIL;
+
 	// ==============================================================================
 	// Sampler State 생성
 	// 텍스처에서 색상 데이터를 어떻게 추출할지 정의
@@ -239,6 +245,33 @@ int Device::CreateRasterizerState()
 	desc.CullMode = D3D11_CULL_NONE;
 	desc.FillMode = D3D11_FILL_WIREFRAME;
 	DEVICE->CreateRasterizerState(&desc, rsState[(UINT)RASTERIZE_TYPE::WIRE_FRAME].GetAddressOf());
+
+	return S_OK;
+}
+
+int Device::CreateBlendState()
+{
+	D3D11_BLEND_DESC desc = {};
+
+	// 강제출력
+	bsState[(UINT)BLEND_TYPE::DEFAULT] = nullptr;
+	
+	// 알파블렌드
+	desc.AlphaToCoverageEnable = false;
+	desc.IndependentBlendEnable = false;
+	desc.RenderTarget[0].BlendEnable = true;
+	desc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;       // 색상끼리 더하기
+	desc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;    // Source : PixelShader return 값에 곱할 계수
+	desc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;// Destination : 색상이 출력될 렌더타겟
+	desc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
+	desc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ZERO;
+	desc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;
+	desc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+	if (FAILED(DEVICE->CreateBlendState(&desc, bsState[(UINT)BLEND_TYPE::ALPHABLEND].GetAddressOf())))
+	{
+		MessageBox(nullptr, L"알파블렌드 생성 실패", L"BlendState 생성 실패", MB_OK);
+		return E_FAIL;
+	}
 
 	return S_OK;
 }
