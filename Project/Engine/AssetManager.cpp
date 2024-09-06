@@ -2,6 +2,7 @@
 #include "AssetManager.h"
 #include "Mesh.h"
 #include "GraphicShader.h"
+#include "Material.h"
 
 AssetManager::AssetManager()
 {
@@ -20,6 +21,7 @@ int AssetManager::Init()
 	// TODO : 파일로 변환하기
 	if (FAILED(CreateDefaultMesh())) return E_FAIL;
 	if (FAILED(CreateDefaultShader())) return E_FAIL;
+	if (FAILED(CreateDefaultMaterial())) return E_FAIL;
 
 	return S_OK;
 }
@@ -179,6 +181,25 @@ int AssetManager::CreateDefaultShader()
 			return E_FAIL;
 		}
 	}
+
+	return S_OK;
+}
+
+int AssetManager::CreateDefaultMaterial()
+{
+	Ptr<Material> material;
+
+	// ==========================
+	// 기본 2D 재질
+	// ==========================
+	material = AddAsset<Material>(L"Std2D_Material", L"Std2D_Material");
+	material->SetShader(FindAsset<GraphicShader>(L"Std2D_Shader"));
+
+	// ==========================
+	// 디버깅 모드 재질
+	// ==========================
+	material = AddAsset<Material>(L"Debug_Material", L"Debug Material");
+	material->SetShader(FindAsset<GraphicShader>(L"Debug Shader"));
 
 	return S_OK;
 }

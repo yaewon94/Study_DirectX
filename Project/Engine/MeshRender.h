@@ -2,8 +2,7 @@
 #include "Component.h"
 
 class Mesh;
-class GraphicShader;
-class Texture;
+class Material;
 
 // ·»´õ¸µ ´ã´ç ÄÄÆ÷³ÍÆ®
 class MeshRender final : public Component
@@ -12,8 +11,7 @@ class MeshRender final : public Component
 
 private:
 	Ptr<Mesh> mesh;
-	Ptr<GraphicShader> shader;
-	Ptr<Texture> texture;
+	Ptr<Material> material;
 
 public:
 	MeshRender(const Ptr<GameObject>& owner);
@@ -27,8 +25,8 @@ public:
 
 public:
 	void SetMesh(const Ptr<Mesh>& mesh);
-	void SetShader(const Ptr<GraphicShader>& shader);
-	void SetTexture(const Ptr<Texture>& texture);
+	void SetMaterial(const Ptr<Material>& material);
+	Ptr<Material> GetMaterial();
 
 public:
 	virtual void FinalTick() final {}

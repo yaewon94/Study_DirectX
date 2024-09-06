@@ -4,7 +4,7 @@
 
 Texture::Texture(const wstring& Key, const wstring& relativePath) 
 	: Asset(Key, relativePath)
-	, m_desc{}
+	, m_desc{}, m_registerNum(TEXTURE_PARAM::NULL_PARAM)
 {
 }
 
@@ -63,14 +63,28 @@ int Texture::Load()
 	return S_OK;
 }
 
-void Texture::BindOnGpu(int _registerNum)
+void Texture::BindOnGpu(TEXTURE_PARAM param)
 {
-	// Pixel Shader Stage
-	CONTEXT->PSSetShaderResources(_registerNum, 1, m_srv.GetAddressOf());
+	m_registerNum = param;
+	CONTEXT->VSSetShaderResources(param, 1, m_srv.GetAddressOf());	// Vertex Shader
+	CONTEXT->HSSetShaderResources(param, 1, m_srv.GetAddressOf());	// Hull Shader
+	CONTEXT->DSSetShaderResources(param, 1, m_srv.GetAddressOf());	// Domain Shader
+	CONTEXT->GSSetShaderResources(param, 1, m_srv.GetAddressOf());	// Geometry Shader
+	CONTEXT->PSSetShaderResources(param, 1, m_srv.GetAddressOf());	// Pixel Shader
 }
 
-void Texture::Clear(int _registerNum)
+void Texture::Clear()
 {
+	if (m_registerNum == TEXTURE_PARAM::NULL_PARAM)
+	{
+		throw std::logic_error("레지스터에 등록되어 있지 않은 텍스처입니다");
+	}
+
 	ID3D11ShaderResourceView* srv = nullptr;
-	CONTEXT->PSSetShaderResources(_registerNum, 1, &srv);
+	CONTEXT->VSSetShaderResources(m_registerNum, 1, &srv);
+	CONTEXT->HSSetShaderResources(m_registerNum, 1, &srv);
+	CONTEXT->DSSetShaderResources(m_registerNum, 1, &srv);
+	CONTEXT->GSSetShaderResources(m_registerNum, 1, &srv);
+	CONTEXT->PSSetShaderResources(m_registerNum, 1, &srv);
+	m_registerNum = TEXTURE_PARAM::NULL_PARAM;
 }

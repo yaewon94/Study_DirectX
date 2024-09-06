@@ -2,8 +2,7 @@
 #include "MeshRender.h"
 #include "GameObject.h"
 #include "Mesh.h"
-#include "GraphicShader.h"
-#include "Texture.h"
+#include "Material.h"
 
 MeshRender::MeshRender(const Ptr<GameObject>& owner) : Component(owner)
 {
@@ -14,7 +13,7 @@ MeshRender::MeshRender(const Ptr<Component>& origin, const Ptr<GameObject>& owne
 {
 	auto ptr = origin.ptr_dynamic_cast<MeshRender>();
 	mesh = ptr->mesh;
-	shader = ptr->shader;
+	material = ptr->material;
 }
 
 MeshRender::~MeshRender()
@@ -26,23 +25,21 @@ void MeshRender::SetMesh(const Ptr<Mesh>& mesh)
 	this->mesh = mesh;
 }
 
-void MeshRender::SetShader(const Ptr<GraphicShader>& shader)
+void MeshRender::SetMaterial(const Ptr<Material>& material)
 {
-	this->shader = shader;
+	this->material = material;
 }
 
-void MeshRender::SetTexture(const Ptr<Texture>& texture)
+Ptr<Material> MeshRender::GetMaterial()
 {
-	this->texture = texture;
-	this->texture->BindOnGpu(0);	// TODO : 레지스터 넘버 상수변수로 받기
+	return material;
 }
 
 void MeshRender::Render()
 {
-	if (mesh != nullptr && shader != nullptr)
+	if (mesh != nullptr && material != nullptr)
 	{
-		mesh->BindOnGpu();
-		shader->BindOnGpu();
+		material->BindOnGpu();
 		mesh->Render();
 	}
 }

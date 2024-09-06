@@ -111,6 +111,15 @@
       <Filter>3.Asset\Texture</Filter>
     </ClInclude>
     <ClInclude Include="Entity.h" />
+    <ClInclude Include="Material.h">
+      <Filter>3.Asset\Material</Filter>
+    </ClInclude>
+    <ClInclude Include="CommonTypes.h">
+      <Filter>0.Common</Filter>
+    </ClInclude>
+    <ClInclude Include="TaskManager.h">
+      <Filter>2.Util\Task</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Device.cpp">
@@ -184,6 +193,12 @@
     <ClCompile Include="Texture.cpp">
       <Filter>3.Asset\Texture</Filter>
     </ClCompile>
+    <ClCompile Include="Material.cpp">
+      <Filter>3.Asset\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="TaskManager.cpp">
+      <Filter>2.Util\Task</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="3.Asset">
@@ -255,6 +270,12 @@
     <Filter Include="3.Asset\Texture">
       <UniqueIdentifier>{64347930-26be-4a59-89dc-1b210c02141f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="3.Asset\Material">
+      <UniqueIdentifier>{9dd36b56-5898-437d-8335-44fa2b1cb72d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2.Util\Task">
+      <UniqueIdentifier>{80220948-d06f-44ab-a21f-fae2ec289592}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleMath.inl">
@@ -269,6 +290,9 @@
       <Filter>8.Render\HLSL</Filter>
     </FxCompile>
     <FxCompile Include="Debug.fx">
+      <Filter>8.Render\HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="Functions.fx">
       <Filter>8.Render\HLSL</Filter>
     </FxCompile>
   </ItemGroup>

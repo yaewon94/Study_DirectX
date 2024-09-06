@@ -39,6 +39,9 @@ int ConstBuffer::CreateOnGpu(UINT bufferSize)
 
 void ConstBuffer::BindOnGpu()
 {
-    // Vertex Shader Stage
-    CONTEXT->VSSetConstantBuffers((UINT)Type, 1, buffer.GetAddressOf());
+    CONTEXT->VSSetConstantBuffers((UINT)Type, 1, buffer.GetAddressOf());    // Vertex Shader
+    CONTEXT->HSSetConstantBuffers((UINT)Type, 1, buffer.GetAddressOf());    // Hull Shader
+    CONTEXT->DSSetConstantBuffers((UINT)Type, 1, buffer.GetAddressOf());    // Domain Shader
+    CONTEXT->GSSetConstantBuffers((UINT)Type, 1, buffer.GetAddressOf());    // Geometry Shader
+    CONTEXT->PSSetConstantBuffers((UINT)Type, 1, buffer.GetAddressOf());    // Pixel Shader
 }

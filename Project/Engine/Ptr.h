@@ -136,9 +136,6 @@ public:
 	}
 
 public:
-	// nullptr 대입 방지 (초기화만 가능)
-	Ptr& operator=(nullptr_t) = delete;
-
 	// 동적할당,해제 방지
 	void* operator new(size_t) = delete;
 	void* operator new[](size_t) = delete;

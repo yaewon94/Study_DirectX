@@ -74,6 +74,7 @@ int Mesh::CreateOnGpu(Vertex* vertexSysMem, UINT vertexCount, UINT* indexSysMem,
 
 void Mesh::Render()
 {
+	BindOnGpu();
 	CONTEXT->DrawIndexed(indexCount, 0, 0);
 }
 

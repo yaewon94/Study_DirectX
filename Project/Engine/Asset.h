@@ -5,11 +5,12 @@ class Asset;
 class Mesh;
 class GraphicShader;
 class Texture;
+class Material;
 
 // 에셋 타입
 enum class ASSET_TYPE : UINT
 {
-	MESH, GRAPHIC_SHADER, TEXTURE, COUNT_END
+	MESH, GRAPHIC_SHADER, TEXTURE, MATERIAL, COUNT_END
 };
 
 template<typename T> requires std::derived_from<T, Asset>
@@ -18,6 +19,7 @@ static ASSET_TYPE GetType()
 	if constexpr (std::is_same_v<T, Mesh>) return ASSET_TYPE::MESH;
 	if constexpr (std::is_same_v<T, GraphicShader>) return ASSET_TYPE::GRAPHIC_SHADER;
 	if constexpr (std::is_same_v<T, Texture>) return ASSET_TYPE::TEXTURE;
+	if constexpr (std::is_same_v<T, Material>) return ASSET_TYPE::MATERIAL;
 
 	throw std::logic_error(MSG_INVALID_TYPE_CASTING);
 }

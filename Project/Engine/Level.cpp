@@ -7,7 +7,7 @@
 #include "Player.h"
 #include "AssetManager.h"
 #include "Mesh.h"
-#include "GraphicShader.h"
+#include "Material.h"
 #include "Texture.h"
 
 Level::Level()
@@ -29,15 +29,9 @@ void Level::Init()
 		g_player->AddComponent<Player>();
 		Ptr<MeshRender> meshRender = g_player->AddComponent<MeshRender>();
 		meshRender->SetMesh(AssetManager::GetInstance()->FindAsset<Mesh>(L"CircleMesh"));
-		meshRender->SetShader(AssetManager::GetInstance()->FindAsset<GraphicShader>(L"Std2D_Shader"));
-
-		// 텍스처 에셋 생성
-		Ptr<Texture> texture = AssetManager::GetInstance()->FindAsset<Texture>(L"TextureTest", L"Poby.jpeg");
-		if (texture == nullptr)
-		{
-			assert(nullptr);
-		}
-		g_player->GetComponent<MeshRender>()->SetTexture(texture);
+		meshRender->SetMaterial(AssetManager::GetInstance()->FindAsset<Material>(L"Std2D_Material"));
+		meshRender->GetMaterial()->SetScalarParam(INT_0, 10);
+		meshRender->GetMaterial()->SetTextureParam(TEX_0, AssetManager::GetInstance()->FindAsset<Texture>(L"PlayerTexture", L"Poby.jpeg"));
 
 		AddObject(LAYER_TYPE::PLAYER, g_player);
 	}

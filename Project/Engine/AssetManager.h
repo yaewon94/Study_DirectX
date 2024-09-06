@@ -63,4 +63,5 @@ private:
 private:
 	int CreateDefaultMesh();
 	int CreateDefaultShader();
+	int CreateDefaultMaterial();
 };

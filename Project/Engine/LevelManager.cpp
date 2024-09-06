@@ -39,6 +39,11 @@ void LevelManager::Render(LAYER_TYPES layers)
 	curLevel->Render(layers);
 }
 
+void LevelManager::AddObject(LAYER_TYPE layer, Ptr<GameObject>& obj)
+{
+	curLevel->AddObject(layer, obj);
+}
+
 Ptr<GameObject> LevelManager::GetGameObject(LAYER_TYPE layer)
 {
 	return curLevel->GetGameObject(layer);
