@@ -24,6 +24,8 @@ public:
 	virtual int Load() final { return S_OK; }
 
 public:
+	Ptr<GraphicShader> GetShader();
+
 	void SetShader(const Ptr<GraphicShader>& shader);
 	void SetTextureParam(TEXTURE_PARAM type, const Ptr<Texture>& texture);
 	void UnloadTexture(TEXTURE_PARAM type);

@@ -89,7 +89,7 @@ enum SCALAR_PARAM
 	MATRIX_0, MATRIX_1
 };
 
-// 셰이더 동작 분류
+// 셰이더 동작 분류 (value : 렌더링 순서)
 enum class SHADER_DOMAIN
 {
 	DOMAIN_OPAQUE,			// 불투명

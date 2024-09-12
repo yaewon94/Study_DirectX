@@ -5,8 +5,8 @@
 
 class Component;
 class Transform;
-class MeshRender;
 class Script;
+class RenderComponent;
 
 // 게임오브젝트
 class GameObject final : public Entity
@@ -17,10 +17,10 @@ private:
 
 	map<COMPONENT_TYPE, Ptr<Component>> componentMap;
 	vector<Ptr<Script>> scripts;
+	Ptr<RenderComponent> renderComponent;
 
 	// GetComponent 없이 바로 이용할 수 있게
 	Ptr<Transform> transform;
-	Ptr<MeshRender> meshRender;
 
 public:
 	GameObject();
@@ -60,7 +60,19 @@ public:
 			// 게임엔진 기본 컴포넌트
 			else
 			{
-				if constexpr (Type == COMPONENT_TYPE::MESH_RENDER) meshRender = component;
+				// 렌더링 컴포넌트 여부
+				if constexpr (IsRenderComponent<T>())
+				{
+					if (renderComponent == nullptr)
+					{
+						renderComponent = component.ptr_dynamic_cast<RenderComponent>();
+					}
+					else
+					{
+						MessageBox(nullptr, L"렌더링 컴포넌트가 이미 존재합니다", L"컴포넌트 추가 실패", MB_OK);
+						return nullptr;
+					}
+				}
 				else if constexpr (Type == COMPONENT_TYPE::TRANSFORM) transform = component;
 
 				componentMap.insert(make_pair(Type, component.ptr_dynamic_cast<Component>()));
@@ -85,6 +97,11 @@ public:
 			}
 
 			return nullptr;
+		}
+		// 렌더링 컴포넌트
+		else if constexpr (Type == COMPONENT_TYPE::RENDER)
+		{
+			return renderComponent;
 		}
 		// 게임엔진 기본 컴포넌트
 		else

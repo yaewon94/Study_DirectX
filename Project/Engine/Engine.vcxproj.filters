@@ -81,7 +81,7 @@
       <Filter>6.Level</Filter>
     </ClInclude>
     <ClInclude Include="MeshRender.h">
-      <Filter>5.Component\MeshRender</Filter>
+      <Filter>5.Component\Render\MeshRender</Filter>
     </ClInclude>
     <ClInclude Include="Transform.h">
       <Filter>5.Component\Transform</Filter>
@@ -119,6 +119,9 @@
     </ClInclude>
     <ClInclude Include="TaskManager.h">
       <Filter>2.Util\Task</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderComponent.h">
+      <Filter>5.Component\Render</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -176,7 +179,7 @@
       <Filter>6.Level</Filter>
     </ClCompile>
     <ClCompile Include="MeshRender.cpp">
-      <Filter>5.Component\MeshRender</Filter>
+      <Filter>5.Component\Render\MeshRender</Filter>
     </ClCompile>
     <ClCompile Include="Transform.cpp">
       <Filter>5.Component\Transform</Filter>
@@ -198,6 +201,9 @@
     </ClCompile>
     <ClCompile Include="TaskManager.cpp">
       <Filter>2.Util\Task</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderComponent.cpp">
+      <Filter>5.Component\Render</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -246,9 +252,6 @@
     <Filter Include="5.Component\Camera">
       <UniqueIdentifier>{e9e2118c-f40a-49a6-a092-bdb3f9efa1d9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="5.Component\MeshRender">
-      <UniqueIdentifier>{9ba4743b-5009-4b87-ad64-c42165474a77}</UniqueIdentifier>
-    </Filter>
     <Filter Include="5.Component\Transform">
       <UniqueIdentifier>{3d78f0f9-ddf5-4006-8825-22f84ddeaab6}</UniqueIdentifier>
     </Filter>
@@ -275,6 +278,12 @@
     </Filter>
     <Filter Include="2.Util\Task">
       <UniqueIdentifier>{80220948-d06f-44ab-a21f-fae2ec289592}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5.Component\Render">
+      <UniqueIdentifier>{2d951a59-50f3-42cd-aa13-7053f873f6ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5.Component\Render\MeshRender">
+      <UniqueIdentifier>{9ba4743b-5009-4b87-ad64-c42165474a77}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -27,6 +27,7 @@ public:
 	~GraphicShader();
 
 public:
+	SHADER_DOMAIN GetDomain() { return domain; }
 	void SetDomain(SHADER_DOMAIN domain) { this->domain = domain; }
 	void SetTopology(D3D11_PRIMITIVE_TOPOLOGY topology) { this->topology = topology; BindOnGpu(); }
 	void SetRasterizerType(RASTERIZE_TYPE type) { rsType = type; }

@@ -38,6 +38,11 @@ void Material::BindOnGpu()
 	}
 }
 
+Ptr<GraphicShader> Material::GetShader()
+{
+	return m_shader;
+}
+
 void Material::SetShader(const Ptr<GraphicShader>& shader)
 {
 	m_shader = shader;

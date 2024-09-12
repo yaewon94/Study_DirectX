@@ -1,15 +1,19 @@
 #pragma once
 #include "Entity.h"
 #include "LayerEnums.h"
+#include "Render.h"
 
 class GameObject;
 
 // 오브젝트의 렌더링 순서 , 렌더링 여부 등을 결정하는 요소
 class Layer final : public Entity
 {
+	NO_COPY_ASSIGN(Layer);
+
 private:
 	const LAYER_TYPE Type;
-	vector<Ptr<GameObject>> objs;
+	map<SHADER_DOMAIN, vector<Ptr<GameObject>>> renderObjs;
+	vector<Ptr<GameObject>> notRenderObjs;
 
 public:
 	Layer(const LAYER_TYPE Type);
@@ -17,7 +21,7 @@ public:
 
 public:
 	void AddObject(Ptr<GameObject>& _obj);
-	Ptr<GameObject> GetGameObject() { return objs.at(0); }
+	Ptr<GameObject> GetGameObject();
 
 public:
 	void Init();

@@ -2,15 +2,15 @@
 #include "GameObject.h"
 #include "Component.h"
 #include "Transform.h"
-#include "MeshRender.h"
+#include "RenderComponent.h"
 #include "Script.h"
 
-GameObject::GameObject() : layer(LAYER_TYPE::NONE)
+GameObject::GameObject() : layer(LAYER_TYPE::NONE), renderComponent(Ptr<RenderComponent>(nullptr))
 {
 	AddComponent<Transform>();
 }
 
-GameObject::GameObject(const GameObject& origin)
+GameObject::GameObject(const GameObject& origin) 
 {
 	*this = origin;
 }
@@ -23,8 +23,6 @@ GameObject& GameObject::operator=(const GameObject& other)
 {
 	layer = other.layer;
 	name = other.name;
-	transform = Ptr<Transform>(other.transform);
-	meshRender = Ptr<MeshRender>(other.meshRender);
 
 	auto pObj = Ptr<GameObject>(this);
 
@@ -33,6 +31,9 @@ GameObject& GameObject::operator=(const GameObject& other)
 		auto& origin = component.second;
 		componentMap.insert(make_pair(component.first, origin->Clone(origin, pObj)));
 	}
+
+	renderComponent = GetComponent<RenderComponent>();
+	transform = GetComponent<Transform>();
 
 	scripts.resize(other.scripts.size());
 	for (int i=0; i<scripts.size(); ++i)
@@ -80,5 +81,5 @@ void GameObject::FinalTick()
 
 void GameObject::Render()
 {
-	if (meshRender != nullptr) meshRender->Render();
+	if (renderComponent != nullptr) renderComponent->Render();
 }

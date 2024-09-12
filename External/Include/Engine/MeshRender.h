@@ -1,17 +1,15 @@
 #pragma once
-#include "Component.h"
+#include "RenderComponent.h"
 
 class Mesh;
-class Material;
 
 // ·»´õ¸µ ´ã´ç ÄÄÆ÷³ÍÆ®
-class MeshRender final : public Component
+class MeshRender final : public RenderComponent
 {
 	NO_COPY_ASSIGN(MeshRender);
 
 private:
 	Ptr<Mesh> mesh;
-	Ptr<Material> material;
 
 public:
 	MeshRender(const Ptr<GameObject>& owner);
@@ -25,10 +23,8 @@ public:
 
 public:
 	void SetMesh(const Ptr<Mesh>& mesh);
-	void SetMaterial(const Ptr<Material>& material);
-	Ptr<Material> GetMaterial();
 
 public:
 	virtual void FinalTick() final {}
-	void Render();
+	virtual void Render() final;
 };
