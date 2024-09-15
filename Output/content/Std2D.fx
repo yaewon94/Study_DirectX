@@ -97,4 +97,28 @@ float4 PS_Std2D_AlphaBlend(VS_OUT input) : SV_Target
 
 }
 
+float4 PS_PaperBurn(VS_OUT input) : SV_Target
+{
+    float4 color = (float4) 0.f;
+    
+    // 첫번째 텍스처
+    if (g_bTex_0)
+        color = g_tex_0.Sample(g_sampler0, input.uv);
+    else
+        color = GetDebugColor(input.uv, 10);
+    
+    // 두번째 텍스처
+    if (g_bTex_1)
+    {
+        float4 noise = g_tex_1.Sample(g_sampler0, input.uv);
+        if (noise.r + g_float_0 > 1.f)
+            discard;
+    }
+    
+    if (color.a == 0.f)
+        discard;
+
+    return color;
+}
+
 #endif

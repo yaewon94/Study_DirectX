@@ -3,13 +3,19 @@
 #include "GameObject.h"
 #include "TimeManager.h"
 #include "Transform.h"
+#include "RenderComponent.h"
+#include "Material.h"
 
-Player::Player(const Ptr<GameObject>& owner) : Script(owner)
+Player::Player(const Ptr<GameObject>& owner) 
+	: Script(owner), paperBurnIntense(0.0f)
 {
 }
 
-Player::Player(const Ptr<Script>& origin, const Ptr<GameObject>& owner) : Script(origin, owner)
+Player::Player(const Ptr<Script>& origin, const Ptr<GameObject>& owner) 
+	: Script(origin, owner), paperBurnIntense(0.0f)
 {
+	auto component = origin.ptr_dynamic_cast<Player>();
+	paperBurnIntense = component->paperBurnIntense;
 }
 
 Player::~Player()
@@ -18,7 +24,18 @@ Player::~Player()
 
 void Player::Init()
 {
-	transform = GetOwner()->GetTransform();
+	transform = GetOwner()->GetComponent<Transform>();
+}
+
+void Player::Tick()
+{
+	// TEST : paper burn material
+	float DT = TimeManager::GetInstance()->GetDeltaTime();
+
+	paperBurnIntense += DT * 0.4f;
+
+	Ptr<Material> material = GetOwner()->GetComponent<RenderComponent>()->GetMaterial();
+	material->SetScalarParam(FLOAT_0, paperBurnIntense);
 }
 
 void Player::Move(KEY_CODE key)

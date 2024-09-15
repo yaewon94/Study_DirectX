@@ -186,8 +186,23 @@ int AssetManager::CreateDefaultShader()
 	}
 
 	// ==========================
-	// 디버깅 모드 셰이더
+	// PaperBurn 셰이더
 	// ==========================
+	{
+		shader = AddAsset<GraphicShader>(L"PaperBurn_Shader", L"Std2D.fx");
+		shader->SetRasterizerType(RASTERIZE_TYPE::CULL_NONE);
+		shader->SetBlendType(BLEND_TYPE::DEFAULT);
+		shader->SetDomain(SHADER_DOMAIN::DOMAIN_MASK);
+		if (FAILED(shader->CreateOnGpu("VS_Std2D", "PS_PaperBurn")))
+		{
+			MessageBox(nullptr, L"PaperBurn 셰이더 생성 실패", L"에셋 생성 실패", MB_OK);
+			return E_FAIL;
+		}
+	}
+
+	// ============================
+	// 디버깅 모드 셰이더
+	// ============================
 	{
 		shader = AddAsset<GraphicShader>(L"Debug_Shader", L"Debug.fx");
 		shader->SetRasterizerType(RASTERIZE_TYPE::CULL_NONE);
@@ -217,6 +232,12 @@ int AssetManager::CreateDefaultMaterial()
 	// ==========================
 	material = AddAsset<Material>(L"Std2D_AlphaBlend_Material", L"Std2D_AlphaBlend_Material");
 	material->SetShader(FindAsset<GraphicShader>(L"Std2D_AlphaBlend_Shader"));
+
+	// ==========================
+	// PaperBurn 재질
+	// ==========================
+	material = AddAsset<Material>(L"PaperBurn_Material", L"PaperBurn_Material");
+	material->SetShader(FindAsset<GraphicShader>(L"PaperBurn_Shader"));
 
 	// ==========================
 	// 디버깅 모드 재질

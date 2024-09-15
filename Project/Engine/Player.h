@@ -9,6 +9,7 @@ class Player final : public Script
 
 private:
 	Ptr<Transform> transform;
+	float paperBurnIntense;	// paperburn material 효과 강도
 
 public:
 	Player(const Ptr<GameObject>& owner);
@@ -22,7 +23,7 @@ public:
 
 public:
 	virtual void Init() final;
-	virtual void Tick() final {}
+	virtual void Tick() final;
 
 public:
 	void Move(KEY_CODE key);

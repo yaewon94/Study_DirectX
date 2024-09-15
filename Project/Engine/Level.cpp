@@ -29,9 +29,12 @@ void Level::Init()
 		g_player->AddComponent<Player>();
 		Ptr<MeshRender> meshRender = g_player->AddComponent<MeshRender>();
 		meshRender->SetMesh(AssetManager::GetInstance()->FindAsset<Mesh>(L"CircleMesh"));
-		meshRender->SetMaterial(AssetManager::GetInstance()->FindAsset<Material>(L"Std2D_Material"));
-		meshRender->GetMaterial()->SetScalarParam(INT_0, 10);
+		//meshRender->SetMaterial(AssetManager::GetInstance()->FindAsset<Material>(L"Std2D_Material"));
+		meshRender->SetMaterial(AssetManager::GetInstance()->FindAsset<Material>(L"PaperBurn_Material"));
 		meshRender->GetMaterial()->SetTextureParam(TEX_0, AssetManager::GetInstance()->FindAsset<Texture>(L"PlayerTexture", L"Poby.jpeg"));
+		meshRender->GetMaterial()->SetTextureParam(TEX_1, AssetManager::GetInstance()->FindAsset<Texture>(L"NoiseTexture", L"NoiseTest.png"));
+		meshRender->GetMaterial()->SetScalarParam(INT_0, 10);
+		meshRender->GetMaterial()->SetScalarParam(FLOAT_0, 0.0f);
 
 		AddObject(LAYER_TYPE::PLAYER, g_player);
 	}
