@@ -177,6 +177,7 @@ int AssetManager::CreateDefaultShader()
 		shader = AddAsset<GraphicShader>(L"Std2D_AlphaBlend_Shader", L"Std2D.fx");
 		shader->SetRasterizerType(RASTERIZE_TYPE::CULL_NONE);
 		shader->SetBlendType(BLEND_TYPE::ALPHABLEND);
+		shader->SetDepthStencilType(DEPTH_STENCIL_TYPE::NO_TEST);
 		shader->SetDomain(SHADER_DOMAIN::DOMAIN_TRANSPARENT);
 		if (FAILED(shader->CreateOnGpu("VS_Std2D", "PS_Std2D_AlphaBlend")))
 		{

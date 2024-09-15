@@ -21,6 +21,7 @@ private:
 
 	RASTERIZE_TYPE rsType;
 	BLEND_TYPE bsType;
+	DEPTH_STENCIL_TYPE dsType;
 
 public:
 	GraphicShader(const wstring& key, const wstring& relativePath);
@@ -28,10 +29,12 @@ public:
 
 public:
 	SHADER_DOMAIN GetDomain() { return domain; }
+
 	void SetDomain(SHADER_DOMAIN domain) { this->domain = domain; }
 	void SetTopology(D3D11_PRIMITIVE_TOPOLOGY topology) { this->topology = topology; BindOnGpu(); }
 	void SetRasterizerType(RASTERIZE_TYPE type) { rsType = type; }
 	void SetBlendType(BLEND_TYPE type) { bsType = type; }
+	void SetDepthStencilType(DEPTH_STENCIL_TYPE type) { dsType = type; }
 
 public:
 	int CreateOnGpu(const string& vertexFuncName, const string& pixelFuncName);

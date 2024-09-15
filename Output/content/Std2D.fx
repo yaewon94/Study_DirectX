@@ -10,14 +10,12 @@
 struct VS_IN
 {
     float3 pos : POSITION;
-    float4 color : COLOR;
     float2 uv : TEXCOORD;
 };
 
 struct VS_OUT
 {
     float4 pos : SV_Position;
-    float4 color : COLOR;
     float2 uv : TEXCOORD;
 };
 
@@ -35,9 +33,6 @@ VS_OUT VS_Std2D(VS_IN input)
     // view 공간 => 투영공간
     //output.pos = mul(viewPos, g_projMatrix);
     output.pos = mul(float4(input.pos, 1.f), g_wvp);
-    
-    // ======================== 색상 ============================
-    output.color = input.color;
     
     // ======================== UV 좌표 =========================
     output.uv = input.uv;

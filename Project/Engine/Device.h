@@ -35,9 +35,7 @@ private:
 	ComPtr<ID3D11RasterizerState> rsState[(UINT)RASTERIZE_TYPE::COUNT_END];
 	ComPtr<ID3D11SamplerState> spState[(UINT)SAMPLER_TYPE::COUNT_END];
 	ComPtr<ID3D11BlendState> bsState[(UINT)BLEND_TYPE::COUNT_END];
-	/*
-	ID3D11DepthStencilState* dsState;
-	*/
+	ComPtr<ID3D11DepthStencilState> dsState[(UINT)DEPTH_STENCIL_TYPE::COUNT_END];
 
 public:
 	ComPtr<ID3D11Device> GetDevice() { return device; }
@@ -45,6 +43,7 @@ public:
 	Ptr<ConstBuffer> GetConstBuffer(CB_TYPE type);
 	ComPtr<ID3D11RasterizerState> GetRasterizerState(RASTERIZE_TYPE type) { return rsState[(UINT)type]; }
 	ComPtr<ID3D11BlendState> GetBlendState(BLEND_TYPE type) { return bsState[(UINT)type]; }
+	ComPtr<ID3D11DepthStencilState> GetDepthStencilState(DEPTH_STENCIL_TYPE type) { return dsState[(UINT)type]; }
 
 public:
 	int Init(HWND hwnd);
@@ -61,5 +60,6 @@ private:
 	int CreateConstBuffer();
 	int CreateRasterizerState();
 	int CreateBlendState();
+	int CreateDepthStencilState();
 	int CreateSamplerState();
 };

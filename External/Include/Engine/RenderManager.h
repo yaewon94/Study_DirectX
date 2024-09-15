@@ -13,6 +13,8 @@ struct DebugShapeInfo
 
 	const float Duration;
 	float curTime = 0.f;
+
+	bool hasDepthTest = false;	// 깊이판정 수행 여부
 };
 
 // 렌더링 담당 클래스

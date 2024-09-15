@@ -8,6 +8,7 @@ GraphicShader::GraphicShader(const wstring& key, const wstring& relativePath)
 	, topology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST)
 	, rsType(RASTERIZE_TYPE::CULL_BACK)
 	, bsType(BLEND_TYPE::DEFAULT)
+	, dsType(DEPTH_STENCIL_TYPE::LESS)
 {
 }
 
@@ -150,4 +151,7 @@ void GraphicShader::BindOnGpu()
 
 	// Output Merge : Blend
 	CONTEXT->OMSetBlendState(Device::GetInstance()->GetBlendState(bsType).Get(), nullptr, 0xffffffff);
+
+	// Output Merge : Depth Stencil
+	CONTEXT->OMSetDepthStencilState(Device::GetInstance()->GetDepthStencilState(dsType).Get(), 0);
 }

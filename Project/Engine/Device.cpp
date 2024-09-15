@@ -67,6 +67,13 @@ int Device::Init(HWND hwnd)
 	//=============================================
 	if (FAILED(CreateBlendState())) return E_FAIL;
 
+	// ===========================================================
+	// Depth Stencil State 생성
+	// - depth : 깊이 판정 (각 픽셀의 z축값을 판별)
+	// - stencil : 특정 조건을 이용해 픽셀의 렌더링 허용 or 차단
+	//============================================================
+	if (FAILED(CreateDepthStencilState())) return E_FAIL;
+
 	// ==============================================================================
 	// Sampler State 생성
 	// 텍스처에서 색상 데이터를 어떻게 추출할지 정의
@@ -272,6 +279,51 @@ int Device::CreateBlendState()
 		MessageBox(nullptr, L"알파블렌드 생성 실패", L"BlendState 생성 실패", MB_OK);
 		return E_FAIL;
 	}
+
+	return S_OK;
+}
+
+int Device::CreateDepthStencilState()
+{
+	D3D11_DEPTH_STENCIL_DESC desc = {};
+
+	// LESS : Z축값이 가장 작은 것 통과
+	dsState[(UINT)DEPTH_STENCIL_TYPE::LESS] = nullptr;
+
+	// LESS EQUAL : Z축값이 가장 작은 것 통과 (중복가능)
+	desc.StencilEnable = false;
+	desc.DepthEnable = true;
+	desc.DepthFunc = D3D11_COMPARISON_LESS_EQUAL;
+	desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+	DEVICE->CreateDepthStencilState(&desc, dsState[(UINT)DEPTH_STENCIL_TYPE::LESS_EQUAL].GetAddressOf());
+
+	// GREATER : Z축값이 가장 큰 것 통과
+	desc.StencilEnable = false;
+	desc.DepthEnable = true;
+	desc.DepthFunc = D3D11_COMPARISON_GREATER;
+	desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+	DEVICE->CreateDepthStencilState(&desc, dsState[(UINT)DEPTH_STENCIL_TYPE::GREATER].GetAddressOf());
+
+	// 깊이판정 X
+	desc.StencilEnable = false;
+	desc.DepthEnable = false;
+	desc.DepthFunc = D3D11_COMPARISON_ALWAYS;	// 항상 통과
+	desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+	DEVICE->CreateDepthStencilState(&desc, dsState[(UINT)DEPTH_STENCIL_TYPE::NO_TEST].GetAddressOf());
+
+	// 깊이기록 X
+	desc.StencilEnable = false;
+	desc.DepthEnable = true;
+	desc.DepthFunc = D3D11_COMPARISON_LESS;
+	desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;	// 기록 X
+	DEVICE->CreateDepthStencilState(&desc, dsState[(UINT)DEPTH_STENCIL_TYPE::NO_WRITE].GetAddressOf());
+
+	// 깊이판정 X, 기록 X
+	desc.StencilEnable = false;
+	desc.DepthEnable = false;
+	desc.DepthFunc = D3D11_COMPARISON_ALWAYS;			// 항상 통과
+	desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;	// 기록 X
+	DEVICE->CreateDepthStencilState(&desc, dsState[(UINT)DEPTH_STENCIL_TYPE::NO_TEST_WRITE].GetAddressOf());
 
 	return S_OK;
 }

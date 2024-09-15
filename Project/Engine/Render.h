@@ -4,16 +4,6 @@
 // 색상
 #define COLOR_GREEN Vec4(0.f, 1.f, 0.f, 1.f);
 
-// 텍스처 타입 (value : 레지스터 번호)
-enum TEXTURE_PARAM
-{
-	NULL_PARAM = -1,	// 레지스터 할당 이전 값
-	TEX_0, TEX_1, TEX_2, TEX_3, TEX_4, TEX_5,
-	TEXARR_0, TEXARR_1, TEXARR_2, TEXARR_3,
-	CUBE_0, CUBE_1,
-	COUNT_END
-};
-
 // Blend State
 enum class BLEND_TYPE : UINT
 {
@@ -28,6 +18,16 @@ enum class BLEND_TYPE : UINT
 enum class CB_TYPE : UINT
 {
 	TRANSFORM, MATERIAL, COUNT_END
+};
+
+// 텍스처 타입 (value : 레지스터 번호)
+enum TEXTURE_PARAM
+{
+	NULL_PARAM = -1,	// 레지스터 할당 이전 값
+	TEX_0, TEX_1, TEX_2, TEX_3, TEX_4, TEX_5,
+	TEXARR_0, TEXARR_1, TEXARR_2, TEXARR_3,
+	CUBE_0, CUBE_1,
+	COUNT_END
 };
 
 // 재질 상수버퍼
@@ -58,6 +58,18 @@ struct CB_Transform
 enum class DEBUG_SHAPE
 {
 	RECT, CIRCLE, CROSS, LINE
+};
+
+// 깊이판정 타입
+enum class DEPTH_STENCIL_TYPE : UINT
+{
+	LESS,
+	LESS_EQUAL,
+	GREATER,		// 겹쳐있는 영역
+	NO_TEST,		// 깊이판정 X
+	NO_WRITE,		// 깊이판정 LESS, 기록 X
+	NO_TEST_WRITE,	// 깊이판정 X, 기록 X
+	COUNT_END
 };
 
 // 래스터라이즈 타입
