@@ -33,7 +33,6 @@ GameObject& GameObject::operator=(const GameObject& other)
 	}
 
 	renderComponent = GetComponent<RenderComponent>();
-	transform = GetComponent<Transform>();
 
 	scripts.resize(other.scripts.size());
 	for (int i=0; i<scripts.size(); ++i)
@@ -43,11 +42,6 @@ GameObject& GameObject::operator=(const GameObject& other)
 	}
 
 	return *this;
-}
-
-Ptr<Transform> GameObject::GetTransform()
-{
-	return transform;
 }
 
 void GameObject::Init()

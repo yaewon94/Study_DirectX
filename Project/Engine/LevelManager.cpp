@@ -20,7 +20,7 @@ void LevelManager::Init()
 	// ===================== 필수 오브젝트 추가 =======================
 	// 메인카메라 추가
 	Ptr<GameObject> camera = Ptr<GameObject>();
-	camera->GetTransform()->SetPos(Vec3(0.f, 0.f, -100.f));
+	camera->GetComponent<Transform>()->SetPos(Vec3(0.f, 0.f, -100.f));
 	camera->AddComponent<Camera>();
 	curLevel->AddObject(LAYER_TYPE::CAMERA, camera);
 
