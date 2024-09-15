@@ -48,7 +48,7 @@ public:
 	virtual void Init() final;
 	virtual void FinalTick() final;
 
-private:
+public:
 	void BindOnGpu();
 
 private:

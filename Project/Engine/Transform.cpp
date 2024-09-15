@@ -68,15 +68,15 @@ void Transform::BindOnGpu()
 {
 	Ptr<ConstBuffer> cb = Device::GetInstance()->GetConstBuffer(CB_TYPE::TRANSFORM);
 
-	//CB_Transform tr = {};
-	//tr.worldMatrix = worldMatrix;
-	//cb->SetData(&tr);
+	/*CB_Transform tr = {};
+	tr.worldMatrix = worldMatrix;
+	cb->SetData(&tr);*/
 
 	g_transform.worldMatrix = worldMatrix;
 	g_transform.wv = g_transform.worldMatrix * g_transform.viewMatrix;
 	g_transform.wvp = g_transform.wv * g_transform.projMatrix;
-
 	cb->SetData(&g_transform);
+
 	cb->BindOnGpu();
 }
 
@@ -112,5 +112,4 @@ void Transform::OnChangeRotation()
 void Transform::OnChangeMatrix()
 {
 	worldMatrix = matScale * matRotation * matTrans;
-	BindOnGpu();
 }

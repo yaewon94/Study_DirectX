@@ -3,6 +3,7 @@
 #include "GameObject.h"
 #include "Mesh.h"
 #include "Material.h"
+#include "Transform.h"
 
 MeshRender::MeshRender(const Ptr<GameObject>& owner) : RenderComponent(owner)
 {
@@ -28,6 +29,7 @@ void MeshRender::Render()
 {
 	if (mesh != nullptr && m_material != nullptr)
 	{
+		GetOwner()->GetTransform()->BindOnGpu();
 		m_material->BindOnGpu();
 		mesh->Render();
 	}
