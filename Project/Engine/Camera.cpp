@@ -75,7 +75,7 @@ void Camera::Init()
 	// View행렬 계산 (TODO : 값 변동시 변동될 때 마다 호출되도록 구현)
 	if (m_projType == PROJECTION_TYPE::ORTHOGRAPHIC)
 	{
-		Vec3 pos = GetOwner()->GetComponent<Transform>()->GetLocalPos();
+		Vec3 pos = GetOwner()->GetTransform()->GetLocalPos();
 		Matrix matTrans = XMMatrixTranslation(-pos.x, -pos.y, -pos.z);
 		m_matView = matTrans;
 	}
@@ -110,15 +110,13 @@ void Camera::Render()
 
 void Camera::OnChangeRotation()
 {
-	Ptr<Transform> tr = GetOwner()->GetComponent<Transform>();
-
-	Vec3 pos = tr->GetLocalPos();
+	Vec3 pos = GetOwner()->GetTransform()->GetLocalPos();
 	Matrix matTrans = XMMatrixTranslation(-pos.x, -pos.y, -pos.z);
 	Matrix matRot = XMMatrixIdentity();
 
-	Vec3 right = tr->GetDirectionVector(DIRECTION_VEC::RIGHT);
-	Vec3 up = tr->GetDirectionVector(DIRECTION_VEC::UP);
-	Vec3 front = tr->GetDirectionVector(DIRECTION_VEC::FRONT);
+	Vec3 right = GetOwner()->GetTransform()->GetDirectionVector(DIRECTION_VEC::RIGHT);
+	Vec3 up = GetOwner()->GetTransform()->GetDirectionVector(DIRECTION_VEC::UP);
+	Vec3 front = GetOwner()->GetTransform()->GetDirectionVector(DIRECTION_VEC::FRONT);
 
 	matRot._11 = right.x;	matRot._12 = up.x;	matRot._13 = front.x;
 	matRot._21 = right.y;	matRot._22 = up.y;	matRot._23 = front.y;

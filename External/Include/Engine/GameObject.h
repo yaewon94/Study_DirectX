@@ -4,6 +4,7 @@
 #include "LayerEnums.h"
 
 class Component;
+class Transform;
 class Script;
 class RenderComponent;
 
@@ -18,6 +19,9 @@ private:
 	vector<Ptr<Script>> scripts;
 	Ptr<RenderComponent> renderComponent;
 
+	// GetComponent 없이 바로 이용할 수 있게
+	Ptr<Transform> transform;
+
 public:
 	GameObject();
 	GameObject(const GameObject& origin);
@@ -27,6 +31,7 @@ public:
 public:
 	const wstring& GetName() { return name; }
 	LAYER_TYPE GetLayer() { return layer; }
+	Ptr<Transform> GetTransform();
 
 	void SetName(const wstring& name) { this->name = name; }
 	void SetLayer(LAYER_TYPE layer) { this->layer = layer; }
@@ -68,6 +73,7 @@ public:
 						return nullptr;
 					}
 				}
+				else if constexpr (Type == COMPONENT_TYPE::TRANSFORM) transform = component;
 
 				componentMap.insert(make_pair(Type, component.ptr_dynamic_cast<Component>()));
 			}
