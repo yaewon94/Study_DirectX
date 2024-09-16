@@ -102,12 +102,13 @@ enum SCALAR_PARAM
 };
 
 // 셰이더 동작 분류 (value : 렌더링 순서)
-enum class SHADER_DOMAIN
+enum class SHADER_DOMAIN : UINT
 {
 	DOMAIN_OPAQUE,			// 불투명
 	DOMAIN_MASK,			// 불투명 or 투명
 	DOMAIN_TRANSPARENT,		// 반투명 + 투명
-	DOMAIN_POSTPROCESS		// 후처리
+	DOMAIN_POSTPROCESS,		// 후처리
+	COUNT_END
 };
 
 // ==============================

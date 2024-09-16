@@ -24,13 +24,16 @@ public:
 	virtual int Load() final { return S_OK; }
 
 public:
+	// shader
 	Ptr<GraphicShader> GetShader();
-
 	void SetShader(const Ptr<GraphicShader>& shader);
+	void SetAlpha(float alpha);
+
+	// texture
 	void SetTextureParam(TEXTURE_PARAM type, const Ptr<Texture>& texture);
 	void UnloadTexture(TEXTURE_PARAM type);
 
-	template<typename T>
+	/*template<typename T>
 	void SetScalarParam(SCALAR_PARAM type, const T& data)
 	{
 		switch (type)
@@ -71,5 +74,5 @@ public:
 		default:
 			throw std::logic_error("정의되지 않은 SCALAR_PARAM 타입 입니다");
 		}
-	}
+	}*/
 };

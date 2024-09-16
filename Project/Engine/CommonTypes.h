@@ -5,9 +5,9 @@
 // =================================================
 enum class TASK_TYPE
 {
-	CREATE_OBJECT,	// 0 : object address, layer index
-	DELETE_OBJECT,	// 0 : object address
-	CHANGE_LEVEL	// 0 : level address
+	CREATE_OBJECT,	// param0 : object address, param1 : LAYER_TYPE
+	DELETE_OBJECT,	// param0 : object address
+	CHANGE_LEVEL	// param0 : level address
 };
 
 struct TaskInfo

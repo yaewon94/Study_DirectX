@@ -77,9 +77,6 @@
     <ClInclude Include="LayerEnums.h">
       <Filter>7.Module\Layer</Filter>
     </ClInclude>
-    <ClInclude Include="LevelManager.h">
-      <Filter>6.Level</Filter>
-    </ClInclude>
     <ClInclude Include="MeshRender.h">
       <Filter>5.Component\Render\MeshRender</Filter>
     </ClInclude>
@@ -122,6 +119,9 @@
     </ClInclude>
     <ClInclude Include="RenderComponent.h">
       <Filter>5.Component\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelManager.h">
+      <Filter>6.Level</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

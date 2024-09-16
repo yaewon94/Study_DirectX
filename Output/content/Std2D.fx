@@ -88,6 +88,9 @@ float4 PS_Std2D_AlphaBlend(VS_OUT input) : SV_Target
     else
         color = GetDebugColor(input.uv, 10);
     
+    //color.a = 0.2f; // FOR TEST
+    color.a = g_float_0;
+    
     return color;
 
 }

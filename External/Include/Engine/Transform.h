@@ -8,12 +8,13 @@ class Transform final : public Component
 	NO_COPY_ASSIGN(Transform);
 
 private:
-	Vec3 localPos, localScale, localRotation;
+	Vec3 m_localPos, m_localScale, m_localRotation;	// 상대좌표, 크기, 회전각
 
-	array<Vec3, (UINT)DIRECTION_VEC::COUNT_END> localDirVec;	// 방향벡터 (회전에 필요)
+	Matrix m_worldMatrix;	// 월드행렬(크기 * 회전 * 좌표)
+	Matrix m_matTrans, m_matScale, m_matRot;
 
-	Matrix worldMatrix;
-	Matrix matTrans, matRotation, matScale;
+	array<Vec3, (UINT)DIRECTION_VEC::COUNT_END> m_localDirVec;	// 방향벡터 (회전에 필요)
+	array<Vec3, (UINT)DIRECTION_VEC::COUNT_END> m_worldDirVec;
 
 public:
 	Transform(const Ptr<GameObject>& owner);
@@ -26,23 +27,26 @@ public:
 	}
 
 public:
-	Vec3 GetLocalPos() { return localPos; }
-	void SetPos(const Vec3& pos) { localPos = pos; OnChangePos(); }
-	void SetPosX(float x) { localPos.x = x; OnChangePos(); }
-	void SetPosY(float y) { localPos.y = y; OnChangePos(); }
-	void SetPosZ(float z) { localPos.z = z; OnChangePos(); }
+	Vec3 GetLocalPos() { return m_localPos; }
+	void SetLocalPos(const Vec3& pos) { m_localPos = pos; OnChangePos(); }
+	void SetLocalPosX(float x) { m_localPos.x = x; OnChangePos(); }
+	void SetLocalPosY(float y) { m_localPos.y = y; OnChangePos(); }
+	void SetLocalPosZ(float z) { m_localPos.z = z; OnChangePos(); }
 
-	Vec3 GetLocalScale() { return localScale; }
-	void SetScaleX(float x) { localScale.x = x; OnChangeScale(); }
-	void SetScaleY(float y) { localScale.y = y; OnChangeScale(); }
-	void SetScaleZ(float z) { localScale.z = z; OnChangeScale(); }
+	Vec3 GetLocalScale() { return m_localScale; }
+	void SetLocalScale(const Vec3& scale) { m_localScale = scale; OnChangeScale(); }
+	void SetLocalScaleX(float x) { m_localScale.x = x; OnChangeScale(); }
+	void SetLocalScaleY(float y) { m_localScale.y = y; OnChangeScale(); }
+	void SetLocalScaleZ(float z) { m_localScale.z = z; OnChangeScale(); }
 
-	Vec3 GetLocalRotation() { return localRotation; }
-	void SetRotationX(float x) { localRotation.x = x; OnChangeRotation(); }
-	void SetRotationY(float y) { localRotation.y = y; OnChangeRotation(); }
-	void SetRotationZ(float z) { localRotation.z = z; OnChangeRotation(); }
+	Vec3 GetLocalRotation() { return m_localRotation; }
+	void SetLocalRotationX(float x) { m_localRotation.x = x; OnChangeRotation(); }
+	void SetLocalRotationY(float y) { m_localRotation.y = y; OnChangeRotation(); }
+	void SetLocalRotationZ(float z) { m_localRotation.z = z; OnChangeRotation(); }
 
-	Vec3 GetDirectionVector(DIRECTION_VEC dir) { return localDirVec[(UINT)dir]; }
+	Vec3 GetWorldDirection(DIRECTION_VEC dir) { return m_worldDirVec[(UINT)dir]; }
+
+	const Matrix& GetWorldMatrix() { return m_worldMatrix; }
 		
 public:
 	virtual void Init() final;

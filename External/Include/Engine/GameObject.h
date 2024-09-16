@@ -12,29 +12,35 @@ class RenderComponent;
 class GameObject final : public Entity
 {
 private:
-	wstring name;
-	LAYER_TYPE layer;
+	wstring m_name;
+	LAYER_TYPE m_layer;
 
-	map<COMPONENT_TYPE, Ptr<Component>> componentMap;
-	vector<Ptr<Script>> scripts;
-	Ptr<RenderComponent> renderComponent;
+	map<COMPONENT_TYPE, Ptr<Component>> m_components;	// 엔진 기본 컴포넌트만 등록
+	vector<Ptr<Script>> m_scripts;						// 사용자 정의 컴포넌트 등록
 
-	// GetComponent 없이 바로 이용할 수 있게
-	Ptr<Transform> transform;
+	Ptr<Transform> m_transform;
+	Ptr<RenderComponent> m_renderComponent;
+
+	Ptr<GameObject> m_parent;
+	vector<Ptr<GameObject>> m_children;
 
 public:
 	GameObject();
-	GameObject(const GameObject& origin);
 	~GameObject();
-	GameObject& operator=(const GameObject& other);
+	Ptr<GameObject> Clone() { return Ptr<GameObject>(*this); }
 
 public:
-	const wstring& GetName() { return name; }
-	LAYER_TYPE GetLayer() { return layer; }
-	Ptr<Transform> GetTransform();
+	const wstring& GetName() { return m_name; }
+	LAYER_TYPE GetLayer() { return m_layer; }
+	Ptr<GameObject> GetParent() { return m_parent; }
 
-	void SetName(const wstring& name) { this->name = name; }
-	void SetLayer(LAYER_TYPE layer) { this->layer = layer; }
+	// 컴포넌트 빨리 접근하기 위한 용도
+	Ptr<Transform> GetTransform();
+	Ptr<RenderComponent> GetRenderComponent();
+
+	void SetName(const wstring& name) { m_name = name; }
+	void SetLayer(LAYER_TYPE layer);
+	void AddChild(const Ptr<GameObject>& child);
 
 public:
 	template<typename T> requires std::derived_from<T, Component>
@@ -55,7 +61,7 @@ public:
 			// 사용자 정의 컴포넌트
 			if constexpr (Type == COMPONENT_TYPE::SCRIPT)
 			{
-				scripts.push_back(component.ptr_dynamic_cast<Script>());
+				m_scripts.push_back(component.ptr_dynamic_cast<Script>());
 			}
 			// 게임엔진 기본 컴포넌트
 			else
@@ -63,9 +69,9 @@ public:
 				// 렌더링 컴포넌트 여부
 				if constexpr (IsRenderComponent<T>())
 				{
-					if (renderComponent == nullptr)
+					if (m_renderComponent == nullptr)
 					{
-						renderComponent = component.ptr_dynamic_cast<RenderComponent>();
+						m_renderComponent = component.ptr_dynamic_cast<RenderComponent>();
 					}
 					else
 					{
@@ -73,9 +79,8 @@ public:
 						return nullptr;
 					}
 				}
-				else if constexpr (Type == COMPONENT_TYPE::TRANSFORM) transform = component;
 
-				componentMap.insert(make_pair(Type, component.ptr_dynamic_cast<Component>()));
+				m_components.insert(make_pair(Type, component.ptr_dynamic_cast<Component>()));
 			}
 
 			return component;
@@ -90,7 +95,7 @@ public:
 		// 사용자 정의 컴포넌트
 		if constexpr (Type == COMPONENT_TYPE::SCRIPT)
 		{
-			for (auto& script : scripts)
+			for (auto& script : m_scripts)
 			{
 				Ptr<T> component = script.ptr_dynamic_cast<T>();
 				if (component != nullptr) return component;
@@ -101,13 +106,13 @@ public:
 		// 렌더링 컴포넌트
 		else if constexpr (Type == COMPONENT_TYPE::RENDER)
 		{
-			return renderComponent;
+			return m_renderComponent;
 		}
 		// 게임엔진 기본 컴포넌트
 		else
 		{
-			const auto iter = componentMap.find(Type);
-			if (iter == componentMap.end()) return nullptr;
+			const auto iter = m_components.find(Type);
+			if (iter == m_components.end()) return nullptr;
 			else return iter->second.ptr_dynamic_cast<T>();
 		}
 	}
@@ -119,6 +124,6 @@ public:
 	void Render();
 
 private:
-	GameObject(GameObject&&) = delete;
-	GameObject& operator=(GameObject&&) = delete;
+	GameObject(const GameObject& origin);
+	GameObject& operator=(const GameObject& other);
 };

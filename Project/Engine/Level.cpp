@@ -27,21 +27,22 @@ void Level::Init()
 		// 플레이어 오브젝트 추가
 		Ptr<GameObject> g_player = Ptr<GameObject>();
 		g_player->SetName(L"Player");
+		g_player->SetLayer(LAYER_TYPE::PLAYER);
+		g_player->GetTransform()->SetLocalPos(Vec3(200.f, 200.f, 0.f));
 		g_player->AddComponent<Player>();
 		Ptr<MeshRender> meshRender = g_player->AddComponent<MeshRender>();
 		meshRender->SetMesh(AssetManager::GetInstance()->FindAsset<Mesh>(L"CircleMesh"));
 		meshRender->SetMaterial(AssetManager::GetInstance()->FindAsset<Material>(L"Std2D_Material"));
 		meshRender->GetMaterial()->SetTextureParam(TEX_0, AssetManager::GetInstance()->FindAsset<Texture>(L"PlayerTexture", L"Poby.jpeg"));
-		AddObject(LAYER_TYPE::PLAYER, g_player);
 
-		// 몬스터 오브젝트 추가
-		Ptr<GameObject> monster = Ptr<GameObject>();
-		monster->SetName(L"Monster");
-		monster->GetComponent<Transform>()->SetPos(Vec3(200.f, 0.f, 100.f));
-		Ptr<MeshRender> meshRender2 = monster->AddComponent<MeshRender>();
-		meshRender2->SetMesh(AssetManager::GetInstance()->FindAsset<Mesh>(L"RectMesh"));
-		meshRender2->SetMaterial(AssetManager::GetInstance()->FindAsset<Material>(L"Std2D_AlphaBlend_Material"));
-		AddObject(LAYER_TYPE::MONSTER, monster);
+		// 플레이어의 자식 오브젝트 추가
+		Ptr<GameObject> child = Ptr<GameObject>();
+		child->SetName(L"PlayerChild");
+		meshRender = child->AddComponent<MeshRender>();
+		meshRender->SetMesh(AssetManager::GetInstance()->FindAsset<Mesh>(L"RectMesh"));
+		meshRender->SetMaterial(AssetManager::GetInstance()->FindAsset<Material>(L"Std2D_AlphaBlend_Material"));
+		meshRender->GetMaterial()->SetAlpha(0.2f);
+		g_player->AddChild(child);
 	}
 
 	for (auto& layer : m_layerMap)
@@ -79,10 +80,38 @@ void Level::Render(LAYER_TYPES layers)
 	}
 }
 
-void Level::AddObject(LAYER_TYPE layer, Ptr<GameObject>& obj)
+Ptr<GameObject> Level::AddObject(const Ptr<GameObject>& obj)
 {
-	if (m_layerMap.find(layer) == m_layerMap.end()) AddLayer(layer);
-	m_layerMap.find(layer)->second->AddObject(obj);
+	LAYER_TYPE layer = obj->GetLayer();
+
+	if (layer == LAYER_TYPE::NONE)
+	{
+		throw std::logic_error("오브젝트 추가 실패 : 레이어 타입을 설정해 주세요");
+	}
+
+	// 게임오브젝트의 레이어와 일치하는 레이어에 등록
+	if (m_layerMap.find(layer) == m_layerMap.end()) m_layerMap.insert(make_pair(layer, Ptr<Layer>(layer)));
+	return m_layerMap.find(layer)->second->AddObject(obj);
+}
+
+void Level::DeleteObject(const Ptr<GameObject>& obj)
+{
+	const auto iter = m_layerMap.find(obj->GetLayer());
+
+	if (iter == m_layerMap.end())
+	{
+		throw std::logic_error("오브젝트 삭제 실패 : 현재 레벨에 등록된 레이어가 아닙니다");
+	}
+	else
+	{
+		iter->second->DeleteObject(obj);
+
+		if (iter->second->IsEmpty())
+		{
+			iter->second = nullptr;
+			m_layerMap.erase(iter);
+		}
+	}
 }
 
 Ptr<GameObject> Level::GetGameObject(LAYER_TYPE layer)
@@ -91,19 +120,10 @@ Ptr<GameObject> Level::GetGameObject(LAYER_TYPE layer)
 
 	if (iter == m_layerMap.end())
 	{
-		MessageBoxA(nullptr, "해당 레이어의 오브젝트가 없습니다", "오브젝트 찾기 실패", MB_OK);
-		return nullptr;
+		throw std::logic_error("오브젝트 찾기 실패 : 현재 레벨에 등록된 레이어가 아닙니다");
 	}
 	else
 	{
 		return iter->second->GetGameObject();
-	}
-}
-
-void Level::AddLayer(LAYER_TYPE layer)
-{
-	if (m_layerMap.find(layer) == m_layerMap.end())
-	{
-		m_layerMap.insert(make_pair(layer, Ptr<Layer>(layer)));
 	}
 }

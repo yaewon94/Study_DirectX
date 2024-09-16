@@ -12,8 +12,6 @@ class Layer final : public Entity
 private:
 	const LAYER_TYPE m_Type;
 	vector<Ptr<GameObject>> m_objs;
-	//map<SHADER_DOMAIN, vector<Ptr<GameObject>>> renderObjs;
-	//vector<Ptr<GameObject>> notRenderObjs;
 
 public:
 	Layer(const LAYER_TYPE Type);

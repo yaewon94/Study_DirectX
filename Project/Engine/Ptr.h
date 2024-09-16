@@ -52,7 +52,7 @@ public:
 	// 복사생성자 (rValue)
 	Ptr(Ptr&& origin) noexcept : t(nullptr)
 	{
-		*this = origin;
+		*this = std::move(origin);
 	}
 
 	// 소멸자
@@ -105,6 +105,18 @@ public:
 		return *this;
 	}
 
+	// 대입연산자 (nullptr_t)
+	nullptr_t operator=(nullptr_t)
+	{
+		if (t != nullptr)
+		{
+			t->Release();
+			t = nullptr;
+		}
+
+		return nullptr;
+	}
+		
 	// 비교 연산자 (==)
 	bool operator==(nullptr_t)
 	{

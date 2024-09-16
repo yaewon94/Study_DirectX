@@ -29,6 +29,7 @@ public:
 
 public:
 	SHADER_DOMAIN GetDomain() { return domain; }
+	BLEND_TYPE GetBlendType() { return bsType; }
 
 	void SetDomain(SHADER_DOMAIN domain) { this->domain = domain; }
 	void SetTopology(D3D11_PRIMITIVE_TOPOLOGY topology) { this->topology = topology; BindOnGpu(); }

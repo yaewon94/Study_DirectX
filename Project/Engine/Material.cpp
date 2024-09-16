@@ -48,6 +48,24 @@ void Material::SetShader(const Ptr<GraphicShader>& shader)
 	m_shader = shader;
 }
 
+void Material::SetAlpha(float alpha)
+{
+	if (m_shader->GetBlendType() == BLEND_TYPE::ALPHABLEND 
+		|| m_shader->GetBlendType() == BLEND_TYPE::ALPHABLEND_COVERAGE)
+	{
+		if (alpha < 0.f || alpha > 1.f)
+		{
+			throw std::logic_error("0.f 이상 1.f 이하의 값만 가능합니다");
+		}
+
+		m_cb.fArr[0] = alpha;
+	}
+	else
+	{
+		throw std::logic_error("알파블렌딩 타입만 알파값을 설정할 수 있습니다");
+	}
+}
+
 void Material::SetTextureParam(TEXTURE_PARAM type, const Ptr<Texture>& texture)
 {
 	m_textures[type] = texture;

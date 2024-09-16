@@ -19,7 +19,8 @@ public:
 	void Render(LAYER_TYPES layers);
 
 public:
-	void AddObject(LAYER_TYPE layer, Ptr<GameObject>& obj);
+	Ptr<GameObject> AddObject(const Ptr<GameObject>& obj);
+	void DeleteObject(const Ptr<GameObject>& obj);
 
 	// @return : layer의 게임오브젝트 중 가장 먼저 등록된 것 리턴
 	Ptr<GameObject> GetGameObject(LAYER_TYPE layer);

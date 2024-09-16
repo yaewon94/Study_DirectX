@@ -114,9 +114,9 @@ void Camera::OnChangeRotation()
 	Matrix matTrans = XMMatrixTranslation(-pos.x, -pos.y, -pos.z);
 	Matrix matRot = XMMatrixIdentity();
 
-	Vec3 right = GetOwner()->GetTransform()->GetDirectionVector(DIRECTION_VEC::RIGHT);
-	Vec3 up = GetOwner()->GetTransform()->GetDirectionVector(DIRECTION_VEC::UP);
-	Vec3 front = GetOwner()->GetTransform()->GetDirectionVector(DIRECTION_VEC::FRONT);
+	Vec3 right = GetOwner()->GetTransform()->GetWorldDirection(DIRECTION_VEC::RIGHT);
+	Vec3 up = GetOwner()->GetTransform()->GetWorldDirection(DIRECTION_VEC::UP);
+	Vec3 front = GetOwner()->GetTransform()->GetWorldDirection(DIRECTION_VEC::FRONT);
 
 	matRot._11 = right.x;	matRot._12 = up.x;	matRot._13 = front.x;
 	matRot._21 = right.y;	matRot._22 = up.y;	matRot._23 = front.y;

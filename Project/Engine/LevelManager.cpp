@@ -20,9 +20,9 @@ void LevelManager::Init()
 	// ===================== 필수 오브젝트 추가 =======================
 	// 메인카메라 추가
 	Ptr<GameObject> camera = Ptr<GameObject>();
-	camera->GetTransform()->SetPos(Vec3(0.f, 0.f, -100.f));
+	camera->GetTransform()->SetLocalPos(Vec3(0.f, 0.f, -100.f));
 	camera->AddComponent<Camera>();
-	curLevel->AddObject(LAYER_TYPE::CAMERA, camera);
+	camera->SetLayer(LAYER_TYPE::CAMERA);
 
 	// 현재레벨 Init()
 	curLevel->Init();
@@ -39,9 +39,14 @@ void LevelManager::Render(LAYER_TYPES layers)
 	curLevel->Render(layers);
 }
 
-void LevelManager::AddObject(LAYER_TYPE layer, Ptr<GameObject>& obj)
+Ptr<GameObject> LevelManager::AddObject(const Ptr<GameObject>& obj)
 {
-	curLevel->AddObject(layer, obj);
+	return curLevel->AddObject(obj);
+}
+
+void LevelManager::DeleteObject(const Ptr<GameObject>& obj)
+{
+	curLevel->DeleteObject(obj);
 }
 
 Ptr<GameObject> LevelManager::GetGameObject(LAYER_TYPE layer)
