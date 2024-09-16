@@ -1,7 +1,6 @@
 #pragma once
 #include "Entity.h"
 #include "LayerEnums.h"
-#include "Render.h"
 
 class GameObject;
 
@@ -11,17 +10,18 @@ class Layer final : public Entity
 	NO_COPY_ASSIGN(Layer);
 
 private:
-	const LAYER_TYPE Type;
-	map<SHADER_DOMAIN, vector<Ptr<GameObject>>> renderObjs;
-	vector<Ptr<GameObject>> notRenderObjs;
+	const LAYER_TYPE m_Type;
+	vector<Ptr<GameObject>> m_objs;
 
 public:
 	Layer(const LAYER_TYPE Type);
 	~Layer();
 
 public:
-	void AddObject(Ptr<GameObject>& _obj);
+	Ptr<GameObject> AddObject(const Ptr<GameObject>& _obj);
+	void DeleteObject(const Ptr<GameObject>& obj);
 	Ptr<GameObject> GetGameObject();
+	bool IsEmpty() { return m_objs.empty(); }
 
 public:
 	void Init();
