@@ -60,7 +60,7 @@ int GraphicShader::CreateOnGpu(const string& vertexFuncName, const string& pixel
 	// ==============
 	// Vertex Shader Input Layout
 	// ==============
-	D3D11_INPUT_ELEMENT_DESC layoutDesc[3] = {};
+	D3D11_INPUT_ELEMENT_DESC layoutDesc[2] = {};
 
 	layoutDesc[0].AlignedByteOffset = 0;
 	layoutDesc[0].Format = DXGI_FORMAT_R32G32B32_FLOAT;
@@ -78,16 +78,8 @@ int GraphicShader::CreateOnGpu(const string& vertexFuncName, const string& pixel
 	layoutDesc[1].SemanticName = "TEXCOORD";
 	layoutDesc[1].SemanticIndex = 0;
 
-	layoutDesc[2].AlignedByteOffset = 20;
-	layoutDesc[2].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
-	layoutDesc[2].InputSlot = 0;
-	layoutDesc[2].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
-	layoutDesc[2].InstanceDataStepRate = 0;
-	layoutDesc[2].SemanticName = "COLOR";
-	layoutDesc[2].SemanticIndex = 0;
-
 	if (FAILED(DEVICE->CreateInputLayout(layoutDesc
-		, 3
+		, 2
 		, vertexShaderBlob->GetBufferPointer()
 		, vertexShaderBlob->GetBufferSize()
 		, layout.GetAddressOf())))

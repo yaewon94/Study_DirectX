@@ -32,7 +32,7 @@ public:
 	BLEND_TYPE GetBlendType() { return bsType; }
 
 	void SetDomain(SHADER_DOMAIN domain) { this->domain = domain; }
-	void SetTopology(D3D11_PRIMITIVE_TOPOLOGY topology) { this->topology = topology; BindOnGpu(); }
+	void SetTopology(D3D11_PRIMITIVE_TOPOLOGY topology) { this->topology = topology; }
 	void SetRasterizerType(RASTERIZE_TYPE type) { rsType = type; }
 	void SetBlendType(BLEND_TYPE type) { bsType = type; }
 	void SetDepthStencilType(DEPTH_STENCIL_TYPE type) { dsType = type; }
