@@ -10,6 +10,7 @@
 #include "Material.h"
 #include "Texture.h"
 #include "Transform.h"
+#include "Collider2D.h"
 
 Level::Level()
 {
@@ -28,21 +29,21 @@ void Level::Init()
 		Ptr<GameObject> g_player = Ptr<GameObject>();
 		g_player->SetName(L"Player");
 		g_player->SetLayer(LAYER_TYPE::PLAYER);
-		g_player->GetTransform()->SetLocalPos(Vec3(200.f, 200.f, 0.f));
 		g_player->AddComponent<Player>();
 		Ptr<MeshRender> meshRender = g_player->AddComponent<MeshRender>();
 		meshRender->SetMesh(AssetManager::GetInstance()->FindAsset<Mesh>(L"CircleMesh"));
 		meshRender->SetMaterial(AssetManager::GetInstance()->FindAsset<Material>(L"Std2D_Material"));
 		meshRender->GetMaterial()->SetTextureParam(TEX_0, AssetManager::GetInstance()->FindAsset<Texture>(L"PlayerTexture", L"Poby.jpeg"));
+		g_player->AddComponent<Collider2D>();
 
-		// 플레이어의 자식 오브젝트 추가
-		Ptr<GameObject> child = Ptr<GameObject>();
-		child->SetName(L"PlayerChild");
-		meshRender = child->AddComponent<MeshRender>();
-		meshRender->SetMesh(AssetManager::GetInstance()->FindAsset<Mesh>(L"RectMesh"));
-		meshRender->SetMaterial(AssetManager::GetInstance()->FindAsset<Material>(L"Std2D_AlphaBlend_Material"));
-		meshRender->GetMaterial()->SetAlpha(0.2f);
-		g_player->AddChild(child);
+		//// 플레이어의 자식 오브젝트 추가
+		//Ptr<GameObject> child = Ptr<GameObject>();
+		//child->SetName(L"PlayerChild");
+		//meshRender = child->AddComponent<MeshRender>();
+		//meshRender->SetMesh(AssetManager::GetInstance()->FindAsset<Mesh>(L"RectMesh"));
+		//meshRender->SetMaterial(AssetManager::GetInstance()->FindAsset<Material>(L"Std2D_AlphaBlend_Material"));
+		//meshRender->GetMaterial()->SetAlpha(0.2f);
+		//g_player->AddChild(child);
 	}
 
 	for (auto& layer : m_layerMap)

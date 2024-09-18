@@ -40,7 +40,7 @@ public:
 
 	void SetName(const wstring& name) { m_name = name; }
 	void SetLayer(LAYER_TYPE layer);
-	void AddChild(const Ptr<GameObject>& child);
+	void AddChild(const Ptr<GameObject>& child, bool isSameLayer = true);
 
 public:
 	template<typename T> requires std::derived_from<T, Component>

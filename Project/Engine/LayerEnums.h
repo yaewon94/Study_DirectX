@@ -14,5 +14,6 @@ enum LAYER_TYPE
 
 	// LAYER_TYPES(UINT) 에 조합 가능한 레이어들
 	PLAYER = 1,
-	MONSTER = 2
+	MONSTER = 2,
+	DEBUG = 4
 };

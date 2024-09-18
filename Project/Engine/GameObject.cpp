@@ -70,7 +70,6 @@ Ptr<RenderComponent> GameObject::GetRenderComponent()
 
 void GameObject::SetLayer(LAYER_TYPE layer)
 {
-
 	Ptr<GameObject> obj = Ptr<GameObject>(this);
 
 	// 기존 레이어에 등록된 오브젝트 삭제
@@ -81,9 +80,9 @@ void GameObject::SetLayer(LAYER_TYPE layer)
 	LevelManager::GetInstance()->AddObject(obj);
 }
 
-void GameObject::AddChild(const Ptr<GameObject>& child)
+void GameObject::AddChild(const Ptr<GameObject>& child, bool isSameLayer)
 {
-	child->SetLayer(m_layer);	// 디폴트값 : 부모와 같은 레이어
+	if(isSameLayer) child->SetLayer(m_layer);
 	child->GetTransform()->SetLocalScale(Vec3(1.f, 1.f, 1.f));	// 디폴트값 : 부모와 같은 크기
 	child->m_parent = Ptr<GameObject>(this);
 	m_children.push_back(child);

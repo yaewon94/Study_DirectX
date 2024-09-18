@@ -29,12 +29,26 @@ Transform::~Transform()
 {
 }
 
+Vec3 Transform::GetWorldScale()
+{
+	Vec3 scale = m_localScale;
+	Ptr<GameObject> parent = GetOwner()->GetParent();
+
+	if (parent != nullptr)
+	{
+		scale *= parent->GetTransform()->GetWorldScale();
+	}
+
+	return scale;
+}
+
 void Transform::Init()
 {
 	m_worldMatrix = XMMatrixIdentity();
 	OnChangePos();
 	OnChangeScale();
 	OnChangeRotation();
+	OnChangeMatrix();
 }
 
 void Transform::FinalTick()
@@ -56,7 +70,9 @@ void Transform::BindOnGpu()
 
 void Transform::OnChangePos()
 {
+
 	m_matTrans = XMMatrixTranslation(m_localPos.x, m_localPos.y, m_localPos.z);
+
 }
 
 void Transform::OnChangeScale()
@@ -86,7 +102,7 @@ void Transform::OnChangeMatrix()
 		const auto& matParentWorld = parent->GetTransform()->GetWorldMatrix();
 
 		//// localScale에 상관 없이 본인 고유의 크기대로 바인딩하는 경우
-		//Vec3 parentScale = parent->GetTransform()->GetLocalScale();
+		//Vec3 parentScale = parent->GetTransform()->GetWorldScale();
 		//Matrix matParentScale = XMMatrixScaling(parentScale.x, parentScale.y, parentScale.z);
 		//Matrix matParentScaleInv = XMMatrixInverse(nullptr, matParentScale);
 		//m_worldMatrix *= (matParentScaleInv * matParentWorld);

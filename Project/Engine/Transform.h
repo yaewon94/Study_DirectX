@@ -33,6 +33,7 @@ public:
 	void SetLocalPosY(float y) { m_localPos.y = y; OnChangePos(); }
 	void SetLocalPosZ(float z) { m_localPos.z = z; OnChangePos(); }
 
+	Vec3 GetWorldScale();
 	Vec3 GetLocalScale() { return m_localScale; }
 	void SetLocalScale(const Vec3& scale) { m_localScale = scale; OnChangeScale(); }
 	void SetLocalScaleX(float x) { m_localScale.x = x; OnChangeScale(); }
@@ -40,6 +41,7 @@ public:
 	void SetLocalScaleZ(float z) { m_localScale.z = z; OnChangeScale(); }
 
 	Vec3 GetLocalRotation() { return m_localRotation; }
+	void SetLocalRotation(const Vec3& rotation) { m_localRotation = rotation; OnChangeRotation(); }
 	void SetLocalRotationX(float x) { m_localRotation.x = x; OnChangeRotation(); }
 	void SetLocalRotationY(float y) { m_localRotation.y = y; OnChangeRotation(); }
 	void SetLocalRotationZ(float z) { m_localRotation.z = z; OnChangeRotation(); }

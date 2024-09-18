@@ -1,8 +1,13 @@
 #include "pch.h"
 #include "RenderManager.h"
 #include "Device.h"
+#include "AssetManager.h"
 #include "Camera.h"
 #include "GameObject.h"
+#include "Transform.h"
+#include "MeshRender.h"
+#include "Mesh.h"
+#include "Material.h"
 
 RenderManager::RenderManager()
 {
@@ -15,7 +20,7 @@ RenderManager::~RenderManager()
 void RenderManager::AddCamera(const Ptr<Camera>& _camera)
 {
 	// 중복 체크
-	for (auto& camera : cameras)
+	for (auto& camera : m_cameras)
 	{
 		if (camera.GetAddressOf() == _camera.GetAddressOf())
 		{
@@ -25,7 +30,7 @@ void RenderManager::AddCamera(const Ptr<Camera>& _camera)
 	}
 
 	// 카메라 등록
-	cameras.push_back(_camera);
+	m_cameras.push_back(_camera);
 }
 
 void RenderManager::Render()
@@ -34,11 +39,58 @@ void RenderManager::Render()
 	Device::GetInstance()->Clear();
 
 	// 카메라 렌더링
-	for (auto& cam : cameras)
+	for (auto& cam : m_cameras)
 	{
 		cam->Render();
 	}
 
+#ifdef _DEBUG
+	// Debug Shape 렌더링
+	for (auto& obj : m_debugObjs)
+	{
+		obj->Render();
+	}
+#endif // _DEBUG
+
 	// RenderTarget -> 윈도우 출력
 	Device::GetInstance()->Present();
+}
+
+Ptr<GameObject> RenderManager::AddDebugShape(const DebugShapeInfo& info)
+{
+	Ptr<GameObject> obj;
+
+	obj->SetLayer(LAYER_TYPE::DEBUG);
+	obj->GetTransform()->SetLocalPos(info.pos);
+	obj->GetTransform()->SetLocalScale(info.scale);
+	obj->GetTransform()->SetLocalRotation(info.rotation);
+
+	Ptr<MeshRender> meshRender = obj->AddComponent<MeshRender>();
+	ChangeDebugShape(obj, info.shape);
+	meshRender->SetMaterial(AssetManager::GetInstance()->FindAsset<Material>(L"Debug_Material"));
+	ChangeDebugColor(obj, info.color);
+
+	m_debugObjs.push_back(obj);
+	obj->Init();
+
+	m_debugShapeInfos.push_back(info);
+
+	return obj;
+}
+
+void RenderManager::ChangeDebugShape(const Ptr<GameObject>& obj, DEBUG_SHAPE shape)
+{
+	switch (shape)
+	{
+	case DEBUG_SHAPE::RECT:
+		obj->GetComponent<MeshRender>()->SetMesh(AssetManager::GetInstance()->FindAsset<Mesh>(L"RectMesh_D"));
+		break;
+	default:
+		throw std::logic_error("에셋에 등록되지 않은 Debug Shape 입니다");
+	}
+}
+
+void RenderManager::ChangeDebugColor(const Ptr<GameObject>& obj, Vec4 color)
+{
+	obj->GetComponent<MeshRender>()->GetMaterial()->SetColor(color);
 }

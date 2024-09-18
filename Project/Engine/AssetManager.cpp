@@ -244,7 +244,7 @@ int AssetManager::CreateDefaultMaterial()
 	// 디버깅 모드 재질
 	// ==========================
 	material = AddAsset<Material>(L"Debug_Material", L"Debug Material");
-	material->SetShader(FindAsset<GraphicShader>(L"Debug Shader"));
+	material->SetShader(FindAsset<GraphicShader>(L"Debug_Shader"));
 
 	return S_OK;
 }

@@ -123,6 +123,9 @@
     <ClInclude Include="LevelManager.h">
       <Filter>6.Level</Filter>
     </ClInclude>
+    <ClInclude Include="Collider2D.h">
+      <Filter>5.Component\Collider</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Device.cpp">
@@ -205,6 +208,9 @@
     <ClCompile Include="RenderComponent.cpp">
       <Filter>5.Component\Render</Filter>
     </ClCompile>
+    <ClCompile Include="Collider2D.cpp">
+      <Filter>5.Component\Collider</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="3.Asset">
@@ -284,6 +290,9 @@
     </Filter>
     <Filter Include="5.Component\Render\MeshRender">
       <UniqueIdentifier>{9ba4743b-5009-4b87-ad64-c42165474a77}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5.Component\Collider">
+      <UniqueIdentifier>{21ccdd8c-fac8-4e92-bc28-71b1015c36cf}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

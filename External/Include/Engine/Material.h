@@ -28,6 +28,7 @@ public:
 	Ptr<GraphicShader> GetShader();
 	void SetShader(const Ptr<GraphicShader>& shader);
 	void SetAlpha(float alpha);
+	void SetColor(Vec4 color) { m_cb.v4Arr[0] = color; }
 
 	// texture
 	void SetTextureParam(TEXTURE_PARAM type, const Ptr<Texture>& texture);

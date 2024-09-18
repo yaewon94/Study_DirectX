@@ -1,25 +1,11 @@
 #pragma once
 
-
 // 색상
 #define COLOR_GREEN Vec4(0.f, 1.f, 0.f, 1.f);
 
-// Blend State
-enum class BLEND_TYPE : UINT
-{
-	DEFAULT,				// 강제출력
-	ALPHABLEND,				// 알파값 적용
-	ALPHABLEND_COVERAGE,	// 알파블렌드 + AlphaToCoverage
-	ONE_ONE,				// 1:1 블렌딩
-	COUNT_END
-};
-
-// 상수 버퍼 타입
-enum class CB_TYPE : UINT
-{
-	TRANSFORM, MATERIAL, COUNT_END
-};
-
+// ======================
+// Texture
+// ======================
 // 텍스처 타입 (value : 레지스터 번호)
 enum TEXTURE_PARAM
 {
@@ -30,7 +16,17 @@ enum TEXTURE_PARAM
 	COUNT_END
 };
 
-// 재질 상수버퍼
+
+// =======================
+// Const Buffer
+// =======================
+// 상수 버퍼 타입
+enum class CB_TYPE : UINT
+{
+	TRANSFORM, MATERIAL, COUNT_END
+};
+
+// 재질 상수버퍼 (각 필드를 각각의 레지스터에 바인딩)
 struct CB_Material
 {
 	int iArr[4];
@@ -39,6 +35,16 @@ struct CB_Material
 	Vec4 v4Arr[4];
 	Matrix matrixArr[2];
 	int bTex[TEXTURE_PARAM::COUNT_END];	// 바이너리 텍스처
+};
+
+// 파라미터 타입 (Material 에서 사용)
+enum SCALAR_PARAM
+{
+	INT_0, INT_1, INT_2, INT_3,
+	FLOAT_0, FLOAT_1, FLOAT_2, FLOAT_3,
+	VEC2_0, VEC2_1, VEC2_2, VEC2_3,
+	VEC4_0, VEC4_1, VEC4_2, VEC4_3,
+	MATRIX_0, MATRIX_1
 };
 
 // 오브젝트의 위치,크기,회전값 상수버퍼
@@ -54,10 +60,27 @@ struct CB_Transform
 	Matrix wvp;	// world * view * projection
 };
 
-// 디버깅 모드 shape
-enum class DEBUG_SHAPE
+// ======================
+// Shader
+// ======================
+// 셰이더 동작 분류 (value : 렌더링 순서)
+enum class SHADER_DOMAIN : UINT
 {
-	RECT, CIRCLE, CROSS, LINE
+	DOMAIN_OPAQUE,			// 불투명
+	DOMAIN_MASK,			// 불투명 or 투명
+	DOMAIN_TRANSPARENT,		// 반투명 + 투명
+	DOMAIN_POSTPROCESS,		// 후처리
+	COUNT_END
+};
+
+// Blend State
+enum class BLEND_TYPE : UINT
+{
+	DEFAULT,				// 강제출력
+	ALPHABLEND,				// 알파값 적용
+	ALPHABLEND_COVERAGE,	// 알파블렌드 + AlphaToCoverage
+	ONE_ONE,				// 1:1 블렌딩
+	COUNT_END
 };
 
 // 깊이판정 타입
@@ -91,25 +114,29 @@ enum class SAMPLER_TYPE : UINT
 	COUNT_END
 };
 
-// 파라미터 타입
-enum SCALAR_PARAM
+#ifdef _DEBUG
+// ======================
+// Debug
+// ======================
+// 디버깅 모드 shape
+enum class DEBUG_SHAPE
 {
-	INT_0, INT_1, INT_2, INT_3,
-	FLOAT_0, FLOAT_1, FLOAT_2, FLOAT_3,
-	VEC2_0, VEC2_1, VEC2_2, VEC2_3,
-	VEC4_0, VEC4_1, VEC4_2, VEC4_3,
-	MATRIX_0, MATRIX_1
+	RECT, CIRCLE, CROSS, LINE
 };
 
-// 셰이더 동작 분류 (value : 렌더링 순서)
-enum class SHADER_DOMAIN : UINT
+// 디버깅 모드 정보
+struct DebugShapeInfo
 {
-	DOMAIN_OPAQUE,			// 불투명
-	DOMAIN_MASK,			// 불투명 or 투명
-	DOMAIN_TRANSPARENT,		// 반투명 + 투명
-	DOMAIN_POSTPROCESS,		// 후처리
-	COUNT_END
+	DEBUG_SHAPE shape;
+	Vec3 pos, scale, rotation;
+	Vec4 color;
+
+	//const float Duration;
+	//float curTime = 0.f;
+
+	bool hasDepthTest = false;	// 깊이판정 수행 여부
 };
+#endif	// _DEBUG
 
 // ==============================
 // 외부변수
