@@ -22,7 +22,6 @@ public:
 #ifdef _DEBUG
 private:
 	vector<Ptr<GameObject>> m_debugObjs;
-	vector<DebugShapeInfo> m_debugShapeInfos;
 
 public:
 	Ptr<GameObject> AddDebugShape(const DebugShapeInfo& info);

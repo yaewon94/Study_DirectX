@@ -73,8 +73,6 @@ Ptr<GameObject> RenderManager::AddDebugShape(const DebugShapeInfo& info)
 	m_debugObjs.push_back(obj);
 	obj->Init();
 
-	m_debugShapeInfos.push_back(info);
-
 	return obj;
 }
 
