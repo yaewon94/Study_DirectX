@@ -9,7 +9,7 @@
 #include "Collider2D.h"
 
 GameObject::GameObject() 
-	: m_layer(LAYER_TYPE::NONE)
+	: m_layer(LAYER_TYPE::DEFAULT)
 	, m_renderComponent(nullptr)
 	, m_parent(nullptr)
 {
@@ -17,7 +17,7 @@ GameObject::GameObject()
 }
 
 GameObject::GameObject(const GameObject& origin)  
-	: m_name(origin.m_name), m_layer(origin.m_layer), m_parent(origin.m_parent)
+	: m_name(origin.m_name), m_parent(origin.m_parent)
 {
 	*this = origin;
 }
@@ -55,6 +55,9 @@ GameObject& GameObject::operator=(const GameObject& other)
 		{
 			m_children.push_back(child->Clone());
 		}
+
+		// 레이어 설정
+		SetLayer(other.m_layer);
 	}
 
 	return *this;
@@ -75,16 +78,13 @@ void GameObject::SetLayer(LAYER_TYPE layer)
 	Ptr<GameObject> obj = Ptr<GameObject>(this);
 	Ptr<Collider2D> collider = GetComponent<Collider2D>();
 
-	if (m_layer != LAYER_TYPE::NONE)
-	{
-		// 기존 레이어에 등록된 오브젝트 삭제
-		LevelManager::GetInstance()->DeleteObject(obj);
+	// 기존 레이어에 등록된 오브젝트 삭제
+	LevelManager::GetInstance()->DeleteObject(obj);
 
-		// 기존 레이어 타입으로 등록된 콜라이더 삭제
-		if (collider != nullptr)
-		{
-			CollisionManager::GetInstance()->RemoveCollider(collider);
-		}
+	// 기존 레이어 타입으로 등록된 콜라이더 삭제
+	if (collider != nullptr)
+	{
+		CollisionManager::GetInstance()->RemoveCollider(collider);
 	}
 
 	// 새로운 레이어에 오브젝트 등록

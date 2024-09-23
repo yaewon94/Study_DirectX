@@ -95,11 +95,6 @@ Ptr<GameObject> Level::AddObject(const Ptr<GameObject>& obj)
 {
 	LAYER_TYPE layer = obj->GetLayer();
 
-	if (layer == LAYER_TYPE::NONE)
-	{
-		throw std::logic_error("오브젝트 추가 실패 : 레이어 타입을 설정해 주세요");
-	}
-
 	// 게임오브젝트의 레이어와 일치하는 레이어에 등록
 	if (m_layerMap.find(layer) == m_layerMap.end()) m_layerMap.insert(make_pair(layer, Ptr<Layer>(layer)));
 	return m_layerMap.find(layer)->second->AddObject(obj);
@@ -111,7 +106,10 @@ void Level::DeleteObject(const Ptr<GameObject>& obj)
 
 	if (iter == m_layerMap.end())
 	{
-		throw std::logic_error("오브젝트 삭제 실패 : 현재 레벨에 등록된 레이어가 아닙니다");
+		if (obj->GetLayer() != LAYER_TYPE::DEFAULT)
+		{
+			throw std::logic_error("오브젝트 삭제 실패 : 현재 레벨에 등록된 레이어가 아닙니다");
+		}
 	}
 	else
 	{
