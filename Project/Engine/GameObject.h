@@ -123,6 +123,11 @@ public:
 	void FinalTick();
 	void Render();
 
+public:
+	void OnCollisionEnter(LAYER_TYPE other);
+	void OnCollisionStay(LAYER_TYPE other);
+	void OnCollisionExit(LAYER_TYPE other);
+
 private:
 	GameObject(const GameObject& origin);
 	GameObject& operator=(const GameObject& other);

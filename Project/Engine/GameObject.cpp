@@ -139,3 +139,27 @@ void GameObject::Render()
 {
 	m_renderComponent->Render();
 }
+
+void GameObject::OnCollisionEnter(LAYER_TYPE other)
+{
+	for (auto& script : m_scripts)
+	{
+		script->OnCollisionEnter(other);
+	}
+}
+
+void GameObject::OnCollisionStay(LAYER_TYPE other)
+{
+	for (auto& script : m_scripts)
+	{
+		script->OnCollisionStay(other);
+	}
+}
+
+void GameObject::OnCollisionExit(LAYER_TYPE other)
+{
+	for (auto& script : m_scripts)
+	{
+		script->OnCollisionExit(other);
+	}
+}

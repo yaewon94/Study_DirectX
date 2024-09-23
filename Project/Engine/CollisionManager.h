@@ -37,5 +37,5 @@ private:
 	// 충돌 여부 판별
 	bool IsCollision(const Ptr<Collider2D>& a, const Ptr<Collider2D>& b);
 	// 저번 프레임과 비교하여 적절한 이벤트 호출, m_CollisionSet에 추가 또는 삭제
-	void ChangeCollisionSet(UINT a, UINT b, bool isCollision);
+	void ChangeCollisionSet(const Ptr<Collider2D>& a, const Ptr<Collider2D>& b, bool isCollision);
 };

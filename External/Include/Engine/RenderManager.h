@@ -20,12 +20,8 @@ public:
 	void Render();
 
 #ifdef _DEBUG
-private:
-	vector<Ptr<GameObject>> m_debugObjs;
-
 public:
-	Ptr<GameObject> AddDebugShape(const DebugShapeInfo& info);
+	Ptr<GameObject> CreateDebugShape(const DebugShapeInfo& info);
 	void ChangeDebugShape(const Ptr<GameObject>& obj, DEBUG_SHAPE shape);
-	void ChangeDebugColor(const Ptr<GameObject>& obj, Vec4 color);
 #endif // _DEBUG
 };

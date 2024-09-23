@@ -3,8 +3,15 @@
 #include "CollisionManager.h"
 #include "RenderManager.h"
 #include "Render.h"
+#include "MeshRender.h"
+#include "Material.h"
 #include "GameObject.h"
 #include "Transform.h"
+
+#ifdef _DEBUG
+#define COLOR_DEFAULT COLOR_GREEN
+#define COLOR_COLLISION COLOR_RED
+#endif // _DEBUG
 
 Collider2D::Collider2D(const Ptr<GameObject>& owner)
 	: Component(owner)
@@ -46,11 +53,11 @@ void Collider2D::Init()
 	// 디버그 모드 렌더링 등록
 	DebugShapeInfo info = {};
 	info.shape = DEBUG_SHAPE::RECT;
-	info.color = COLOR_GREEN;
+	info.color = COLOR_DEFAULT;
 	info.hasDepthTest = false;
 
 	// 디버그 오브젝트를 현재 오브젝트의 자식으로 설정
-	m_debugObj = RenderManager::GetInstance()->AddDebugShape(info);
+	m_debugObj = RenderManager::GetInstance()->CreateDebugShape(info);
 	GetOwner()->AddChild(m_debugObj, false);
 	m_debugObj->GetTransform()->SetLocalPos(Vec3(m_offset.x, m_offset.y, 0.f));
 	m_debugObj->GetTransform()->SetLocalScale(Vec3(m_scale.x, m_scale.y, 0.f));
@@ -60,4 +67,29 @@ void Collider2D::Init()
 void Collider2D::FinalTick()
 {
 	m_worldMat = m_matScale * m_matTrans * GetOwner()->GetTransform()->GetWorldMatrix();
+}
+
+void Collider2D::OnCollisionEnter(LAYER_TYPE other)
+{
+#ifdef _DEBUG
+	// 디버그 라인 색상 변경
+	m_debugObj->GetComponent<MeshRender>()->GetMaterial()->SetColor(COLOR_COLLISION);
+#endif // _DEBUG
+
+	GetOwner()->OnCollisionEnter(other);
+}
+
+void Collider2D::OnCollisionStay(LAYER_TYPE other)
+{
+	GetOwner()->OnCollisionStay(other);
+}
+
+void Collider2D::OnCollisionExit(LAYER_TYPE other)
+{
+#ifdef _DEBUG
+	// 디버그 라인 색상 변경
+	m_debugObj->GetComponent<MeshRender>()->GetMaterial()->SetColor(COLOR_DEFAULT);
+#endif // _DEBUG
+
+	GetOwner()->OnCollisionExit(other);
 }

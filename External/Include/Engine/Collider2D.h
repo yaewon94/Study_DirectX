@@ -1,5 +1,6 @@
 #pragma once
 #include "Component.h"
+#include "LayerEnums.h"
 
 // 오브젝트간 충돌 감지를 위한 컴포넌트
 class Collider2D final : public Component
@@ -29,6 +30,11 @@ public:
 public:
 	virtual void Init() final;
 	virtual void FinalTick() final;
+
+public:
+	void OnCollisionEnter(LAYER_TYPE other);
+	void OnCollisionStay(LAYER_TYPE other);
+	void OnCollisionExit(LAYER_TYPE other);
 
 #ifdef _DEBUG
 private:

@@ -1,7 +1,8 @@
 #pragma once
 
 // »ö»ó
-#define COLOR_GREEN Vec4(0.f, 1.f, 0.f, 1.f);
+#define COLOR_RED Vec4(1.f, 0.f, 0.f, 1.f)
+#define COLOR_GREEN Vec4(0.f, 1.f, 0.f, 1.f)
 
 // ======================
 // Texture

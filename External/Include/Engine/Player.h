@@ -26,4 +26,9 @@ public:
 
 public:
 	void Move(KEY_CODE key);
+
+public:
+	virtual void OnCollisionEnter(LAYER_TYPE other) final;
+	virtual void OnCollisionStay(LAYER_TYPE other) final {}
+	virtual void OnCollisionExit(LAYER_TYPE other) final {}
 };

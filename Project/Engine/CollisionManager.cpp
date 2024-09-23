@@ -96,19 +96,8 @@ void CollisionManager::CheckCollision(LAYER_TYPE a, LAYER_TYPE b)
 	{
 		for (auto& b : vecB)
 		{
-			UINT aID = a->GetID();
-			UINT bID = b->GetID();
-
-			if (IsCollision(a, b))
-			{
-				if (aID < bID) ChangeCollisionSet(aID, bID, true);
-				else ChangeCollisionSet(bID, aID, true);
-			}
-			else
-			{
-				if (aID < bID) ChangeCollisionSet(aID, bID, false);
-				else ChangeCollisionSet(bID, aID, false);
-			}
+			if (IsCollision(a, b)) ChangeCollisionSet(a, b, true);
+			else ChangeCollisionSet(a, b, false);
 		}
 	}
 }
@@ -158,11 +147,11 @@ bool CollisionManager::IsCollision(const Ptr<Collider2D>& a, const Ptr<Collider2
 	return true;
 }
 
-void CollisionManager::ChangeCollisionSet(UINT a, UINT b, bool isCollision)
+void CollisionManager::ChangeCollisionSet(const Ptr<Collider2D>& a, const Ptr<Collider2D>& b, bool isCollision)
 {
 	COLLIDER_ID id = {};
-	id.left = a;
-	id.right = b;
+	id.left = a->GetID();
+	id.right = b->GetID();
 	const auto iter = m_collisionSet.find(id.ID);
 
 	// 이번 프레임 충돌
@@ -172,12 +161,14 @@ void CollisionManager::ChangeCollisionSet(UINT a, UINT b, bool isCollision)
 		if (iter == m_collisionSet.end())
 		{
 			m_collisionSet.insert(id.ID);
-			// TODO : a,b의 OnCollisionEnter() 호출
+			a->OnCollisionEnter(b->GetOwner()->GetLayer());
+			b->OnCollisionEnter(a->GetOwner()->GetLayer());
 		}
 		// 저번 프레임에 충돌한 경우
 		else
 		{
-			// TODO : a,b의 OnCollisionStay() 호출
+			a->OnCollisionStay(b->GetOwner()->GetLayer());
+			b->OnCollisionStay(a->GetOwner()->GetLayer());
 		}
 	}
 	// 이번 프레임에 충돌하지 않음
@@ -187,7 +178,8 @@ void CollisionManager::ChangeCollisionSet(UINT a, UINT b, bool isCollision)
 		if (iter != m_collisionSet.end())
 		{
 			m_collisionSet.erase(iter);
-			// TODO : a,b의 OnCollisonExit() 호출
+			a->OnCollisionExit(b->GetOwner()->GetLayer());
+			b->OnCollisionExit(a->GetOwner()->GetLayer());
 		}
 	}
 }

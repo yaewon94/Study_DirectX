@@ -43,3 +43,11 @@ void Player::Move(KEY_CODE key)
 	// [TEST] È¸Àü
 	//transform->SetLocalRotationZ(transform->GetLocalRotation().z + (DT * XM_PI));
 }
+
+void Player::OnCollisionEnter(LAYER_TYPE other)
+{
+	if (other == LAYER_TYPE::MONSTER)
+	{
+		MessageBox(nullptr, L"You Lose", L"Game Over", MB_OK);
+	}
+}

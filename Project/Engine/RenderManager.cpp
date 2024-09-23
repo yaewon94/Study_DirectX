@@ -44,19 +44,11 @@ void RenderManager::Render()
 		cam->Render();
 	}
 
-#ifdef _DEBUG
-	// Debug Shape 렌더링
-	for (auto& obj : m_debugObjs)
-	{
-		obj->Render();
-	}
-#endif // _DEBUG
-
 	// RenderTarget -> 윈도우 출력
 	Device::GetInstance()->Present();
 }
 
-Ptr<GameObject> RenderManager::AddDebugShape(const DebugShapeInfo& info)
+Ptr<GameObject> RenderManager::CreateDebugShape(const DebugShapeInfo& info)
 {
 	Ptr<GameObject> obj;
 
@@ -68,9 +60,8 @@ Ptr<GameObject> RenderManager::AddDebugShape(const DebugShapeInfo& info)
 	Ptr<MeshRender> meshRender = obj->AddComponent<MeshRender>();
 	ChangeDebugShape(obj, info.shape);
 	meshRender->SetMaterial(AssetManager::GetInstance()->FindAsset<Material>(L"Debug_Material"));
-	ChangeDebugColor(obj, info.color);
+	meshRender->GetMaterial()->SetColor(info.color);
 
-	m_debugObjs.push_back(obj);
 	obj->Init();
 
 	return obj;
@@ -86,9 +77,4 @@ void RenderManager::ChangeDebugShape(const Ptr<GameObject>& obj, DEBUG_SHAPE sha
 	default:
 		throw std::logic_error("에셋에 등록되지 않은 Debug Shape 입니다");
 	}
-}
-
-void RenderManager::ChangeDebugColor(const Ptr<GameObject>& obj, Vec4 color)
-{
-	obj->GetComponent<MeshRender>()->GetMaterial()->SetColor(color);
 }

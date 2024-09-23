@@ -1,5 +1,6 @@
 #pragma once
 #include "Component.h"
+#include "LayerEnums.h"
 
 // 사용자 정의 스크립트 컴포넌트
 class Script : public Component
@@ -17,6 +18,11 @@ public:
 public:
 	virtual void Tick() = 0;
 	virtual void FinalTick() override {}
+
+public:
+	virtual void OnCollisionEnter(LAYER_TYPE other) = 0;
+	virtual void OnCollisionStay(LAYER_TYPE other) = 0;
+	virtual void OnCollisionExit(LAYER_TYPE other) = 0;
 
 private:
 	// delete
