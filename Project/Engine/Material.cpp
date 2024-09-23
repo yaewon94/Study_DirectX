@@ -46,6 +46,13 @@ Ptr<GraphicShader> Material::GetShader()
 void Material::SetShader(const Ptr<GraphicShader>& shader)
 {
 	m_shader = shader;
+
+	// 알파블렌드 타입일 경우, 불투명도 100%로 초기화
+	if (m_shader->GetBlendType() == BLEND_TYPE::ALPHABLEND
+		|| m_shader->GetBlendType() == BLEND_TYPE::ALPHABLEND_COVERAGE)
+	{
+		SetAlpha(1.f);
+	}
 }
 
 void Material::SetAlpha(float alpha)

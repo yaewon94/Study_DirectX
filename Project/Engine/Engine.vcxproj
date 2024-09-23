@@ -164,6 +164,7 @@ call EngineHeaderCopy.bat
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraEnums.h" />
     <ClInclude Include="Collider2D.h" />
+    <ClInclude Include="CollisionManager.h" />
     <ClInclude Include="CommonTypes.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="ComponentEnums.h" />
@@ -208,6 +209,7 @@ call EngineHeaderCopy.bat
     <ClCompile Include="AssetManager.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Collider2D.cpp" />
+    <ClCompile Include="CollisionManager.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="ConstBuffer.cpp" />
     <ClCompile Include="Device.cpp" />

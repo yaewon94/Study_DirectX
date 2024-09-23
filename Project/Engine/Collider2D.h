@@ -7,8 +7,11 @@ class Collider2D final : public Component
 	NO_COPY_ASSIGN(Collider2D);
 
 private:
-	Vec3 m_offset;
-	Vec3 m_scale;
+	Vec2 m_offset;
+	Vec2 m_scale;
+
+	Matrix m_worldMat;
+	Matrix m_matTrans, m_matScale;
 
 public:
 	Collider2D(const Ptr<GameObject>& owner);
@@ -21,8 +24,11 @@ public:
 	}
 
 public:
+	const Matrix& GetWorldMatrix() { return m_worldMat; }
+
+public:
 	virtual void Init() final;
-	virtual void FinalTick() final {}
+	virtual void FinalTick() final;
 
 #ifdef _DEBUG
 private:

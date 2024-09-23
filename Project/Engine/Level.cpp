@@ -32,7 +32,7 @@ void Level::Init()
 		g_player->AddComponent<Player>();
 		Ptr<MeshRender> meshRender = g_player->AddComponent<MeshRender>();
 		meshRender->SetMesh(AssetManager::GetInstance()->FindAsset<Mesh>(L"CircleMesh"));
-		meshRender->SetMaterial(AssetManager::GetInstance()->FindAsset<Material>(L"Std2D_Material"));
+		meshRender->SetMaterial(AssetManager::GetInstance()->FindAsset<Material>(L"Std2D_AlphaBlend_Material"));
 		meshRender->GetMaterial()->SetTextureParam(TEX_0, AssetManager::GetInstance()->FindAsset<Texture>(L"PlayerTexture", L"Poby.jpeg"));
 		g_player->AddComponent<Collider2D>();
 
@@ -44,6 +44,16 @@ void Level::Init()
 		//meshRender->SetMaterial(AssetManager::GetInstance()->FindAsset<Material>(L"Std2D_AlphaBlend_Material"));
 		//meshRender->GetMaterial()->SetAlpha(0.2f);
 		//g_player->AddChild(child);
+
+		// 몬스터 오브젝트 추가
+		Ptr<GameObject> monster = Ptr<GameObject>();
+		monster->SetLayer(LAYER_TYPE::MONSTER);
+		monster->GetTransform()->SetLocalPosX(200.f);
+		meshRender = monster->AddComponent<MeshRender>();
+		meshRender->SetMesh(AssetManager::GetInstance()->FindAsset<Mesh>(L"CircleMesh"));
+		meshRender->SetMaterial(AssetManager::GetInstance()->FindAsset<Material>(L"Std2D_Material"));
+		meshRender->GetMaterial()->SetTextureParam(TEX_0, AssetManager::GetInstance()->FindAsset<Texture>(L"MonsterTexture", L"NoiseTest.png"));
+		monster->AddComponent<Collider2D>();
 	}
 
 	for (auto& layer : m_layerMap)

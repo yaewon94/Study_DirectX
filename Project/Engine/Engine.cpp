@@ -2,6 +2,7 @@
 #include "Engine.h"
 #include "Device.h"
 #include "AssetManager.h"
+#include "CollisionManager.h"
 #include "KeyManager.h"
 #include "PathManager.h"
 #include "TimeManager.h"
@@ -44,6 +45,7 @@ void Engine::Progress()
 	TimeManager::GetInstance()->Tick();
 	KeyManager::GetInstance()->Tick();
 	LevelManager::GetInstance()->Tick();
+	CollisionManager::GetInstance()->Tick();
 	
 	// ·»´õ¸µ
 	RenderManager::GetInstance()->Render();

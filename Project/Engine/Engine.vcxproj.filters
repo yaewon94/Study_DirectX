@@ -126,6 +126,9 @@
     <ClInclude Include="Collider2D.h">
       <Filter>5.Component\Collider</Filter>
     </ClInclude>
+    <ClInclude Include="CollisionManager.h">
+      <Filter>5.Component\Collider</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Device.cpp">
@@ -209,6 +212,9 @@
       <Filter>5.Component\Render</Filter>
     </ClCompile>
     <ClCompile Include="Collider2D.cpp">
+      <Filter>5.Component\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionManager.cpp">
       <Filter>5.Component\Collider</Filter>
     </ClCompile>
   </ItemGroup>
