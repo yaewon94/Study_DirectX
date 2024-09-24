@@ -10,8 +10,28 @@ Material::Material(const wstring& Key, const wstring& relativePath)
 {
 }
 
+Material::Material(const Material& origin) : Asset(L"", L"")
+{
+	*this = origin;
+}
+
 Material::~Material()
 {
+}
+
+Material& Material::operator=(const Material& other)
+{
+	if (this != &other)
+	{
+		// 주소 공유 (에셋이므로 깊은복사 X)
+		m_shader = other.m_shader;
+		m_textures = other.m_textures;
+
+		// 개별 주소
+		m_cb = other.m_cb;
+	}
+
+	return *this;
 }
 
 void Material::BindOnGpu()

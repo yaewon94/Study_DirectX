@@ -8,8 +8,6 @@ class Texture;
 // ÀçÁú
 class Material final : public Asset
 {
-	NO_COPY_ASSIGN(Material);
-
 private:
 	Ptr<GraphicShader> m_shader;
 	array<Ptr<Texture>, TEXTURE_PARAM::COUNT_END> m_textures;
@@ -17,7 +15,9 @@ private:
 
 public:
 	Material(const wstring& Key, const wstring& relativePath);
+	Material(const Material& origin);
 	~Material();
+	Material& operator=(const Material& other);
 
 public:
 	void BindOnGpu();

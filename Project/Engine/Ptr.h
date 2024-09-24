@@ -16,6 +16,20 @@ public:
 	T* const* GetAddressOf() const { return &t; }
 
 public:
+	// 복사생성자 호출
+	Ptr DeepCopy()
+	{
+		if constexpr (std::is_copy_constructible_v<T>)
+		{
+			Ptr<T> clone = Ptr<T>(nullptr);
+			clone.t = new T(*t);
+			return clone;
+		}
+
+		throw std::logic_error("해당 클래스의 복사생성자가 없거나 접근할 수 없습니다");
+	}
+
+public:
 	// 초기화 용도 깡통만들기 or 디폴트 생성자 있는 객체 생성할 때 호출
 	Ptr() : t(nullptr)
 	{
@@ -29,7 +43,7 @@ public:
 	Ptr(Args... args) : t(nullptr)
 	{
 		if constexpr (std::is_constructible_v<T, Args...>) t = new T(args...);
-		else throw std::logic_error("해당 파라미터를 가진 생성자가 존재하지 않습니다");
+		else throw std::logic_error("해당 파라미터를 가진 생성자가 존재하지 않거나 접근할 수 없습니다");
 	}
 
 	// args==nullptr인 Ptr(args...) 호출 방지

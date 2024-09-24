@@ -33,8 +33,9 @@ void Level::Init()
 		Ptr<MeshRender> meshRender = g_player->AddComponent<MeshRender>();
 		meshRender->SetMesh(AssetManager::GetInstance()->FindAsset<Mesh>(L"CircleMesh"));
 		meshRender->SetMaterial(AssetManager::GetInstance()->FindAsset<Material>(L"Std2D_AlphaBlend_Material"));
-		meshRender->GetMaterial()->SetTextureParam(TEX_0, AssetManager::GetInstance()->FindAsset<Texture>(L"PlayerTexture", L"Poby.jpeg"));
+		meshRender->GetMaterial()->SetTextureParam(TEX_0, AssetManager::GetInstance()->FindAsset<Texture>(L"PlayerTexture", L"Poby.jpeg"));				
 		g_player->AddComponent<Collider2D>();
+
 
 		//// 플레이어의 자식 오브젝트 추가
 		//Ptr<GameObject> child = Ptr<GameObject>();
@@ -51,7 +52,9 @@ void Level::Init()
 		monster->GetTransform()->SetLocalPosX(200.f);
 		meshRender = monster->AddComponent<MeshRender>();
 		meshRender->SetMesh(AssetManager::GetInstance()->FindAsset<Mesh>(L"CircleMesh"));
-		meshRender->SetMaterial(AssetManager::GetInstance()->FindAsset<Material>(L"Std2D_Material"));
+		// 동적 재질 사용
+		Ptr<Material> material = AssetManager::GetInstance()->FindAsset<Material>(L"Std2D_AlphaBlend_Material").DeepCopy();
+		meshRender->SetMaterial(material);
 		meshRender->GetMaterial()->SetTextureParam(TEX_0, AssetManager::GetInstance()->FindAsset<Texture>(L"MonsterTexture", L"NoiseTest.png"));
 		monster->AddComponent<Collider2D>();
 	}
