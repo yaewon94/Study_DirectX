@@ -132,6 +132,9 @@
     <ClInclude Include="Sprite.h">
       <Filter>3.Asset\Sprite</Filter>
     </ClInclude>
+    <ClInclude Include="Animator2D.h">
+      <Filter>5.Component\Render\Animator</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Device.cpp">
@@ -223,6 +226,9 @@
     <ClCompile Include="Sprite.cpp">
       <Filter>3.Asset\Sprite</Filter>
     </ClCompile>
+    <ClCompile Include="Animator2D.cpp">
+      <Filter>5.Component\Render\Animator</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="3.Asset">
@@ -308,6 +314,9 @@
     </Filter>
     <Filter Include="3.Asset\Sprite">
       <UniqueIdentifier>{f0a353b4-78a2-46fe-a9c0-c0813c686965}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5.Component\Render\Animator">
+      <UniqueIdentifier>{e0269803-f46d-44fa-9713-5c32dcc4d465}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

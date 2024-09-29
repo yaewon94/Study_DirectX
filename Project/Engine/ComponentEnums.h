@@ -1,5 +1,6 @@
 #pragma once
 
+class Animator2D;
 class Camera;
 class Collider2D;
 class Component;
@@ -18,8 +19,9 @@ enum class COMPONENT_TYPE
 	RENDER = -1,
 
 	// 게임엔진 기본 컴포넌트
-	TRANSFORM, 
-	COLLIDER_2D, 
+	TRANSFORM,
+	COLLIDER_2D,
+	ANIMATOR_2D,
 	CAMERA, MESH_RENDER
 };
 
@@ -30,6 +32,7 @@ static constexpr COMPONENT_TYPE GetType()
 	if constexpr (std::is_base_of_v<Script, T>) return COMPONENT_TYPE::SCRIPT;
 	if constexpr (std::is_same_v<T, Camera>) return COMPONENT_TYPE::CAMERA;
 	if constexpr (std::is_same_v<T, Collider2D>) return COMPONENT_TYPE::COLLIDER_2D;
+	if constexpr (std::is_same_v<T, Animator2D>) return COMPONENT_TYPE::ANIMATOR_2D;
 	if constexpr (std::is_same_v<T, MeshRender>) return COMPONENT_TYPE::MESH_RENDER;
 	if constexpr (std::is_same_v<T, RenderComponent>) return COMPONENT_TYPE::RENDER;
 	if constexpr (std::is_same_v<T, Transform>) return COMPONENT_TYPE::TRANSFORM;

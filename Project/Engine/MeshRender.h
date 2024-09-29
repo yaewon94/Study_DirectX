@@ -4,7 +4,7 @@
 class Mesh;
 
 // ·»´õ¸µ ´ã´ç ÄÄÆ÷³ÍÆ®
-class MeshRender final : public RenderComponent
+class MeshRender : public RenderComponent
 {
 	NO_COPY_ASSIGN(MeshRender);
 
@@ -16,7 +16,7 @@ public:
 	MeshRender(const Ptr<Component>& origin, const Ptr<GameObject>& owner);
 	~MeshRender();
 
-	virtual Ptr<Component> Clone(const Ptr<Component>& origin, const Ptr<GameObject>& owner) final
+	virtual Ptr<Component> Clone(const Ptr<Component>& origin, const Ptr<GameObject>& owner) override
 	{
 		return Ptr<MeshRender>(origin, owner).ptr_dynamic_cast<Component>();
 	}
@@ -25,6 +25,6 @@ public:
 	void SetMesh(const Ptr<Mesh>& mesh);
 
 public:
-	virtual void FinalTick() final {}
-	virtual void Render() final;
+	virtual void FinalTick() override {}
+	virtual void Render() override;
 };
