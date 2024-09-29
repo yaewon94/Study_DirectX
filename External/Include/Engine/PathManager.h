@@ -13,4 +13,7 @@ public:
 
 public:
 	void Init();
+
+private:
+	void GetParentPath(wchar_t* path);
 };
