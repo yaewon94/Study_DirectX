@@ -198,6 +198,7 @@ call EngineHeaderCopy.bat
     <ClInclude Include="Shader.h" />
     <ClInclude Include="SimpleMath.h" />
     <ClInclude Include="Singleton.h" />
+    <ClInclude Include="Sprite.h" />
     <ClInclude Include="TaskManager.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TimeManager.h" />
@@ -238,6 +239,7 @@ call EngineHeaderCopy.bat
     <ClCompile Include="RenderManager.cpp" />
     <ClCompile Include="Script.cpp" />
     <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="TaskManager.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TimeManager.cpp" />

@@ -129,6 +129,9 @@
     <ClInclude Include="CollisionManager.h">
       <Filter>5.Component\Collider</Filter>
     </ClInclude>
+    <ClInclude Include="Sprite.h">
+      <Filter>3.Asset\Sprite</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Device.cpp">
@@ -217,6 +220,9 @@
     <ClCompile Include="CollisionManager.cpp">
       <Filter>5.Component\Collider</Filter>
     </ClCompile>
+    <ClCompile Include="Sprite.cpp">
+      <Filter>3.Asset\Sprite</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="3.Asset">
@@ -299,6 +305,9 @@
     </Filter>
     <Filter Include="5.Component\Collider">
       <UniqueIdentifier>{21ccdd8c-fac8-4e92-bc28-71b1015c36cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3.Asset\Sprite">
+      <UniqueIdentifier>{f0a353b4-78a2-46fe-a9c0-c0813c686965}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

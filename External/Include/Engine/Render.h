@@ -14,17 +14,19 @@ enum TEXTURE_PARAM
 	TEX_0, TEX_1, TEX_2, TEX_3, TEX_4, TEX_5,
 	TEXARR_0, TEXARR_1, TEXARR_2, TEXARR_3,
 	CUBE_0, CUBE_1,
-	COUNT_END
+	//SPRITE_TEX,
+	COUNT_END,
+	SPRITE_TEX = 12	// 질문 : 왜 COUNT_END == 13이면 예외뜸?
 };
 
 
 // =======================
 // Const Buffer
 // =======================
-// 상수 버퍼 타입
+// 상수 버퍼 타입 (value : 레지스터 번호)
 enum class CB_TYPE : UINT
 {
-	TRANSFORM, MATERIAL, COUNT_END
+	TRANSFORM, MATERIAL, SPRITE, COUNT_END
 };
 
 // 재질 상수버퍼 (각 필드를 각각의 레지스터에 바인딩)
@@ -36,6 +38,15 @@ struct CB_Material
 	Vec4 v4Arr[4];
 	Matrix matrixArr[2];
 	int bTex[TEXTURE_PARAM::COUNT_END];	// 바이너리 텍스처
+};
+
+// 스프라이트 이미지 상수버퍼
+struct CB_Sprite
+{
+	Vec2 leftTopUV;
+	Vec2 sliceUV;
+	int isUsed;
+	int padding[3];
 };
 
 // 파라미터 타입 (Material 에서 사용)
