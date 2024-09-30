@@ -11,8 +11,6 @@
 #include "Texture.h"
 #include "Transform.h"
 #include "Collider2D.h"
-#include "Animator2D.h"
-#include "Sprite.h"
 
 Level::Level()
 {
@@ -29,16 +27,7 @@ void Level::Init()
 		// [임시]
 		// 플레이어 오브젝트 추가
 		Ptr<GameObject> g_player = Ptr<GameObject>();
-		g_player->SetName(L"Player");
-		g_player->SetLayer(LAYER_TYPE::PLAYER);
 		g_player->AddComponent<Player>();
-		g_player->GetTransform()->SetLocalScale(Vec3(200.f, 200.f, 0.f));
-		g_player->AddComponent<Collider2D>();
-		Ptr<Sprite> sprite = AssetManager::GetInstance()->AddAsset<Sprite>(L"PlayerIdleSprite", L"");
-		sprite->SetAtlasTexture(AssetManager::GetInstance()->AddAsset<Texture>(L"PlayerIdleTexture", L"Player/Idle.png"), 3);
-		Ptr<Animator2D> animator = g_player->AddComponent<Animator2D>();
-		animator->AddSprite("Idle", sprite);
-		animator->ChangeAnimation("Idle");
 
 		//// 플레이어의 자식 오브젝트 추가
 		//Ptr<GameObject> child = Ptr<GameObject>();

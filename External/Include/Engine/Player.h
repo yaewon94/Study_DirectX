@@ -7,9 +7,6 @@ class Player final : public Script
 {
 	NO_COPY_ASSIGN(Player);
 
-private:
-	Ptr<Transform> transform;
-
 public:
 	Player(const Ptr<GameObject>& owner);
 	Player(const Ptr<Script>& origin, const Ptr<GameObject>& owner);
@@ -21,7 +18,6 @@ public:
 	}
 
 public:
-	virtual void Init() final;
 	virtual void Tick() final {}
 
 public:
