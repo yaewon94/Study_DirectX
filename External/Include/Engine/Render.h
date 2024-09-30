@@ -45,6 +45,8 @@ struct CB_Sprite
 {
 	Vec2 leftTopUV;
 	Vec2 sliceUV;
+	Vec2 backgroundUV;
+	Vec2 offsetUV;
 	int isUsed;
 	int padding[3];
 };

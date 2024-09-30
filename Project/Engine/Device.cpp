@@ -227,6 +227,8 @@ int Device::CreateConstBuffer()
 	cbArr[(UINT)CB_TYPE::MATERIAL] = Ptr<ConstBuffer>(CB_TYPE::MATERIAL);
 	cbArr[(UINT)CB_TYPE::MATERIAL]->CreateOnGpu(sizeof(CB_Material));
 
+	cbArr[(UINT)CB_TYPE::SPRITE] = Ptr<ConstBuffer>(CB_TYPE::SPRITE);
+	cbArr[(UINT)CB_TYPE::SPRITE]->CreateOnGpu(sizeof(CB_Sprite));
 
 	return S_OK;
 }

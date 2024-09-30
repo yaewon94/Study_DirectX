@@ -11,6 +11,8 @@
 #include "Texture.h"
 #include "Transform.h"
 #include "Collider2D.h"
+#include "Animator2D.h"
+#include "Sprite.h"
 
 Level::Level()
 {
@@ -30,12 +32,13 @@ void Level::Init()
 		g_player->SetName(L"Player");
 		g_player->SetLayer(LAYER_TYPE::PLAYER);
 		g_player->AddComponent<Player>();
-		Ptr<MeshRender> meshRender = g_player->AddComponent<MeshRender>();
-		meshRender->SetMesh(AssetManager::GetInstance()->FindAsset<Mesh>(L"CircleMesh"));
-		meshRender->SetMaterial(AssetManager::GetInstance()->FindAsset<Material>(L"Std2D_AlphaBlend_Material"));
-		meshRender->GetMaterial()->SetTextureParam(TEX_0, AssetManager::GetInstance()->FindAsset<Texture>(L"PlayerTexture", L"Poby.jpeg"));				
+		g_player->GetTransform()->SetLocalScale(Vec3(200.f, 200.f, 0.f));
 		g_player->AddComponent<Collider2D>();
-
+		Ptr<Sprite> sprite = AssetManager::GetInstance()->AddAsset<Sprite>(L"PlayerIdleSprite", L"");
+		sprite->SetAtlasTexture(AssetManager::GetInstance()->AddAsset<Texture>(L"PlayerIdleTexture", L"Player/Idle.png"), 3);
+		Ptr<Animator2D> animator = g_player->AddComponent<Animator2D>();
+		animator->AddSprite("Idle", sprite);
+		animator->ChangeAnimation("Idle");
 
 		//// 플레이어의 자식 오브젝트 추가
 		//Ptr<GameObject> child = Ptr<GameObject>();
@@ -49,8 +52,8 @@ void Level::Init()
 		// 몬스터 오브젝트 추가
 		Ptr<GameObject> monster = Ptr<GameObject>();
 		monster->SetLayer(LAYER_TYPE::MONSTER);
-		monster->GetTransform()->SetLocalPosX(200.f);
-		meshRender = monster->AddComponent<MeshRender>();
+		monster->GetTransform()->SetLocalPosX(400.f);
+		Ptr<MeshRender> meshRender = monster->AddComponent<MeshRender>();
 		meshRender->SetMesh(AssetManager::GetInstance()->FindAsset<Mesh>(L"CircleMesh"));
 		// 동적 재질 사용
 		Ptr<Material> material = AssetManager::GetInstance()->FindAsset<Material>(L"Std2D_AlphaBlend_Material").DeepCopy();

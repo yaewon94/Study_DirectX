@@ -11,6 +11,7 @@ class Sprite final : public Asset
 private:
 	Ptr<Texture> m_atlas;
 	Vec2 m_sliceUV;
+	Vec2 m_backgroundUV;
 	UINT m_frameCount;
 	UINT m_fps;
 	bool m_isRepeat;
@@ -21,10 +22,11 @@ public:
 
 public:
 	Ptr<Texture> GetAtlasTexture();
-	void SetAtlasTexture(const Ptr<Texture>& atlas, UINT frameCount);
 	UINT GetFPS() { return m_fps; }
 	UINT GetFrameCount() { return m_frameCount; }
 	bool IsRepeat() { return m_isRepeat; }
+
+	void SetAtlasTexture(const Ptr<Texture>& atlas, UINT frameCount);
 
 public:
 	virtual int Load() final { return S_OK; }

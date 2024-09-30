@@ -20,6 +20,8 @@ public:
 
 public:
 	TEXTURE_PARAM GetRegisterNum() { return m_registerNum; }
+	UINT GetWidth() { return m_desc.Width; }
+	UINT GetHeight() { return m_desc.Height; }
 
 public:
 	virtual int Load() final;

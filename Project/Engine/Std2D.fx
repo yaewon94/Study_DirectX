@@ -43,56 +43,50 @@ VS_OUT VS_Std2D(VS_IN input)
 // Pixel Shader
 float4 PS_Std2D(VS_OUT input) : SV_Target
 {
-    // texture가 바인딩 되어있지 않으면 디버그 색상 출력
-    // 방법 1. Shader 상에서 해결
-    // 문제점 : 모든 픽셀을 검사하기 때문에 성능 매우 떨어짐
-    //int width = 0;
-    //int height = 0;
-    //g_tex_0.GetDimensions(width, height);
-    //if (!width || !height)
-    //    return GetDebugColor(input.uv, 10);
-    //else
-    //    return g_tex_0.Sample(g_sampler0, input.uv);
-    
-    // 방법 2. Material을 통해서 해결
     float4 color = (float4) 0.f;
+    
     if (g_bTex_0)
         color = g_tex_0.Sample(g_sampler0, input.uv);
     else
         color = GetDebugColor(input.uv, 10);
-    
-    if (color.a == 0.f)
-        discard;
-    
+  
     return color;
-    
-    ////// 중도폐기
-    ////clip(-1);
-    ////discard;
-    //float4 color = g_tex_0.Sample(g_sampler0, input.uv);
-    
-    ////// 투명 표현 용도
-    ////if (color.r == 1.f && color.g == 0.f && color.b == 1.f)
-    ////    discard;
-    
-    //if (g_int_0 == 10) return float4(0.f, 0.f, 1.f, 1.f);
-    //else return color;
 }
 
 float4 PS_Std2D_AlphaBlend(VS_OUT input) : SV_Target
 {
     float4 color = (float4) 0.f;
     
-    if (g_bTex_0)
-        color = g_tex_0.Sample(g_sampler0, input.uv);
+    if (g_float_0 == 0.f)
+    {
+        discard;
+    }
     else
-        color = GetDebugColor(input.uv, 10);
-    
-    //color.a = 0.2f; // FOR TEST
-    color.a = g_float_0;
+    {
+        if (g_isSpriteUsed)
+        { 
+            float2 bgrLeftTop = g_leftTopUV + (g_sliceUV / 2.f) - (g_backgroundUV / 2.f);
+            float2 spriteUV = bgrLeftTop + (input.uv * g_backgroundUV) - g_offsetUV;
+            
+            if (spriteUV.x < g_leftTopUV.x || spriteUV.x > g_leftTopUV.x + g_sliceUV.x 
+                || spriteUV.y < g_leftTopUV.y || spriteUV.y > g_leftTopUV.y + g_sliceUV.y)
+            {
+                discard;
+            }
+            else
+            {
+                color = g_spriteTex.Sample(g_sampler0, spriteUV);
+            }
+        }
+        else
+        {
+            color = PS_Std2D(input);
+        }
+        
+        color.a = g_float_0;
+    }
     
     return color;
-
 }
 
 float4 PS_PaperBurn(VS_OUT input) : SV_Target
