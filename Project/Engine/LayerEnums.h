@@ -12,9 +12,10 @@ enum LAYER_TYPE : UINT
 	CAMERA = 0,
 
 	// LAYER_TYPES(int) 에 조합 가능한 레이어들
-	DEFAULT = 0b1,
-	MONSTER = 0b10,
-	PLAYER = 0b100,
-	SKILL = 0b1000,
+	DEFAULT = 1,
+	GROUND = DEFAULT << 1,
+	MONSTER = GROUND << 1,
+	PLAYER = MONSTER << 1,
+	SKILL = PLAYER << 1,
 	DEBUG = 0x80000000 // MAX
 };

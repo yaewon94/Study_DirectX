@@ -201,6 +201,22 @@ int AssetManager::CreateDefaultShader()
 		}
 	}
 
+	// ==========================
+	// 타일맵 컴포넌트 전용 셰이더
+	// ==========================
+	{
+		shader = AddAsset<GraphicShader>(L"TileMap_Shader", L"TileMap.fx");
+		shader->SetRasterizerType(RASTERIZE_TYPE::CULL_NONE);
+		shader->SetBlendType(BLEND_TYPE::DEFAULT);
+		shader->SetDepthStencilType(DEPTH_STENCIL_TYPE::LESS);
+		shader->SetDomain(SHADER_DOMAIN::DOMAIN_MASK);
+		if (FAILED(shader->CreateOnGpu("VS_TileMap", "PS_TileMap")))
+		{
+			MessageBox(nullptr, L"TileMap 셰이더 생성 실패", L"에셋 생성 실패", MB_OK);
+			return E_FAIL;
+		}
+	}
+
 	// ============================
 	// 디버깅 모드 셰이더
 	// ============================
@@ -239,6 +255,12 @@ int AssetManager::CreateDefaultMaterial()
 	// ==========================
 	material = AddAsset<Material>(L"PaperBurn_Material", L"PaperBurn_Material");
 	material->SetShader(FindAsset<GraphicShader>(L"PaperBurn_Shader"));
+
+	// ==========================
+	// TileMap 재질
+	// ==========================
+	material = AddAsset<Material>(L"TileMap_Material", L"");
+	material->SetShader(FindAsset<GraphicShader>(L"TileMap_Shader"));
 
 	// ==========================
 	// 디버깅 모드 재질

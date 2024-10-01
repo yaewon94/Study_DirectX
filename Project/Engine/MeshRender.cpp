@@ -20,6 +20,11 @@ MeshRender::~MeshRender()
 {
 }
 
+Ptr<Mesh> MeshRender::GetMesh()
+{
+	return mesh;
+}
+
 void MeshRender::SetMesh(const Ptr<Mesh>& mesh)
 {
 	this->mesh = mesh;

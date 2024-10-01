@@ -11,6 +11,7 @@
 #include "Texture.h"
 #include "Transform.h"
 #include "Collider2D.h"
+#include "TileMap.h"
 
 Level::Level()
 {
@@ -25,6 +26,15 @@ void Level::Init()
 {
 	{	 
 		// [임시]
+		// 타일맵 오브젝트 추가
+		Ptr<GameObject> obj = Ptr<GameObject>();
+		obj->GetTransform()->SetLocalPosY(-100.f);
+		obj->SetLayer(LAYER_TYPE::GROUND);
+		Ptr<TileMap> tileMap = obj->AddComponent<TileMap>();
+		tileMap->SetAtlasTexture(AssetManager::GetInstance()->AddAsset<Texture>(L"TileMapTex", L"TileTest.png"), Vec2(8, 8));
+		tileMap->SetTileIndex(Vec2(3, 0));
+		tileMap->SetTileCount(Vec2(10, 1));
+
 		// 플레이어 오브젝트 추가
 		Ptr<GameObject> g_player = Ptr<GameObject>();
 		g_player->AddComponent<Player>();

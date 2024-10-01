@@ -34,7 +34,7 @@ public:
 	void SetTextureParam(TEXTURE_PARAM type, const Ptr<Texture>& texture);
 	void UnloadTexture(TEXTURE_PARAM type);
 
-	/*template<typename T>
+	template<typename T>
 	void SetScalarParam(SCALAR_PARAM type, const T& data)
 	{
 		switch (type)
@@ -44,6 +44,7 @@ public:
 		case INT_2:
 		case INT_3:
 			if constexpr (std::is_same_v<T, int>) m_cb.iArr[type] = data;
+			else throw std::logic_error("파라미터 타입이 int가 아닙니다");
 			break;
 
 		case FLOAT_0:
@@ -51,6 +52,7 @@ public:
 		case FLOAT_2:
 		case FLOAT_3:
 			if constexpr (std::is_same_v<T, float>) m_cb.fArr[type - FLOAT_0] = data;
+			else throw std::logic_error("파라미터 타입이 float이 아닙니다");
 			break;
 
 		case VEC2_0:
@@ -58,6 +60,7 @@ public:
 		case VEC2_2:
 		case VEC2_3:
 			if constexpr (std::is_same_v<T, Vec2>) m_cb.v2Arr[type - VEC2_0] = data;
+			else throw std::logic_error("파라미터 타입이 Vec2가 아닙니다");
 			break;
 
 		case VEC4_0:
@@ -65,15 +68,17 @@ public:
 		case VEC4_2:
 		case VEC4_3:
 			if constexpr (std::is_same_v<T, Vec4>) m_cb.v4Arr[type - VEC4_0] = data;
+			else throw std::logic_error("파라미터 타입이 Vec4가 아닙니다");
 			break;
 
 		case MATRIX_0:
 		case MATRIX_1:
 			if constexpr (std::is_same_v<T, Matrix>) m_cb.matrixArr[type - MATRIX_0] = data;
+			else throw std::logic_error("파라미터 타입이 Matrix가 아닙니다");
 			break;
 
 		default:
 			throw std::logic_error("정의되지 않은 SCALAR_PARAM 타입 입니다");
 		}
-	}*/
+	}
 };

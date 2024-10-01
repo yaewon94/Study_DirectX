@@ -133,7 +133,10 @@
       <Filter>3.Asset\Sprite</Filter>
     </ClInclude>
     <ClInclude Include="Animator2D.h">
-      <Filter>5.Component\Render\Animator</Filter>
+      <Filter>5.Component\Render\MeshRender\Animator</Filter>
+    </ClInclude>
+    <ClInclude Include="TileMap.h">
+      <Filter>5.Component\Render\MeshRender\TileMap</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -227,7 +230,10 @@
       <Filter>3.Asset\Sprite</Filter>
     </ClCompile>
     <ClCompile Include="Animator2D.cpp">
-      <Filter>5.Component\Render\Animator</Filter>
+      <Filter>5.Component\Render\MeshRender\Animator</Filter>
+    </ClCompile>
+    <ClCompile Include="TileMap.cpp">
+      <Filter>5.Component\Render\MeshRender\TileMap</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -315,8 +321,11 @@
     <Filter Include="3.Asset\Sprite">
       <UniqueIdentifier>{f0a353b4-78a2-46fe-a9c0-c0813c686965}</UniqueIdentifier>
     </Filter>
-    <Filter Include="5.Component\Render\Animator">
+    <Filter Include="5.Component\Render\MeshRender\Animator">
       <UniqueIdentifier>{e0269803-f46d-44fa-9713-5c32dcc4d465}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5.Component\Render\MeshRender\TileMap">
+      <UniqueIdentifier>{794752da-b766-4cb6-a95e-ec79fdb2d53f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -335,6 +344,9 @@
       <Filter>8.Render\HLSL</Filter>
     </FxCompile>
     <FxCompile Include="Functions.fx">
+      <Filter>8.Render\HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="TileMap.fx">
       <Filter>8.Render\HLSL</Filter>
     </FxCompile>
   </ItemGroup>

@@ -22,6 +22,7 @@ public:
 	}
 
 public:
+	Ptr<Mesh> GetMesh();
 	void SetMesh(const Ptr<Mesh>& mesh);
 
 public:

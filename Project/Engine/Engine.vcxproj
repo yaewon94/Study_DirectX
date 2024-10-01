@@ -202,6 +202,7 @@ call EngineHeaderCopy.bat
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="TaskManager.h" />
     <ClInclude Include="Texture.h" />
+    <ClInclude Include="TileMap.h" />
     <ClInclude Include="TimeManager.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="TransformEnums.h" />
@@ -244,6 +245,7 @@ call EngineHeaderCopy.bat
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="TaskManager.cpp" />
     <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="TileMap.cpp" />
     <ClCompile Include="TimeManager.cpp" />
     <ClCompile Include="Transform.cpp" />
   </ItemGroup>
@@ -260,6 +262,10 @@ call EngineHeaderCopy.bat
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
     </FxCompile>
     <FxCompile Include="Std2D.fx">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="TileMap.fx">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Effect</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
     </FxCompile>
