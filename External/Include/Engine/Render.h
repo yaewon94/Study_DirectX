@@ -4,6 +4,9 @@
 #define COLOR_RED Vec4(1.f, 0.f, 0.f, 1.f)
 #define COLOR_GREEN Vec4(0.f, 1.f, 0.f, 1.f)
 
+// 상수버퍼
+#define BUFFER_SIZE_UNIT 16 // 상수버퍼,구조화버퍼 최소 단위 (바이트)
+
 // ======================
 // Texture
 // ======================
@@ -37,7 +40,7 @@ struct CB_Material
 	Vec2 v2Arr[4];
 	Vec4 v4Arr[4];
 	Matrix matrixArr[2];
-	int bTex[TEXTURE_PARAM::COUNT_END];	// 바이너리 텍스처
+	int bTex[TEXTURE_PARAM::COUNT_END];
 };
 
 // 스프라이트 이미지 상수버퍼

@@ -24,6 +24,11 @@ void ConstBuffer::SetData(void* data, UINT dataSize)
 
 int ConstBuffer::CreateOnGpu(UINT bufferSize)
 {
+    if (bufferSize % BUFFER_SIZE_UNIT != 0)
+    {
+        throw std::logic_error("상수버퍼의 크기는" + std::to_string(BUFFER_SIZE_UNIT) + "의 배수여야 합니다");
+    }
+
     desc.ByteWidth = bufferSize;
     desc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
     desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;   // 값 변경 가능

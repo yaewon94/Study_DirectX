@@ -138,6 +138,9 @@
     <ClInclude Include="TileMap.h">
       <Filter>5.Component\Render\MeshRender\TileMap</Filter>
     </ClInclude>
+    <ClInclude Include="StructedBuffer.h">
+      <Filter>1.Device\StructedBuffer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Device.cpp">
@@ -235,6 +238,9 @@
     <ClCompile Include="TileMap.cpp">
       <Filter>5.Component\Render\MeshRender\TileMap</Filter>
     </ClCompile>
+    <ClCompile Include="StructedBuffer.cpp">
+      <Filter>1.Device\StructedBuffer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="3.Asset">
@@ -326,6 +332,9 @@
     </Filter>
     <Filter Include="5.Component\Render\MeshRender\TileMap">
       <UniqueIdentifier>{794752da-b766-4cb6-a95e-ec79fdb2d53f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1.Device\StructedBuffer">
+      <UniqueIdentifier>{54d68cc0-ee03-4d7e-82a3-84c1571279e3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
