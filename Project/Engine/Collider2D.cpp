@@ -52,6 +52,8 @@ void Collider2D::Init()
 #ifdef _DEBUG
 	// 디버그 모드 렌더링 등록
 	DebugShapeInfo info = {};
+	info.pos = Vec3(m_offset.x, m_offset.y, 0.f);
+	info.scale = Vec3(m_scale.x, m_scale.y, 0.f);
 	info.shape = DEBUG_SHAPE::RECT;
 	info.color = COLOR_DEFAULT;
 	info.hasDepthTest = false;
@@ -59,8 +61,6 @@ void Collider2D::Init()
 	// 디버그 오브젝트를 현재 오브젝트의 자식으로 설정
 	m_debugObj = RenderManager::GetInstance()->CreateDebugShape(info);
 	GetOwner()->AddChild(m_debugObj, false);
-	m_debugObj->GetTransform()->SetLocalPos(Vec3(m_offset.x, m_offset.y, 0.f));
-	m_debugObj->GetTransform()->SetLocalScale(Vec3(m_scale.x, m_scale.y, 0.f));
 #endif // _DEBUG
 }
 
