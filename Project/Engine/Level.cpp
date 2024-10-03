@@ -59,6 +59,13 @@ void Level::Init()
 		meshRender->SetMaterial(material);
 		meshRender->GetMaterial()->SetTextureParam(TEX_0, AssetManager::GetInstance()->FindAsset<Texture>(L"MonsterTexture", L"NoiseTest.png"));
 		monster->AddComponent<Collider2D>();
+
+		// Post Process
+		Ptr<GameObject> post = Ptr<GameObject>();
+		post->SetLayer(LAYER_TYPE::POST_PROCESS);
+		meshRender = post->AddComponent<MeshRender>();
+		meshRender->SetMesh(AssetManager::GetInstance()->FindAsset<Mesh>(L"RectMesh"));
+		meshRender->SetMaterial(AssetManager::GetInstance()->FindAsset<Material>(L"PostProcess_Material"));
 	}
 
 	for (auto& layer : m_layerMap)

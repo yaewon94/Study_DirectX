@@ -1,362 +1,318 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClInclude Include="Engine.h" />
-    <ClInclude Include="Device.h">
-      <Filter>1.Device</Filter>
-    </ClInclude>
-    <ClInclude Include="Singleton.h">
-      <Filter>0.Common\DesignPattern</Filter>
-    </ClInclude>
-    <ClInclude Include="Global.h">
-      <Filter>0.Common</Filter>
-    </ClInclude>
-    <ClInclude Include="SimpleMath.h">
-      <Filter>0.Common\DirectX</Filter>
-    </ClInclude>
-    <ClInclude Include="PathManager.h">
-      <Filter>2.Util</Filter>
-    </ClInclude>
-    <ClInclude Include="TimeManager.h">
-      <Filter>2.Util</Filter>
-    </ClInclude>
-    <ClInclude Include="Asset.h">
-      <Filter>3.Asset</Filter>
-    </ClInclude>
-    <ClInclude Include="Mesh.h">
-      <Filter>3.Asset\Mesh</Filter>
-    </ClInclude>
-    <ClInclude Include="Shader.h">
-      <Filter>3.Asset\Shader</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphicShader.h">
-      <Filter>3.Asset\Shader</Filter>
-    </ClInclude>
-    <ClInclude Include="ConstBuffer.h">
-      <Filter>1.Device\ConstBuffer</Filter>
-    </ClInclude>
-    <ClInclude Include="Ptr.h">
-      <Filter>2.Util</Filter>
-    </ClInclude>
-    <ClInclude Include="AssetManager.h">
-      <Filter>3.Asset</Filter>
-    </ClInclude>
-    <ClInclude Include="Component.h">
-      <Filter>5.Component</Filter>
-    </ClInclude>
-    <ClInclude Include="DesignPatternDefine.h">
-      <Filter>0.Common\DesignPattern</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject.h">
-      <Filter>4.Object</Filter>
-    </ClInclude>
-    <ClInclude Include="Script.h">
-      <Filter>5.Component\Script</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>5.Component\Script\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="Message.h">
-      <Filter>0.Common</Filter>
-    </ClInclude>
-    <ClInclude Include="ComponentEnums.h">
-      <Filter>5.Component</Filter>
-    </ClInclude>
-    <ClInclude Include="KeyManager.h">
-      <Filter>2.Util\Key</Filter>
-    </ClInclude>
-    <ClInclude Include="KeyEnums.h">
-      <Filter>2.Util\Key</Filter>
-    </ClInclude>
-    <ClInclude Include="Level.h">
-      <Filter>6.Level</Filter>
-    </ClInclude>
-    <ClInclude Include="Layer.h">
-      <Filter>7.Module\Layer</Filter>
-    </ClInclude>
-    <ClInclude Include="LayerEnums.h">
-      <Filter>7.Module\Layer</Filter>
-    </ClInclude>
-    <ClInclude Include="MeshRender.h">
-      <Filter>5.Component\Render\MeshRender</Filter>
-    </ClInclude>
-    <ClInclude Include="Transform.h">
-      <Filter>5.Component\Transform</Filter>
-    </ClInclude>
-    <ClInclude Include="CameraEnums.h">
-      <Filter>5.Component\Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="Camera.h">
-      <Filter>5.Component\Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="framework.h">
-      <Filter>0.Common</Filter>
-    </ClInclude>
-    <ClInclude Include="pch.h">
-      <Filter>0.Common</Filter>
-    </ClInclude>
-    <ClInclude Include="Render.h">
-      <Filter>8.Render</Filter>
-    </ClInclude>
-    <ClInclude Include="RenderManager.h">
-      <Filter>8.Render</Filter>
-    </ClInclude>
-    <ClInclude Include="TransformEnums.h">
-      <Filter>5.Component\Transform</Filter>
-    </ClInclude>
-    <ClInclude Include="Texture.h">
-      <Filter>3.Asset\Texture</Filter>
-    </ClInclude>
-    <ClInclude Include="Entity.h" />
-    <ClInclude Include="Material.h">
-      <Filter>3.Asset\Material</Filter>
-    </ClInclude>
-    <ClInclude Include="CommonTypes.h">
-      <Filter>0.Common</Filter>
-    </ClInclude>
-    <ClInclude Include="TaskManager.h">
-      <Filter>2.Util\Task</Filter>
-    </ClInclude>
-    <ClInclude Include="RenderComponent.h">
-      <Filter>5.Component\Render</Filter>
-    </ClInclude>
-    <ClInclude Include="LevelManager.h">
-      <Filter>6.Level</Filter>
-    </ClInclude>
-    <ClInclude Include="Collider2D.h">
-      <Filter>5.Component\Collider</Filter>
-    </ClInclude>
-    <ClInclude Include="CollisionManager.h">
-      <Filter>5.Component\Collider</Filter>
-    </ClInclude>
-    <ClInclude Include="Sprite.h">
-      <Filter>3.Asset\Sprite</Filter>
-    </ClInclude>
-    <ClInclude Include="Animator2D.h">
-      <Filter>5.Component\Render\MeshRender\Animator</Filter>
-    </ClInclude>
-    <ClInclude Include="TileMap.h">
-      <Filter>5.Component\Render\MeshRender\TileMap</Filter>
-    </ClInclude>
-    <ClInclude Include="StructedBuffer.h">
-      <Filter>1.Device\StructedBuffer</Filter>
-    </ClInclude>
+    <Filter Include="Entity">
+      <UniqueIdentifier>{98f94dfb-bea5-4103-99c2-d216d4bf7eae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entity\Component">
+      <UniqueIdentifier>{973e0ac0-6349-4f68-9ae5-aff40637a930}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entity\Component\RenderComponent">
+      <UniqueIdentifier>{edbc2131-8670-449a-b8ad-7e5ab4e119a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entity\Asset">
+      <UniqueIdentifier>{56588c98-938b-4461-b6f7-10a85b3c718f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager">
+      <UniqueIdentifier>{2df7dab0-40e8-4d23-adfa-37229e1e62a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header">
+      <UniqueIdentifier>{d6672dca-627d-49da-aa12-d904a485d175}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HLSL">
+      <UniqueIdentifier>{689c5d48-0810-4815-a269-0493b1dbfab2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Windows">
+      <UniqueIdentifier>{771128c5-52ee-4a2f-809b-8acae98adc03}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entity\GameObject">
+      <UniqueIdentifier>{b29babbe-fe95-467b-8909-247ef958e4d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entity\Layer">
+      <UniqueIdentifier>{13b6aefd-6c3a-4c78-9e79-d537e5a0ce05}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entity\Level">
+      <UniqueIdentifier>{d762b8b7-5383-439c-bc25-3ced37ea30b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entity\Component\Script">
+      <UniqueIdentifier>{eb340dea-3b48-4aa3-bdfa-bb303e9a00f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Util">
+      <UniqueIdentifier>{41a0550f-572d-45cf-8be3-6cd34ac0ef87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DirectX">
+      <UniqueIdentifier>{7b38bda6-97f4-4348-a9af-243cc174432e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Device.cpp">
-      <Filter>1.Device</Filter>
+    <ClCompile Include="Animator2D.cpp">
+      <Filter>Entity\Component\RenderComponent</Filter>
     </ClCompile>
-    <ClCompile Include="PathManager.cpp">
-      <Filter>2.Util</Filter>
-    </ClCompile>
-    <ClCompile Include="TimeManager.cpp">
-      <Filter>2.Util</Filter>
-    </ClCompile>
-    <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Asset.cpp">
-      <Filter>3.Asset</Filter>
-    </ClCompile>
-    <ClCompile Include="Mesh.cpp">
-      <Filter>3.Asset\Mesh</Filter>
-    </ClCompile>
-    <ClCompile Include="Shader.cpp">
-      <Filter>3.Asset\Shader</Filter>
-    </ClCompile>
-    <ClCompile Include="GraphicShader.cpp">
-      <Filter>3.Asset\Shader</Filter>
-    </ClCompile>
-    <ClCompile Include="ConstBuffer.cpp">
-      <Filter>1.Device\ConstBuffer</Filter>
+      <Filter>Entity\Asset</Filter>
     </ClCompile>
     <ClCompile Include="AssetManager.cpp">
-      <Filter>3.Asset</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine.cpp" />
-    <ClCompile Include="GameObject.cpp">
-      <Filter>4.Object</Filter>
-    </ClCompile>
-    <ClCompile Include="Script.cpp">
-      <Filter>5.Component\Script</Filter>
-    </ClCompile>
-    <ClCompile Include="Component.cpp">
-      <Filter>5.Component</Filter>
-    </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>5.Component\Script\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="KeyManager.cpp">
-      <Filter>2.Util\Key</Filter>
-    </ClCompile>
-    <ClCompile Include="Level.cpp">
-      <Filter>6.Level</Filter>
-    </ClCompile>
-    <ClCompile Include="Layer.cpp">
-      <Filter>7.Module\Layer</Filter>
-    </ClCompile>
-    <ClCompile Include="LevelManager.cpp">
-      <Filter>6.Level</Filter>
-    </ClCompile>
-    <ClCompile Include="MeshRender.cpp">
-      <Filter>5.Component\Render\MeshRender</Filter>
-    </ClCompile>
-    <ClCompile Include="Transform.cpp">
-      <Filter>5.Component\Transform</Filter>
+      <Filter>Manager</Filter>
     </ClCompile>
     <ClCompile Include="Camera.cpp">
-      <Filter>5.Component\Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="pch.cpp" />
-    <ClCompile Include="extern.cpp" />
-    <ClCompile Include="RenderManager.cpp">
-      <Filter>8.Render</Filter>
-    </ClCompile>
-    <ClCompile Include="Texture.cpp">
-      <Filter>3.Asset\Texture</Filter>
-    </ClCompile>
-    <ClCompile Include="Material.cpp">
-      <Filter>3.Asset\Material</Filter>
-    </ClCompile>
-    <ClCompile Include="TaskManager.cpp">
-      <Filter>2.Util\Task</Filter>
-    </ClCompile>
-    <ClCompile Include="RenderComponent.cpp">
-      <Filter>5.Component\Render</Filter>
+      <Filter>Entity\Component</Filter>
     </ClCompile>
     <ClCompile Include="Collider2D.cpp">
-      <Filter>5.Component\Collider</Filter>
+      <Filter>Entity\Component</Filter>
     </ClCompile>
     <ClCompile Include="CollisionManager.cpp">
-      <Filter>5.Component\Collider</Filter>
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Component.cpp">
+      <Filter>Entity\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="ConstBuffer.cpp">
+      <Filter>Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Device.cpp" />
+    <ClCompile Include="Engine.cpp" />
+    <ClCompile Include="Entity.cpp">
+      <Filter>Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="extern.cpp" />
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Entity\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicShader.cpp">
+      <Filter>Entity\Asset</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyManager.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Layer.cpp">
+      <Filter>Entity\Layer</Filter>
+    </ClCompile>
+    <ClCompile Include="Level.cpp">
+      <Filter>Entity\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelManager.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="Material.cpp">
+      <Filter>Entity\Asset</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>Entity\Asset</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshRender.cpp">
+      <Filter>Entity\Component\RenderComponent</Filter>
+    </ClCompile>
+    <ClCompile Include="PathManager.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="Script.cpp">
+      <Filter>Entity\Component\Script</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>Entity\Asset</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Entity\Component\Script</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderComponent.cpp">
+      <Filter>Entity\Component\RenderComponent</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderManager.cpp">
+      <Filter>Manager</Filter>
     </ClCompile>
     <ClCompile Include="Sprite.cpp">
-      <Filter>3.Asset\Sprite</Filter>
-    </ClCompile>
-    <ClCompile Include="Animator2D.cpp">
-      <Filter>5.Component\Render\MeshRender\Animator</Filter>
-    </ClCompile>
-    <ClCompile Include="TileMap.cpp">
-      <Filter>5.Component\Render\MeshRender\TileMap</Filter>
+      <Filter>Entity\Asset</Filter>
     </ClCompile>
     <ClCompile Include="StructedBuffer.cpp">
-      <Filter>1.Device\StructedBuffer</Filter>
+      <Filter>Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="TaskManager.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>Entity\Asset</Filter>
+    </ClCompile>
+    <ClCompile Include="TileMap.cpp">
+      <Filter>Entity\Component\RenderComponent</Filter>
+    </ClCompile>
+    <ClCompile Include="TimeManager.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Transform.cpp">
+      <Filter>Entity\Component</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="3.Asset">
-      <UniqueIdentifier>{d631d89d-24d8-4bfc-b669-f9896cd36967}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="3.Asset\Mesh">
-      <UniqueIdentifier>{dd4a25bb-8b96-42b0-b512-9c371a8487c7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="3.Asset\Shader">
-      <UniqueIdentifier>{869c6a89-d19f-41b1-90fe-1833c04fa05c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="4.Object">
-      <UniqueIdentifier>{b508f522-0397-4da3-bf25-4b0983b36d54}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="1.Device">
-      <UniqueIdentifier>{5ff6eb73-6d63-40fb-8a82-4810cc532401}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="1.Device\ConstBuffer">
-      <UniqueIdentifier>{2e82f871-771d-4da4-9323-55f9b7eef149}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="6.Level">
-      <UniqueIdentifier>{ed9be017-3351-4776-a2ae-f274c7ef18c6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="7.Module">
-      <UniqueIdentifier>{b0cc8a11-f923-4f6f-9218-49ce3b04bcbf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="7.Module\Layer">
-      <UniqueIdentifier>{8dd9980c-1276-4b6e-9222-db1c9a590068}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2.Util">
-      <UniqueIdentifier>{15c8395b-d4d0-4183-bc30-ccd9ffd46ded}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2.Util\Key">
-      <UniqueIdentifier>{e38672a0-3ecc-4748-8f86-e07d062efda9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="5.Component">
-      <UniqueIdentifier>{d09526ea-195d-496c-b964-6127eef7d192}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="5.Component\Script">
-      <UniqueIdentifier>{ac9fcb2e-40bb-41aa-947e-d6df7cac2a44}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="5.Component\Script\Player">
-      <UniqueIdentifier>{1084495e-508f-4686-8478-63da9f647723}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="5.Component\Camera">
-      <UniqueIdentifier>{e9e2118c-f40a-49a6-a092-bdb3f9efa1d9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="5.Component\Transform">
-      <UniqueIdentifier>{3d78f0f9-ddf5-4006-8825-22f84ddeaab6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="0.Common">
-      <UniqueIdentifier>{81f83232-21d8-492a-acb9-b8823bd70e70}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="0.Common\DesignPattern">
-      <UniqueIdentifier>{77dc491f-691c-46f3-bfc2-951a36d18880}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="0.Common\DirectX">
-      <UniqueIdentifier>{9b650aa1-6b12-4e84-bab8-a5131af01046}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="8.Render">
-      <UniqueIdentifier>{d33e93ef-c6d2-4098-9ddc-5e820e2f56fc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="8.Render\HLSL">
-      <UniqueIdentifier>{7af9394b-b2b7-4cf6-996b-cc1d92d5aa1d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="3.Asset\Texture">
-      <UniqueIdentifier>{64347930-26be-4a59-89dc-1b210c02141f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="3.Asset\Material">
-      <UniqueIdentifier>{9dd36b56-5898-437d-8335-44fa2b1cb72d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2.Util\Task">
-      <UniqueIdentifier>{80220948-d06f-44ab-a21f-fae2ec289592}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="5.Component\Render">
-      <UniqueIdentifier>{2d951a59-50f3-42cd-aa13-7053f873f6ac}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="5.Component\Render\MeshRender">
-      <UniqueIdentifier>{9ba4743b-5009-4b87-ad64-c42165474a77}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="5.Component\Collider">
-      <UniqueIdentifier>{21ccdd8c-fac8-4e92-bc28-71b1015c36cf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="3.Asset\Sprite">
-      <UniqueIdentifier>{f0a353b4-78a2-46fe-a9c0-c0813c686965}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="5.Component\Render\MeshRender\Animator">
-      <UniqueIdentifier>{e0269803-f46d-44fa-9713-5c32dcc4d465}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="5.Component\Render\MeshRender\TileMap">
-      <UniqueIdentifier>{794752da-b766-4cb6-a95e-ec79fdb2d53f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="1.Device\StructedBuffer">
-      <UniqueIdentifier>{54d68cc0-ee03-4d7e-82a3-84c1571279e3}</UniqueIdentifier>
-    </Filter>
+    <ClInclude Include="Animator2D.h">
+      <Filter>Entity\Component\RenderComponent</Filter>
+    </ClInclude>
+    <ClInclude Include="Asset.h">
+      <Filter>Entity\Asset</Filter>
+    </ClInclude>
+    <ClInclude Include="AssetManager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Entity\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraEnums.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Collider2D.h">
+      <Filter>Entity\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionManager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="CommonTypes.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Component.h">
+      <Filter>Entity\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentEnums.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="ConstBuffer.h">
+      <Filter>Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="DesignPatternDefine.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Device.h" />
+    <ClInclude Include="Engine.h" />
+    <ClInclude Include="Entity.h">
+      <Filter>Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="framework.h">
+      <Filter>Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>Entity\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Global.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicShader.h">
+      <Filter>Entity\Asset</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyEnums.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyManager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Layer.h">
+      <Filter>Entity\Layer</Filter>
+    </ClInclude>
+    <ClInclude Include="LayerEnums.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Level.h">
+      <Filter>Entity\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelManager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Material.h">
+      <Filter>Entity\Asset</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>Entity\Asset</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshRender.h">
+      <Filter>Entity\Component\RenderComponent</Filter>
+    </ClInclude>
+    <ClInclude Include="Message.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="PathManager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Script.h">
+      <Filter>Entity\Component\Script</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>Entity\Asset</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Entity\Component\Script</Filter>
+    </ClInclude>
+    <ClInclude Include="Ptr.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Render.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderComponent.h">
+      <Filter>Entity\Component\RenderComponent</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderManager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="SimpleMath.h">
+      <Filter>DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="Singleton.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Sprite.h">
+      <Filter>Entity\Asset</Filter>
+    </ClInclude>
+    <ClInclude Include="StructedBuffer.h">
+      <Filter>Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="TaskManager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>Entity\Asset</Filter>
+    </ClInclude>
+    <ClInclude Include="TileMap.h">
+      <Filter>Entity\Component\RenderComponent</Filter>
+    </ClInclude>
+    <ClInclude Include="TimeManager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Transform.h">
+      <Filter>Entity\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="TransformEnums.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>Windows</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Debug.fx">
+      <Filter>HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="Functions.fx">
+      <Filter>HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="PostProcess.fx">
+      <Filter>HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="Std2D.fx">
+      <Filter>HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="TileMap.fx">
+      <Filter>HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="Values.fx">
+      <Filter>HLSL</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleMath.inl">
-      <Filter>0.Common\DirectX</Filter>
+      <Filter>DirectX</Filter>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="Std2D.fx">
-      <Filter>8.Render\HLSL</Filter>
-    </FxCompile>
-    <FxCompile Include="Values.fx">
-      <Filter>8.Render\HLSL</Filter>
-    </FxCompile>
-    <FxCompile Include="Debug.fx">
-      <Filter>8.Render\HLSL</Filter>
-    </FxCompile>
-    <FxCompile Include="Functions.fx">
-      <Filter>8.Render\HLSL</Filter>
-    </FxCompile>
-    <FxCompile Include="TileMap.fx">
-      <Filter>8.Render\HLSL</Filter>
-    </FxCompile>
   </ItemGroup>
 </Project>
