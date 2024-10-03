@@ -1,5 +1,9 @@
 #pragma once
 
+// 이름
+#define RENDER_TARGET_TEX_NAME L"RenderTargetTex"
+#define DEPTH_STENCIL_TEX_NAME L"DepthStencilTex"
+
 // 색상
 #define COLOR_RED Vec4(1.f, 0.f, 0.f, 1.f)
 #define COLOR_GREEN Vec4(0.f, 1.f, 0.f, 1.f)

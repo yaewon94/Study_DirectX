@@ -1,6 +1,8 @@
 #pragma once
 #include "Asset.h"
 
+class Texture;
+
 // 에셋 관리 클래스
 class AssetManager final : public Singleton<AssetManager>
 {
@@ -11,6 +13,10 @@ private:
 
 public:
 	int Init();
+
+public:
+	Ptr<Texture> CreateTexture(const wstring& Key, ComPtr<ID3D11Texture2D> texture);;
+	Ptr<Texture> CreateTexture(const wstring& Key, Vec2 size, DXGI_FORMAT format, UINT bindFlags, D3D11_USAGE usage = D3D11_USAGE_DEFAULT);
 
 public:
 	// 에셋 추가
@@ -44,6 +50,14 @@ public:
 
 private:
 	// 에셋 추가
+	template<typename T> requires std::derived_from<T, Asset>
+	Ptr<T> AddAsset(const wstring& Key, Ptr<T>& asset)
+	{
+		assetMapArr[(UINT)GetType<T>()].insert(make_pair(Key, asset.ptr_dynamic_cast<Asset>()));
+
+		return asset;
+	}
+
 	template<typename T> requires std::derived_from<T, Asset>
 	Ptr<T> AddAssetNoCheck(const wstring& Key, const wstring& relativePath)
 	{

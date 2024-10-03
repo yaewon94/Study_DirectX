@@ -51,11 +51,11 @@ int Texture::Load()
 		, m_img.GetImages()
 		, m_img.GetImageCount()
 		, m_img.GetMetadata()
-		, m_srv.GetAddressOf());
+		, m_srView.GetAddressOf());
 
 	// Shader Resource View 를 이용해 원본객체(Texture2D) 정보 알아내기
 	// ScratchImage => Texture2D
-	m_srv->GetResource((ID3D11Resource**)m_tex2D.GetAddressOf());
+	m_srView->GetResource((ID3D11Resource**)m_tex2D.GetAddressOf());
 
 	// Texture2D의 desc 정보
 	m_tex2D->GetDesc(&m_desc);
@@ -63,14 +63,59 @@ int Texture::Load()
 	return S_OK;
 }
 
+int Texture::CreateOnGpu(ComPtr<ID3D11Texture2D> texture)
+{
+	m_tex2D = texture;
+	m_tex2D->GetDesc(&m_desc);
+	if (FAILED(CreateView(m_desc.BindFlags))) return E_FAIL;
+
+	return S_OK;
+}
+
+int Texture::CreateOnGpu(Vec2 size, DXGI_FORMAT format, UINT bindFlags, D3D11_USAGE usage)
+{
+	// DESC 작성
+	m_desc.Width = size.x;
+	m_desc.Height = size.y;
+	m_desc.ArraySize = 1;
+	m_desc.Format = format;
+	m_desc.BindFlags = bindFlags;	// 텍스처 용도
+	m_desc.Usage = usage;	// 생성 이후, CPU에서 접근 가능한지 옵션
+
+	if (m_desc.Usage == D3D11_USAGE_DYNAMIC)
+	{
+		m_desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+	}
+	else if(m_desc.Usage == D3D11_USAGE_STAGING)
+	{
+		m_desc.CPUAccessFlags = D3D11_CPU_ACCESS_READ;
+	}
+
+	m_desc.MipLevels = 1;	// 밉맵 개수 1 (원본만 존재)
+	m_desc.MiscFlags = 0;
+	m_desc.SampleDesc.Count = 1;
+	m_desc.SampleDesc.Quality = 0;
+
+	if (FAILED(DEVICE->CreateTexture2D(&m_desc, nullptr, m_tex2D.GetAddressOf())))
+	{
+		MessageBox(nullptr, L"DESC 오류", L"텍스처 생성 실패", MB_OK);
+		return E_FAIL;
+	}
+
+	// view 생성
+	if (FAILED(CreateView(m_desc.BindFlags))) return E_FAIL;
+	
+	return S_OK;
+}
+
 void Texture::BindOnGpu(TEXTURE_PARAM param)
 {
 	m_registerNum = param;
-	CONTEXT->VSSetShaderResources(param, 1, m_srv.GetAddressOf());	// Vertex Shader
-	CONTEXT->HSSetShaderResources(param, 1, m_srv.GetAddressOf());	// Hull Shader
-	CONTEXT->DSSetShaderResources(param, 1, m_srv.GetAddressOf());	// Domain Shader
-	CONTEXT->GSSetShaderResources(param, 1, m_srv.GetAddressOf());	// Geometry Shader
-	CONTEXT->PSSetShaderResources(param, 1, m_srv.GetAddressOf());	// Pixel Shader
+	CONTEXT->VSSetShaderResources(param, 1, m_srView.GetAddressOf());	// Vertex Shader
+	CONTEXT->HSSetShaderResources(param, 1, m_srView.GetAddressOf());	// Hull Shader
+	CONTEXT->DSSetShaderResources(param, 1, m_srView.GetAddressOf());	// Domain Shader
+	CONTEXT->GSSetShaderResources(param, 1, m_srView.GetAddressOf());	// Geometry Shader
+	CONTEXT->PSSetShaderResources(param, 1, m_srView.GetAddressOf());	// Pixel Shader
 }
 
 void Texture::Clear()
@@ -87,4 +132,40 @@ void Texture::Clear()
 	CONTEXT->GSSetShaderResources(m_registerNum, 1, &srv);
 	CONTEXT->PSSetShaderResources(m_registerNum, 1, &srv);
 	m_registerNum = TEXTURE_PARAM::NULL_PARAM;
+}
+
+int Texture::CreateView(UINT bindFlags)
+{
+	// view 생성
+	if (m_desc.BindFlags & D3D11_BIND_DEPTH_STENCIL)
+	{
+		if (FAILED(DEVICE->CreateDepthStencilView(m_tex2D.Get(), nullptr, m_dsView.GetAddressOf())))
+		{
+			MessageBox(nullptr, L"Depth Stencil View 생성 실패", L"텍스처 생성 실패", MB_OK);
+			return E_FAIL;
+		}
+	}
+	else if (m_desc.BindFlags & D3D11_BIND_RENDER_TARGET)
+	{
+		if (FAILED(DEVICE->CreateRenderTargetView(m_tex2D.Get(), nullptr, m_rtView.GetAddressOf())))
+		{
+			MessageBox(nullptr, L"RenderTarget View 생성 실패", L"텍스처 생성 실패", MB_OK);
+			return E_FAIL;
+		}
+	}
+	else if (m_desc.BindFlags & D3D11_BIND_SHADER_RESOURCE)
+	{
+		if (FAILED(DEVICE->CreateShaderResourceView(m_tex2D.Get(), nullptr, m_srView.GetAddressOf())))
+		{
+			MessageBox(nullptr, L"Shader Resource View 생성 실패", L"텍스처 생성 실패", MB_OK);
+			return E_FAIL;
+		}
+	}
+	else
+	{
+		MessageBox(nullptr, L"알맞은 BindFlag 조합이 아닙니다", L"텍스처 생성 실패", MB_OK);
+		return E_FAIL;
+	}
+
+	return S_OK;
 }

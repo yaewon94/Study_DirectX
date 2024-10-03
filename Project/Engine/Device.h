@@ -8,6 +8,7 @@
 #define DEVICE Device::GetInstance()->GetDevice()
 
 class ConstBuffer;
+class Texture;
 
 // GPU 제어 클래스
 class Device final : public Singleton<Device>
@@ -15,35 +16,32 @@ class Device final : public Singleton<Device>
 	SINGLETON(Device);
 
 private:
-	HWND hwnd;
+	HWND m_hwnd;
 
-	ComPtr<ID3D11Device> device;			// GPU 제어, GPU 메모리에 데이터 생성
-	ComPtr<ID3D11DeviceContext> context;	// GPU 동작 명령, 렌더링, GPGPU
+	ComPtr<ID3D11Device> m_device;			// GPU 제어, GPU 메모리에 데이터 생성
+	ComPtr<ID3D11DeviceContext> m_context;	// GPU 동작 명령, 렌더링, GPGPU
 
-	ComPtr<IDXGISwapChain> swapChain;		// 백버퍼 관리, 최종 렌더링 제출
+	ComPtr<IDXGISwapChain> m_swapChain;		// 백버퍼 관리, 최종 렌더링 제출
 
-	ComPtr<ID3D11Texture2D> rtTex;			// 백버퍼
-	ComPtr<ID3D11RenderTargetView> rtView;	// 백버퍼 중간 전달자
+	Ptr<Texture> m_rtTex;			// 백버퍼
+	Ptr<Texture> m_dsTex;			// Depth, Stencil, Texture
 
-	ComPtr<ID3D11Texture2D> dsTex;			// Depth, Stencil, Texture
-	ComPtr<ID3D11DepthStencilView> dsView;
+	D3D11_VIEWPORT m_viewPort;
 
-	D3D11_VIEWPORT viewPort;
+	Ptr<ConstBuffer> m_cbArr[(UINT)CB_TYPE::COUNT_END];	// 타입별 상수버퍼
 
-	Ptr<ConstBuffer> cbArr[(UINT)CB_TYPE::COUNT_END];	// 타입별 상수버퍼
-
-	ComPtr<ID3D11RasterizerState> rsState[(UINT)RASTERIZE_TYPE::COUNT_END];
-	ComPtr<ID3D11SamplerState> spState[(UINT)SAMPLER_TYPE::COUNT_END];
-	ComPtr<ID3D11BlendState> bsState[(UINT)BLEND_TYPE::COUNT_END];
-	ComPtr<ID3D11DepthStencilState> dsState[(UINT)DEPTH_STENCIL_TYPE::COUNT_END];
+	ComPtr<ID3D11RasterizerState> m_rsState[(UINT)RASTERIZE_TYPE::COUNT_END];
+	ComPtr<ID3D11SamplerState> m_spState[(UINT)SAMPLER_TYPE::COUNT_END];
+	ComPtr<ID3D11BlendState> m_bsState[(UINT)BLEND_TYPE::COUNT_END];
+	ComPtr<ID3D11DepthStencilState> m_dsState[(UINT)DEPTH_STENCIL_TYPE::COUNT_END];
 
 public:
-	ComPtr<ID3D11Device> GetDevice() { return device; }
-	ComPtr<ID3D11DeviceContext> GetContext() { return context; }
+	ComPtr<ID3D11Device> GetDevice() { return m_device; }
+	ComPtr<ID3D11DeviceContext> GetContext() { return m_context; }
 	Ptr<ConstBuffer> GetConstBuffer(CB_TYPE type);
-	ComPtr<ID3D11RasterizerState> GetRasterizerState(RASTERIZE_TYPE type) { return rsState[(UINT)type]; }
-	ComPtr<ID3D11BlendState> GetBlendState(BLEND_TYPE type) { return bsState[(UINT)type]; }
-	ComPtr<ID3D11DepthStencilState> GetDepthStencilState(DEPTH_STENCIL_TYPE type) { return dsState[(UINT)type]; }
+	ComPtr<ID3D11RasterizerState> GetRasterizerState(RASTERIZE_TYPE type) { return m_rsState[(UINT)type]; }
+	ComPtr<ID3D11BlendState> GetBlendState(BLEND_TYPE type) { return m_bsState[(UINT)type]; }
+	ComPtr<ID3D11DepthStencilState> GetDepthStencilState(DEPTH_STENCIL_TYPE type) { return m_dsState[(UINT)type]; }
 
 public:
 	int Init(HWND hwnd);

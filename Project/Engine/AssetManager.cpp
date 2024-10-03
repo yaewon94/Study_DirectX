@@ -3,6 +3,7 @@
 #include "Mesh.h"
 #include "GraphicShader.h"
 #include "Material.h"
+#include "Texture.h"
 
 AssetManager::AssetManager()
 {
@@ -24,6 +25,48 @@ int AssetManager::Init()
 	if (FAILED(CreateDefaultMaterial())) return E_FAIL;
 
 	return S_OK;
+}
+
+Ptr<Texture> AssetManager::CreateTexture(const wstring& Key, ComPtr<ID3D11Texture2D> texture)
+{
+	Ptr<Texture> newTex = FindAsset<Texture>(Key);
+
+	if (newTex != nullptr)
+	{
+		throw std::logic_error("해당 key를 가진 텍스처가 이미 존재합니다");
+	}
+
+	// 텍스처 생성
+	newTex = Ptr<Texture>(Key, L"");
+	if (FAILED(newTex->CreateOnGpu(texture)))
+	{
+		return nullptr;
+	}
+
+	// 생성 성공시
+	AddAsset<Texture>(Key, newTex);
+	return newTex;
+}
+
+Ptr<Texture> AssetManager::CreateTexture(const wstring& Key, Vec2 size, DXGI_FORMAT format, UINT bindFlags, D3D11_USAGE usage)
+{
+	Ptr<Texture> newTex = FindAsset<Texture>(Key);
+
+	if (newTex != nullptr)
+	{
+		throw std::logic_error("해당 key를 가진 텍스처가 이미 존재합니다");
+	}
+
+	// 텍스처 생성
+	newTex = Ptr<Texture>(Key, L"");
+	if (FAILED(newTex->CreateOnGpu(size, format, bindFlags, usage)))
+	{
+		return nullptr;
+	}
+
+	// 생성 성공시
+	AddAsset<Texture>(Key, newTex);
+	return newTex;
 }
 
 int AssetManager::CreateDefaultMesh()
@@ -218,6 +261,23 @@ int AssetManager::CreateDefaultShader()
 	}
 
 	// ============================
+	// Post Process 셰이더
+	// ============================
+	{
+		shader = AddAsset<GraphicShader>(L"PostProcess_Shader", L"PostProcess.fx");
+		shader->SetRasterizerType(RASTERIZE_TYPE::CULL_NONE);
+		shader->SetBlendType(BLEND_TYPE::DEFAULT);
+		shader->SetDepthStencilType(DEPTH_STENCIL_TYPE::NO_TEST_WRITE);
+		shader->SetDomain(SHADER_DOMAIN::DOMAIN_POSTPROCESS);
+		if (FAILED(shader->CreateOnGpu("VS_PostProcess", "PS_PostProcess")))
+		{
+			MessageBox(nullptr, L"PostProcess 셰이더 생성 실패", L"에셋 생성 실패", MB_OK);
+			return E_FAIL;
+		}
+	}
+
+#ifdef _DEBUG
+	// ============================
 	// 디버깅 모드 셰이더
 	// ============================
 	{
@@ -230,6 +290,7 @@ int AssetManager::CreateDefaultShader()
 			return E_FAIL;
 		}
 	}
+#endif // DEBUG
 
 	return S_OK;
 }
@@ -263,10 +324,18 @@ int AssetManager::CreateDefaultMaterial()
 	material->SetShader(FindAsset<GraphicShader>(L"TileMap_Shader"));
 
 	// ==========================
+	// PostProcess 재질
+	// ==========================
+	material = AddAsset<Material>(L"PostProcess_Material", L"");
+	material->SetShader(FindAsset<GraphicShader>(L"PostProcess_Shader"));
+
+#ifdef _DEBUG
+	// ==========================
 	// 디버깅 모드 재질
 	// ==========================
 	material = AddAsset<Material>(L"Debug_Material", L"Debug Material");
 	material->SetShader(FindAsset<GraphicShader>(L"Debug_Shader"));
+#endif // _DEBUG
 
 	return S_OK;
 }
