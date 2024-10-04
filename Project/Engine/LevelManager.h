@@ -16,7 +16,6 @@ private:
 public:
 	void Init();
 	void Tick();
-	void Render(LAYER_TYPES layers);
 
 public:
 	Ptr<GameObject> AddObject(const Ptr<GameObject>& obj);

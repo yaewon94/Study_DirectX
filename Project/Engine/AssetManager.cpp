@@ -282,8 +282,11 @@ int AssetManager::CreateDefaultShader()
 	// ============================
 	{
 		shader = AddAsset<GraphicShader>(L"Debug_Shader", L"Debug.fx");
-		shader->SetRasterizerType(RASTERIZE_TYPE::CULL_NONE);
 		shader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP);
+		shader->SetRasterizerType(RASTERIZE_TYPE::CULL_NONE);
+		shader->SetBlendType(BLEND_TYPE::DEFAULT);
+		shader->SetDepthStencilType(DEPTH_STENCIL_TYPE::NO_TEST_WRITE);
+		shader->SetDomain(SHADER_DOMAIN::DOMAIN_POSTPROCESS);
 		if (FAILED(shader->CreateOnGpu("VS_Debug", "PS_Debug")))
 		{
 			MessageBox(nullptr, L"디버깅 모드 셰이더 생성 실패", L"에셋 생성 실패", MB_OK);

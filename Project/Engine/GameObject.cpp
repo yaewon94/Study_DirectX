@@ -3,13 +3,14 @@
 #include "LevelManager.h"
 #include "Component.h"
 #include "Transform.h"
+#include "RenderManager.h"
 #include "RenderComponent.h"
 #include "Script.h"
 #include "CollisionManager.h"
 #include "Collider2D.h"
 
 GameObject::GameObject() 
-	: m_layer(LAYER_TYPE::DEFAULT)
+	: m_layer(LAYER_TYPE::NONE)
 	, m_renderComponent(nullptr)
 	, m_parent(nullptr)
 {
@@ -75,26 +76,33 @@ Ptr<RenderComponent> GameObject::GetRenderComponent()
 
 void GameObject::SetLayer(LAYER_TYPE layer)
 {
+	if (m_layer == layer) return;
+
 	Ptr<GameObject> obj = Ptr<GameObject>(this);
 	Ptr<Collider2D> collider = GetComponent<Collider2D>();
 
 	// 기존 레이어에 등록된 오브젝트 삭제
 	LevelManager::GetInstance()->DeleteObject(obj);
-
 	// 기존 레이어 타입으로 등록된 콜라이더 삭제
-	if (collider != nullptr)
-	{
-		CollisionManager::GetInstance()->RemoveCollider(collider);
-	}
+	CollisionManager::GetInstance()->RemoveCollider(collider);
+	// 기존 레이어 타입으로 등록된 메인카메라 렌더맵 삭제
+	RenderManager::GetInstance()->DeleteRenderObj(CAMERA_TYPE::MAIN_CAMERA, obj);
 
-	// 새로운 레이어에 오브젝트 등록
 	m_layer = layer;
-	LevelManager::GetInstance()->AddObject(obj);
-
-	// 새로운 레이어 타입으로 콜라이더 등록
-	if (collider != nullptr)
+	if (m_layer >= LAYER_TYPE::CAMERA)
 	{
-		CollisionManager::GetInstance()->AddCollider(collider);
+		// 새로운 레이어에 오브젝트 등록
+		LevelManager::GetInstance()->AddObject(obj);
+		// 새로운 레이어 타입으로 콜라이더 등록
+		if (collider != nullptr)
+		{
+			CollisionManager::GetInstance()->AddCollider(collider);
+		}
+		// 새로운 레이어 타입으로 메인카메라 렌더맵 등록
+		if (m_renderComponent != nullptr)
+		{
+			RenderManager::GetInstance()->AddRenderObj(CAMERA_TYPE::MAIN_CAMERA, obj);
+		}
 	}
 }
 

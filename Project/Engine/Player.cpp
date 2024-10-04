@@ -14,8 +14,7 @@
 Player::Player(const Ptr<GameObject>& owner) 
 	: Script(owner)
 {
-	// 레이어, 이름, 좌표 설정
-	owner->SetLayer(LAYER_TYPE::PLAYER);
+	// 이름, 좌표 설정
 	owner->SetName(L"Player");
 	owner->GetTransform()->SetLocalScale(Vec3(200.f, 200.f, 0.f));
 
@@ -30,6 +29,11 @@ Player::Player(const Ptr<GameObject>& owner)
 	Ptr<Animator2D> animator = owner->AddComponent<Animator2D>();
 	animator->AddSprite("Idle", sprite);
 	animator->ChangeAnimation("Idle");
+
+	//=======================================
+	// 레이어 설정 (레벨에 오브젝트 등록)
+	// ======================================
+	owner->SetLayer(LAYER_TYPE::PLAYER);
 }
 
 Player::Player(const Ptr<Script>& origin, const Ptr<GameObject>& owner) 

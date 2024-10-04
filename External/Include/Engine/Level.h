@@ -22,7 +22,6 @@ private:
 	virtual void Init();
 	virtual void Tick();
 	virtual void FinalTick();
-	virtual void Render(LAYER_TYPES layers) final;
 
 private:
 	Ptr<GameObject> AddObject(const Ptr<GameObject>& obj);

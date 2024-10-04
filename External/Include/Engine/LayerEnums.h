@@ -1,14 +1,15 @@
 #pragma once
 
-#define MAX_LAYER_TYPES 0xffffffff
+#define MAX_LAYER_TYPES 0x7fffffff
 
 // enum class LAYER_TYPE 값들을 | 로 조합한 결과
-using LAYER_TYPES = UINT;
+using LAYER_TYPES = int;
 
 // 레이어 타입 (value : 렌더링 순서)
 // TODO : 2의 배수로 늘릴 것
-enum LAYER_TYPE : UINT
+enum LAYER_TYPE : int
 {
+	NONE = -1,
 	CAMERA = 0,
 
 	// LAYER_TYPES(int) 에 조합 가능한 레이어들
@@ -18,5 +19,5 @@ enum LAYER_TYPE : UINT
 	PLAYER = MONSTER << 1,
 	SKILL = PLAYER << 1,
 	DEBUG = SKILL << 1,
-	POST_PROCESS = 0x80000000 // MAX
+	// 0x40000000 // MAX
 };

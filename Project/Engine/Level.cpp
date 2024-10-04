@@ -29,11 +29,11 @@ void Level::Init()
 		// 타일맵 오브젝트 추가
 		Ptr<GameObject> obj = Ptr<GameObject>();
 		obj->GetTransform()->SetLocalPosY(-100.f);
-		obj->SetLayer(LAYER_TYPE::GROUND);
 		Ptr<TileMap> tileMap = obj->AddComponent<TileMap>();
 		tileMap->SetAtlasTexture(AssetManager::GetInstance()->AddAsset<Texture>(L"TileMapTex", L"TileTest.png"), Vec2(8, 8));
 		tileMap->SetTileIndex(Vec2(3, 0));
 		tileMap->SetTileCount(Vec2(10, 1));
+		obj->SetLayer(LAYER_TYPE::GROUND);
 
 		// 플레이어 오브젝트 추가
 		Ptr<GameObject> g_player = Ptr<GameObject>();
@@ -50,7 +50,6 @@ void Level::Init()
 
 		// 몬스터 오브젝트 추가
 		Ptr<GameObject> monster = Ptr<GameObject>();
-		monster->SetLayer(LAYER_TYPE::MONSTER);
 		monster->GetTransform()->SetLocalPosX(400.f);
 		Ptr<MeshRender> meshRender = monster->AddComponent<MeshRender>();
 		meshRender->SetMesh(AssetManager::GetInstance()->FindAsset<Mesh>(L"CircleMesh"));
@@ -59,13 +58,14 @@ void Level::Init()
 		meshRender->SetMaterial(material);
 		meshRender->GetMaterial()->SetTextureParam(TEX_0, AssetManager::GetInstance()->FindAsset<Texture>(L"MonsterTexture", L"NoiseTest.png"));
 		monster->AddComponent<Collider2D>();
+		monster->SetLayer(LAYER_TYPE::MONSTER);
 
-		// Post Process
-		Ptr<GameObject> post = Ptr<GameObject>();
-		post->SetLayer(LAYER_TYPE::POST_PROCESS);
-		meshRender = post->AddComponent<MeshRender>();
-		meshRender->SetMesh(AssetManager::GetInstance()->FindAsset<Mesh>(L"RectMesh"));
-		meshRender->SetMaterial(AssetManager::GetInstance()->FindAsset<Material>(L"PostProcess_Material"));
+		//// Post Process
+		//Ptr<GameObject> post = Ptr<GameObject>();
+		//meshRender = post->AddComponent<MeshRender>();
+		//meshRender->SetMesh(AssetManager::GetInstance()->FindAsset<Mesh>(L"RectMesh"));
+		//meshRender->SetMaterial(AssetManager::GetInstance()->FindAsset<Material>(L"PostProcess_Material"));
+		//post->SetLayer(LAYER_TYPE::DEFAULT);
 	}
 
 	for (auto& layer : m_layerMap)
@@ -90,22 +90,13 @@ void Level::FinalTick()
 	}
 }
 
-void Level::Render(LAYER_TYPES layers)
-{
-	// 현재 레벨에 등록된 레이어 중
-	for (auto& pair : m_layerMap)
-	{
-		// 레이어 조합에 등록된 경우 렌더링
-		if (layers & pair.first)
-		{
-			pair.second->Render();
-		}
-	}
-}
-
 Ptr<GameObject> Level::AddObject(const Ptr<GameObject>& obj)
 {
 	LAYER_TYPE layer = obj->GetLayer();
+	if (layer < LAYER_TYPE::CAMERA)
+	{
+		throw std::logic_error("양의 정수인 LAYER_TYPE의 오브젝트만 등록 가능합니다");
+	}
 
 	// 게임오브젝트의 레이어와 일치하는 레이어에 등록
 	if (m_layerMap.find(layer) == m_layerMap.end()) m_layerMap.insert(make_pair(layer, Ptr<Layer>(layer)));
@@ -114,14 +105,13 @@ Ptr<GameObject> Level::AddObject(const Ptr<GameObject>& obj)
 
 void Level::DeleteObject(const Ptr<GameObject>& obj)
 {
-	const auto iter = m_layerMap.find(obj->GetLayer());
+	LAYER_TYPE layer = obj->GetLayer();
+	if (layer < LAYER_TYPE::CAMERA) return;
+	const auto iter = m_layerMap.find(layer);
 
 	if (iter == m_layerMap.end())
 	{
-		if (obj->GetLayer() != LAYER_TYPE::DEFAULT)
-		{
-			throw std::logic_error("오브젝트 삭제 실패 : 현재 레벨에 등록된 레이어가 아닙니다");
-		}
+		throw std::logic_error("오브젝트 삭제 실패 : 현재 레벨에 등록된 레이어가 아닙니다");
 	}
 	else
 	{

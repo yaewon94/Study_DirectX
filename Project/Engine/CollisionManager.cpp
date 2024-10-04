@@ -14,6 +14,7 @@ CollisionManager::~CollisionManager()
 void CollisionManager::AddCollider(const Ptr<Collider2D>& collider)
 {
 	LAYER_TYPE layer = collider->GetOwner()->GetLayer();
+	if (layer <= LAYER_TYPE::CAMERA) return;
 	const auto iter = m_colliderMap.find(layer);
 
 	if (iter == m_colliderMap.end())
@@ -39,7 +40,10 @@ void CollisionManager::AddCollider(const Ptr<Collider2D>& collider)
 
 void CollisionManager::RemoveCollider(const Ptr<Collider2D>& collider)
 {
+	if (collider == nullptr) return;
+
 	LAYER_TYPE layer = collider->GetOwner()->GetLayer();
+	if (layer <= LAYER_TYPE::CAMERA) return;
 	const auto mapiter = m_colliderMap.find(layer);
 
 	if (mapiter != m_colliderMap.end())
@@ -70,8 +74,6 @@ void CollisionManager::RemoveCollider(const Ptr<Collider2D>& collider)
 			}
 		}
 	}
-
-	throw std::logic_error("등록되지 않은 콜라이더 입니다");
 }
 
 void CollisionManager::Tick()

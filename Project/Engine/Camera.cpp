@@ -6,9 +6,10 @@
 #include "GameObject.h"
 #include "Transform.h"
 #include "TransformEnums.h"
-#include "Render.h"
-
-Ptr<Camera> Camera::mainCamera = nullptr;
+#include "RenderManager.h"
+#include "RenderComponent.h"
+#include "GraphicShader.h"
+#include "Material.h"
 
 Camera::Camera(const Ptr<GameObject>& owner)
 	: Component(owner)
@@ -60,15 +61,95 @@ void Camera::SetLayerOnOff(LAYER_TYPE layer)
 	}
 }
 
+void Camera::AddRenderObj(const Ptr<GameObject>& obj)
+{
+	LAYER_TYPE layer = obj->GetLayer();
+	if (layer <= LAYER_TYPE::CAMERA) return;
+	SHADER_DOMAIN domain = obj->GetComponent<RenderComponent>()->GetMaterial()->GetShader()->GetDomain();
+	const auto domainMap_iter = m_renderMap.find(domain);
+
+	// map<DOMAIN_SHADER, map<LAYER_TYPE, RenderComponent vec>>
+	if (domainMap_iter != m_renderMap.end())
+	{
+		auto& layerMap = domainMap_iter->second;
+		const auto layerMap_iter = layerMap.find(layer);
+
+		// map<LAYER_TYPE, RenderComponent vec>
+		if (layerMap_iter != layerMap.end())
+		{
+			layerMap_iter->second.push_back(obj->GetRenderComponent());
+		}
+		else
+		{
+			vector<Ptr<RenderComponent>> renderVec;
+			renderVec.push_back(obj->GetRenderComponent());
+			layerMap.insert(make_pair(layer, renderVec));
+		}
+	}
+	else
+	{
+		// map<LAYER_TYPE, RenderComponent vec> 생성 => m_renderMap에 저장
+		map<LAYER_TYPE, vector<Ptr<RenderComponent>>> layerMap;
+		m_renderMap.insert(make_pair(domain, layerMap));
+
+		// RenderComponent vec 생성 => layerMap에 저장
+		vector<Ptr<RenderComponent>> renderVec;
+		renderVec.push_back(obj->GetRenderComponent());
+		m_renderMap.find(domain)->second.insert(make_pair(layer, renderVec));
+	}	
+}
+
+void Camera::DeleteRenderObj(const Ptr<GameObject>& obj)
+{
+	if (obj->GetRenderComponent() == nullptr) return;
+
+	LAYER_TYPE layer = obj->GetLayer();
+	if (layer <= LAYER_TYPE::CAMERA) return;
+	SHADER_DOMAIN domain = obj->GetComponent<RenderComponent>()->GetMaterial()->GetShader()->GetDomain();
+	const auto domainMap_iter = m_renderMap.find(domain);
+
+	// map<DOMAIN_SHADER, map<LAYER_TYPE, RenderComponent vec>>
+	if (domainMap_iter != m_renderMap.end())
+	{
+		auto& layerMap = domainMap_iter->second;
+		const auto layerMap_iter = layerMap.find(layer);
+
+		// map<LAYER_TYPE, RenderComponent vec>
+		if (layerMap_iter != layerMap.end())
+		{
+			auto& renderVec = layerMap_iter->second;
+			
+			for (auto vec_iter = renderVec.begin(); vec_iter != renderVec.end(); ++vec_iter)
+			{
+				if (obj->GetRenderComponent().GetAddressOf() == vec_iter->GetAddressOf())
+				{
+					renderVec.erase(vec_iter);
+					
+					// 해당 layer에 등록된 렌더컴포넌트가 없는 경우 map에서 제거
+					if (renderVec.empty())
+					{
+						layerMap.erase(layerMap_iter);
+
+						// 해당 shader domain에 등록된 layerMap이 없는 경우 map에서 제거
+						if (layerMap.empty())
+						{
+							m_renderMap.erase(domainMap_iter);
+						}
+					}
+
+					break;
+				}
+			}
+		}
+	}
+	else
+	{
+		throw std::logic_error("등록된 오브젝트가 없습니다");
+	}
+}
+
 void Camera::Init()
 {
-	// 메인 카메라 설정
-	if (mainCamera == nullptr)
-	{
-		this->GetOwner()->SetName(L"Main Camera");
-		mainCamera = Ptr<Camera>(this);
-	}
-
 	// RenderManager에 카메라 등록
 	RenderManager::GetInstance()->AddCamera(Ptr<Camera>(this));
 
@@ -105,7 +186,20 @@ void Camera::FinalTick()
 
 void Camera::Render()
 {
-	LevelManager::GetInstance()->Render(m_layers);
+	for (auto& domainPair : m_renderMap)
+	{
+		for (auto& layerPair : domainPair.second)
+		{
+			// 렌더링할 LAYER만 호출
+			if (m_layers & layerPair.first)
+			{
+				for (auto& renderComponent : layerPair.second)
+				{
+					renderComponent->Render();
+				}
+			}
+		}
+	}
 }
 
 void Camera::OnChangeRotation()

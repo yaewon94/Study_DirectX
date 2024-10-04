@@ -33,6 +33,7 @@ int Engine::Init(HWND hwnd)
 	PathManager::GetInstance()->Init();
 	if (FAILED(AssetManager::GetInstance()->Init())) return E_FAIL;
 	TimeManager::GetInstance()->Init();
+	if (FAILED(RenderManager::GetInstance()->Init())) return E_FAIL;
 	LevelManager::GetInstance()->Init();
 	KeyManager::GetInstance()->Init();
 

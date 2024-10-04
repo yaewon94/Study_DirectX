@@ -132,14 +132,14 @@ public:
 	}
 		
 	// 비교 연산자 (==)
-	bool operator==(nullptr_t)
+	bool operator==(nullptr_t) const
 	{
 		if (this == nullptr || t == nullptr) return true;
 		else return false;
 	}
 
 	// 비교 연산자 (!=)
-	bool operator!=(nullptr_t)
+	bool operator!=(nullptr_t) const
 	{
 		if (this == nullptr || t == nullptr) return false;
 		else return true;

@@ -1,10 +1,6 @@
 #include "pch.h"
 #include "Layer.h"
 #include "GameObject.h"
-#include "RenderComponent.h"
-#include "Material.h"
-#include "GraphicShader.h"
-#include "MeshRender.h"
 
 Layer::Layer(const LAYER_TYPE Type) : m_Type(Type)
 {
@@ -74,27 +70,5 @@ void Layer::FinalTick()
 	for (auto& obj : m_objs)
 	{
 		obj->FinalTick();
-	}
-}
-
-// 오브젝트 렌더링
-// 불투명 > 마스크 > 투명 > 후처리 순으로 렌더링
-// TODO : Layer 말고 다른 클래스에서 처리하는 방법 생각해보기 (지금은 Layer에서 처리하는게 스택호출이 제일 적어서 하는 중)
-void Layer::Render()
-{
-	Ptr<RenderComponent> renderComponent = nullptr;
-
-	for (UINT domain = 0; domain < (UINT)SHADER_DOMAIN::COUNT_END; ++domain )
-	{
-		for (auto& obj : m_objs)
-		{
-			if ((renderComponent = obj->GetRenderComponent()) != nullptr)
-			{
-				if ((SHADER_DOMAIN)domain == renderComponent->GetMaterial()->GetShader()->GetDomain())
-				{
-					obj->Render();
-				}
-			}
-		}
 	}
 }

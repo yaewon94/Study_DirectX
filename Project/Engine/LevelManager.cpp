@@ -3,7 +3,7 @@
 #include "Level.h"
 #include "GameObject.h"
 #include "Camera.h"
-#include "Transform.h"
+#include "RenderManager.h"
 
 LevelManager::LevelManager()
 {
@@ -20,8 +20,8 @@ void LevelManager::Init()
 	// ===================== 필수 오브젝트 추가 =======================
 	// 메인카메라 추가
 	Ptr<GameObject> camera = Ptr<GameObject>();
-	camera->GetTransform()->SetLocalPos(Vec3(0.f, 0.f, -100.f));
-	camera->AddComponent<Camera>();
+	camera->SetName(L"Main Camera");
+	RenderManager::GetInstance()->AddCamera(camera->AddComponent<Camera>());
 	camera->SetLayer(LAYER_TYPE::CAMERA);
 
 	// 현재레벨 Init()
@@ -32,11 +32,6 @@ void LevelManager::Tick()
 {
 	curLevel->Tick();
 	curLevel->FinalTick();
-}
-
-void LevelManager::Render(LAYER_TYPES layers)
-{
-	curLevel->Render(layers);
 }
 
 Ptr<GameObject> LevelManager::AddObject(const Ptr<GameObject>& obj)

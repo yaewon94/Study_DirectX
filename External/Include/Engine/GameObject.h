@@ -39,6 +39,7 @@ public:
 	Ptr<RenderComponent> GetRenderComponent();
 
 	void SetName(const wstring& name) { m_name = name; }
+	// 0 이상의 값만 현재 Level에 등록됨
 	void SetLayer(LAYER_TYPE layer);
 	void AddChild(const Ptr<GameObject>& child, bool isSameLayer = true);
 
