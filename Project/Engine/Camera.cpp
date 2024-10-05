@@ -43,6 +43,11 @@ Camera::~Camera()
 
 void Camera::SetLayerOnOff(LAYER_TYPE layer)
 {
+	if (layer <= LAYER_TYPE::CAMERA)
+	{
+		throw std::logic_error("양의 정수값을 가진 레이어만 등록/제거 가능합니다");
+	}
+
 	// 등록된 레이어인 경우
 	if (m_layers & layer)
 	{
@@ -66,37 +71,22 @@ void Camera::AddRenderObj(const Ptr<GameObject>& obj)
 	LAYER_TYPE layer = obj->GetLayer();
 	if (layer <= LAYER_TYPE::CAMERA) return;
 	SHADER_DOMAIN domain = obj->GetComponent<RenderComponent>()->GetMaterial()->GetShader()->GetDomain();
-	const auto domainMap_iter = m_renderMap.find(domain);
 
-	// map<DOMAIN_SHADER, map<LAYER_TYPE, RenderComponent vec>>
-	if (domainMap_iter != m_renderMap.end())
+	// array<map<LAYER_TYPE, RenderComponent vec>>
+	auto& layerMap = m_renderObjs[(UINT)domain];
+	const auto layerMap_iter = layerMap.find(layer);
+
+	// map<LAYER_TYPE, RenderComponent vec>
+	if (layerMap_iter != layerMap.end())
 	{
-		auto& layerMap = domainMap_iter->second;
-		const auto layerMap_iter = layerMap.find(layer);
-
-		// map<LAYER_TYPE, RenderComponent vec>
-		if (layerMap_iter != layerMap.end())
-		{
-			layerMap_iter->second.push_back(obj->GetRenderComponent());
-		}
-		else
-		{
-			vector<Ptr<RenderComponent>> renderVec;
-			renderVec.push_back(obj->GetRenderComponent());
-			layerMap.insert(make_pair(layer, renderVec));
-		}
+		layerMap_iter->second.push_back(obj->GetRenderComponent());
 	}
 	else
 	{
-		// map<LAYER_TYPE, RenderComponent vec> 생성 => m_renderMap에 저장
-		map<LAYER_TYPE, vector<Ptr<RenderComponent>>> layerMap;
-		m_renderMap.insert(make_pair(domain, layerMap));
-
-		// RenderComponent vec 생성 => layerMap에 저장
 		vector<Ptr<RenderComponent>> renderVec;
 		renderVec.push_back(obj->GetRenderComponent());
-		m_renderMap.find(domain)->second.insert(make_pair(layer, renderVec));
-	}	
+		layerMap.insert(make_pair(layer, renderVec));
+	}
 }
 
 void Camera::DeleteRenderObj(const Ptr<GameObject>& obj)
@@ -106,45 +96,31 @@ void Camera::DeleteRenderObj(const Ptr<GameObject>& obj)
 	LAYER_TYPE layer = obj->GetLayer();
 	if (layer <= LAYER_TYPE::CAMERA) return;
 	SHADER_DOMAIN domain = obj->GetComponent<RenderComponent>()->GetMaterial()->GetShader()->GetDomain();
-	const auto domainMap_iter = m_renderMap.find(domain);
 
-	// map<DOMAIN_SHADER, map<LAYER_TYPE, RenderComponent vec>>
-	if (domainMap_iter != m_renderMap.end())
+	// array<map<LAYER_TYPE, RenderComponent vec>>
+	auto& layerMap = m_renderObjs[(UINT)domain];
+	const auto layerMap_iter = layerMap.find(layer);
+
+	// map<LAYER_TYPE, RenderComponent vec>
+	if (layerMap_iter != layerMap.end())
 	{
-		auto& layerMap = domainMap_iter->second;
-		const auto layerMap_iter = layerMap.find(layer);
+		auto& renderVec = layerMap_iter->second;
 
-		// map<LAYER_TYPE, RenderComponent vec>
-		if (layerMap_iter != layerMap.end())
+		for (auto vec_iter = renderVec.begin(); vec_iter != renderVec.end(); ++vec_iter)
 		{
-			auto& renderVec = layerMap_iter->second;
-			
-			for (auto vec_iter = renderVec.begin(); vec_iter != renderVec.end(); ++vec_iter)
+			if (obj->GetRenderComponent().GetAddressOf() == vec_iter->GetAddressOf())
 			{
-				if (obj->GetRenderComponent().GetAddressOf() == vec_iter->GetAddressOf())
+				renderVec.erase(vec_iter);
+
+				// 해당 layer에 등록된 렌더컴포넌트가 없는 경우 map에서 제거
+				if (renderVec.empty())
 				{
-					renderVec.erase(vec_iter);
-					
-					// 해당 layer에 등록된 렌더컴포넌트가 없는 경우 map에서 제거
-					if (renderVec.empty())
-					{
-						layerMap.erase(layerMap_iter);
-
-						// 해당 shader domain에 등록된 layerMap이 없는 경우 map에서 제거
-						if (layerMap.empty())
-						{
-							m_renderMap.erase(domainMap_iter);
-						}
-					}
-
-					break;
+					layerMap.erase(layerMap_iter);
 				}
+
+				break;
 			}
 		}
-	}
-	else
-	{
-		throw std::logic_error("등록된 오브젝트가 없습니다");
 	}
 }
 
@@ -186,9 +162,10 @@ void Camera::FinalTick()
 
 void Camera::Render()
 {
-	for (auto& domainPair : m_renderMap)
+	// Post Process가 아닌 Domain Shader
+	for (UINT domain = 0; domain < (UINT)SHADER_DOMAIN::DOMAIN_POSTPROCESS; ++domain)
 	{
-		for (auto& layerPair : domainPair.second)
+		for (auto& layerPair : m_renderObjs[domain])
 		{
 			// 렌더링할 LAYER만 호출
 			if (m_layers & layerPair.first)
@@ -197,6 +174,19 @@ void Camera::Render()
 				{
 					renderComponent->Render();
 				}
+			}
+		}
+	}
+
+	// Post Process Domain Shader
+	for (auto& layerPair : m_renderObjs[(UINT)SHADER_DOMAIN::DOMAIN_POSTPROCESS])
+	{
+		if (m_layers & layerPair.first)
+		{
+			for (auto& renderComponent : layerPair.second)
+			{
+				RenderManager::GetInstance()->CopyRenderTarget();
+				renderComponent->Render();
 			}
 		}
 	}

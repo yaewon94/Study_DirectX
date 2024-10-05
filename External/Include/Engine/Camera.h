@@ -29,7 +29,7 @@ private:
 
 	// 렌더링 순서
 	// (한번 설정된 SHADER_DOMAIN, LAYER_TYPE이 바뀌는 경우는 거의 없으므로 list말고 vector사용)
-	map<SHADER_DOMAIN, map<LAYER_TYPE, vector<Ptr<RenderComponent>>>> m_renderMap;
+	array<map<LAYER_TYPE, vector<Ptr<RenderComponent>>>, (UINT)SHADER_DOMAIN::COUNT_END> m_renderObjs;
 
 public:
 	Camera(const Ptr<GameObject>& owner);
