@@ -276,6 +276,22 @@ int AssetManager::CreateDefaultShader()
 		}
 	}
 
+	// ============================
+	// Distortion 셰이더
+	// ============================
+	{
+		shader = AddAsset<GraphicShader>(L"Distortion_Shader", L"PostProcess.fx");
+		shader->SetRasterizerType(RASTERIZE_TYPE::CULL_NONE);
+		shader->SetBlendType(BLEND_TYPE::DEFAULT);
+		shader->SetDepthStencilType(DEPTH_STENCIL_TYPE::NO_TEST_WRITE);
+		shader->SetDomain(SHADER_DOMAIN::DOMAIN_POSTPROCESS);
+		if (FAILED(shader->CreateOnGpu("VS_Distortion", "PS_Distortion")))
+		{
+			MessageBox(nullptr, L"Distortion 셰이더 생성 실패", L"에셋 생성 실패", MB_OK);
+			return E_FAIL;
+		}
+	}
+
 #ifdef _DEBUG
 	// ============================
 	// 디버깅 모드 셰이더
@@ -331,6 +347,12 @@ int AssetManager::CreateDefaultMaterial()
 	// ==========================
 	material = AddAsset<Material>(L"PostProcess_Material", L"");
 	material->SetShader(FindAsset<GraphicShader>(L"PostProcess_Shader"));
+
+	// ==========================
+	// Distortion 재질
+	// ==========================
+	material = AddAsset<Material>(L"Distortion_Material", L"");
+	material->SetShader(FindAsset<GraphicShader>(L"Distortion_Shader"));
 
 #ifdef _DEBUG
 	// ==========================

@@ -60,12 +60,15 @@ void Level::Init()
 		monster->AddComponent<Collider2D>();
 		monster->SetLayer(LAYER_TYPE::MONSTER);
 
-		//// Post Process
-		//Ptr<GameObject> post = Ptr<GameObject>();
-		//meshRender = post->AddComponent<MeshRender>();
-		//meshRender->SetMesh(AssetManager::GetInstance()->FindAsset<Mesh>(L"RectMesh"));
-		//meshRender->SetMaterial(AssetManager::GetInstance()->FindAsset<Material>(L"PostProcess_Material"));
-		//post->SetLayer(LAYER_TYPE::DEFAULT);
+		// Post Process Distortion Test
+		Ptr<GameObject> post = Ptr<GameObject>();
+		post->GetTransform()->SetLocalScale(Vec3(1000.f, 800.f, 0.f));
+		meshRender = post->AddComponent<MeshRender>();
+		meshRender->SetMesh(AssetManager::GetInstance()->FindAsset<Mesh>(L"RectMesh"));
+		meshRender->SetMaterial(AssetManager::GetInstance()->FindAsset<Material>(L"Distortion_Material"));
+		meshRender->GetMaterial()->SetTextureParam(TEX_0, AssetManager::GetInstance()->FindAsset<Texture>(L"PostProcessTex"));
+		meshRender->GetMaterial()->SetTextureParam(TEX_1, AssetManager::GetInstance()->FindAsset<Texture>(L"NoiseTex", L"NoiseTest.png"));
+		post->SetLayer(LAYER_TYPE::DEFAULT);
 	}
 
 	for (auto& layer : m_layerMap)
