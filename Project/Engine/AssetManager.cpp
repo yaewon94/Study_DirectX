@@ -292,6 +292,24 @@ int AssetManager::CreateDefaultShader()
 		}
 	}
 
+	// ============================
+	// Vortex 셰이더
+	// ============================
+	{
+		shader = AddAsset<GraphicShader>(L"Vortex_Shader", L"PostProcess.fx");
+		shader->SetRasterizerType(RASTERIZE_TYPE::CULL_NONE);
+		shader->SetBlendType(BLEND_TYPE::DEFAULT);
+		shader->SetDepthStencilType(DEPTH_STENCIL_TYPE::NO_TEST_WRITE);
+		shader->SetDomain(SHADER_DOMAIN::DOMAIN_POSTPROCESS);
+		if (FAILED(shader->CreateOnGpu("VS_Vortex", "PS_Vortex")))
+		{
+			MessageBox(nullptr, L"Vortex 셰이더 생성 실패", L"에셋 생성 실패", MB_OK);
+			return E_FAIL;
+		}
+	}
+
+
+
 #ifdef _DEBUG
 	// ============================
 	// 디버깅 모드 셰이더
@@ -321,19 +339,19 @@ int AssetManager::CreateDefaultMaterial()
 	// ==========================
 	// 기본 2D 재질
 	// ==========================
-	material = AddAsset<Material>(L"Std2D_Material", L"Std2D_Material");
+	material = AddAsset<Material>(L"Std2D_Material", L"");
 	material->SetShader(FindAsset<GraphicShader>(L"Std2D_Shader"));
 
 	// ==========================
 	// 기본 알파블렌드 2D 재질
 	// ==========================
-	material = AddAsset<Material>(L"Std2D_AlphaBlend_Material", L"Std2D_AlphaBlend_Material");
+	material = AddAsset<Material>(L"Std2D_AlphaBlend_Material", L"");
 	material->SetShader(FindAsset<GraphicShader>(L"Std2D_AlphaBlend_Shader"));
 
 	// ==========================
 	// PaperBurn 재질
 	// ==========================
-	material = AddAsset<Material>(L"PaperBurn_Material", L"PaperBurn_Material");
+	material = AddAsset<Material>(L"PaperBurn_Material", L"");
 	material->SetShader(FindAsset<GraphicShader>(L"PaperBurn_Shader"));
 
 	// ==========================
@@ -354,11 +372,17 @@ int AssetManager::CreateDefaultMaterial()
 	material = AddAsset<Material>(L"Distortion_Material", L"");
 	material->SetShader(FindAsset<GraphicShader>(L"Distortion_Shader"));
 
+	// ==========================
+	// Vortex 재질
+	// ==========================
+	material = AddAsset<Material>(L"Vortex_Material", L"");
+	material->SetShader(FindAsset<GraphicShader>(L"Vortex_Shader"));
+
 #ifdef _DEBUG
 	// ==========================
 	// 디버깅 모드 재질
 	// ==========================
-	material = AddAsset<Material>(L"Debug_Material", L"Debug Material");
+	material = AddAsset<Material>(L"Debug_Material", L"");
 	material->SetShader(FindAsset<GraphicShader>(L"Debug_Shader"));
 #endif // _DEBUG
 

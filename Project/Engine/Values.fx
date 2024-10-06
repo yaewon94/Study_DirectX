@@ -80,4 +80,8 @@ Texture2D g_spriteTex : register(t12);
 SamplerState g_sampler0 : register(s0); // 이방성 필터링
 SamplerState g_sampler1 : register(s1); // MIN_MAG_POINT 필터링
 
+// =============================================
+// 상수 정의
+// =============================================
+#define PI 3.1415926535f
 #endif

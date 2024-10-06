@@ -70,4 +70,44 @@ float4 PS_Distortion(VS_OUT input) : SV_Target
     color = g_tex_0.Sample(g_sampler0, screenUV);
     return color;
 }
+
+// 소용돌이 효과 출력타입, Shader
+struct VS_VortexOut
+{
+    float4 pos : SV_Position;
+    float2 objUV : TEXCOORD;
+};
+
+VS_VortexOut VS_Vortex(VS_IN input)
+{
+    VS_VortexOut output = (VS_VortexOut) 0.f;
+    
+    output.pos = float4(input.pos * 2.f, 1.f);
+    
+    float4 projPos = mul(float4(0.f, 0.f, 0.f, 1.f), g_wvp);
+    projPos.xyz = projPos.xyz / projPos.w;
+    
+    output.objUV.x = (projPos.x + 1.f) / 2.f;
+    output.objUV.y = 1.f - ((projPos.y + 1.f) / 2.f);
+    
+    return output;
+}
+
+float4 PS_Vortex(VS_VortexOut input) : SV_Target
+{
+    float4 color = (float) 0.f;
+    
+    float effectRadius = 0.5f;
+    float effectAngle = 1.f * PI;
+    
+    float2 center = input.objUV;
+    float2 uv = (input.pos.xy / g_renderResolution.xy) - center;
+    
+    float len = length(uv * float2(g_renderResolution.x / g_renderResolution.y, 1.));
+    float angle = atan2(uv.y, uv.x) + effectAngle * smoothstep(effectRadius, 0, len);
+    float radius = length(uv);
+    
+    color = g_tex_0.Sample(g_sampler0, float2(radius * cos(angle), radius * sin(angle)) + center);
+    return color;
+}
 #endif
