@@ -129,7 +129,7 @@
     <ClCompile Include="Sprite.cpp">
       <Filter>Entity\Asset</Filter>
     </ClCompile>
-    <ClCompile Include="StructedBuffer.cpp">
+    <ClCompile Include="StructuredBuffer.cpp">
       <Filter>Entity</Filter>
     </ClCompile>
     <ClCompile Include="TaskManager.cpp">
@@ -265,7 +265,7 @@
     <ClInclude Include="Sprite.h">
       <Filter>Entity\Asset</Filter>
     </ClInclude>
-    <ClInclude Include="StructedBuffer.h">
+    <ClInclude Include="StructuredBuffer.h">
       <Filter>Entity</Filter>
     </ClInclude>
     <ClInclude Include="TaskManager.h">

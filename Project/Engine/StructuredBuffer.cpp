@@ -1,18 +1,18 @@
 #include "pch.h"
-#include "StructedBuffer.h"
+#include "StructuredBuffer.h"
 #include "Device.h"
 
-StructedBuffer::StructedBuffer() 
+StructuredBuffer::StructuredBuffer() 
 	: m_desc{}
 	, m_elementCount(0), m_elementSize(0)
 {
 }
 
-StructedBuffer::~StructedBuffer()
+StructuredBuffer::~StructuredBuffer()
 {
 }
 
-void StructedBuffer::SetData(void* sysMem, UINT elementCount)
+void StructuredBuffer::SetData(void* sysMem, UINT elementCount)
 {
 	D3D11_MAPPED_SUBRESOURCE sub = {};
 
@@ -21,7 +21,7 @@ void StructedBuffer::SetData(void* sysMem, UINT elementCount)
 	CONTEXT->Unmap(m_buffer.Get(), 0);
 }
 
-int StructedBuffer::CreateOnGpu(UINT elementSize, UINT elementCount, void* sysMem)
+int StructuredBuffer::CreateOnGpu(UINT elementSize, UINT elementCount, void* sysMem)
 {
 	if (elementSize % BUFFER_SIZE_UNIT != 0)
 	{
@@ -76,7 +76,7 @@ int StructedBuffer::CreateOnGpu(UINT elementSize, UINT elementCount, void* sysMe
 	return S_OK;
 }
 
-void StructedBuffer::BindOnGpu(UINT registerNum)
+void StructuredBuffer::BindOnGpu(TEXTURE_PARAM registerNum)
 {
 	CONTEXT->VSSetShaderResources(registerNum, 1, m_srv.GetAddressOf());
 	CONTEXT->HSSetShaderResources(registerNum, 1, m_srv.GetAddressOf());

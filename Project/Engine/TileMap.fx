@@ -5,11 +5,15 @@
 #include "Functions.fx"
 
 #define AtlasTex g_tex_0
-#define LeftTopUV g_vec2_0
-#define SliceUV g_vec2_1
-//#define TileCol g_int_0
-//#define TileRow g_int_1
-#define TileCount g_vec2_2
+#define TileCount g_vec2_0
+
+struct TileInfo
+{
+    float2 tileLeftTopUV;
+    float2 tileSliceUV;
+};
+
+StructuredBuffer<TileInfo> g_buffer : register(t16);
 
 struct VS_IN
 {
@@ -40,8 +44,11 @@ float4 PS_TileMap(VS_OUT input) : SV_Target
     
     if (g_bTex_0)
     {
-        float2 atlasUV = LeftTopUV + (frac(input.uv) * SliceUV);
-        color = AtlasTex.Sample(g_sampler0, atlasUV);
+        int2 colRow = floor(input.uv);
+        int index = colRow.y * TileCount.x + colRow.y;
+        
+        float2 atlasUV = g_buffer[index].tileLeftTopUV + (frac(input.uv) * g_buffer[index].tileSliceUV);
+        color = AtlasTex.Sample(g_sampler1, atlasUV);
     }
     else
     {

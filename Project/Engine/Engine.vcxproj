@@ -51,7 +51,7 @@
     <ClCompile Include="Script.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Sprite.cpp" />
-    <ClCompile Include="StructedBuffer.cpp" />
+    <ClCompile Include="StructuredBuffer.cpp" />
     <ClCompile Include="TaskManager.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TileMap.cpp" />
@@ -100,7 +100,7 @@
     <ClInclude Include="SimpleMath.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="Sprite.h" />
-    <ClInclude Include="StructedBuffer.h" />
+    <ClInclude Include="StructuredBuffer.h" />
     <ClInclude Include="TaskManager.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TileMap.h" />

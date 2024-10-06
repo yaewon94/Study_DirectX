@@ -23,7 +23,8 @@ enum TEXTURE_PARAM
 	CUBE_0, CUBE_1,
 	//SPRITE_TEX,
 	COUNT_END,
-	SPRITE_TEX = 12	// 질문 : 왜 COUNT_END == 13이면 예외뜸?
+	SPRITE_TEX = 12,	// 질문 : 왜 COUNT_END == 13이면 예외뜸?
+	TILEMAP = 16,
 };
 
 

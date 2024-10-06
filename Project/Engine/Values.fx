@@ -73,6 +73,7 @@ TextureCube g_texCube_0 : register(t10);
 TextureCube g_texCube_1 : register(t11);
 
 Texture2D g_spriteTex : register(t12);
+// t16은 TileMap.fx 전용
 
 // =============================================
 // 샘플링
