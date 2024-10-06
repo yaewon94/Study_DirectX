@@ -32,6 +32,9 @@ public:
 	int Init();
 	void Render();
 
+private:
+	void BindOnGpu();
+
 #ifdef _DEBUG
 public:
 	Ptr<GameObject> CreateDebugShape(const DebugShapeInfo& info);

@@ -1,10 +1,11 @@
 #include "pch.h"
 #include "TimeManager.h"
+#include "Render.h"
 
 TimeManager::TimeManager() 
-	: frequency{}, curCount{}, prevCount{}
-	, deltaTime(0.), totalTime(0.)
-	, fps(0)
+	: m_frequency{}, m_curCount{}, m_prevCount{}
+	, m_deltaTime(0.f), m_totalTime(0.f)
+	, m_fps(0)
 {
 }
 
@@ -14,27 +15,31 @@ TimeManager::~TimeManager()
 
 void TimeManager::Init()
 {
-	QueryPerformanceFrequency(&frequency);
-	QueryPerformanceCounter(&prevCount);
+	QueryPerformanceFrequency(&m_frequency);
+	QueryPerformanceCounter(&m_prevCount);
 }
 
 void TimeManager::Tick()
 {
-	QueryPerformanceCounter(&curCount);
+	QueryPerformanceCounter(&m_curCount);
 
 	// DT 계산
-	deltaTime = (curCount.QuadPart - prevCount.QuadPart) / (double)frequency.QuadPart;
-	if (deltaTime > 1.f / 60.f) deltaTime = 1.f / 60.f;
+	m_deltaTime = (m_curCount.QuadPart - m_prevCount.QuadPart) / (float)m_frequency.QuadPart;
+	if (m_deltaTime > 1.f / 60.f) m_deltaTime = 1.f / 60.f;
 
 	// FPS 계산
-	totalTime += deltaTime;
-	++fps;
+	m_totalTime += m_deltaTime;
+	++m_fps;
 
-	if (totalTime > 1.)
+	if (m_totalTime > 1.f)
 	{
-		totalTime = 0.;
-		fps = 0;
+		m_totalTime = 0.f;
+		m_fps = 0;
 	}
 
-	prevCount = curCount;
+	m_prevCount = m_curCount;
+
+	// 전역데이터 갱신
+	g_global.dt = m_deltaTime;
+	g_global.totalTime = m_totalTime;
 }

@@ -110,6 +110,11 @@ int Device::Init(HWND hwnd)
 		return E_FAIL;
 	}
 
+	// ===============
+	// 전역데이터 전달
+	// ===============
+	g_global.renderResolution = Engine::GetInstance()->GetResolution();
+
 	return S_OK;
 }
 
@@ -200,14 +205,19 @@ int Device::CreateView()
 
 int Device::CreateConstBuffer()
 {
-	m_cbArr[(UINT)CB_TYPE::TRANSFORM] = Ptr<ConstBuffer>(CB_TYPE::TRANSFORM);
-	m_cbArr[(UINT)CB_TYPE::TRANSFORM]->CreateOnGpu(sizeof(CB_Transform));
+	UINT type = (UINT)CB_TYPE::TRANSFORM;
 
-	m_cbArr[(UINT)CB_TYPE::MATERIAL] = Ptr<ConstBuffer>(CB_TYPE::MATERIAL);
-	m_cbArr[(UINT)CB_TYPE::MATERIAL]->CreateOnGpu(sizeof(CB_Material));
+	m_cbArr[type] = Ptr<ConstBuffer>(CB_TYPE::TRANSFORM);
+	m_cbArr[type]->CreateOnGpu(sizeof(CB_Transform));
 
-	m_cbArr[(UINT)CB_TYPE::SPRITE] = Ptr<ConstBuffer>(CB_TYPE::SPRITE);
-	m_cbArr[(UINT)CB_TYPE::SPRITE]->CreateOnGpu(sizeof(CB_Sprite));
+	m_cbArr[type = (UINT)CB_TYPE::MATERIAL] = Ptr<ConstBuffer>(CB_TYPE::MATERIAL);
+	m_cbArr[type]->CreateOnGpu(sizeof(CB_Material));
+
+	m_cbArr[type = (UINT)CB_TYPE::SPRITE] = Ptr<ConstBuffer>(CB_TYPE::SPRITE);
+	m_cbArr[type]->CreateOnGpu(sizeof(CB_Sprite));
+
+	m_cbArr[type = (UINT)CB_TYPE::GLOBAL] = Ptr<ConstBuffer>(CB_TYPE::GLOBAL);
+	m_cbArr[type]->CreateOnGpu(sizeof(CB_Global));
 
 	return S_OK;
 }

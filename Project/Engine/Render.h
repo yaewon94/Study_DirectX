@@ -33,7 +33,22 @@ enum TEXTURE_PARAM
 // 상수 버퍼 타입 (value : 레지스터 번호)
 enum class CB_TYPE : UINT
 {
-	TRANSFORM, MATERIAL, SPRITE, COUNT_END
+	TRANSFORM, MATERIAL, SPRITE, GLOBAL, COUNT_END
+};
+
+// 전역 상수버퍼
+struct CB_Global
+{
+	Vec2 renderResolution;
+
+	float dt;
+	float totalTime;
+
+	float dt_engine;
+	float totalTime_engine;
+
+	int Light2dCount;
+	int Light3dCount;
 };
 
 // 재질 상수버퍼 (각 필드를 각각의 레지스터에 바인딩)
@@ -162,4 +177,5 @@ struct DebugShapeInfo
 // ==============================
 // 외부변수
 // ==============================
+extern CB_Global g_global;
 extern CB_Transform g_transform;

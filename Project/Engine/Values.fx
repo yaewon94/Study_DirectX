@@ -42,6 +42,18 @@ cbuffer Sprite : register(b2)
     int3 g_spritePadding;
 }
 
+// 전역 데이터
+cbuffer Global : register(b3)
+{
+    float2 g_renderResolution;
+    float g_dt;
+    float g_totalTime;
+    float g_dt_engine;
+    float g_totalTime_engine;
+    int g_light2dCount;
+    int g_light3dCount;
+}
+
 // =============================================
 // 텍스처
 // =============================================

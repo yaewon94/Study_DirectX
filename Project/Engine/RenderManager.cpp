@@ -2,6 +2,7 @@
 #include "RenderManager.h"
 #include "Engine.h"
 #include "Device.h"
+#include "ConstBuffer.h"
 #include "AssetManager.h"
 #include "Camera.h"
 #include "GameObject.h"
@@ -64,6 +65,9 @@ int RenderManager::Init()
 
 void RenderManager::Render()
 {
+	// 데이터, 리소스 바인딩
+	BindOnGpu();
+
 	// 이전 프레임에 렌더링 된 것 지우기
 	Device::GetInstance()->Clear();
 
@@ -75,6 +79,13 @@ void RenderManager::Render()
 
 	// RenderTarget -> 윈도우 출력
 	Device::GetInstance()->Present();
+}
+
+void RenderManager::BindOnGpu()
+{
+	static Ptr<ConstBuffer> cb = Device::GetInstance()->GetConstBuffer(CB_TYPE::GLOBAL);
+	cb->SetData(&g_global);
+	cb->BindOnGpu();
 }
 
 Ptr<GameObject> RenderManager::CreateDebugShape(const DebugShapeInfo& info)
