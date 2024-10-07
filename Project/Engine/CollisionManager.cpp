@@ -14,7 +14,10 @@ CollisionManager::~CollisionManager()
 void CollisionManager::AddCollider(const Ptr<Collider2D>& collider)
 {
 	LAYER_TYPE layer = collider->GetOwner()->GetLayer();
-	if (layer <= LAYER_TYPE::CAMERA) return;
+	if (layer <= LAYER_TYPE::CAMERA)
+	{
+		throw std::logic_error("잘못된 접근입니다");
+	}
 	const auto iter = m_colliderMap.find(layer);
 
 	if (iter == m_colliderMap.end())
@@ -43,7 +46,10 @@ void CollisionManager::RemoveCollider(const Ptr<Collider2D>& collider)
 	if (collider == nullptr) return;
 
 	LAYER_TYPE layer = collider->GetOwner()->GetLayer();
-	if (layer <= LAYER_TYPE::CAMERA) return;
+	if (layer <= LAYER_TYPE::CAMERA)
+	{
+		throw std::logic_error("잘못된 접근입니다");
+	}
 	const auto mapiter = m_colliderMap.find(layer);
 
 	if (mapiter != m_colliderMap.end())
@@ -57,6 +63,7 @@ void CollisionManager::RemoveCollider(const Ptr<Collider2D>& collider)
 				// CollisionSet에 등록된 경우 제거
 				for (auto setiter = m_collisionSet.begin(); setiter != m_collisionSet.end(); ++setiter)
 				{
+					// TODO : ULONGLONG => UINT 어떻게 변환되는지 체크
 					UINT leftID = (*setiter) >> 4;
 					UINT rightID = 0b1111 & (*setiter);
 

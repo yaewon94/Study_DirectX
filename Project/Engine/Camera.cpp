@@ -69,7 +69,10 @@ void Camera::SetLayerOnOff(LAYER_TYPE layer)
 void Camera::AddRenderObj(const Ptr<GameObject>& obj)
 {
 	LAYER_TYPE layer = obj->GetLayer();
-	if (layer <= LAYER_TYPE::CAMERA) return;
+	if (layer <= LAYER_TYPE::CAMERA)
+	{
+		throw std::logic_error("잘못된 접근입니다");
+	}
 	SHADER_DOMAIN domain = obj->GetComponent<RenderComponent>()->GetMaterial()->GetShader()->GetDomain();
 
 	// array<map<LAYER_TYPE, RenderComponent vec>>
@@ -94,7 +97,10 @@ void Camera::DeleteRenderObj(const Ptr<GameObject>& obj)
 	if (obj->GetRenderComponent() == nullptr) return;
 
 	LAYER_TYPE layer = obj->GetLayer();
-	if (layer <= LAYER_TYPE::CAMERA) return;
+	if (layer <= LAYER_TYPE::CAMERA)
+	{
+		throw std::logic_error("잘못된 접근입니다");
+	}
 	SHADER_DOMAIN domain = obj->GetComponent<RenderComponent>()->GetMaterial()->GetShader()->GetDomain();
 
 	// array<map<LAYER_TYPE, RenderComponent vec>>

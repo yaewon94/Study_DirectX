@@ -46,9 +46,6 @@ void Collider2D::Init()
 	m_matScale = XMMatrixScaling(m_scale.x, m_scale.y, 1.f);
 	m_matTrans = XMMatrixTranslation(m_offset.x, m_offset.y, 0.f);
 
-	// CollisionManager에 등록
-	CollisionManager::GetInstance()->AddCollider(Ptr<Collider2D>(this));
-
 #ifdef _DEBUG
 	// 디버그 모드 렌더링 등록
 	DebugShapeInfo info = {};

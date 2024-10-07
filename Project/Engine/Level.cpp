@@ -12,6 +12,7 @@
 #include "Transform.h"
 #include "Collider2D.h"
 #include "TileMap.h"
+#include "Light2D.h"
 
 Level::Level()
 {
@@ -26,14 +27,20 @@ void Level::Init()
 {
 	{	 
 		// [임시]
-		// 타일맵 오브젝트 추가
+		// 광원 오브젝트 추가
 		Ptr<GameObject> obj = Ptr<GameObject>();
+		Ptr<Light2D> light = obj->AddComponent<Light2D>();
+		light->SetType(LIGHT_TYPE::DIRECTIONAL);
+		light->SetColor(COLOR_RED);
+
+		// 타일맵 오브젝트 추가
+		obj = Ptr<GameObject>();
 		obj->GetTransform()->SetLocalPosY(-100.f);
 		Ptr<TileMap> tileMap = obj->AddComponent<TileMap>();
 		tileMap->SetAtlasTexture(AssetManager::GetInstance()->AddAsset<Texture>(L"TileMapTex", L"TileTest.png"), Vec2(8, 8));
 		tileMap->SetTileIndex(Vec2(3, 0));
 		tileMap->SetTileCount(Vec2(10, 1));
-		obj->SetLayer(LAYER_TYPE::GROUND);
+		obj->SetLayer(LAYER_TYPE::GROUND); // TODO : Ground script에서 추가하도록 수정
 
 		// 플레이어 오브젝트 추가
 		Ptr<GameObject> g_player = Ptr<GameObject>();
@@ -58,7 +65,7 @@ void Level::Init()
 		meshRender->SetMaterial(material);
 		meshRender->GetMaterial()->SetTextureParam(TEX_0, AssetManager::GetInstance()->FindAsset<Texture>(L"MonsterTexture", L"NoiseTest.png"));
 		monster->AddComponent<Collider2D>();
-		monster->SetLayer(LAYER_TYPE::MONSTER);
+		monster->SetLayer(LAYER_TYPE::MONSTER); // TODO : Monster script에서 추가하도록 수정
 
 		//// Post Process Vortex Test
 		//Ptr<GameObject> post = Ptr<GameObject>();
@@ -95,9 +102,9 @@ void Level::FinalTick()
 Ptr<GameObject> Level::AddObject(const Ptr<GameObject>& obj)
 {
 	LAYER_TYPE layer = obj->GetLayer();
-	if (layer < LAYER_TYPE::CAMERA)
+	if (layer == LAYER_TYPE::NONE)
 	{
-		throw std::logic_error("양의 정수인 LAYER_TYPE의 오브젝트만 등록 가능합니다");
+		throw std::logic_error("잘못된 접근입니다");
 	}
 
 	// 게임오브젝트의 레이어와 일치하는 레이어에 등록
@@ -108,7 +115,11 @@ Ptr<GameObject> Level::AddObject(const Ptr<GameObject>& obj)
 void Level::DeleteObject(const Ptr<GameObject>& obj)
 {
 	LAYER_TYPE layer = obj->GetLayer();
-	if (layer < LAYER_TYPE::CAMERA) return;
+	if (layer == LAYER_TYPE::NONE)
+	{
+		throw std::logic_error("잘못된 접근입니다");
+	}
+
 	const auto iter = m_layerMap.find(layer);
 
 	if (iter == m_layerMap.end())

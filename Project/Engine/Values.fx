@@ -2,6 +2,23 @@
 #define _VALUES
 
 // =============================================
+// Light
+// =============================================
+struct Light2dInfo
+{
+    float3 color;
+    float3 worldPos;
+    float3 dir;
+    int type;
+    float radius;
+    float angle;
+};
+
+#define DIRECTION_LIGHT 0
+#define POINT_LIGHT 1
+#define SPOT_LIGHT 2
+
+// =============================================
 // 상수 버퍼
 // =============================================
 // 오브젝트 좌표, 크기, 각도
@@ -73,7 +90,10 @@ TextureCube g_texCube_0 : register(t10);
 TextureCube g_texCube_1 : register(t11);
 
 Texture2D g_spriteTex : register(t12);
-// t16은 TileMap.fx 전용
+StructuredBuffer<Light2dInfo> g_light2dInfo : register(t13);
+// t14 : light3dInfo
+// t15 : 3D Animation Skinning Matrix
+// t16 : TileMap.fx 전용
 
 // =============================================
 // 샘플링
