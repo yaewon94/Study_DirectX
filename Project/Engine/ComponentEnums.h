@@ -4,6 +4,7 @@ class Animator2D;
 class Camera;
 class Collider2D;
 class Component;
+class Light2D;
 class MeshRender;
 class RenderComponent;
 class Script;
@@ -23,6 +24,7 @@ enum class COMPONENT_TYPE
 	CAMERA,
 	TRANSFORM,
 	COLLIDER_2D,
+	LIGHT_2D, LIGHT_3D,
 	MESH_RENDER, ANIMATOR_2D, TILEMAP
 };
 
@@ -33,6 +35,7 @@ static constexpr COMPONENT_TYPE GetType()
 	if constexpr (std::is_base_of_v<Script, T>) return COMPONENT_TYPE::SCRIPT;
 	if constexpr (std::is_same_v<T, Camera>) return COMPONENT_TYPE::CAMERA;
 	if constexpr (std::is_same_v<T, Collider2D>) return COMPONENT_TYPE::COLLIDER_2D;
+	if constexpr (std::is_same_v<T, Light2D>) return COMPONENT_TYPE::LIGHT_2D;
 	if constexpr (std::is_same_v<T, Animator2D>) return COMPONENT_TYPE::ANIMATOR_2D;
 	if constexpr (std::is_same_v<T, TileMap>) return COMPONENT_TYPE::TILEMAP;
 	if constexpr (std::is_same_v<T, MeshRender>) return COMPONENT_TYPE::MESH_RENDER;

@@ -21,6 +21,7 @@ public:
 	~StructuredBuffer();
 
 public:
+	UINT GetElementCount() { return m_elementCount; }
 	void SetData(void* sysMem, UINT elementCount);
 
 public:

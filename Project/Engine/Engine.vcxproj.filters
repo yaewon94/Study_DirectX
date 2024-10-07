@@ -147,6 +147,9 @@
     <ClCompile Include="Transform.cpp">
       <Filter>Entity\Component</Filter>
     </ClCompile>
+    <ClCompile Include="Light2D.cpp">
+      <Filter>Entity\Component</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animator2D.h">
@@ -288,6 +291,9 @@
     </ClInclude>
     <ClInclude Include="pch.h">
       <Filter>Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="Light2D.h">
+      <Filter>Entity\Component</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

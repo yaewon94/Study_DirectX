@@ -2,9 +2,11 @@
 #include "Singleton.h"
 #include "Render.h"
 
+class StructuredBuffer;
 class Camera;
 class GameObject;
 class Texture;
+class Light2D;
 
 // 카메라 index
 enum class CAMERA_TYPE : UINT
@@ -22,8 +24,12 @@ private:
 	vector<Ptr<Camera>> m_cameras;
 	Ptr<Texture> m_postProcessTex;	// 후처리용 텍스처 (렌더타겟 복사용도)
 
+	vector<Ptr<Light2D>> m_light2Ds;
+	Ptr<StructuredBuffer> m_light2dBuffer;
+
 public:
 	void AddCamera(const Ptr<Camera>& camera);
+	void AddLight2D(const Ptr<Light2D>& light);
 	void AddRenderObj(CAMERA_TYPE type, const Ptr<GameObject>& obj);
 	void DeleteRenderObj(CAMERA_TYPE type, const Ptr<GameObject>& obj);
 	void CopyRenderTarget();
@@ -33,7 +39,7 @@ public:
 	void Render();
 
 private:
-	void BindOnGpu();
+	//void BindOnGpu();
 
 #ifdef _DEBUG
 public:

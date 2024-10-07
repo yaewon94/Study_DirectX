@@ -9,7 +9,8 @@ using LAYER_TYPES = int;
 // TODO : 2의 배수로 늘릴 것
 enum LAYER_TYPE : int
 {
-	NONE = -1,
+	NONE = -100,
+	LIGHT = -1,
 	CAMERA = 0,
 
 	// LAYER_TYPES(int) 에 조합 가능한 레이어들

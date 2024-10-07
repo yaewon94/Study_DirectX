@@ -5,6 +5,7 @@
 #define DEPTH_STENCIL_TEX_NAME L"DepthStencilTex"
 
 // 색상
+#define COLOR_WHITE Vec4(1.f, 1.f, 1.f, 1.f)
 #define COLOR_RED Vec4(1.f, 0.f, 0.f, 1.f)
 #define COLOR_GREEN Vec4(0.f, 1.f, 0.f, 1.f)
 
@@ -24,6 +25,7 @@ enum TEXTURE_PARAM
 	//SPRITE_TEX,
 	COUNT_END,
 	SPRITE_TEX = 12,	// 질문 : 왜 COUNT_END == 13이면 예외뜸?
+	LIGHT_2D = 13,
 	TILEMAP = 16,
 };
 

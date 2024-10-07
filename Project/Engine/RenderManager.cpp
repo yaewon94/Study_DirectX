@@ -3,10 +3,12 @@
 #include "Engine.h"
 #include "Device.h"
 #include "ConstBuffer.h"
+#include "StructuredBuffer.h"
 #include "AssetManager.h"
 #include "Camera.h"
 #include "GameObject.h"
 #include "Transform.h"
+#include "Light2D.h"
 #include "MeshRender.h"
 #include "Mesh.h"
 #include "Material.h"
@@ -34,6 +36,43 @@ void RenderManager::AddCamera(const Ptr<Camera>& _camera)
 
 	// 카메라 등록
 	m_cameras.push_back(_camera);
+}
+
+// 멤버변수로 vector<Ptr<Light2D>> 저장, AddLight2D()에 static으로 vector<Light2dInfo>를 저장하면 공간낭비가 아닌가 해서
+// 1) 파라미터를 Light2dInfo* 로 받아도
+///// vector<Light2dInfo> 에 추가하게 되면 객체가 복사되어 추가되므로 주소기반 중복체크를 할 수 없게 됨
+// 2) vector<Light2dInfo*>로 받게되면 구조화 버퍼에 SetData(vector.data()) 호출 시
+///// vector.data()가 데이터가 아닌 주소를 넘겨버리는 문제 발생
+void RenderManager::AddLight2D(const Ptr<Light2D>& light)
+{
+	// 중복체크
+	for (auto& _light : m_light2Ds)
+	{
+		if (_light.GetAddressOf() == light.GetAddressOf())
+		{
+			throw std::logic_error("이미 등록된 Light2D 입니다");
+		}
+	}
+
+	m_light2Ds.push_back(light);
+
+	// 2D 광원 정보 바인딩
+	static vector<Light2dInfo> vecInfo;
+	vecInfo.push_back(light->GetInfo());
+
+	if (m_light2dBuffer->GetElementCount() < vecInfo.size())
+	{
+		m_light2dBuffer->CreateOnGpu(sizeof(Light2dInfo), (UINT)vecInfo.size());
+	}
+	m_light2dBuffer->SetData(vecInfo.data(), vecInfo.size());
+	m_light2dBuffer->BindOnGpu(TEXTURE_PARAM::LIGHT_2D);
+
+	// TODO : 매 프레임마다 바뀌는 정보가 추가되면 BindOnGpu()에서 호출할 것
+	// 전역 정보 바인딩
+	static Ptr<ConstBuffer> cb = Device::GetInstance()->GetConstBuffer(CB_TYPE::GLOBAL);
+	g_global.Light2dCount = (int)m_light2Ds.size();
+	cb->SetData(&g_global);
+	cb->BindOnGpu();
 }
 
 void RenderManager::AddRenderObj(CAMERA_TYPE type, const Ptr<GameObject>& obj)
@@ -66,7 +105,7 @@ int RenderManager::Init()
 void RenderManager::Render()
 {
 	// 데이터, 리소스 바인딩
-	BindOnGpu();
+	//BindOnGpu();
 
 	// 이전 프레임에 렌더링 된 것 지우기
 	Device::GetInstance()->Clear();
@@ -81,12 +120,9 @@ void RenderManager::Render()
 	Device::GetInstance()->Present();
 }
 
-void RenderManager::BindOnGpu()
-{
-	static Ptr<ConstBuffer> cb = Device::GetInstance()->GetConstBuffer(CB_TYPE::GLOBAL);
-	cb->SetData(&g_global);
-	cb->BindOnGpu();
-}
+//void RenderManager::BindOnGpu()
+//{
+//}
 
 Ptr<GameObject> RenderManager::CreateDebugShape(const DebugShapeInfo& info)
 {
