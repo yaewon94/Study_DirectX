@@ -30,8 +30,9 @@ void Level::Init()
 		// 광원 오브젝트 추가
 		Ptr<GameObject> obj = Ptr<GameObject>();
 		Ptr<Light2D> light = obj->AddComponent<Light2D>();
-		light->SetType(LIGHT_TYPE::DIRECTIONAL);
+		light->SetType(LIGHT_TYPE::POINT);
 		light->SetColor(COLOR_RED);
+		light->SetRadius(500.f);
 
 		// 타일맵 오브젝트 추가
 		obj = Ptr<GameObject>();
