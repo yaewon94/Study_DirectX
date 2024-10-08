@@ -24,6 +24,22 @@ Light2D::~Light2D()
 {
 }
 
+const Light2dInfo& Light2D::GetInfo()
+{
+	m_info.worldPos = GetOwner()->GetTransform()->GetWorldPos();
+	return m_info;
+}
+
+void Light2D::SetAngle(float angle)
+{
+	if (angle <= 0.f || angle >= XM_PIDIV2)
+	{
+		throw std::logic_error("0(0도)초과 XM_PI/2(90도)미만의 값만 가능합니다");
+	}
+
+	m_info.angle = angle;
+}
+
 void Light2D::Init()
 {
 	RenderManager::GetInstance()->AddLight2D(Ptr<Light2D>(this));

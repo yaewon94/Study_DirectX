@@ -13,8 +13,8 @@ private:
 	Matrix m_worldMatrix;	// 월드행렬(크기 * 회전 * 좌표)
 	Matrix m_matTrans, m_matScale, m_matRot;
 
-	array<Vec3, (UINT)DIRECTION_VEC::COUNT_END> m_localDirVec;	// 방향벡터 (회전에 필요)
-	array<Vec3, (UINT)DIRECTION_VEC::COUNT_END> m_worldDirVec;
+	array<Vec3, 3> m_localDirVec;	// 방향벡터 (회전에 필요)
+	array<Vec3, 3> m_worldDirVec;
 
 public:
 	Transform(const Ptr<GameObject>& owner);

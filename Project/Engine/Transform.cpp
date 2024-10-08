@@ -85,7 +85,7 @@ void Transform::OnChangeRotation()
 	m_matRot = XMMatrixRotationX(m_localRotation.x) * XMMatrixRotationY(m_localRotation.y) * XMMatrixRotationZ(m_localRotation.z);
 	
 	// 로컬 방향벡터 갱신
-	for (UINT i = 0; i < (UINT)DIRECTION_VEC::COUNT_END; ++i)
+	for (UINT i = 0; i < m_localDirVec.size(); ++i)
 	{
 		m_worldDirVec[i] = m_localDirVec[i] = XMVector3TransformNormal(NormDirVec[i], m_matRot);
 	}
@@ -111,7 +111,7 @@ void Transform::OnChangeMatrix()
 		m_worldMatrix *= matParentWorld;
 
 		// 월드 방향벡터 갱신
-		for (UINT i = 0; i < (UINT)DIRECTION_VEC::COUNT_END; ++i)
+		for (UINT i = 0; i < m_worldDirVec.size(); ++i)
 		{
 			m_worldDirVec[i] = XMVector3TransformNormal(NormDirVec[i], m_worldMatrix);
 			m_worldDirVec[i].Normalize();

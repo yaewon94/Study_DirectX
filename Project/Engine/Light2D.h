@@ -1,5 +1,6 @@
 #pragma once
 #include "Component.h"
+#include "TransformEnums.h"
 
 enum class LIGHT_TYPE : int
 {
@@ -27,17 +28,19 @@ public:
 	Light2D(const Ptr<GameObject>& owner);
 	Light2D(const Ptr<Component>& origin, const Ptr<GameObject>& owner);
 	~Light2D();
-
+	
 	virtual Ptr<Component> Clone(const Ptr<Component>& origin, const Ptr<GameObject>& owner) final
 	{
 		return Ptr<Light2D>(origin, owner).ptr_dynamic_cast<Component>();
 	}
 
 public:
-	const Light2dInfo& GetInfo() { return m_info; }
+	const Light2dInfo& GetInfo();
 	
-	void SetAngle(float angle) { m_info.angle = angle; }
+	// Radian 단위로 입력
+	void SetAngle(float angle);
 	void SetColor(Vec3 color) { m_info.color = color; }
+	void SetDirection(DIRECTION_VEC type) { m_info.dir = Directions[(UINT)type]; }
 	void SetRadius(float radius) { m_info.radius = radius; }
 	void SetType(LIGHT_TYPE type) { m_info.type = type; }
 
