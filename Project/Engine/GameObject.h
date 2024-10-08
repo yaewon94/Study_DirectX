@@ -26,8 +26,9 @@ private:
 
 public:
 	GameObject();
+	GameObject(const GameObject& origin);
 	~GameObject();
-	Ptr<GameObject> Clone() { return Ptr<GameObject>(*this); }
+	GameObject& operator=(const GameObject& other);
 
 public:
 	const wstring& GetName() { return m_name; }
@@ -128,8 +129,4 @@ public:
 	void OnCollisionEnter(LAYER_TYPE other);
 	void OnCollisionStay(LAYER_TYPE other);
 	void OnCollisionExit(LAYER_TYPE other);
-
-private:
-	GameObject(const GameObject& origin);
-	GameObject& operator=(const GameObject& other);
 };

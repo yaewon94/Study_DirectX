@@ -12,11 +12,12 @@ enum class LIGHT_TYPE : int
 struct Light2dInfo
 {
 	Vec3 color;
-	Vec3 worldPos;
-	Vec3 dir;
+	Vec2 worldPos;
+	Vec2 dir;
 	LIGHT_TYPE type;
 	float radius;
 	float angle;
+	double padding; // 16바이트의 배수로 맞추기 위한 공간
 };
 
 class Light2D final : public Component
@@ -40,7 +41,7 @@ public:
 	// Radian 단위로 입력
 	void SetAngle(float angle);
 	void SetColor(Vec3 color) { m_info.color = color; }
-	void SetDirection(DIRECTION_VEC type) { m_info.dir = Directions[(UINT)type]; }
+	void SetDirection(DIRECTION_VEC type) { m_info.dir = Directions[(UINT)type].XY(); }
 	void SetRadius(float radius) { m_info.radius = radius; }
 	void SetType(LIGHT_TYPE type) { m_info.type = type; }
 

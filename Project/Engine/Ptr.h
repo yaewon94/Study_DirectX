@@ -17,7 +17,7 @@ public:
 
 public:
 	// 복사생성자 호출
-	Ptr DeepCopy()
+	Ptr DeepCopy() const
 	{
 		if constexpr (std::is_copy_constructible_v<T>)
 		{

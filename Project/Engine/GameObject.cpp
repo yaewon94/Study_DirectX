@@ -17,8 +17,11 @@ GameObject::GameObject()
 	m_transform = AddComponent<Transform>();
 }
 
-GameObject::GameObject(const GameObject& origin)  
-	: m_name(origin.m_name), m_parent(origin.m_parent)
+GameObject::GameObject(const GameObject& origin)
+	: m_name(origin.m_name)
+	, m_layer(LAYER_TYPE::NONE)
+	, m_renderComponent(nullptr)
+	, m_parent(nullptr)
 {
 	*this = origin;
 }
@@ -54,7 +57,7 @@ GameObject& GameObject::operator=(const GameObject& other)
 		// 자식 오브젝트 복제
 		for (auto& child : other.m_children)
 		{
-			m_children.push_back(child->Clone());
+			m_children.push_back(child.DeepCopy());
 		}
 
 		// 레이어 설정

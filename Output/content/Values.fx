@@ -7,11 +7,12 @@
 struct Light2dInfo
 {
     float3 color;
-    float3 worldPos;
-    float3 dir;
+    float2 worldPos;
+    float2 dir;
     int type;
     float radius;
     float angle;
+    double padding;
 };
 
 #define DIRECTION_LIGHT 0

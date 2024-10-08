@@ -29,11 +29,17 @@ void Level::Init()
 		// [임시]
 		// 광원 오브젝트 추가
 		Ptr<GameObject> obj = Ptr<GameObject>();
+		obj->GetTransform()->SetLocalPos(Vec3(-100.f, 150.f, 0.f));
 		Ptr<Light2D> light = obj->AddComponent<Light2D>();
 		light->SetType(LIGHT_TYPE::SPOT);
 		light->SetColor(COLOR_RED);
 		light->SetDirection(DIRECTION_VEC::DOWN);
 		light->SetAngle(XM_PIDIV4);
+
+		obj = obj.DeepCopy();
+		obj->GetTransform()->SetLocalPos(Vec3(100.f, 150.f, 0.f));
+		light = obj->GetComponent<Light2D>();
+		light->SetColor(COLOR_GREEN);
 
 		// 타일맵 오브젝트 추가
 		obj = Ptr<GameObject>();

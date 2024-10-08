@@ -16,6 +16,7 @@ struct VS_IN
 struct VS_OUT
 {
     float4 pos : SV_Position;
+    float3 worldPos : POSITION;
     float2 uv : TEXCOORD;
 };
 
@@ -33,6 +34,7 @@ VS_OUT VS_Std2D(VS_IN input)
     // view 공간 => 투영공간
     //output.pos = mul(viewPos, g_projMatrix);
     output.pos = mul(float4(input.pos, 1.f), g_wvp);
+    output.worldPos = mul(float4(input.pos, 1.f), g_worldMatrix);
     
     // ======================== UV 좌표 =========================
     output.uv = input.uv;
@@ -50,6 +52,14 @@ float4 PS_Std2D(VS_OUT input) : SV_Target
     else
         color = GetDebugColor(input.uv, 10);
   
+    // 광원처리
+    float3 lightColor = (float3) 0.f;
+    for (int i = 0; i < g_light2dCount; ++i)
+    {
+        CalcLight2D(i, input.worldPos.xy, lightColor);
+    }
+    color.rgb *= lightColor;
+   
     return color;
 }
 
@@ -76,6 +86,14 @@ float4 PS_Std2D_AlphaBlend(VS_OUT input) : SV_Target
             else
             {
                 color = g_spriteTex.Sample(g_sampler0, spriteUV);
+                
+                // 광원처리
+                float3 lightColor = (float3) 0.f;
+                for (int i = 0; i < g_light2dCount; ++i)
+                {
+                    CalcLight2D(i, input.worldPos.xy, lightColor);
+                }
+                color.rgb *= lightColor;
             }
         }
         else
