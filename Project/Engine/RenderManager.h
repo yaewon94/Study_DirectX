@@ -7,6 +7,7 @@ class Camera;
 class GameObject;
 class Texture;
 class Light2D;
+class Texture;
 
 // 카메라 index
 enum class CAMERA_TYPE : UINT
@@ -21,6 +22,9 @@ class RenderManager : public Singleton<RenderManager>
 	SINGLETON(RenderManager);
 	
 private:
+	Ptr<Texture> m_rtTex;	// Render Target
+	Ptr<Texture> m_dsTex;	// Depth Stencil
+
 	vector<Ptr<Camera>> m_cameras;
 	Ptr<Texture> m_postProcessTex;	// 후처리용 텍스처 (렌더타겟 복사용도)
 
@@ -40,6 +44,7 @@ public:
 
 private:
 	//void BindOnGpu();
+	void Clear();
 
 #ifdef _DEBUG
 public:

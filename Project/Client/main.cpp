@@ -15,6 +15,7 @@
 // > 포함 경로
 #include <Engine/Global.h>
 #include <Engine/Engine.h>
+#include <Engine/Device.h>
 // > 라이브러리 경로
 #ifdef _DEBUG
 #pragma comment(lib, "Engine\\Engine_D")
@@ -89,6 +90,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         {
             // 게임 엔진 구동
             Engine::GetInstance()->Progress();
+
+            // 화면 렌더링
+            Device::GetInstance()->Present();
         }
     }
 

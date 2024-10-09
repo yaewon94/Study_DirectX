@@ -14,6 +14,8 @@
 #include "Material.h"
 #include "Texture.h"
 
+#define CLEAR_COLOR Vec4(0.f, 0.f, 0.f, 1.f)
+
 RenderManager::RenderManager()
 {
 }
@@ -93,6 +95,27 @@ void RenderManager::CopyRenderTarget()
 
 int RenderManager::Init()
 {
+	// Render Target Texture, Depth Stencil Texture
+	m_rtTex = AssetManager::GetInstance()->FindAsset<Texture>(L"RenderTargetTex");
+	m_dsTex = AssetManager::GetInstance()->FindAsset<Texture>(L"DepthStencilTex");
+
+	// ViewPort 설정 (Window 화면 영역 지정)
+	D3D11_VIEWPORT viewport = {};
+	viewport.TopLeftX = 0;
+	viewport.TopLeftY = 0;
+
+	viewport.Width = Engine::GetInstance()->GetResolution().x;
+	viewport.Height = Engine::GetInstance()->GetResolution().y;
+
+	viewport.MinDepth = 0.f;
+	viewport.MaxDepth = 1.f;
+
+	CONTEXT->RSSetViewports(1, &viewport);
+
+	// Rendering 목적지를 지정
+	CONTEXT->OMSetRenderTargets(1, m_rtTex->GetRenderTargetView().GetAddressOf(), m_dsTex->GetDepthStencilView().Get());
+
+	// Post Process Texture
 	m_postProcessTex = AssetManager::GetInstance()->CreateTexture(L"PostProcessTex"
 																, Engine::GetInstance()->GetResolution()
 																, DXGI_FORMAT_R8G8B8A8_UNORM
@@ -104,20 +127,23 @@ int RenderManager::Init()
 
 void RenderManager::Render()
 {
-	// 데이터, 리소스 바인딩
-	//BindOnGpu();
+	// 이전 프레임 Target 클리어
+	Clear();
 
-	// 이전 프레임에 렌더링 된 것 지우기
-	Device::GetInstance()->Clear();
+	// 데이터 및 리소스 바인딩
+	//BindOnGpu();
 
 	// 카메라 렌더링
 	for (auto& cam : m_cameras)
 	{
 		cam->Render();
 	}
+}
 
-	// RenderTarget -> 윈도우 출력
-	Device::GetInstance()->Present();
+void RenderManager::Clear()
+{
+	CONTEXT->ClearRenderTargetView(m_rtTex->GetRenderTargetView().Get(), CLEAR_COLOR);
+	CONTEXT->ClearDepthStencilView(m_dsTex->GetDepthStencilView().Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
 }
 
 //void RenderManager::BindOnGpu()

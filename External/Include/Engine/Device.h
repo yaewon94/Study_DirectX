@@ -8,7 +8,6 @@
 #define DEVICE Device::GetInstance()->GetDevice()
 
 class ConstBuffer;
-class Texture;
 
 // GPU 제어 클래스
 class Device final : public Singleton<Device>
@@ -22,11 +21,6 @@ private:
 	ComPtr<ID3D11DeviceContext> m_context;	// GPU 동작 명령, 렌더링, GPGPU
 
 	ComPtr<IDXGISwapChain> m_swapChain;		// 백버퍼 관리, 최종 렌더링 제출
-
-	Ptr<Texture> m_rtTex;			// 백버퍼
-	Ptr<Texture> m_dsTex;			// Depth, Stencil, Texture
-
-	D3D11_VIEWPORT m_viewPort;
 
 	Ptr<ConstBuffer> m_cbArr[(UINT)CB_TYPE::COUNT_END];	// 타입별 상수버퍼
 
@@ -47,8 +41,6 @@ public:
 	int Init(HWND hwnd);
 	
 public:
-	// 이전 프레임 화면 Clear
-	void Clear();
 	// RenderTargetView => 윈도우 출력
 	void Present();
 

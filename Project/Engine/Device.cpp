@@ -5,10 +5,8 @@
 #include "AssetManager.h"
 #include "Texture.h"
 
-#define CLEAR_COLOR Vec4(0.f, 0.f, 0.f, 1.f)
-
 Device::Device() 
-	: m_hwnd(nullptr), m_viewPort{}
+	: m_hwnd(nullptr)
 {
 }
 
@@ -85,23 +83,6 @@ int Device::Init(HWND hwnd)
 	//===============================================================================
 	if (FAILED(CreateSamplerState())) return E_FAIL;
 
-	// ====================================================
-	// ViewPort 설정
-	// 뷰포트 범위는 윈도우 크기를 기준으로 0~1 정규화된 값
-	// ====================================================
-	m_viewPort.TopLeftX = 0;
-	m_viewPort.TopLeftY = 0;
-	m_viewPort.Width = Engine::GetInstance()->GetResolution().x;
-	m_viewPort.Height = Engine::GetInstance()->GetResolution().y;
-
-	m_viewPort.MinDepth = 0.f;
-	m_viewPort.MaxDepth = 1.f;
-
-	m_context->RSSetViewports(1, &m_viewPort);
-
-	// Rendering 목적지를 지정
-	m_context->OMSetRenderTargets(1, m_rtTex->GetRenderTargetView().GetAddressOf(), m_dsTex->GetDepthStencilView().Get());
-
 	// ===============
 	// 상수버퍼 생성
 	// ===============
@@ -116,13 +97,6 @@ int Device::Init(HWND hwnd)
 	g_global.renderResolution = Engine::GetInstance()->GetResolution();
 
 	return S_OK;
-}
-
-void Device::Clear()
-{
-	// RenderTarget, DepthStencilTexture 클리어
-	m_context->ClearRenderTargetView(m_rtTex->GetRenderTargetView().Get(), CLEAR_COLOR);
-	m_context->ClearDepthStencilView(m_dsTex->GetDepthStencilView().Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
 }
 
 void Device::Present()
@@ -182,8 +156,7 @@ int Device::CreateView()
 	// ==============================================
 	ComPtr<ID3D11Texture2D> pTex2D = nullptr;
 	m_swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)pTex2D.GetAddressOf());
-	m_rtTex = AssetManager::GetInstance()->CreateTexture(RENDER_TARGET_TEX_NAME, pTex2D);
-	if (m_rtTex == nullptr)
+	if (AssetManager::GetInstance()->CreateTexture(RENDER_TARGET_TEX_NAME, pTex2D) == nullptr)
 	{
 		throw std::logic_error("RenderTarget 텍스처 생성 실패");
 	}
@@ -191,11 +164,10 @@ int Device::CreateView()
 	// ==============================================
 	// Depth Stencil Texture
 	// ==============================================
-	m_dsTex = AssetManager::GetInstance()->CreateTexture(DEPTH_STENCIL_TEX_NAME
-														, Engine::GetInstance()->GetResolution()
-														, DXGI_FORMAT_D24_UNORM_S8_UINT
-														, D3D11_BIND_DEPTH_STENCIL);
-	if (m_dsTex == nullptr)
+	if (AssetManager::GetInstance()->CreateTexture(DEPTH_STENCIL_TEX_NAME
+		, Engine::GetInstance()->GetResolution()
+		, DXGI_FORMAT_D24_UNORM_S8_UINT
+		, D3D11_BIND_DEPTH_STENCIL) == nullptr)
 	{
 		throw std::logic_error("DepthStencil 텍스처 생성 실패");
 	}
