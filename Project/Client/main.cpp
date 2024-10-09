@@ -1,9 +1,9 @@
 ﻿// [.exe파일 출력 디렉터리 설정]
 // 프로젝트 우클릭 > 속성 > 일반 > 출력 디렉터리
 
-// Client.cpp : 애플리케이션에 대한 진입점을 정의합니다.
+// main.cpp : 애플리케이션에 대한 진입점을 정의합니다.
 //
-
+#include "pch.h"
 #include "framework.h"
 #include "Client.h"
 #include "crtdbg.h"
@@ -25,6 +25,13 @@
 
 // [라이브러리 빌드 순서 설정]
 // 프로젝트 우클릭 > 빌드 종속성 > 프로젝트 종속성 설정
+
+// 내부파일 include
+#include "ImguiManager.h"
+#include "imgui/imgui.h"
+
+// extern 선언
+extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 // 전역 변수:
 HINSTANCE g_hInst;
@@ -65,6 +72,14 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     // 게임엔진 초기화
     if (FAILED(Engine::GetInstance()->Init(g_hWnd)))
     {
+        MessageBox(nullptr, L"게임 엔진 초기화 실패", L"애플리케이션 시작 실패", MB_OK);
+        return FALSE;
+    }
+
+    // imgui 초기화
+    if (FAILED(ImguiManager::GetInstance()->Init()))
+    {
+        MessageBox(nullptr, L"imgui 초기화 실패", L"애플리케이션 시작 실패", MB_OK);
         return FALSE;
     }
 
@@ -90,6 +105,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         {
             // 게임 엔진 구동
             Engine::GetInstance()->Progress();
+
+            // imgui 구동
+            ImguiManager::GetInstance()->Progress();
 
             // 화면 렌더링
             Device::GetInstance()->Present();
@@ -165,8 +183,16 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 //  WM_DESTROY  - 종료 메시지를 게시하고 반환합니다.
 //
 //
+
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
+    // imgui
+    if (ImGui_ImplWin32_WndProcHandler(hWnd, message, wParam, lParam))
+    {
+        return true;
+    }
+
+    // 윈도우 메세지
     switch (message)
     {
     case WM_COMMAND:
