@@ -1,9 +1,15 @@
 #include "pch.h"
 #include "TransformUI.h"
-#include "Engine/TransformValues.h"
+#include "Engine/LayerEnums.h"
+#include "Engine/LevelManager.h"
+#include "Engine/GameObject.h"
+#include "Engine/Transform.h"
 
-TransformUI::TransformUI()
+TransformUI::TransformUI() 
+	: target(nullptr)
 {
+	// TEST
+	target = LevelManager::GetInstance()->GetGameObject(LAYER_TYPE::PLAYER);
 }
 
 TransformUI::~TransformUI()
@@ -12,18 +18,36 @@ TransformUI::~TransformUI()
 
 void TransformUI::RenderUpdate()
 {
+	// TODO : Transform UI 창 닫기를 눌러도 닫히지 않게 해야 함
+
+	Ptr<Transform> tr = target->GetTransform();
+	Vec3 localPos = tr->GetLocalPos();
+	Vec3 localScale = tr->GetLocalScale();
+	Vec3 localRot = tr->GetLocalRotation();
+
 	ImGui::Text("Local Position");	// 상수 문자열 출력
 	ImGui::SameLine(130);			// 위에 출력된 문자열과 같은 라인에 출력 (@param - Text의 글자수가 공백으로 출력됨)
-	float arrPos[3] = {};
-	ImGui::InputFloat3("##pos", arrPos);	// 입력칸 (@param : 라벨명, 입력값을 저장할 변수)
+	ImGui::InputFloat3("##pos", localPos);	// 입력칸 (@param : 라벨명, 입력값을 저장할 변수)
+	//if (ImGui::DragFloat3("##pos", localPos))
+	//{
+		tr->SetLocalPos(localPos);
+	//}
 
 	ImGui::Text("Local Scale");
 	ImGui::SameLine(130);
-	float arrScale[3] = { DEFAULT_SCALE_NO_PARENT.x, DEFAULT_SCALE_NO_PARENT.y, DEFAULT_SCALE_NO_PARENT.z };
-	ImGui::InputFloat3("##scale", arrScale);
+	ImGui::InputFloat3("##scale", localScale);
+	//if (ImGui::DragFloat3("##scale", localScale))
+	//{
+		tr->SetLocalScale(localScale);
+	//}
 
 	ImGui::Text("Local Rotation");
 	ImGui::SameLine(130);
-	float arrRot[3] = {};
-	ImGui::InputFloat3("##Rotation", arrRot);
+	localRot = (localRot / XM_PI) * 180.f;
+	ImGui::InputFloat3("##Rotation", localRot);
+	//if (ImGui::DragFloat3("##Rotation", localRot, 0.1f))
+	//{
+		localRot = (localRot / 180) * XM_PI;
+		tr->SetLocalRotation(localRot);
+	//}
 }
