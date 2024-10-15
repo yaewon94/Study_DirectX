@@ -14,6 +14,8 @@ Transform::Transform(const Ptr<GameObject>& owner)
 	: Component(owner)
 	, m_localScale(Vec3(100.f, 100.f, 1.f))
 {
+	if (GetOwner()->GetParent() == nullptr) m_localScale = DEFAULT_SCALE_NO_PARENT;
+	else m_localScale = DEFAULT_SCALE_HAS_PARENT;
 }
 
 Transform::Transform(const Ptr<Component>& origin, const Ptr<GameObject>& owner)

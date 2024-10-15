@@ -60,6 +60,9 @@
     <ClInclude Include="EditorUI.h">
       <Filter>EditorUI</Filter>
     </ClInclude>
+    <ClInclude Include="TransformUI.h">
+      <Filter>EditorUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -104,6 +107,9 @@
       <Filter>imgui</Filter>
     </ClCompile>
     <ClCompile Include="EditorUI.cpp">
+      <Filter>EditorUI</Filter>
+    </ClCompile>
+    <ClCompile Include="TransformUI.cpp">
       <Filter>EditorUI</Filter>
     </ClCompile>
   </ItemGroup>

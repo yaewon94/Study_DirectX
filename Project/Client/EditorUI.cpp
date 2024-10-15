@@ -1,9 +1,12 @@
 #include "pch.h"
 #include "EditorUI.h"
 
+UINT EditorUI::nextID = 0;
+
 EditorUI::EditorUI() 
-	: m_isActive(true)
+	: m_ID(nextID++), m_isActive(true)
 {
+	m_name = "##" + std::to_string(m_ID);
 }
 
 EditorUI::~EditorUI()

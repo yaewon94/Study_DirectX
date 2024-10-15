@@ -32,6 +32,11 @@ ImguiManager::~ImguiManager()
     }
 }
 
+void ImguiManager::AddUI(EditorUI& ui)
+{
+    m_mapUI.insert(make_pair(ui.GetName(), &ui));
+}
+
 int ImguiManager::Init()
 {
     // Setup Dear ImGui context
@@ -81,6 +86,10 @@ int ImguiManager::Init()
     //io.Fonts->AddFontFromFileTTF("../../misc/fonts/Cousine-Regular.ttf", 15.0f);
     //ImFont* font = io.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\ArialUni.ttf", 18.0f, nullptr, io.Fonts->GetGlyphRangesJapanese());
     //IM_ASSERT(font != nullptr);
+    
+#ifdef _DEBUG
+    Test_CreateEditorUI();
+#endif // _DEBUG
 
     return S_OK;
 }
@@ -127,3 +136,14 @@ void ImguiManager::Render()
         ImGui::RenderPlatformWindowsDefault();
     }
 }
+
+#ifdef _DEBUG
+#include "TransformUI.h"
+void ImguiManager::Test_CreateEditorUI()
+{
+    EditorUI* ui = nullptr;
+    ui = new TransformUI();
+    ui->SetName("Transform");
+    AddUI(*ui);
+}
+#endif // _DEBUG

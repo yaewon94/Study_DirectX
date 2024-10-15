@@ -3,7 +3,6 @@
 #include "GameObject.h"
 #include "LayerEnums.h"
 #include "Transform.h"
-#include "TransformEnums.h"
 #include "RenderManager.h"
 
 Light2D::Light2D(const Ptr<GameObject>& owner) 

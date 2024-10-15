@@ -108,7 +108,7 @@
     <ClInclude Include="TileMap.h" />
     <ClInclude Include="TimeManager.h" />
     <ClInclude Include="Transform.h" />
-    <ClInclude Include="TransformEnums.h" />
+    <ClInclude Include="TransformValues.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Debug.fx">

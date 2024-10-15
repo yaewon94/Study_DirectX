@@ -5,7 +5,7 @@
 #include "LevelManager.h"
 #include "GameObject.h"
 #include "Transform.h"
-#include "TransformEnums.h"
+#include "TransformValues.h"
 #include "RenderManager.h"
 #include "RenderComponent.h"
 #include "GraphicShader.h"

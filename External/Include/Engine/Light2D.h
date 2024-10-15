@@ -1,6 +1,6 @@
 #pragma once
 #include "Component.h"
-#include "TransformEnums.h"
+#include "TransformValues.h"
 
 enum class LIGHT_TYPE : int
 {

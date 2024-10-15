@@ -286,7 +286,7 @@
     <ClInclude Include="Transform.h">
       <Filter>Entity\Component</Filter>
     </ClInclude>
-    <ClInclude Include="TransformEnums.h">
+    <ClInclude Include="TransformValues.h">
       <Filter>Header</Filter>
     </ClInclude>
     <ClInclude Include="pch.h">

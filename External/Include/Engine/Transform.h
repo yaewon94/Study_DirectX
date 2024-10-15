@@ -1,6 +1,6 @@
 #pragma once
 #include "Component.h"
-#include "TransformEnums.h"
+#include "TransformValues.h"
 
 // 게임오브젝트의 좌표, 크기, 회전 정보
 class Transform final : public Component
