@@ -1,8 +1,10 @@
 #include "pch.h"
 #include "ImguiManager.h"
+#include "EditorUI.h"
 
 #include <Engine/Engine.h>
 #include <Engine/Device.h>
+#include <Engine/KeyManager.h>
 
 #include "imgui/imgui.h"
 #include "imgui/imgui_impl_dx11.h"
@@ -14,9 +16,20 @@ ImguiManager::ImguiManager()
 
 ImguiManager::~ImguiManager()
 {
+    // imgui 관련 정리
     ImGui_ImplDX11_Shutdown();
     ImGui_ImplWin32_Shutdown();
     ImGui::DestroyContext();
+
+    // EditorUI 메모리 해제
+    for (auto& pair : m_mapUI)
+    {
+        if (pair.second != nullptr)
+        {
+            delete pair.second;
+            pair.second = nullptr;
+        }
+    }
 }
 
 int ImguiManager::Init()
@@ -74,7 +87,16 @@ int ImguiManager::Init()
 
 void ImguiManager::Progress()
 {
+    Tick();
     Render();
+}
+
+void ImguiManager::Tick()
+{
+    for (const auto& pair : m_mapUI)
+    {
+        pair.second->Tick();
+    }
 }
 
 void ImguiManager::Render()
@@ -84,10 +106,16 @@ void ImguiManager::Render()
     ImGui_ImplWin32_NewFrame();
     ImGui::NewFrame();
 
-    // Tick DemoWindow
-    bool bDemo = true;
-    ImGui::ShowDemoWindow(&bDemo);
+    //// Tick DemoWindow
+    //bool bDemo = true;
+    //ImGui::ShowDemoWindow(&bDemo);
 
+    // EditorUI 렌더링
+    for (const auto& pair : m_mapUI)
+    {
+        pair.second->Render();
+    }
+    
     // 화면 내부 UI 들 렌더링
     ImGui::Render();
     ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
