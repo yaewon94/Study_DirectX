@@ -26,6 +26,16 @@ EditorUI::~EditorUI()
 	ImguiManager::GetInstance()->DeleteUI(*this);
 }
 
+void EditorUI::SetActive(bool isActive)
+{
+	m_isActive = isActive;
+
+	for (const auto& child : m_children)
+	{
+		child->SetActive(isActive);
+	}
+}
+
 void EditorUI::Render()
 {
 	if (m_isActive)

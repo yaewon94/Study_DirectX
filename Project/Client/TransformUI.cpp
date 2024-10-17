@@ -2,11 +2,11 @@
 #include "TransformUI.h"
 #include "InspectorUI.h"
 #include "Engine/LayerEnums.h"
-#include "Engine/Transform.h"
 #include "Engine/GameObject.h"
+#include "Engine/Transform.h"
 
-TransformUI::TransformUI() 
-	: EditorUI("Transform")
+TransformUI::TransformUI()
+	: ComponentUI("Transform")
 {
 }
 
@@ -48,4 +48,14 @@ void TransformUI::RenderUpdate()
 		localRot = (localRot / 180) * XM_PI;
 		tr->SetLocalRotation(localRot);
 	//}
+}
+
+void TransformUI::AddComponent()
+{
+	((InspectorUI*)GetParent())->GetTarget()->AddComponent<Transform>();
+}
+
+Ptr<Component> TransformUI::GetComponent()
+{
+	return ((InspectorUI*)GetParent())->GetTarget()->GetTransform().ptr_dynamic_cast<Component>();
 }

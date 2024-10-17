@@ -1,18 +1,23 @@
 #pragma once
-#include "EditorUI.h"
+#include "ComponentUI.h"
 
-class Transform;
+class Component;
+class GameObject;
 
 // 게임오브젝트의 좌표, 크기, 각도를 설정하는 UI
 // TODO : Transform UI 창 닫기를 눌러도 닫히지 않게 해야 함
-class TransformUI final : public EditorUI
+class TransformUI final : public ComponentUI
 {
 	NO_COPY_ASSIGN(TransformUI);
-	
+
 public:
 	TransformUI();
 	~TransformUI();
 
 public:
 	virtual void RenderUpdate() final;
+
+private:
+	virtual void AddComponent() final;
+	virtual Ptr<Component> GetComponent() final;
 };

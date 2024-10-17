@@ -13,7 +13,3 @@ InspectorUI::InspectorUI(const Ptr<GameObject>& target)
 InspectorUI::~InspectorUI()
 {
 }
-
-void InspectorUI::RenderUpdate()
-{
-}

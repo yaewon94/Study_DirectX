@@ -2,6 +2,12 @@
 #include "ImguiManager.h"
 #include "imgui/imgui.h"
 
+class ComponentUI;
+class EditorUI;
+
+template<typename T>
+concept not_component_ui = std::is_base_of_v<EditorUI, T> && !std::is_base_of_v<ComponentUI, T>;
+
 // 에디터모드 모든 UI들의 최상위 클래스 (추상클래스)
 // TODO : 게임오브젝트 생성 기능
 // TODO : 각 EditorUI의 X 표시를 누르면 해당 컴포넌트 제거 (TransformUI 제외)
@@ -28,7 +34,7 @@ private:
 // Constructor, Destructor
 public:
 	EditorUI(const string& name);
-	~EditorUI();
+	virtual ~EditorUI();
 
 // [public] Getter, Setter
 public:
@@ -50,34 +56,33 @@ public:
 		return nullptr;
 	}
 
-	void SetActive(bool isActive) { m_isActive = isActive; }
-	template<typename T> requires std::derived_from<T, EditorUI>
+	void SetActive(bool isActive);
+	
+	// 템플릿 메소드는 virtual 사용 불가라 이 방법으로 함
+	template<typename T> requires not_component_ui<T>
 	void AddChild()
 	{
 		if (GetChild<T>() != nullptr)
 		{
 			throw std::logic_error("이미 가지고 있는 UI 입니다");
 		}
-		/*else if (m_target->GetRenderComponent() != nullptr)
-		{
-			throw std::logic_error("렌더링 컴포넌트는 하나만 가질 수 있습니다");
-		}*/
-		else
-		{
-			m_children.push_back(new T);
-		}
 
-		// 부모 설정
-		m_children.back()->m_parent = this;
-		
-		// ImguiManager에 등록
-		ImguiManager::GetInstance()->AddUI(*m_children.back());
+		RegisterChild<T>(new T);
 	}
-
 
 // about EditorUI functions called every frame
 public:
 	virtual void Tick() {}
 	virtual void Render() final;
 	virtual void RenderUpdate() = 0;
+
+protected:
+	// 실제 UI 객체를 메모리에 등록
+	template<typename T> requires std::derived_from<T, EditorUI>
+	void RegisterChild(T& t)
+	{
+		m_children.push_back(&t);
+		m_children.back()->m_parent = this; // 부모 설정
+		ImguiManager::GetInstance()->AddUI(*m_children.back()); // ImguiManager에 등록
+	}
 };
