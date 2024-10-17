@@ -6,6 +6,7 @@
 #include "Engine/Device.h"
 #include "Engine/KeyManager.h"
 #include "Engine/LevelManager.h"
+#include "Engine/GameObject.h"
 
 #include "imgui/imgui.h"
 #include "imgui/imgui_impl_dx11.h"
@@ -23,19 +24,31 @@ ImguiManager::~ImguiManager()
     ImGui::DestroyContext();
 
     // EditorUI 메모리 해제
-    for (auto& pair : m_mapUI)
+    auto iter = m_mapUI.begin();
+    while (iter != m_mapUI.end())
     {
-        if (pair.second != nullptr)
-        {
-            delete pair.second;
-            pair.second = nullptr;
-        }
+        delete iter->second;
+        iter = m_mapUI.begin();
     }
 }
 
 void ImguiManager::AddUI(EditorUI& ui)
 {
     m_mapUI.insert(make_pair(ui.GetName(), &ui));
+}
+
+void ImguiManager::DeleteUI(const EditorUI& ui)
+{
+    for (auto iter = m_mapUI.begin(); iter != m_mapUI.end(); ++iter)
+    {
+        if (iter->second == &ui)
+        {
+            m_mapUI.erase(iter);
+            return;
+        }
+    }
+
+    throw std::logic_error("해당 UI가 map에 존재하지 않습니다");
 }
 
 int ImguiManager::Init()
@@ -88,9 +101,7 @@ int ImguiManager::Init()
     //ImFont* font = io.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\ArialUni.ttf", 18.0f, nullptr, io.Fonts->GetGlyphRangesJapanese());
     //IM_ASSERT(font != nullptr);
     
-#ifdef _DEBUG
     Test_CreateEditorUI();
-#endif // _DEBUG
 
     return S_OK;
 }
@@ -123,7 +134,7 @@ void ImguiManager::Render()
     // EditorUI 렌더링
     for (const auto& pair : m_mapUI)
     {
-        pair.second->Render();
+        if(pair.second->GetParent() == nullptr) pair.second->Render();
     }
     
     // 화면 내부 UI 들 렌더링
@@ -138,14 +149,11 @@ void ImguiManager::Render()
     }
 }
 
-#ifdef _DEBUG
-#include "TransformUI.h"
+#include "InspectorUI.h"
 void ImguiManager::Test_CreateEditorUI()
 {
    EditorUI* ui = nullptr;
    Ptr<GameObject> player = LevelManager::GetInstance()->GetGameObject(LAYER_TYPE::PLAYER);
-   ui = new TransformUI(player);
-   ui->SetName("Transform");
+   ui = new InspectorUI(player);
    AddUI(*ui);
 }
-#endif // _DEBUG

@@ -10,7 +10,7 @@ class TransformUI final : public EditorUI
 	NO_COPY_ASSIGN(TransformUI);
 	
 public:
-	TransformUI(const Ptr<GameObject>& target);
+	TransformUI();
 	~TransformUI();
 
 public:

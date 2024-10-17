@@ -1,10 +1,12 @@
 #include "pch.h"
 #include "TransformUI.h"
+#include "InspectorUI.h"
 #include "Engine/LayerEnums.h"
 #include "Engine/Transform.h"
+#include "Engine/GameObject.h"
 
-TransformUI::TransformUI(const Ptr<GameObject>& target) 
-	: EditorUI(target)
+TransformUI::TransformUI() 
+	: EditorUI("Transform")
 {
 }
 
@@ -14,7 +16,9 @@ TransformUI::~TransformUI()
 
 void TransformUI::RenderUpdate()
 {
-	Ptr<Transform> tr = GetTarget()->GetTransform();
+	static InspectorUI* parent = (InspectorUI*)GetParent();
+
+	Ptr<Transform> tr = parent->GetTarget()->GetTransform();
 	Vec3 localPos = tr->GetLocalPos();
 	Vec3 localScale = tr->GetLocalScale();
 	Vec3 localRot = tr->GetLocalRotation();
