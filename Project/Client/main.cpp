@@ -103,9 +103,11 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         }
         else
         {
+            // TODO : 인게임 모드일때만 호출하도록 변경
             // 게임 엔진 구동
             Engine::GetInstance()->Progress();
 
+            // TODO : 에디터 모드일때만 호출하도록 변경
             // imgui 구동
             ImguiManager::GetInstance()->Progress();
 

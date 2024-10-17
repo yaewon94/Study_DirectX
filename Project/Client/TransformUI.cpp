@@ -1,15 +1,11 @@
 #include "pch.h"
 #include "TransformUI.h"
 #include "Engine/LayerEnums.h"
-#include "Engine/LevelManager.h"
-#include "Engine/GameObject.h"
 #include "Engine/Transform.h"
 
-TransformUI::TransformUI() 
-	: target(nullptr)
+TransformUI::TransformUI(const Ptr<GameObject>& target) 
+	: EditorUI(target)
 {
-	// TEST
-	target = LevelManager::GetInstance()->GetGameObject(LAYER_TYPE::PLAYER);
 }
 
 TransformUI::~TransformUI()
@@ -18,9 +14,7 @@ TransformUI::~TransformUI()
 
 void TransformUI::RenderUpdate()
 {
-	// TODO : Transform UI 창 닫기를 눌러도 닫히지 않게 해야 함
-
-	Ptr<Transform> tr = target->GetTransform();
+	Ptr<Transform> tr = GetTarget()->GetTransform();
 	Vec3 localPos = tr->GetLocalPos();
 	Vec3 localScale = tr->GetLocalScale();
 	Vec3 localRot = tr->GetLocalRotation();

@@ -2,9 +2,10 @@
 #include "ImguiManager.h"
 #include "EditorUI.h"
 
-#include <Engine/Engine.h>
-#include <Engine/Device.h>
-#include <Engine/KeyManager.h>
+#include "Engine/Engine.h"
+#include "Engine/Device.h"
+#include "Engine/KeyManager.h"
+#include "Engine/LevelManager.h"
 
 #include "imgui/imgui.h"
 #include "imgui/imgui_impl_dx11.h"
@@ -141,9 +142,10 @@ void ImguiManager::Render()
 #include "TransformUI.h"
 void ImguiManager::Test_CreateEditorUI()
 {
-    EditorUI* ui = nullptr;
-    ui = new TransformUI();
-    ui->SetName("Transform");
-    AddUI(*ui);
+   EditorUI* ui = nullptr;
+   Ptr<GameObject> player = LevelManager::GetInstance()->GetGameObject(LAYER_TYPE::PLAYER);
+   ui = new TransformUI(player);
+   ui->SetName("Transform");
+   AddUI(*ui);
 }
 #endif // _DEBUG
