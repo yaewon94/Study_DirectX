@@ -12,6 +12,7 @@
 GameObject::GameObject() 
 	: m_layer(LAYER_TYPE::NONE)
 	, m_renderComponent(nullptr)
+	, m_collider(nullptr)
 	, m_parent(nullptr)
 {
 	m_transform = AddComponent<Transform>();
@@ -21,6 +22,7 @@ GameObject::GameObject(const GameObject& origin)
 	: m_name(origin.m_name)
 	, m_layer(LAYER_TYPE::NONE)
 	, m_renderComponent(nullptr)
+	, m_collider(nullptr)
 	, m_parent(nullptr)
 {
 	*this = origin;
@@ -77,12 +79,16 @@ Ptr<RenderComponent> GameObject::GetRenderComponent()
 	return m_renderComponent;
 }
 
+Ptr<Collider> GameObject::GetCollider()
+{
+	return m_collider;
+}
+
 void GameObject::SetLayer(LAYER_TYPE layer)
 {
 	if (m_layer == layer) return;
 
 	Ptr<GameObject> obj = Ptr<GameObject>(this);
-	Ptr<Collider2D> collider = GetComponent<Collider2D>();
 
 	if (m_layer != LAYER_TYPE::NONE)
 	{
@@ -92,7 +98,7 @@ void GameObject::SetLayer(LAYER_TYPE layer)
 		if (m_layer > LAYER_TYPE::CAMERA)
 		{
 			// 기존 레이어 타입으로 등록된 콜라이더 삭제
-			CollisionManager::GetInstance()->RemoveCollider(collider);
+			CollisionManager::GetInstance()->RemoveCollider(m_collider);
 			// 기존 레이어 타입으로 등록된 메인카메라 렌더맵 삭제
 			RenderManager::GetInstance()->DeleteRenderObj(CAMERA_TYPE::MAIN_CAMERA, obj);
 		}
@@ -107,9 +113,9 @@ void GameObject::SetLayer(LAYER_TYPE layer)
 		if (m_layer > LAYER_TYPE::CAMERA)
 		{
 			// 새로운 레이어 타입으로 콜라이더 등록
-			if (collider != nullptr)
+			if (m_collider != nullptr)
 			{
-				CollisionManager::GetInstance()->AddCollider(collider);
+				CollisionManager::GetInstance()->AddCollider(m_collider);
 			}
 			// 새로운 레이어 타입으로 메인카메라 렌더맵 등록
 			if (m_renderComponent != nullptr)

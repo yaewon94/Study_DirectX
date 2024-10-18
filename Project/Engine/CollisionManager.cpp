@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "CollisionManager.h"
-#include "Collider2D.h"
+#include "Collider.h"
 #include "GameObject.h"
 
 CollisionManager::CollisionManager()
@@ -11,7 +11,7 @@ CollisionManager::~CollisionManager()
 {
 }
 
-void CollisionManager::AddCollider(const Ptr<Collider2D>& collider)
+void CollisionManager::AddCollider(const Ptr<Collider>& collider)
 {
 	LAYER_TYPE layer = collider->GetOwner()->GetLayer();
 	if (layer <= LAYER_TYPE::CAMERA)
@@ -22,7 +22,7 @@ void CollisionManager::AddCollider(const Ptr<Collider2D>& collider)
 
 	if (iter == m_colliderMap.end())
 	{
-		vector<Ptr<Collider2D>> vec;
+		vector<Ptr<Collider>> vec;
 		vec.push_back(collider);
 		m_colliderMap.insert(make_pair(layer, vec));
 	}
@@ -41,7 +41,7 @@ void CollisionManager::AddCollider(const Ptr<Collider2D>& collider)
 	}
 }
 
-void CollisionManager::RemoveCollider(const Ptr<Collider2D>& collider)
+void CollisionManager::RemoveCollider(const Ptr<Collider>& collider)
 {
 	if (collider == nullptr) return;
 
@@ -111,7 +111,7 @@ void CollisionManager::CheckCollision(LAYER_TYPE a, LAYER_TYPE b)
 	}
 }
 
-bool CollisionManager::IsCollision(const Ptr<Collider2D>& a, const Ptr<Collider2D>& b)
+bool CollisionManager::IsCollision(const Ptr<Collider>& a, const Ptr<Collider>& b)
 {
 	static const UINT RECT = 4;
 	static const Vec3 arrRect[RECT] =
@@ -156,7 +156,7 @@ bool CollisionManager::IsCollision(const Ptr<Collider2D>& a, const Ptr<Collider2
 	return true;
 }
 
-void CollisionManager::ChangeCollisionSet(const Ptr<Collider2D>& a, const Ptr<Collider2D>& b, bool isCollision)
+void CollisionManager::ChangeCollisionSet(const Ptr<Collider>& a, const Ptr<Collider>& b, bool isCollision)
 {
 	COLLIDER_ID id = {};
 	id.left = a->GetID();

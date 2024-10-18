@@ -1,18 +1,14 @@
 #pragma once
-#include "Component.h"
-#include "LayerEnums.h"
+#include "Collider.h"
 
 // 오브젝트간 충돌 감지를 위한 컴포넌트
-class Collider2D final : public Component
+class Collider2D final : public Collider
 {
 	NO_COPY_ASSIGN(Collider2D);
 
 private:
 	Vec2 m_offset;
 	Vec2 m_scale;
-
-	Matrix m_worldMat;
-	Matrix m_matTrans, m_matScale;
 
 public:
 	Collider2D(const Ptr<GameObject>& owner);
@@ -25,19 +21,16 @@ public:
 	}
 
 public:
-	const Matrix& GetWorldMatrix() { return m_worldMat; }
+	Vec2 GetOffset() { return m_offset; }
+	Vec2 GetScale() { return m_scale; }
+
+	void SetOffset(Vec2 offset) { m_offset = offset; OnChangeOffset(); }
+	void SetScale(Vec2 scale) { m_scale = scale; OnChangeScale(); }
 
 public:
 	virtual void Init() final;
-	virtual void FinalTick() final;
 
-public:
-	void OnCollisionEnter(LAYER_TYPE other);
-	void OnCollisionStay(LAYER_TYPE other);
-	void OnCollisionExit(LAYER_TYPE other);
-
-#ifdef _DEBUG
 private:
-	Ptr<GameObject> m_debugObj;
-#endif // _DEBUG
+	virtual void OnChangeOffset();
+	virtual void OnChangeScale();
 };

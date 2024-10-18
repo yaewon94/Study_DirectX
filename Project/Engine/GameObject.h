@@ -7,6 +7,7 @@ class Component;
 class Transform;
 class Script;
 class RenderComponent;
+class Collider;
 
 // 게임오브젝트
 class GameObject final : public Entity
@@ -20,6 +21,7 @@ private:
 
 	Ptr<Transform> m_transform;
 	Ptr<RenderComponent> m_renderComponent;
+	Ptr<Collider> m_collider;
 
 	Ptr<GameObject> m_parent;
 	vector<Ptr<GameObject>> m_children;
@@ -37,7 +39,10 @@ public:
 
 	// 컴포넌트 빨리 접근하기 위한 용도
 	Ptr<Transform> GetTransform();
+
+	// 각 오브젝트에 상위타입 컴포넌트 한가지만 존재하는 것들
 	Ptr<RenderComponent> GetRenderComponent();
+	Ptr<Collider> GetCollider();
 
 	void SetName(const wstring& name) { m_name = name; }
 	// 0 이상의 값만 현재 Level에 등록됨
@@ -52,8 +57,7 @@ public:
 
 		if (component != nullptr)
 		{
-			MessageBoxA(nullptr, "이미 해당 컴포넌트가 존재합니다", "컴포넌트 추가 실패", MB_OK);
-			return component;
+			throw std::logic_error("이미 해당 컴포넌트가 존재합니다");
 		}
 		else
 		{
@@ -79,6 +83,18 @@ public:
 					{
 						MessageBox(nullptr, L"렌더링 컴포넌트가 이미 존재합니다", L"컴포넌트 추가 실패", MB_OK);
 						return nullptr;
+					}
+				}
+				// 콜라이더 컴포넌트 여부
+				else if constexpr (IsColliderComponent<T>())
+				{
+					if (m_collider == nullptr)
+					{
+						m_collider = component.ptr_dynamic_cast<Collider>();
+					}
+					else
+					{
+						throw std::logic_error("콜라이더 컴포넌트가 이미 존재합니다");
 					}
 				}
 
@@ -109,6 +125,11 @@ public:
 		else if constexpr (Type == COMPONENT_TYPE::RENDER)
 		{
 			return m_renderComponent;
+		}
+		// 콜라이더 컴포넌트
+		else if constexpr (Type == COMPONENT_TYPE::COLLIDER)
+		{
+			return m_collider;
 		}
 		// 게임엔진 기본 컴포넌트
 		else

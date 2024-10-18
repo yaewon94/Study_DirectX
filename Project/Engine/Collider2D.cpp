@@ -1,33 +1,17 @@
 #include "pch.h"
 #include "Collider2D.h"
-#include "CollisionManager.h"
 #include "RenderManager.h"
-#include "Render.h"
-#include "MeshRender.h"
-#include "Material.h"
 #include "GameObject.h"
 #include "Transform.h"
 
-#ifdef _DEBUG
-#define COLOR_DEFAULT COLOR_GREEN
-#define COLOR_COLLISION COLOR_RED
-#endif // _DEBUG
-
 Collider2D::Collider2D(const Ptr<GameObject>& owner)
-	: Component(owner)
+	: Collider(owner)
 	, m_scale(Vec2(1.f, 1.f))
-#ifdef _DEBUG
-	, m_debugObj(nullptr)
-#endif // _DEBUG
-
 {
 }
 
 Collider2D::Collider2D(const Ptr<Component>& origin, const Ptr<GameObject>& owner) 
-	: Component(owner)
-#ifdef _DEBUG
-	, m_debugObj(nullptr)
-#endif // _DEBUG
+	: Collider(origin, owner)
 {
 	auto _origin = origin.ptr_dynamic_cast<Collider2D>();
 	m_offset = _origin->m_offset;
@@ -36,13 +20,10 @@ Collider2D::Collider2D(const Ptr<Component>& origin, const Ptr<GameObject>& owne
 
 Collider2D::~Collider2D()
 {
-	// CollisionManager에 등록된 것 제거
-	CollisionManager::GetInstance()->RemoveCollider(Ptr<Collider2D>(this));
 }
 
 void Collider2D::Init()
 {
-	// 멤버 초기화 (TODO : 필드값 변경될때마다 호출되도록 구현)
 	m_matScale = XMMatrixScaling(m_scale.x, m_scale.y, 1.f);
 	m_matTrans = XMMatrixTranslation(m_offset.x, m_offset.y, 0.f);
 
@@ -55,38 +36,27 @@ void Collider2D::Init()
 	info.color = COLOR_DEFAULT;
 	info.hasDepthTest = false;
 
+
 	// 디버그 오브젝트를 현재 오브젝트의 자식으로 설정
-	m_debugObj = RenderManager::GetInstance()->CreateDebugShape(info);
+	RenderManager::GetInstance()->InitDebugShape(m_debugObj, info);
 	GetOwner()->AddChild(m_debugObj, false);
 #endif // _DEBUG
 }
 
-void Collider2D::FinalTick()
+void Collider2D::OnChangeOffset()
 {
-	m_worldMat = m_matScale * m_matTrans * GetOwner()->GetTransform()->GetWorldMatrix();
-}
+	m_matTrans = XMMatrixTranslation(m_offset.x, m_offset.y, 0.f);
 
-void Collider2D::OnCollisionEnter(LAYER_TYPE other)
-{
 #ifdef _DEBUG
-	// 디버그 라인 색상 변경
-	m_debugObj->GetComponent<MeshRender>()->GetMaterial()->SetColor(COLOR_COLLISION);
+	RenderManager::GetInstance()->ChangeDebugPos(m_debugObj, Vec3(m_offset.x, m_offset.y, 0.f));
 #endif // _DEBUG
-
-	GetOwner()->OnCollisionEnter(other);
 }
 
-void Collider2D::OnCollisionStay(LAYER_TYPE other)
+void Collider2D::OnChangeScale()
 {
-	GetOwner()->OnCollisionStay(other);
-}
+	m_matScale = XMMatrixScaling(m_scale.x, m_scale.y, 1.f);
 
-void Collider2D::OnCollisionExit(LAYER_TYPE other)
-{
 #ifdef _DEBUG
-	// 디버그 라인 색상 변경
-	m_debugObj->GetComponent<MeshRender>()->GetMaterial()->SetColor(COLOR_DEFAULT);
+	RenderManager::GetInstance()->ChangeDebugScale(m_debugObj, Vec3(m_scale.x, m_scale.y, 1.f));
 #endif // _DEBUG
-
-	GetOwner()->OnCollisionExit(other);
 }
