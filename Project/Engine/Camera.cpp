@@ -73,7 +73,7 @@ void Camera::AddRenderObj(const Ptr<GameObject>& obj)
 	{
 		throw std::logic_error("잘못된 접근입니다");
 	}
-	SHADER_DOMAIN domain = obj->GetComponent<RenderComponent>()->GetMaterial()->GetShader()->GetDomain();
+	SHADER_DOMAIN domain = obj->GetRenderComponent()->GetMaterial()->GetShader()->GetDomain();
 
 	// array<map<LAYER_TYPE, RenderComponent vec>>
 	auto& layerMap = m_renderObjs[(UINT)domain];
@@ -101,7 +101,7 @@ void Camera::DeleteRenderObj(const Ptr<GameObject>& obj)
 	{
 		throw std::logic_error("잘못된 접근입니다");
 	}
-	SHADER_DOMAIN domain = obj->GetComponent<RenderComponent>()->GetMaterial()->GetShader()->GetDomain();
+	SHADER_DOMAIN domain = obj->GetRenderComponent()->GetMaterial()->GetShader()->GetDomain();
 
 	// array<map<LAYER_TYPE, RenderComponent vec>>
 	auto& layerMap = m_renderObjs[(UINT)domain];
