@@ -27,8 +27,15 @@ ImguiManager::~ImguiManager()
     auto iter = m_mapUI.begin();
     while (iter != m_mapUI.end())
     {
-        delete iter->second;
-        iter = m_mapUI.begin();
+        if (iter->second->GetParent() == nullptr)
+        {
+            delete iter->second;
+            iter = m_mapUI.begin();
+        }
+        else
+        {
+            ++iter;
+        }
     }
 }
 
@@ -39,16 +46,19 @@ void ImguiManager::AddUI(EditorUI& ui)
 
 void ImguiManager::DeleteUI(const EditorUI& ui)
 {
-    for (auto iter = m_mapUI.begin(); iter != m_mapUI.end(); ++iter)
-    {
-        if (iter->second == &ui)
-        {
-            m_mapUI.erase(iter);
-            return;
-        }
-    }
+    const auto iter = m_mapUI.find(ui.GetName());
 
-    throw std::logic_error("해당 UI가 map에 존재하지 않습니다");
+    if (iter != m_mapUI.end())
+    {
+
+        iter->second = nullptr;
+        m_mapUI.erase(iter);
+
+    }
+    else
+    {
+        throw std::logic_error("해당 UI가 map에 존재하지 않습니다");
+    }
 }
 
 int ImguiManager::Init()

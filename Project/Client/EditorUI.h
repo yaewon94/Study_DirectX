@@ -38,7 +38,7 @@ public:
 
 // [public] Getter, Setter
 public:
-	const string& GetName() { return m_name; }
+	const string& GetName() const { return m_name; }
 	bool IsActive() { return m_isActive; }
 	const EditorUI* const GetParent() { return m_parent; }
 	
