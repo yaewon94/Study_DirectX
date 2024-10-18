@@ -30,9 +30,8 @@ public:
 		// UI 가 존재하지 않는 경우
 		else
 		{
-			T* ui = new T;
-			RegisterChild<T>(*ui);
-			ui->CallbackCreateSuccess();
+			ComponentUI& ui = (ComponentUI&)(RegisterChild<T>(*new T));
+			ui.CallbackCreateSuccess();
 		}
 	}
 

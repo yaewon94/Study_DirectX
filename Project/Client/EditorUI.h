@@ -2,6 +2,9 @@
 #include "ImguiManager.h"
 #include "imgui/imgui.h"
 
+#define SAMELINE_VALUE 130
+#define CHILDSIZE_ROW 35
+
 class ComponentUI;
 class EditorUI;
 
@@ -41,6 +44,7 @@ public:
 	const string& GetName() const { return m_name; }
 	bool IsActive() { return m_isActive; }
 	const EditorUI* const GetParent() { return m_parent; }
+	virtual ImVec2 GetChildSize() { return ImVec2(0, 0); }
 	
 	template<typename T> requires std::derived_from<T, EditorUI>
 	EditorUI* GetChild()
@@ -79,10 +83,14 @@ public:
 protected:
 	// 실제 UI 객체를 메모리에 등록
 	template<typename T> requires std::derived_from<T, EditorUI>
-	void RegisterChild(T& t)
+	const EditorUI& RegisterChild(T& t)
 	{
 		m_children.push_back(&t);
 		m_children.back()->m_parent = this; // 부모 설정
 		ImguiManager::GetInstance()->AddUI(*m_children.back()); // ImguiManager에 등록
+		return *(m_children.back());
 	}
+
+	// 타이틀 렌더링
+	void RenderTitle();
 };

@@ -48,19 +48,36 @@ void EditorUI::Render()
 			for (EditorUI* child : m_children)
 			{
 				child->Render();
+				//ImGui::Separator();
 			}
 			ImGui::End();
 		}
 		else
 		{
-			// TODO : 프레임이 보이게 출력되도록 수정
-			ImGui::BeginChild(m_name.c_str());
+			ImGui::BeginChild(m_name.c_str(), this->GetChildSize());	
 			RenderUpdate();
+			UINT id = 1;
 			for (EditorUI* child : m_children)
 			{
 				child->Render();
+				//ImGui::Separator();
 			}
 			ImGui::EndChild();
 		}
 	}
+}
+
+void EditorUI::RenderTitle()
+{
+	// TODO : 버튼 말고 다른 타입으로 출력되게 (텍스트 종류로 하면 ## 뒤의 문자열도 출력되어버림)
+	ImGui::Button(GetName().c_str());
+
+	/*ImGui::PushID(0);
+
+	ImGui::PushStyleColor(ImGuiCol_Button, (ImVec4)ImColor::HSV(0.f, 0.6f, 0.6f));
+	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, (ImVec4)ImColor::HSV(0.f, 0.6f, 0.6f));
+	ImGui::PushStyleColor(ImGuiCol_ButtonActive, (ImVec4)ImColor::HSV(0.f, 0.6f, 0.6f));
+
+	ImGui::PopStyleColor(1);
+	ImGui::PopID();*/
 }

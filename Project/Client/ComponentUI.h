@@ -19,7 +19,4 @@ protected:
 
 public:
 	void CallbackCreateSuccess();
-
-//protected:
-//	void SetComponentTitle();
 };
