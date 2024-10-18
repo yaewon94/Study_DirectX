@@ -69,6 +69,9 @@
     <ClInclude Include="ComponentUI.h">
       <Filter>EditorUI</Filter>
     </ClInclude>
+    <ClInclude Include="Collider2DUI.h">
+      <Filter>EditorUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -122,6 +125,9 @@
       <Filter>EditorUI</Filter>
     </ClCompile>
     <ClCompile Include="ComponentUI.cpp">
+      <Filter>EditorUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Collider2DUI.cpp">
       <Filter>EditorUI</Filter>
     </ClCompile>
   </ItemGroup>

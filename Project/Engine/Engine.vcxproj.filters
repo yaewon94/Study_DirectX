@@ -43,6 +43,9 @@
     <Filter Include="DirectX">
       <UniqueIdentifier>{7b38bda6-97f4-4348-a9af-243cc174432e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Entity\Component\Collider">
+      <UniqueIdentifier>{209aa5e5-92da-4b0d-b119-4ec9c0e5b4aa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animator2D.cpp">
@@ -55,9 +58,6 @@
       <Filter>Manager</Filter>
     </ClCompile>
     <ClCompile Include="Camera.cpp">
-      <Filter>Entity\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="Collider2D.cpp">
       <Filter>Entity\Component</Filter>
     </ClCompile>
     <ClCompile Include="CollisionManager.cpp">
@@ -150,6 +150,12 @@
     <ClCompile Include="Light2D.cpp">
       <Filter>Entity\Component</Filter>
     </ClCompile>
+    <ClCompile Include="Collider.cpp">
+      <Filter>Entity\Component\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="Collider2D.cpp">
+      <Filter>Entity\Component\Collider</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animator2D.h">
@@ -166,9 +172,6 @@
     </ClInclude>
     <ClInclude Include="CameraEnums.h">
       <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="Collider2D.h">
-      <Filter>Entity\Component</Filter>
     </ClInclude>
     <ClInclude Include="CollisionManager.h">
       <Filter>Manager</Filter>
@@ -294,6 +297,12 @@
     </ClInclude>
     <ClInclude Include="Light2D.h">
       <Filter>Entity\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Collider.h">
+      <Filter>Entity\Component\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="Collider2D.h">
+      <Filter>Entity\Component\Collider</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
