@@ -22,7 +22,7 @@ Player::Player(const Ptr<GameObject>& owner)
 	// 컴포넌트 추가
 	// ======================================
 	// 콜라이더 추가
-	owner->AddComponent<Collider2D>()->Init();
+	owner->AddComponent<Collider2D>();
 	// 애니메이터 추가
 	Ptr<Sprite> sprite = AssetManager::GetInstance()->AddAsset<Sprite>(L"PlayerIdleSprite", L"");
 	sprite->SetAtlasTexture(AssetManager::GetInstance()->AddAsset<Texture>(L"PlayerIdleTexture", L"Player/Idle.png"), 3);
