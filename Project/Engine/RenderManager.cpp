@@ -150,23 +150,20 @@ void RenderManager::Clear()
 //{
 //}
 
-Ptr<GameObject> RenderManager::CreateDebugShape(const DebugShapeInfo& info)
+void RenderManager::InitDebugShape(const Ptr<GameObject>& obj, const DebugShapeInfo& info)
 {
-	Ptr<GameObject> obj;
-
-	obj->GetTransform()->SetLocalPos(info.pos);
-	obj->GetTransform()->SetLocalScale(info.scale);
+	ChangeDebugPos(obj, info.pos);
+	ChangeDebugScale(obj, info.scale);
 	obj->GetTransform()->SetLocalRotation(info.rotation);
 
 	Ptr<MeshRender> meshRender = obj->AddComponent<MeshRender>();
+
 	ChangeDebugShape(obj, info.shape);
 	meshRender->SetMaterial(AssetManager::GetInstance()->FindAsset<Material>(L"Debug_Material"));
 	meshRender->GetMaterial()->SetColor(info.color);
 
 	obj->SetLayer(LAYER_TYPE::DEBUG);
 	obj->Init();
-
-	return obj;
 }
 
 void RenderManager::ChangeDebugShape(const Ptr<GameObject>& obj, DEBUG_SHAPE shape)
@@ -179,4 +176,14 @@ void RenderManager::ChangeDebugShape(const Ptr<GameObject>& obj, DEBUG_SHAPE sha
 	default:
 		throw std::logic_error("에셋에 등록되지 않은 Debug Shape 입니다");
 	}
+}
+
+void RenderManager::ChangeDebugPos(const Ptr<GameObject>& obj, Vec3 pos)
+{
+	obj->GetTransform()->SetLocalPos(pos);
+}
+
+void RenderManager::ChangeDebugScale(const Ptr<GameObject>& obj, Vec3 scale)
+{
+	obj->GetTransform()->SetLocalScale(scale);
 }

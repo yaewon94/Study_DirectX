@@ -48,7 +48,9 @@ private:
 
 #ifdef _DEBUG
 public:
-	Ptr<GameObject> CreateDebugShape(const DebugShapeInfo& info);
+	void InitDebugShape(const Ptr<GameObject>& obj, const DebugShapeInfo& info);
 	void ChangeDebugShape(const Ptr<GameObject>& obj, DEBUG_SHAPE shape);
+	void ChangeDebugPos(const Ptr<GameObject>& obj, Vec3 pos);
+	void ChangeDebugScale(const Ptr<GameObject>& obj, Vec3 scale);
 #endif // _DEBUG
 };
