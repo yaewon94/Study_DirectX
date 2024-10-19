@@ -36,6 +36,11 @@ void EditorUI::SetActive(bool isActive)
 	}
 }
 
+void EditorUI::Tick()
+{
+	if (m_isActive) TickUpdate();
+}
+
 void EditorUI::Render()
 {
 	if (m_isActive)

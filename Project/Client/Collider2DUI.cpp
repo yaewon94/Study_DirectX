@@ -1,13 +1,12 @@
 #include "pch.h"
 #include "Collider2DUI.h"
-#include "InspectorUI.h"
 #include "Engine/GameObject.h"
 #include "Engine/Collider2D.h"
 
 ImVec2 Collider2DUI::s_childSize = ImVec2(0, CHILDSIZE_ROW * 2);
 
-Collider2DUI::Collider2DUI() 
-	: ComponentUI("Collider2D")
+Collider2DUI::Collider2DUI(Ptr<GameObject> target) 
+	: ComponentUI("Collider2D", target)
 {
 }
 
@@ -17,7 +16,7 @@ Collider2DUI::~Collider2DUI()
 
 void Collider2DUI::RenderUpdate()
 {
-	static Ptr<Collider2D> collider = ((InspectorUI*)GetParent())->GetTarget()->GetComponent<Collider2D>();
+	static Ptr<Collider2D> collider = GetTarget()->GetComponent<Collider2D>();
 	Vec2 offset = collider->GetOffset();
 	Vec2 scale = collider->GetScale();
 
@@ -34,12 +33,13 @@ void Collider2DUI::RenderUpdate()
 	collider->SetScale(scale);
 }
 
-void Collider2DUI::AddComponent()
+Ptr<Component> Collider2DUI::AddComponent()
 {
-	((InspectorUI*)GetParent())->GetTarget()->AddComponent<Collider2D>();
+	return GetTarget()->AddComponent<Collider2D>().ptr_dynamic_cast<Component>();
 }
 
-Ptr<Component> Collider2DUI::GetComponent()
+Ptr<Component> Collider2DUI::GetComponent(bool isBaseType)
 {
-	return ((InspectorUI*)GetParent())->GetTarget()->GetCollider().ptr_dynamic_cast<Component>();
+	if(isBaseType) return GetTarget()->GetCollider().ptr_dynamic_cast<Component>();
+	else return GetTarget()->GetComponent<Collider2D>().ptr_dynamic_cast<Component>();
 }

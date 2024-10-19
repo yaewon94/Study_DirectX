@@ -55,10 +55,6 @@ void ImguiManager::DeleteUI(const EditorUI& ui)
         m_mapUI.erase(iter);
 
     }
-    else
-    {
-        throw std::logic_error("해당 UI가 map에 존재하지 않습니다");
-    }
 }
 
 int ImguiManager::Init()
@@ -130,6 +126,7 @@ void ImguiManager::Tick()
     }
 }
 
+// ERROR : imgui 위젯을 윈도우 바깥으로 Drag,Drop 하면 렌더링이 안됨
 void ImguiManager::Render()
 {
     // Render Start

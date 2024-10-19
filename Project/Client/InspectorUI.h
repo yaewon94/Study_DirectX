@@ -9,18 +9,13 @@ class InspectorUI final : public EditorUI
 {
 	NO_COPY_ASSIGN(InspectorUI);
 
-private:
-	Ptr<GameObject> m_target;
-
 public:
 	InspectorUI(const Ptr<GameObject>& target);
 	~InspectorUI();
 
 public:
-	Ptr<GameObject> GetTarget() const { return m_target; }
-
 	template<typename T> requires std::derived_from<T, ComponentUI>
-	void AddChild()
+	void AddChild(Ptr<GameObject> target)
 	{
 		// UI 가 존재하는 경우
 		if (GetChild<T>() != nullptr)
@@ -30,8 +25,28 @@ public:
 		// UI 가 존재하지 않는 경우
 		else
 		{
-			ComponentUI& ui = (ComponentUI&)(RegisterChild<T>(*new T));
-			ui.CallbackCreateSuccess();
+			T* componentUI = new T(target);
+
+			// 컴포넌트는 있는데 UI가 없는 경우
+			if (componentUI->GetComponent() != nullptr)
+			{
+				// 동일한 상위 타입의 컴포넌트를 이미 가지고 있어서 추가할 수 없는 경우
+				if (componentUI->GetComponent(false) == nullptr)
+				{
+					delete componentUI;
+					MessageBox(nullptr, L"이미 동일한 타입의 상위 컴포넌트가 존재합니다", L"컴포넌트 추가 실패", MB_OK);
+				}
+				// 추가 가능한 경우
+				else
+				{
+					RegisterChild<T>(*componentUI);
+				}
+			}
+			// 컴포넌트가 없는 경우 : UI 추가, 컴포넌트 추가
+			else
+			{
+				((ComponentUI&)RegisterChild<T>(*componentUI)).AddComponent();
+			}
 		}
 	}
 

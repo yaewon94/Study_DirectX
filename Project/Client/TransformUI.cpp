@@ -1,14 +1,13 @@
 #include "pch.h"
 #include "TransformUI.h"
-#include "InspectorUI.h"
 #include "Engine/LayerEnums.h"
 #include "Engine/GameObject.h"
 #include "Engine/Transform.h"
 
 ImVec2 TransformUI::s_childSize = ImVec2(0, CHILDSIZE_ROW * 3);
 
-TransformUI::TransformUI()
-	: ComponentUI("Transform")
+TransformUI::TransformUI(Ptr<GameObject> target)
+	: ComponentUI("Transform", target)
 {
 }
 
@@ -18,7 +17,7 @@ TransformUI::~TransformUI()
 
 void TransformUI::RenderUpdate()
 {
-	static Ptr<Transform> tr = ((InspectorUI*)GetParent())->GetTarget()->GetTransform();
+	static Ptr<Transform> tr = GetTarget()->GetTransform();
 	Vec3 localPos = tr->GetLocalPos();
 	Vec3 localScale = tr->GetLocalScale();
 	Vec3 localRot = tr->GetLocalRotation();
@@ -52,12 +51,12 @@ void TransformUI::RenderUpdate()
 	//}
 }
 
-void TransformUI::AddComponent()
+Ptr<Component> TransformUI::AddComponent()
 {
-	((InspectorUI*)GetParent())->GetTarget()->AddComponent<Transform>();
+	return GetTarget()->AddComponent<Transform>().ptr_dynamic_cast<Component>();
 }
 
-Ptr<Component> TransformUI::GetComponent()
+Ptr<Component> TransformUI::GetComponent(bool isBaseType)
 {
-	return ((InspectorUI*)GetParent())->GetTarget()->GetTransform().ptr_dynamic_cast<Component>();
+	return GetTarget()->GetTransform().ptr_dynamic_cast<Component>();
 }

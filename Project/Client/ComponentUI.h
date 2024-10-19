@@ -9,14 +9,17 @@ class ComponentUI : public EditorUI
 {
 	NO_COPY_ASSIGN(ComponentUI);
 
+private:
+	Ptr<GameObject> m_target;
+
 protected:
-	ComponentUI(const string& name);
+	ComponentUI(const string& name, Ptr<GameObject> target);
 	~ComponentUI();
 
-protected:
-	virtual void AddComponent() = 0;
-	virtual Ptr<Component> GetComponent() = 0;
-
 public:
-	void CallbackCreateSuccess();
+	virtual Ptr<Component> AddComponent() = 0;
+	virtual Ptr<Component> GetComponent(bool isBaseType = true) = 0;
+
+protected:
+	Ptr<GameObject> GetTarget() const { return m_target; }
 };
