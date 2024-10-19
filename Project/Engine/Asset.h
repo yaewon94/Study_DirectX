@@ -32,16 +32,20 @@ class Asset : public Entity
 	NO_COPY_ASSIGN(Asset);
 
 private:
-	const wstring Key;
-	wstring relativePath;
+	const string Key;
+	string relativePath;
 
 protected:
-	Asset(const wstring& Key, const wstring& relativePath);
+	Asset(const string& Key, const string& relativePath);
 	~Asset();
 
+public:
+	const string& GetKey() { return Key; }
+
 protected:
-	const wstring& GetRelativePath() { return relativePath; }
-	const wstring GetFullPath();
+	const string& GetRelativePath() { return relativePath; }
+	const string GetFullPathA();
+	const wstring GetFullPathW();
 
 protected:
 	virtual int Load() = 0;

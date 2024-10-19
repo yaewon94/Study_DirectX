@@ -2,7 +2,7 @@
 #include "Texture.h"
 #include "Device.h"
 
-Texture::Texture(const wstring& Key, const wstring& relativePath) 
+Texture::Texture(const string& Key, const string& relativePath) 
 	: Asset(Key, relativePath)
 	, m_desc{}, m_registerNum(TEXTURE_PARAM::NULL_PARAM)
 {
@@ -15,7 +15,7 @@ Texture::~Texture()
 int Texture::Load()
 {
 	HRESULT result;
-	const wstring Path = GetFullPath();
+	const wstring Path = GetFullPathW();
 
 	// ==========================
 	// ÆÄÀÏ => System Memory

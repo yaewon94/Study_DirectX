@@ -17,7 +17,7 @@ private:
 	bool m_isRepeat;
 
 public:
-	Sprite(const wstring& Key, const wstring& RelativePath);
+	Sprite(const string& Key, const string& RelativePath);
 	~Sprite();
 
 public:

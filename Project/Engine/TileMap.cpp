@@ -15,8 +15,8 @@ TileMap::TileMap(const Ptr<GameObject>& owner)
 	, m_atlas(nullptr)
 	, m_tileInfo{}
 {
-	SetMesh(AssetManager::GetInstance()->FindAsset<Mesh>(L"RectMesh"));
-	SetMaterial(AssetManager::GetInstance()->FindAsset<Material>(L"TileMap_Material"));
+	SetMesh(AssetManager::GetInstance()->FindAsset<Mesh>("RectMesh"));
+	SetMaterial(AssetManager::GetInstance()->FindAsset<Material>("TileMap_Material"));
 }
 
 TileMap::TileMap(const Ptr<Component>& origin, const Ptr<GameObject>& owner) 

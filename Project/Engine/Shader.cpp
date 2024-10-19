@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Shader.h"
 
-Shader::Shader(const wstring& key, const wstring& relativePath) 
+Shader::Shader(const string& key, const string& relativePath) 
 	: Asset(key, relativePath)
 {
 }

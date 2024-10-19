@@ -2,7 +2,7 @@
 #include "Mesh.h"
 #include "Device.h"
 
-Mesh::Mesh(const wstring& key, const wstring& relativePath) 
+Mesh::Mesh(const string& key, const string& relativePath) 
 	: Asset(key, relativePath)
 	, vertexSysMem(nullptr), indexSysMem(nullptr)
 	, vertexBufferDesc{}, vertexCount(0)

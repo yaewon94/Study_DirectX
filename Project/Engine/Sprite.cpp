@@ -4,7 +4,7 @@
 #include "ConstBuffer.h"
 #include "Texture.h"
 
-Sprite::Sprite(const wstring& Key, const wstring& RelativePath)
+Sprite::Sprite(const string& Key, const string& RelativePath)
 	: Asset(Key, RelativePath)
 	, m_frameCount(0)
 	, m_fps(1.f)

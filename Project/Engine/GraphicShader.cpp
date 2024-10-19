@@ -2,7 +2,7 @@
 #include "GraphicShader.h"
 #include "Device.h"
 
-GraphicShader::GraphicShader(const wstring& key, const wstring& relativePath) 
+GraphicShader::GraphicShader(const string& key, const string& relativePath) 
 	: Shader(key, relativePath)
 	, domain(SHADER_DOMAIN::DOMAIN_OPAQUE)
 	, topology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST)
@@ -25,7 +25,7 @@ int GraphicShader::CreateOnGpu(const string& vertexFuncName, const string& pixel
 	UINT flag = D3DCOMPILE_DEBUG;
 	HRESULT result = S_OK;
 
-	result = D3DCompileFromFile(GetFullPath().c_str()
+	result = D3DCompileFromFile(GetFullPathW().c_str()
 		, nullptr
 		, D3D_COMPILE_STANDARD_FILE_INCLUDE
 		, vertexFuncName.c_str()
@@ -91,7 +91,7 @@ int GraphicShader::CreateOnGpu(const string& vertexFuncName, const string& pixel
 	// Pixel Shader
 	// ===============
 	// 셰이더 파일 컴파일
-	result = D3DCompileFromFile(GetFullPath().c_str()
+	result = D3DCompileFromFile(GetFullPathW().c_str()
 		, nullptr
 		, D3D_COMPILE_STANDARD_FILE_INCLUDE
 		, pixelFuncName.c_str()

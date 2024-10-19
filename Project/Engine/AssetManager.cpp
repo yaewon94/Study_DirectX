@@ -27,7 +27,7 @@ int AssetManager::Init()
 	return S_OK;
 }
 
-Ptr<Texture> AssetManager::CreateTexture(const wstring& Key, ComPtr<ID3D11Texture2D> texture)
+Ptr<Texture> AssetManager::CreateTexture(const string& Key, ComPtr<ID3D11Texture2D> texture)
 {
 	Ptr<Texture> newTex = FindAsset<Texture>(Key);
 
@@ -37,7 +37,7 @@ Ptr<Texture> AssetManager::CreateTexture(const wstring& Key, ComPtr<ID3D11Textur
 	}
 
 	// 텍스처 생성
-	newTex = Ptr<Texture>(Key, L"");
+	newTex = Ptr<Texture>(Key, "");
 	if (FAILED(newTex->CreateOnGpu(texture)))
 	{
 		return nullptr;
@@ -48,7 +48,7 @@ Ptr<Texture> AssetManager::CreateTexture(const wstring& Key, ComPtr<ID3D11Textur
 	return newTex;
 }
 
-Ptr<Texture> AssetManager::CreateTexture(const wstring& Key, Vec2 size, DXGI_FORMAT format, UINT bindFlags, D3D11_USAGE usage)
+Ptr<Texture> AssetManager::CreateTexture(const string& Key, Vec2 size, DXGI_FORMAT format, UINT bindFlags, D3D11_USAGE usage)
 {
 	Ptr<Texture> newTex = FindAsset<Texture>(Key);
 
@@ -58,7 +58,7 @@ Ptr<Texture> AssetManager::CreateTexture(const wstring& Key, Vec2 size, DXGI_FOR
 	}
 
 	// 텍스처 생성
-	newTex = Ptr<Texture>(Key, L"");
+	newTex = Ptr<Texture>(Key, "");
 	if (FAILED(newTex->CreateOnGpu(size, format, bindFlags, usage)))
 	{
 		return nullptr;
@@ -104,7 +104,7 @@ int AssetManager::CreateDefaultMesh()
 		UINT indexArr[SQUARE_INDEX_COUNT] = { 0, 1, 2, 0, 2, 3 };
 
 		// 메쉬 에셋 생성
-		mesh = AddAsset<Mesh>(L"RectMesh", L"RectMesh");
+		mesh = AddAsset<Mesh>("RectMesh", "RectMesh");
 		if (FAILED(mesh->CreateOnGpu(vertexArr, SQUARE_VERTEX_COUNT, indexArr, SQUARE_INDEX_COUNT)))
 		{
 			MessageBox(nullptr, L"사각형 Mesh 생성 실패", L"에셋 생성 실패", MB_OK);
@@ -117,7 +117,7 @@ int AssetManager::CreateDefaultMesh()
 		{
 			const int DBG_RECT_IDX_COUNT = 5;
 			UINT DbgRectIdx[DBG_RECT_IDX_COUNT] = { 0, 1, 2, 3, 0 };
-			mesh = AddAsset<Mesh>(L"RectMesh_D", L"RectMesh_D");
+			mesh = AddAsset<Mesh>("RectMesh_D", "RectMesh_D");
 			if (FAILED(mesh->CreateOnGpu(vertexArr, SQUARE_VERTEX_COUNT, DbgRectIdx, DBG_RECT_IDX_COUNT)))
 			{
 				MessageBox(nullptr, L"디버깅용 사각형 Mesh 생성 실패", L"에셋 생성 실패", MB_OK);
@@ -165,7 +165,7 @@ int AssetManager::CreateDefaultMesh()
 		}
 
 		// 메쉬 생성
-		mesh = AddAsset<Mesh>(L"CircleMesh", L"CircleMesh");
+		mesh = AddAsset<Mesh>("CircleMesh", "CircleMesh");
 		if (FAILED(mesh->CreateOnGpu(vertexVec.data(), vertexVec.size(), indexVec.data(), indexVec.size())))
 		{
 			MessageBox(nullptr, L"원 Mesh 생성 실패", L"에셋 생성 실패", MB_OK);
@@ -182,7 +182,7 @@ int AssetManager::CreateDefaultMesh()
 				indexVec[i] = i + 1;
 			}
 
-			mesh = AddAsset<Mesh>(L"CircleMesh_D", L"CircleMesh_D");
+			mesh = AddAsset<Mesh>("CircleMesh_D", "CircleMesh_D");
 			if (FAILED(mesh->CreateOnGpu(vertexVec.data(), vertexVec.size(), indexVec.data(), indexVec.size())))
 			{
 				MessageBox(nullptr, L"디버깅용 원 Mesh 생성 실패", L"에셋 생성 실패", MB_OK);
@@ -202,7 +202,7 @@ int AssetManager::CreateDefaultShader()
 	// 기본 2D 셰이더
 	// ==========================
 	{
-		shader = AddAsset<GraphicShader>(L"Std2D_Shader", L"Std2D.fx");
+		shader = AddAsset<GraphicShader>("Std2D_Shader", "Std2D.fx");
 		shader->SetRasterizerType(RASTERIZE_TYPE::CULL_NONE);
 		shader->SetBlendType(BLEND_TYPE::DEFAULT);
 		shader->SetDomain(SHADER_DOMAIN::DOMAIN_MASK);
@@ -217,7 +217,7 @@ int AssetManager::CreateDefaultShader()
 	// 기본 알파블렌드 2D 셰이더
 	// ==========================
 	{
-		shader = AddAsset<GraphicShader>(L"Std2D_AlphaBlend_Shader", L"Std2D.fx");
+		shader = AddAsset<GraphicShader>("Std2D_AlphaBlend_Shader", "Std2D.fx");
 		shader->SetRasterizerType(RASTERIZE_TYPE::CULL_NONE);
 		shader->SetBlendType(BLEND_TYPE::ALPHABLEND);
 		shader->SetDepthStencilType(DEPTH_STENCIL_TYPE::NO_TEST);
@@ -233,7 +233,7 @@ int AssetManager::CreateDefaultShader()
 	// PaperBurn 셰이더
 	// ==========================
 	{
-		shader = AddAsset<GraphicShader>(L"PaperBurn_Shader", L"Std2D.fx");
+		shader = AddAsset<GraphicShader>("PaperBurn_Shader", "Std2D.fx");
 		shader->SetRasterizerType(RASTERIZE_TYPE::CULL_NONE);
 		shader->SetBlendType(BLEND_TYPE::DEFAULT);
 		shader->SetDomain(SHADER_DOMAIN::DOMAIN_MASK);
@@ -248,7 +248,7 @@ int AssetManager::CreateDefaultShader()
 	// 타일맵 컴포넌트 전용 셰이더
 	// ==========================
 	{
-		shader = AddAsset<GraphicShader>(L"TileMap_Shader", L"TileMap.fx");
+		shader = AddAsset<GraphicShader>("TileMap_Shader", "TileMap.fx");
 		shader->SetRasterizerType(RASTERIZE_TYPE::CULL_NONE);
 		shader->SetBlendType(BLEND_TYPE::DEFAULT);
 		shader->SetDepthStencilType(DEPTH_STENCIL_TYPE::LESS);
@@ -264,7 +264,7 @@ int AssetManager::CreateDefaultShader()
 	// Post Process 셰이더
 	// ============================
 	{
-		shader = AddAsset<GraphicShader>(L"PostProcess_Shader", L"PostProcess.fx");
+		shader = AddAsset<GraphicShader>("PostProcess_Shader", "PostProcess.fx");
 		shader->SetRasterizerType(RASTERIZE_TYPE::CULL_NONE);
 		shader->SetBlendType(BLEND_TYPE::DEFAULT);
 		shader->SetDepthStencilType(DEPTH_STENCIL_TYPE::NO_TEST_WRITE);
@@ -280,7 +280,7 @@ int AssetManager::CreateDefaultShader()
 	// Distortion 셰이더
 	// ============================
 	{
-		shader = AddAsset<GraphicShader>(L"Distortion_Shader", L"PostProcess.fx");
+		shader = AddAsset<GraphicShader>("Distortion_Shader", "PostProcess.fx");
 		shader->SetRasterizerType(RASTERIZE_TYPE::CULL_NONE);
 		shader->SetBlendType(BLEND_TYPE::DEFAULT);
 		shader->SetDepthStencilType(DEPTH_STENCIL_TYPE::NO_TEST_WRITE);
@@ -296,7 +296,7 @@ int AssetManager::CreateDefaultShader()
 	// Vortex 셰이더
 	// ============================
 	{
-		shader = AddAsset<GraphicShader>(L"Vortex_Shader", L"PostProcess.fx");
+		shader = AddAsset<GraphicShader>("Vortex_Shader", "PostProcess.fx");
 		shader->SetRasterizerType(RASTERIZE_TYPE::CULL_NONE);
 		shader->SetBlendType(BLEND_TYPE::DEFAULT);
 		shader->SetDepthStencilType(DEPTH_STENCIL_TYPE::NO_TEST_WRITE);
@@ -315,7 +315,7 @@ int AssetManager::CreateDefaultShader()
 	// 디버깅 모드 셰이더
 	// ============================
 	{
-		shader = AddAsset<GraphicShader>(L"Debug_Shader", L"Debug.fx");
+		shader = AddAsset<GraphicShader>("Debug_Shader", "Debug.fx");
 		shader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP);
 		shader->SetRasterizerType(RASTERIZE_TYPE::CULL_NONE);
 		shader->SetBlendType(BLEND_TYPE::DEFAULT);
@@ -339,51 +339,51 @@ int AssetManager::CreateDefaultMaterial()
 	// ==========================
 	// 기본 2D 재질
 	// ==========================
-	material = AddAsset<Material>(L"Std2D_Material", L"");
-	material->SetShader(FindAsset<GraphicShader>(L"Std2D_Shader"));
+	material = AddAsset<Material>("Std2D_Material", "");
+	material->SetShader(FindAsset<GraphicShader>("Std2D_Shader"));
 
 	// ==========================
 	// 기본 알파블렌드 2D 재질
 	// ==========================
-	material = AddAsset<Material>(L"Std2D_AlphaBlend_Material", L"");
-	material->SetShader(FindAsset<GraphicShader>(L"Std2D_AlphaBlend_Shader"));
+	material = AddAsset<Material>("Std2D_AlphaBlend_Material", "");
+	material->SetShader(FindAsset<GraphicShader>("Std2D_AlphaBlend_Shader"));
 
 	// ==========================
 	// PaperBurn 재질
 	// ==========================
-	material = AddAsset<Material>(L"PaperBurn_Material", L"");
-	material->SetShader(FindAsset<GraphicShader>(L"PaperBurn_Shader"));
+	material = AddAsset<Material>("PaperBurn_Material", "");
+	material->SetShader(FindAsset<GraphicShader>("PaperBurn_Shader"));
 
 	// ==========================
 	// TileMap 재질
 	// ==========================
-	material = AddAsset<Material>(L"TileMap_Material", L"");
-	material->SetShader(FindAsset<GraphicShader>(L"TileMap_Shader"));
+	material = AddAsset<Material>("TileMap_Material", "");
+	material->SetShader(FindAsset<GraphicShader>("TileMap_Shader"));
 
 	// ==========================
 	// PostProcess 재질
 	// ==========================
-	material = AddAsset<Material>(L"PostProcess_Material", L"");
-	material->SetShader(FindAsset<GraphicShader>(L"PostProcess_Shader"));
+	material = AddAsset<Material>("PostProcess_Material", "");
+	material->SetShader(FindAsset<GraphicShader>("PostProcess_Shader"));
 
 	// ==========================
 	// Distortion 재질
 	// ==========================
-	material = AddAsset<Material>(L"Distortion_Material", L"");
-	material->SetShader(FindAsset<GraphicShader>(L"Distortion_Shader"));
+	material = AddAsset<Material>("Distortion_Material", "");
+	material->SetShader(FindAsset<GraphicShader>("Distortion_Shader"));
 
 	// ==========================
 	// Vortex 재질
 	// ==========================
-	material = AddAsset<Material>(L"Vortex_Material", L"");
-	material->SetShader(FindAsset<GraphicShader>(L"Vortex_Shader"));
+	material = AddAsset<Material>("Vortex_Material", "");
+	material->SetShader(FindAsset<GraphicShader>("Vortex_Shader"));
 
 #ifdef _DEBUG
 	// ==========================
 	// 디버깅 모드 재질
 	// ==========================
-	material = AddAsset<Material>(L"Debug_Material", L"");
-	material->SetShader(FindAsset<GraphicShader>(L"Debug_Shader"));
+	material = AddAsset<Material>("Debug_Material", "");
+	material->SetShader(FindAsset<GraphicShader>("Debug_Shader"));
 #endif // _DEBUG
 
 	return S_OK;

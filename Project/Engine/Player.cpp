@@ -24,8 +24,8 @@ Player::Player(const Ptr<GameObject>& owner)
 	// 콜라이더 추가
 	owner->AddComponent<Collider2D>();
 	// 애니메이터 추가
-	Ptr<Sprite> sprite = AssetManager::GetInstance()->AddAsset<Sprite>(L"PlayerIdleSprite", L"");
-	sprite->SetAtlasTexture(AssetManager::GetInstance()->AddAsset<Texture>(L"PlayerIdleTexture", L"Player/Idle.png"), 3);
+	Ptr<Sprite> sprite = AssetManager::GetInstance()->AddAsset<Sprite>("PlayerIdleSprite", "");
+	sprite->SetAtlasTexture(AssetManager::GetInstance()->AddAsset<Texture>("PlayerIdleTexture", "Player/Idle.png"), 3);
 	Ptr<Animator2D> animator = owner->AddComponent<Animator2D>();
 	animator->AddSprite("Idle", sprite);
 	animator->ChangeAnimation("Idle");

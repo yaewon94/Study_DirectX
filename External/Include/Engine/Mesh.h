@@ -28,7 +28,7 @@ private:
 	UINT indexCount;
 
 public:
-	Mesh(const wstring& key, const wstring& relativePath);
+	Mesh(const string& key, const string& relativePath);
 	~Mesh();
 
 public:

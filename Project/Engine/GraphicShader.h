@@ -24,7 +24,7 @@ private:
 	DEPTH_STENCIL_TYPE dsType;
 
 public:
-	GraphicShader(const wstring& key, const wstring& relativePath);
+	GraphicShader(const string& key, const string& relativePath);
 	~GraphicShader();
 
 public:

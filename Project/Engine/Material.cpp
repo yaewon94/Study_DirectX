@@ -5,12 +5,12 @@
 #include "GraphicShader.h"
 #include "Texture.h"
 
-Material::Material(const wstring& Key, const wstring& relativePath) 
+Material::Material(const string& Key, const string& relativePath) 
 	: Asset(Key, relativePath), m_cb{}
 {
 }
 
-Material::Material(const Material& origin) : Asset(L"", L"")
+Material::Material(const Material& origin) : Asset("", "")
 {
 	*this = origin;
 }

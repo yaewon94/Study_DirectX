@@ -20,7 +20,7 @@ private:
 	TEXTURE_PARAM m_registerNum;
 
 public:
-	Texture(const wstring& Key, const wstring& relativePath);
+	Texture(const string& Key, const string& relativePath);
 	~Texture();
 
 public:

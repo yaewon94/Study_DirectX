@@ -7,7 +7,7 @@ protected:
 	ComPtr<ID3DBlob> errorBlob;
 
 protected:
-	Shader(const wstring& key, const wstring& relativePath);
+	Shader(const string& key, const string& relativePath);
 	~Shader();
 
 public:

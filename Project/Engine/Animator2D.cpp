@@ -14,8 +14,8 @@ Animator2D::Animator2D(const Ptr<GameObject>& owner)
 	, m_curIndex(0)
 	, m_playTime(0.f)
 {
-	SetMesh(AssetManager::GetInstance()->FindAsset<Mesh>(L"RectMesh"));
-	SetMaterial(AssetManager::GetInstance()->FindAsset<Material>(L"Std2D_AlphaBlend_Material"));
+	SetMesh(AssetManager::GetInstance()->FindAsset<Mesh>("RectMesh"));
+	SetMaterial(AssetManager::GetInstance()->FindAsset<Material>("Std2D_AlphaBlend_Material"));
 }
 
 Animator2D::Animator2D(const Ptr<Component>& origin, const Ptr<GameObject>& owner)

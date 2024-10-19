@@ -45,7 +45,7 @@ void Level::Init()
 		obj = Ptr<GameObject>();
 		obj->GetTransform()->SetLocalPosY(-100.f);
 		Ptr<TileMap> tileMap = obj->AddComponent<TileMap>();
-		tileMap->SetAtlasTexture(AssetManager::GetInstance()->AddAsset<Texture>(L"TileMapTex", L"TileTest.png"), Vec2(8, 8));
+		tileMap->SetAtlasTexture(AssetManager::GetInstance()->AddAsset<Texture>("TileMapTex", "TileTest.png"), Vec2(8, 8));
 		tileMap->SetTileIndex(Vec2(3, 0));
 		tileMap->SetTileCount(Vec2(10, 1));
 		obj->SetLayer(LAYER_TYPE::GROUND); // TODO : Ground script에서 추가하도록 수정
@@ -67,11 +67,11 @@ void Level::Init()
 		Ptr<GameObject> monster = Ptr<GameObject>();
 		monster->GetTransform()->SetLocalPosX(400.f);
 		Ptr<MeshRender> meshRender = monster->AddComponent<MeshRender>();
-		meshRender->SetMesh(AssetManager::GetInstance()->FindAsset<Mesh>(L"CircleMesh"));
+		meshRender->SetMesh(AssetManager::GetInstance()->FindAsset<Mesh>("CircleMesh"));
 		// 동적 재질 사용
-		Ptr<Material> material = AssetManager::GetInstance()->FindAsset<Material>(L"Std2D_AlphaBlend_Material").DeepCopy();
+		Ptr<Material> material = AssetManager::GetInstance()->FindAsset<Material>("Std2D_AlphaBlend_Material").DeepCopy();
 		meshRender->SetMaterial(material);
-		meshRender->GetMaterial()->SetTextureParam(TEX_0, AssetManager::GetInstance()->FindAsset<Texture>(L"MonsterTexture", L"NoiseTest.png"));
+		meshRender->GetMaterial()->SetTextureParam(TEX_0, AssetManager::GetInstance()->FindAsset<Texture>("MonsterTexture", "NoiseTest.png"));
 		monster->AddComponent<Collider2D>();
 		monster->SetLayer(LAYER_TYPE::MONSTER); // TODO : Monster script에서 추가하도록 수정
 

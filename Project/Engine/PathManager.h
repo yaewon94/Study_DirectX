@@ -6,14 +6,14 @@ class PathManager final : public Singleton<PathManager>
 	SINGLETON(PathManager);
 
 private:
-	wstring contentPath;
+	string contentPath;
 
 public:
-	wstring GetContentPath() { return contentPath; }
+	string GetContentPath() { return contentPath; }
 
 public:
 	void Init();
 
 private:
-	void GetParentPath(wchar_t* path);
+	void GetParentPath(char* path);
 };

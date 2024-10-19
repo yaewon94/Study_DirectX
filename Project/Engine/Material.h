@@ -14,7 +14,7 @@ private:
 	CB_Material m_cb;
 
 public:
-	Material(const wstring& Key, const wstring& relativePath);
+	Material(const string& Key, const string& relativePath);
 	Material(const Material& origin);
 	~Material();
 	Material& operator=(const Material& other);

@@ -96,8 +96,8 @@ void RenderManager::CopyRenderTarget()
 int RenderManager::Init()
 {
 	// Render Target Texture, Depth Stencil Texture
-	m_rtTex = AssetManager::GetInstance()->FindAsset<Texture>(L"RenderTargetTex");
-	m_dsTex = AssetManager::GetInstance()->FindAsset<Texture>(L"DepthStencilTex");
+	m_rtTex = AssetManager::GetInstance()->FindAsset<Texture>("RenderTargetTex");
+	m_dsTex = AssetManager::GetInstance()->FindAsset<Texture>("DepthStencilTex");
 
 	// ViewPort 설정 (Window 화면 영역 지정)
 	D3D11_VIEWPORT viewport = {};
@@ -116,7 +116,7 @@ int RenderManager::Init()
 	CONTEXT->OMSetRenderTargets(1, m_rtTex->GetRenderTargetView().GetAddressOf(), m_dsTex->GetDepthStencilView().Get());
 
 	// Post Process Texture
-	m_postProcessTex = AssetManager::GetInstance()->CreateTexture(L"PostProcessTex"
+	m_postProcessTex = AssetManager::GetInstance()->CreateTexture("PostProcessTex"
 																, Engine::GetInstance()->GetResolution()
 																, DXGI_FORMAT_R8G8B8A8_UNORM
 																, D3D11_BIND_SHADER_RESOURCE);
@@ -159,7 +159,7 @@ void RenderManager::InitDebugShape(const Ptr<GameObject>& obj, const DebugShapeI
 	Ptr<MeshRender> meshRender = obj->AddComponent<MeshRender>();
 
 	ChangeDebugShape(obj, info.shape);
-	meshRender->SetMaterial(AssetManager::GetInstance()->FindAsset<Material>(L"Debug_Material"));
+	meshRender->SetMaterial(AssetManager::GetInstance()->FindAsset<Material>("Debug_Material"));
 	meshRender->GetMaterial()->SetColor(info.color);
 
 	obj->SetLayer(LAYER_TYPE::DEBUG);
@@ -171,7 +171,7 @@ void RenderManager::ChangeDebugShape(const Ptr<GameObject>& obj, DEBUG_SHAPE sha
 	switch (shape)
 	{
 	case DEBUG_SHAPE::RECT:
-		obj->GetComponent<MeshRender>()->SetMesh(AssetManager::GetInstance()->FindAsset<Mesh>(L"RectMesh_D"));
+		obj->GetComponent<MeshRender>()->SetMesh(AssetManager::GetInstance()->FindAsset<Mesh>("RectMesh_D"));
 		break;
 	default:
 		throw std::logic_error("에셋에 등록되지 않은 Debug Shape 입니다");
