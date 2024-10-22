@@ -18,6 +18,8 @@ using std::make_pair;
 using std::unordered_map;
 #include <unordered_set>
 using std::unordered_set;
+#include <tuple>
+using std::tuple;
 
 // ¹®ÀÚ¿­
 #include <string>

@@ -72,6 +72,12 @@
     <ClInclude Include="Collider2DUI.h">
       <Filter>EditorUI</Filter>
     </ClInclude>
+    <ClInclude Include="MeshRenderUI.h">
+      <Filter>EditorUI</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraUI.h">
+      <Filter>EditorUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -128,6 +134,12 @@
       <Filter>EditorUI</Filter>
     </ClCompile>
     <ClCompile Include="Collider2DUI.cpp">
+      <Filter>EditorUI</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshRenderUI.cpp">
+      <Filter>EditorUI</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraUI.cpp">
       <Filter>EditorUI</Filter>
     </ClCompile>
   </ItemGroup>

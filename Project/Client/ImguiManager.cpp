@@ -159,8 +159,9 @@ void ImguiManager::Render()
 #include "InspectorUI.h"
 void ImguiManager::Test_CreateEditorUI()
 {
-   EditorUI* ui = nullptr;
-   Ptr<GameObject> player = LevelManager::GetInstance()->GetGameObject(LAYER_TYPE::PLAYER);
-   ui = new InspectorUI(player);
-   AddUI(*ui);
+    EditorUI* ui = nullptr;
+    //Ptr<GameObject> obj = LevelManager::GetInstance()->GetGameObject(LAYER_TYPE::PLAYER);
+    Ptr<GameObject> obj = LevelManager::GetInstance()->GetGameObject(LAYER_TYPE::CAMERA);
+    ui = new InspectorUI(obj);
+    AddUI(*ui);
 }

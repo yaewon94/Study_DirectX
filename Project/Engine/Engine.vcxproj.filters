@@ -170,7 +170,7 @@
     <ClInclude Include="Camera.h">
       <Filter>Entity\Component</Filter>
     </ClInclude>
-    <ClInclude Include="CameraEnums.h">
+    <ClInclude Include="CameraValues.h">
       <Filter>Header</Filter>
     </ClInclude>
     <ClInclude Include="CollisionManager.h">
@@ -217,7 +217,7 @@
     <ClInclude Include="Layer.h">
       <Filter>Entity\Layer</Filter>
     </ClInclude>
-    <ClInclude Include="LayerEnums.h">
+    <ClInclude Include="LayerValues.h">
       <Filter>Header</Filter>
     </ClInclude>
     <ClInclude Include="Level.h">

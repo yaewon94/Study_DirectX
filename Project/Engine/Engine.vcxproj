@@ -65,7 +65,7 @@
     <ClInclude Include="Asset.h" />
     <ClInclude Include="AssetManager.h" />
     <ClInclude Include="Camera.h" />
-    <ClInclude Include="CameraEnums.h" />
+    <ClInclude Include="CameraValues.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="Collider2D.h" />
     <ClInclude Include="CollisionManager.h" />
@@ -84,7 +84,7 @@
     <ClInclude Include="KeyEnums.h" />
     <ClInclude Include="KeyManager.h" />
     <ClInclude Include="Layer.h" />
-    <ClInclude Include="LayerEnums.h" />
+    <ClInclude Include="LayerValues.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="LevelManager.h" />
     <ClInclude Include="Light2D.h" />
