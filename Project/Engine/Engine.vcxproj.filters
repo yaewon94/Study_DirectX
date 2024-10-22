@@ -46,6 +46,9 @@
     <Filter Include="Entity\Component\Collider">
       <UniqueIdentifier>{209aa5e5-92da-4b0d-b119-4ec9c0e5b4aa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Entity\Component\Light">
+      <UniqueIdentifier>{268cbf94-b99f-4abe-9df1-3e4db1f6eb47}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animator2D.cpp">
@@ -147,14 +150,17 @@
     <ClCompile Include="Transform.cpp">
       <Filter>Entity\Component</Filter>
     </ClCompile>
-    <ClCompile Include="Light2D.cpp">
-      <Filter>Entity\Component</Filter>
-    </ClCompile>
     <ClCompile Include="Collider.cpp">
       <Filter>Entity\Component\Collider</Filter>
     </ClCompile>
     <ClCompile Include="Collider2D.cpp">
       <Filter>Entity\Component\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="Light.cpp">
+      <Filter>Entity\Component\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="Light2D.cpp">
+      <Filter>Entity\Component\Light</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -295,14 +301,17 @@
     <ClInclude Include="pch.h">
       <Filter>Windows</Filter>
     </ClInclude>
-    <ClInclude Include="Light2D.h">
-      <Filter>Entity\Component</Filter>
-    </ClInclude>
     <ClInclude Include="Collider.h">
       <Filter>Entity\Component\Collider</Filter>
     </ClInclude>
     <ClInclude Include="Collider2D.h">
       <Filter>Entity\Component\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="Light.h">
+      <Filter>Entity\Component\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="Light2D.h">
+      <Filter>Entity\Component\Light</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -38,6 +38,7 @@
     <ClCompile Include="Layer.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="LevelManager.cpp" />
+    <ClCompile Include="Light.cpp" />
     <ClCompile Include="Light2D.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Material.cpp" />
@@ -87,6 +88,7 @@
     <ClInclude Include="LayerValues.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="LevelManager.h" />
+    <ClInclude Include="Light.h" />
     <ClInclude Include="Light2D.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="Mesh.h" />

@@ -40,6 +40,6 @@ Ptr<Component> Collider2DUI::AddComponent()
 
 Ptr<Component> Collider2DUI::GetComponent(bool isBaseType)
 {
-	if(isBaseType) return GetTarget()->GetCollider().ptr_dynamic_cast<Component>();
+	if(isBaseType) return GetTarget()->GetComponent<Collider>().ptr_dynamic_cast<Component>();
 	else return GetTarget()->GetComponent<Collider2D>().ptr_dynamic_cast<Component>();
 }

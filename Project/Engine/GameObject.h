@@ -8,23 +8,28 @@ class Transform;
 class Script;
 class RenderComponent;
 class Collider;
+class Light;
 
 // 게임오브젝트
 class GameObject final : public Entity
 {
 private:
 	wstring m_name;
-	LAYER_TYPE m_layer;
 
 	map<COMPONENT_TYPE, Ptr<Component>> m_components;	// 엔진 기본 컴포넌트만 등록
 	vector<Ptr<Script>> m_scripts;						// 사용자 정의 컴포넌트 등록
 
 	Ptr<Transform> m_transform;
+
+	// 상위타입 한 가지만 가질 수 있는 컴포넌트
 	Ptr<RenderComponent> m_renderComponent;
 	Ptr<Collider> m_collider;
+	Ptr<Light> m_light;
 
 	Ptr<GameObject> m_parent;
 	vector<Ptr<GameObject>> m_children;
+
+	LAYER_TYPE m_layer;
 
 public:
 	GameObject();
@@ -39,10 +44,7 @@ public:
 
 	// 컴포넌트 빨리 접근하기 위한 용도
 	Ptr<Transform> GetTransform();
-
-	// 각 오브젝트에 상위타입 컴포넌트 한가지만 존재하는 것들
 	Ptr<RenderComponent> GetRenderComponent();
-	Ptr<Collider> GetCollider();
 
 	void SetName(const wstring& name) { m_name = name; }
 	// 0 이상의 값만 현재 Level에 등록됨
@@ -97,6 +99,18 @@ public:
 						throw std::logic_error("콜라이더 컴포넌트가 이미 존재합니다");
 					}
 				}
+				// 광원 컴포넌트 여부
+				else if constexpr (IsLightComponent<T>())
+				{
+					if (m_light == nullptr)
+					{
+						m_light = component.ptr_dynamic_cast<Light>();
+					}
+					else
+					{
+						throw std::logic_error("광원 컴포넌트가 이미 존재합니다");
+					}
+				}
 
 				m_components.insert(make_pair(Type, component.ptr_dynamic_cast<Component>()));
 			}
@@ -121,15 +135,20 @@ public:
 
 			return nullptr;
 		}
-		// 렌더링 컴포넌트
+		// 렌더링 최상위 추상 컴포넌트
 		else if constexpr (Type == COMPONENT_TYPE::RENDER)
 		{
 			return m_renderComponent;
 		}
-		// 콜라이더 컴포넌트
+		// 콜라이더 최상위 추상컴포넌트
 		else if constexpr (Type == COMPONENT_TYPE::COLLIDER)
 		{
 			return m_collider;
+		}
+		// 광원 최상위 추상컴포넌트
+		else if constexpr (Type == COMPONENT_TYPE::LIGHT)
+		{
+			return m_light;
 		}
 		// 게임엔진 기본 컴포넌트
 		else
