@@ -1,7 +1,7 @@
 #pragma once
 #include "Entity.h"
 #include "ComponentEnums.h"
-#include "LayerEnums.h"
+#include "LayerValues.h"
 
 class Component;
 class Transform;

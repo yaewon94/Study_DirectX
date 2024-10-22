@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Light2D.h"
 #include "GameObject.h"
-#include "LayerEnums.h"
+#include "LayerValues.h"
 #include "Transform.h"
 #include "RenderManager.h"
 

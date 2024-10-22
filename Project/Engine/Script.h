@@ -1,6 +1,6 @@
 #pragma once
 #include "Component.h"
-#include "LayerEnums.h"
+#include "LayerValues.h"
 
 // 사용자 정의 스크립트 컴포넌트
 class Script : public Component

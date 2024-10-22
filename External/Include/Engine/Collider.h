@@ -1,6 +1,6 @@
 #pragma once
 #include "Component.h"
-#include "LayerEnums.h"
+#include "LayerValues.h"
 #include "Render.h"
 
 #ifdef _DEBUG

@@ -1,6 +1,6 @@
 #pragma once
 #include "Entity.h"
-#include "LayerEnums.h"
+#include "LayerValues.h"
 
 class Layer;
 class GameObject;

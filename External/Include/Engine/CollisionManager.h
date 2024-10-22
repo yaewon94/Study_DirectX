@@ -1,6 +1,6 @@
 #pragma once
 #include "Singleton.h"
-#include "LayerEnums.h"
+#include "LayerValues.h"
 
 class Collider;
 
