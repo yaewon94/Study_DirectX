@@ -6,13 +6,13 @@
 #include "RenderManager.h"
 
 Light2D::Light2D(const Ptr<GameObject>& owner) 
-	: Component(owner)
+	: Light(owner)
 {
 	GetOwner()->SetLayer(LAYER_TYPE::LIGHT);
 }
 
 Light2D::Light2D(const Ptr<Component>& origin, const Ptr<GameObject>& owner) 
-	: Component(origin, owner)
+	: Light(origin, owner)
 {
 	auto pOrigin = origin.ptr_dynamic_cast<Light2D>();
 	m_info = pOrigin->m_info;
@@ -29,16 +29,13 @@ const Light2dInfo& Light2D::GetInfo()
 	return m_info;
 }
 
-void Light2D::SetAngle(float angle)
+// @angle : 0 ~ 360
+void Light2D::SetAngle(int angle)
 {
-	if (angle <= 0.f || angle >= XM_PIDIV2)
-	{
-		throw std::logic_error("0(0도)초과 XM_PI/2(90도)미만의 값만 가능합니다");
-	}
-
-	m_info.angle = angle;
+	if (angle >= 0) angle %= 360;
+	else angle = (angle % -360) + 360;
+	m_info.angle = angle * XM_PI / 180.f;
 }
-
 void Light2D::Init()
 {
 	RenderManager::GetInstance()->AddLight2D(Ptr<Light2D>(this));

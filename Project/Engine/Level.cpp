@@ -34,7 +34,7 @@ void Level::Init()
 		light->SetType(LIGHT_TYPE::SPOT);
 		light->SetColor(COLOR_RED);
 		light->SetDirection(DIRECTION_VEC::DOWN);
-		light->SetAngle(XM_PIDIV4);
+		light->SetAngle(45);
 
 		obj = obj.DeepCopy();
 		obj->GetTransform()->SetLocalPos(Vec3(100.f, 150.f, 0.f));

@@ -5,6 +5,7 @@ class Camera;
 class Collider;
 class Collider2D;
 class Component;
+class Light;
 class Light2D;
 class MeshRender;
 class RenderComponent;
@@ -18,6 +19,8 @@ enum class COMPONENT_TYPE
 	// 사용자 정의 컴포넌트 타입
 	SCRIPT = -100,
 
+	// 조명 컴포넌트
+	LIGHT = -3,
 	// 콜라이더 컴포넌트
 	COLLIDER = -2,
 	// 렌더링 컴포넌트
@@ -41,6 +44,7 @@ static constexpr COMPONENT_TYPE GetType()
 	if constexpr (std::is_same_v<T, Collider2D>) return COMPONENT_TYPE::COLLIDER_2D;
 	if constexpr (std::is_same_v<T, Collider>) return COMPONENT_TYPE::COLLIDER;
 
+	if constexpr (std::is_same_v<T, Light>) return COMPONENT_TYPE::LIGHT;
 	if constexpr (std::is_same_v<T, Light2D>) return COMPONENT_TYPE::LIGHT_2D;
 
 	if constexpr (std::is_same_v<T, Animator2D>) return COMPONENT_TYPE::ANIMATOR_2D;
@@ -64,5 +68,12 @@ template<typename T> requires std::derived_from<T, Component>
 static constexpr bool IsColliderComponent()
 {
 	if constexpr (std::is_base_of_v<Collider, T>) return true;
+	else return false;
+}
+
+template<typename T> requires std::derived_from<T, Component>
+static constexpr bool IsLightComponent()
+{
+	if constexpr (std::is_base_of_v<Light, T>) return true;
 	else return false;
 }

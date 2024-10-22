@@ -1,13 +1,6 @@
 #pragma once
-#include "Component.h"
+#include "Light.h"
 #include "TransformValues.h"
-
-enum class LIGHT_TYPE : int
-{
-	DIRECTIONAL,	// 방향성 광원 (태양광, 달)
-	POINT,			// 점 광원 (전구, 형광등, 스킬 이펙트, 횃불)
-	SPOT,			// 스포트 라이트 (손전등)
-};
 
 struct Light2dInfo
 {
@@ -20,7 +13,8 @@ struct Light2dInfo
 	double padding; // 16바이트의 배수로 맞추기 위한 공간
 };
 
-class Light2D final : public Component
+// 2D 조명
+class Light2D final : public Light
 {
 private:
 	Light2dInfo m_info;
@@ -38,8 +32,7 @@ public:
 public:
 	const Light2dInfo& GetInfo();
 	
-	// Radian 단위로 입력
-	void SetAngle(float angle);
+	void SetAngle(int angle); // @angle : 0 ~ 360
 	void SetColor(Vec3 color) { m_info.color = color; }
 	void SetDirection(DIRECTION_VEC type) { m_info.dir = Directions[(UINT)type].XY(); }
 	void SetRadius(float radius) { m_info.radius = radius; }
