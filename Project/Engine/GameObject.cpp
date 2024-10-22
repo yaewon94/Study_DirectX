@@ -84,6 +84,7 @@ Ptr<Collider> GameObject::GetCollider()
 	return m_collider;
 }
 
+// TODO : 레벨매니저, 렌더매니저 오브젝트 등록,삭제를 Init() 호출 이전에는 하지 않게 해야함
 void GameObject::SetLayer(LAYER_TYPE layer)
 {
 	if (m_layer == layer) return;
@@ -100,7 +101,7 @@ void GameObject::SetLayer(LAYER_TYPE layer)
 			// 기존 레이어 타입으로 등록된 콜라이더 삭제
 			CollisionManager::GetInstance()->RemoveCollider(m_collider);
 			// 기존 레이어 타입으로 등록된 메인카메라 렌더맵 삭제
-			RenderManager::GetInstance()->DeleteRenderObj(CAMERA_TYPE::MAIN_CAMERA, obj);
+			RenderManager::GetInstance()->DeleteRenderObj(obj);
 		}
 	}
 
@@ -120,7 +121,7 @@ void GameObject::SetLayer(LAYER_TYPE layer)
 			// 새로운 레이어 타입으로 메인카메라 렌더맵 등록
 			if (m_renderComponent != nullptr)
 			{
-				RenderManager::GetInstance()->AddRenderObj(CAMERA_TYPE::MAIN_CAMERA, obj);
+				RenderManager::GetInstance()->AddRenderObj(obj);
 			}
 		}
 	}

@@ -13,12 +13,13 @@
 
 Camera::Camera(const Ptr<GameObject>& owner)
 	: Component(owner)
+	, m_type(CAMERA_TYPE::NONE)
 	, m_projType(PROJECTION_TYPE::ORTHOGRAPHIC)
 	, m_near(1.f), m_far(500.f)
-	, m_aspectRatio(Engine::GetInstance()->GetResolution().y / Engine::GetInstance()->GetResolution().x)
+	, m_viewWidth(Engine::GetInstance()->GetResolution().x)
+	, m_viewHeight(Engine::GetInstance()->GetResolution().y)
 	, m_layers(MAX_LAYER_TYPES)	// 모든 레이어 렌더링
 	, m_fov(XM_PI / 2.f)
-	, m_width(Engine::GetInstance()->GetResolution().x)
 	, m_scale(1.f)
 {
 }
@@ -27,18 +28,71 @@ Camera::Camera(const Ptr<Component>& origin, const Ptr<GameObject>& owner)
 	: Component(origin, owner)
 {
 	auto cam = origin.ptr_dynamic_cast<Camera>();
+	m_type = cam->m_type;
 	m_projType = cam->m_projType;
 	m_near = cam->m_near;
 	m_far = cam->m_far;
-	m_aspectRatio = cam->m_aspectRatio;
+	m_viewWidth = cam->m_viewWidth;
+	m_viewHeight = cam->m_viewHeight;
 	m_layers = cam->m_layers;
 	m_fov = cam->m_fov;
-	m_width = cam->m_width;
 	m_scale = cam->m_scale;
 }
 
 Camera::~Camera()
 {
+}
+
+void Camera::SetCameraType(CAMERA_TYPE type)
+{
+	if (RenderManager::GetInstance()->ChangeCameraType(Ptr<Camera>(this), type) == S_OK)
+	{
+		m_type = type;
+	}
+}
+
+void Camera::SetNear(float Near)
+{
+	if (Near >= m_far) throw std::logic_error("near값은 far값보다 작아야 합니다");
+	m_near = Near;
+	OnChangeProjectionMatrix();
+}
+
+void Camera::SetFar(float Far)
+{
+	if (Far <= m_near) throw std::logic_error("far값은 near값보다 커야 합니다");
+	m_far = Far;
+	OnChangeProjectionMatrix();
+}
+
+void Camera::SetViewWidth(float width)
+{
+	if (width <= 0.f) throw std::logic_error("view width 값은 양수여야 합니다");
+	m_viewWidth = width;
+	OnChangeProjectionMatrix();
+}
+
+void Camera::SetViewHeight(float height)
+{
+	if (height <= 0.f) throw std::logic_error("view height 값은 양수여야 합니다");
+	m_viewHeight = height;
+	OnChangeProjectionMatrix();
+}
+
+// @ fov : 0 ~ 360
+void Camera::SetFieldOfView(int fov)
+{
+	if (fov >= 0) fov %= 360;
+	else fov = (fov % -360) + 360;
+	m_fov = fov * XM_PI / 180.f; 
+	OnChangeProjectionMatrix();
+}
+
+void Camera::SetScale(float scale)
+{
+	if (scale <= 0.f) throw std::logic_error("view scale 값은 양수여야 합니다");
+	m_scale = scale;
+	OnChangeProjectionMatrix();
 }
 
 void Camera::SetLayerOnOff(LAYER_TYPE layer)
@@ -132,32 +186,8 @@ void Camera::DeleteRenderObj(const Ptr<GameObject>& obj)
 
 void Camera::Init()
 {
-	// RenderManager에 카메라 등록
-	RenderManager::GetInstance()->AddCamera(Ptr<Camera>(this));
-
-	// View행렬 계산 (TODO : 값 변동시 변동될 때 마다 호출되도록 구현)
-	if (m_projType == PROJECTION_TYPE::ORTHOGRAPHIC)
-	{
-		Vec3 pos = GetOwner()->GetTransform()->GetLocalPos();
-		Matrix matTrans = XMMatrixTranslation(-pos.x, -pos.y, -pos.z);
-		m_matView = matTrans;
-	}
-	else if(m_projType == PROJECTION_TYPE::PERSPECTIVE)
-	{
-		OnChangeRotation();
-	}
-	g_transform.viewMatrix = m_matView;
-
-	// 투영행렬 계산 (TODO : 값 변동시 변동될 때 마다 호출되도록 구현)
-	if (m_projType == PROJECTION_TYPE::ORTHOGRAPHIC)
-	{
-		m_matProj = XMMatrixOrthographicLH(m_width * m_scale, m_width * m_aspectRatio * m_scale, m_near, m_far);
-	}
-	else if (m_projType == PROJECTION_TYPE::PERSPECTIVE)
-	{
-		m_matProj = XMMatrixPerspectiveFovLH(m_fov, m_aspectRatio, m_near, m_far);
-	}
-	g_transform.projMatrix = m_matProj;
+	// 필드 초기화
+	OnChangeProjectionType();
 }
 
 void Camera::FinalTick()
@@ -198,6 +228,33 @@ void Camera::Render()
 	}
 }
 
+void Camera::OnChangeProjectionType()
+{
+	if (m_projType == PROJECTION_TYPE::ORTHOGRAPHIC)
+	{
+		Vec3 pos = GetOwner()->GetTransform()->GetLocalPos();
+		g_transform.viewMatrix = XMMatrixTranslation(-pos.x, -pos.y, -pos.z);
+	}
+	else if (m_projType == PROJECTION_TYPE::PERSPECTIVE)
+	{
+		OnChangeRotation();
+	}
+
+	OnChangeProjectionMatrix();
+}
+
+void Camera::OnChangeProjectionMatrix()
+{
+	if (m_projType == PROJECTION_TYPE::ORTHOGRAPHIC)
+	{
+		g_transform.projMatrix = XMMatrixOrthographicLH(m_viewWidth * (1.f / m_scale), m_viewHeight * (1.f / m_scale), m_near, m_far);
+	}
+	else if (m_projType == PROJECTION_TYPE::PERSPECTIVE)
+	{
+		g_transform.projMatrix = XMMatrixPerspectiveFovLH(m_fov, m_viewHeight / m_viewWidth, m_near, m_far);
+	}
+}
+
 void Camera::OnChangeRotation()
 {
 	Vec3 pos = GetOwner()->GetTransform()->GetLocalPos();
@@ -212,5 +269,5 @@ void Camera::OnChangeRotation()
 	matRot._21 = right.y;	matRot._22 = up.y;	matRot._23 = front.y;
 	matRot._31 = right.z;	matRot._32 = up.z;	matRot._33 = front.z;
 
-	m_matView = matTrans * matRot;
+	g_transform.viewMatrix = matTrans * matRot;
 }

@@ -40,10 +40,10 @@ protected:
 	~Asset();
 
 public:
-	string GetKey() { return Key; }
+	const string& GetKey() { return Key; }
 
 protected:
-	string GetRelativePath() { return relativePath; }
+	const string& GetRelativePath() { return relativePath; }
 	const string GetFullPathA();
 	const wstring GetFullPathW();
 

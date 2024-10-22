@@ -1,7 +1,7 @@
 #pragma once
 #include "Component.h"
-#include "CameraEnums.h"
-#include "LayerEnums.h"
+#include "CameraValues.h"
+#include "LayerValues.h"
 #include "Render.h"
 
 class RenderComponent;
@@ -11,21 +11,17 @@ class RenderComponent;
 class Camera final : public Component
 {
 private:
-	PROJECTION_TYPE m_projType;	// 투영 타입
-	float m_near, m_far;		// 렌더링 범위에 해당되는 z축 최소값, 최대값
-	float m_aspectRatio;		// 투영 범위 종횡비
-	LAYER_TYPES m_layers;		// 렌더링할 레이어 조합
+	CAMERA_TYPE m_type;					// 카메라 타입 (렌더링 우선순위)
+	PROJECTION_TYPE m_projType;			// 투영 타입
+	float m_near, m_far;				// 렌더링 범위에 해당되는 z축 최소값, 최대값
+	float m_viewWidth, m_viewHeight;	// 렌더링할 가로, 세로 크기
+	LAYER_TYPES m_layers;				// 렌더링할 레이어 조합
 
 	// 원근투영 (PROJECTION_TYPE::PERSPECTIVE)
 	float m_fov;	// field of view (시야각)
 
 	// 직교투영 (PROJECTION_TYPE::ORTHOGRAPHIC)
-	float m_width;	// 투영 가로길이
 	float m_scale;	// 투영 배율
-
-	// 변환행렬
-	Matrix m_matView;	// view 행렬
-	Matrix m_matProj;	// projection 행렬
 
 	// 렌더링 순서
 	// (한번 설정된 SHADER_DOMAIN, LAYER_TYPE이 바뀌는 경우는 거의 없으므로 list말고 vector사용)
@@ -42,7 +38,33 @@ public:
 	}
 
 public:
+	CAMERA_TYPE GetCameraType() { return m_type; }
+	void SetCameraType(CAMERA_TYPE type);
+
+	PROJECTION_TYPE GetProjectionType() { return m_projType; }
+	void SetProjectionType(PROJECTION_TYPE type) { m_projType = type; OnChangeProjectionType(); }
+
+	float GetNear() { return m_near; }
+	void SetNear(float Near);
+	float GetFar() { return m_far; }
+	void SetFar(float Far);
+
+	float GetViewWidth() { return m_viewWidth; }
+	void SetViewWidth(float width);
+	float GetViewHeight() { return m_viewHeight; }
+	void SetViewHeight(float height);
+
+	// perspective
+	float GetFieldOfView() { return m_fov; }
+	void SetFieldOfView(int fov);	// @fov : 0 ~ 360
+
+	// orthographic
+	float GetScale() { return m_scale; }
+	void SetScale(float scale);
+
 	void SetLayerOnOff(LAYER_TYPE layer);
+	LAYER_TYPES GetRenderLayers() { return m_layers; }
+
 	void AddRenderObj(const Ptr<GameObject>& obj);
 	void DeleteRenderObj(const Ptr<GameObject>& obj);
 
@@ -52,5 +74,7 @@ public:
 	void Render();
 
 private:
+	void OnChangeProjectionType();
+	void OnChangeProjectionMatrix();
 	void OnChangeRotation();
 };

@@ -1,6 +1,7 @@
 #pragma once
 #include "Singleton.h"
 #include "Render.h"
+#include "CameraValues.h"
 
 class StructuredBuffer;
 class Camera;
@@ -9,38 +10,34 @@ class Texture;
 class Light2D;
 class Texture;
 
-// 카메라 index
-enum class CAMERA_TYPE : UINT
-{
-	MAIN_CAMERA
-};
-
-
 // 렌더링 담당 클래스
 class RenderManager : public Singleton<RenderManager>
 {
 	SINGLETON(RenderManager);
 	
 private:
+	map<CAMERA_TYPE, Ptr<Camera>> m_cameraMap;
+
 	Ptr<Texture> m_rtTex;	// Render Target
 	Ptr<Texture> m_dsTex;	// Depth Stencil
-
-	vector<Ptr<Camera>> m_cameras;
 	Ptr<Texture> m_postProcessTex;	// 후처리용 텍스처 (렌더타겟 복사용도)
 
 	vector<Ptr<Light2D>> m_light2Ds;
 	Ptr<StructuredBuffer> m_light2dBuffer;
 
 public:
-	void AddCamera(const Ptr<Camera>& camera);
-	void AddLight2D(const Ptr<Light2D>& light);
-	void AddRenderObj(CAMERA_TYPE type, const Ptr<GameObject>& obj);
-	void DeleteRenderObj(CAMERA_TYPE type, const Ptr<GameObject>& obj);
-	void CopyRenderTarget();
+	int ChangeCameraType(Ptr<Camera> camera, CAMERA_TYPE type);
+	void AddRenderObj(Ptr<GameObject> obj, CAMERA_TYPE type = CAMERA_TYPE::MAIN_CAMERA);
+	void DeleteRenderObj(Ptr<GameObject> obj, CAMERA_TYPE type = CAMERA_TYPE::MAIN_CAMERA);
+
+	void AddLight2D(Ptr<Light2D> light);
 
 public:
 	int Init();
 	void Render();
+
+public:
+	void CopyRenderTarget();
 
 private:
 	//void BindOnGpu();
@@ -48,9 +45,9 @@ private:
 
 #ifdef _DEBUG
 public:
-	void InitDebugShape(const Ptr<GameObject>& obj, const DebugShapeInfo& info);
-	void ChangeDebugShape(const Ptr<GameObject>& obj, DEBUG_SHAPE shape);
-	void ChangeDebugPos(const Ptr<GameObject>& obj, Vec3 pos);
-	void ChangeDebugScale(const Ptr<GameObject>& obj, Vec3 scale);
+	void InitDebugShape(Ptr<GameObject> obj, const DebugShapeInfo& info);
+	void ChangeDebugShape(Ptr<GameObject> obj, DEBUG_SHAPE shape);
+	void ChangeDebugPos(Ptr<GameObject> obj, Vec3 pos);
+	void ChangeDebugScale(Ptr<GameObject> obj, Vec3 scale);
 #endif // _DEBUG
 };

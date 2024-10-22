@@ -19,10 +19,11 @@ void LevelManager::Init()
 
 	// ===================== 필수 오브젝트 추가 =======================
 	// 메인카메라 추가
-	Ptr<GameObject> camera = Ptr<GameObject>();
-	camera->SetName(L"Main Camera");
-	RenderManager::GetInstance()->AddCamera(camera->AddComponent<Camera>());
-	camera->SetLayer(LAYER_TYPE::CAMERA);
+	Ptr<GameObject> cameraObj = Ptr<GameObject>();
+	cameraObj->SetName(L"Main Camera");
+	Ptr<Camera> camera = cameraObj->AddComponent<Camera>();
+	camera->SetCameraType(CAMERA_TYPE::MAIN_CAMERA);
+	cameraObj->SetLayer(LAYER_TYPE::CAMERA);
 
 	// 현재레벨 Init()
 	curLevel->Init();
