@@ -16,6 +16,9 @@ public:
 	virtual Ptr<Script> Clone(const Ptr<Script>& origin, const Ptr<GameObject>& owner) = 0;
 
 public:
+	virtual COMPONENT_TYPE GetBaseType() final { return COMPONENT_TYPE::SCRIPT; }
+
+public:
 	virtual void Tick() = 0;
 	virtual void FinalTick() override {}
 

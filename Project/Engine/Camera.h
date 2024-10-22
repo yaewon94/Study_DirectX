@@ -38,6 +38,8 @@ public:
 	}
 
 public:
+	virtual COMPONENT_TYPE GetBaseType() final { return COMPONENT_TYPE::CAMERA; }
+
 	CAMERA_TYPE GetCameraType() { return m_type; }
 	void SetCameraType(CAMERA_TYPE type);
 

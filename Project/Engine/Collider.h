@@ -26,6 +26,7 @@ protected:
 
 public:
 	const Matrix& GetWorldMatrix() { return m_worldMat; }
+	virtual COMPONENT_TYPE GetBaseType() final { return COMPONENT_TYPE::COLLIDER; }
 
 public:
 	virtual void FinalTick() final;

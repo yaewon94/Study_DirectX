@@ -22,6 +22,7 @@ public:
 
 public:
 	Ptr<GameObject> GetOwner() { return owner; }
+	virtual COMPONENT_TYPE GetBaseType() = 0;
 
 public:
 	virtual void Init() {}

@@ -27,6 +27,8 @@ public:
 	}
 
 public:
+	virtual COMPONENT_TYPE GetBaseType() final { return COMPONENT_TYPE::TRANSFORM; }
+
 	Vec3 GetWorldPos() { return m_worldMatrix.Translation(); }
 	Vec3 GetLocalPos() { return m_localPos; }
 	void SetLocalPos(const Vec3& pos) { m_localPos = pos; OnChangePos(); }

@@ -18,9 +18,9 @@ protected:
 
 public:
 	void SetMaterial(const Ptr<Material>& material);
-
-public:
 	Ptr<Material> GetMaterial();
+
+	virtual COMPONENT_TYPE GetBaseType() final { return COMPONENT_TYPE::RENDER; }
 
 public:
 	virtual void FinalTick() override {}
