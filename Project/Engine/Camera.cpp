@@ -168,7 +168,7 @@ void Camera::DeleteRenderObj(const Ptr<GameObject>& obj)
 
 		for (auto vec_iter = renderVec.begin(); vec_iter != renderVec.end(); ++vec_iter)
 		{
-			if (obj->GetRenderComponent().GetAddressOf() == vec_iter->GetAddressOf())
+			if (obj->GetRenderComponent().Get() == vec_iter->Get())
 			{
 				renderVec.erase(vec_iter);
 

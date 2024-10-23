@@ -3,16 +3,15 @@
 
 UINT Entity::nextID = 0;
 
-Entity::Entity() : ID(nextID++), refCount(1)
+Entity::Entity() : ID(nextID++)
 {
 }
 
 
-Entity::Entity(const Entity& origin) : ID(nextID++), refCount(1)
+Entity::Entity(const Entity& origin) : ID(nextID++)
 {
 }
 
 Entity::~Entity()
 {
-	if (refCount > 0) throw std::logic_error("해당 객체를 아직 참조중 입니다");
 }

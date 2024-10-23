@@ -1,11 +1,57 @@
 #pragma once
-//#include "Entity.h"
 
-// 스마트 포인터 템플릿
-/*
-// 헤더파일 순환참조 문제 발생
-//template<typename T> requires std::derived_from<T, Entity>
-*/
+// 스마트 포인터를 사용할 클래스의 인터페이스
+class IPtrReleasable
+{
+private:
+	UINT refCount;	// 해당 개체를 참조 중인 스마트 포인터 수
+
+protected:
+	IPtrReleasable() : refCount(1) {}
+
+	IPtrReleasable(const IPtrReleasable& origin)
+	{
+		*this = origin;
+	}
+
+	IPtrReleasable(IPtrReleasable&& origin) noexcept
+	{
+		*this = std::move(origin);
+	}
+
+	virtual ~IPtrReleasable()
+	{
+		if (refCount > 0) throw std::logic_error("해당 객체를 아직 참조중 입니다");
+	}
+
+	IPtrReleasable& operator=(const IPtrReleasable& other)
+	{
+		refCount = 1;
+		return *this;
+	}
+
+	IPtrReleasable& operator=(IPtrReleasable&& other) noexcept
+	{
+		other.refCount = 0;
+		refCount = 1;
+		return *this;
+	}
+
+private:
+	// 스마트 포인터로만 객체 생성하도록 강제
+	template<typename T> friend class Ptr;
+
+	void AddRefCount() { ++refCount; }
+	void Release() { if (--refCount == 0) delete this; }
+
+	void* operator new(size_t size) { return ::operator new(size); }
+	void* operator new[](size_t) = delete;
+	void operator delete(void* ptr) { ::operator delete(ptr); }
+	void operator delete[](void*) = delete;
+};
+
+
+// 스마트 포인터 클래스
 template<typename T>
 class Ptr final
 {
@@ -13,7 +59,7 @@ private:
 	T* t;
 
 public:
-	T* const* GetAddressOf() const { return &t; }
+	T* Get() const { return t; }
 
 public:
 	// 복사생성자 호출

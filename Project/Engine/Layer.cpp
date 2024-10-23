@@ -15,7 +15,7 @@ Ptr<GameObject> Layer::AddObject(const Ptr<GameObject>& _obj)
 	// 중복 검사
 	for (auto& obj : m_objs)
 	{
-		if (obj.GetAddressOf() == _obj.GetAddressOf())
+		if (obj.Get() == _obj.Get())
 		{
 			throw std::logic_error("오브젝트 추가 실패 : 이미 등록된 오브젝트 입니다");
 		}
@@ -31,7 +31,7 @@ void Layer::DeleteObject(const Ptr<GameObject>& obj)
 {
 	for (auto iter = m_objs.begin(); iter != m_objs.end(); ++iter)
 	{
-		if (iter->GetAddressOf() == obj.GetAddressOf())
+		if (iter->Get() == obj.Get())
 		{
 			m_objs.erase(iter);
 			return;

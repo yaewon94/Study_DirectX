@@ -31,7 +31,7 @@ void CollisionManager::AddCollider(const Ptr<Collider>& collider)
 		// 중복체크
 		for (auto& _collider : iter->second)
 		{
-			if (collider.GetAddressOf() == _collider.GetAddressOf())
+			if (collider.Get() == _collider.Get())
 			{
 				throw std::logic_error("이미 등록된 콜라이더 입니다");
 			}
@@ -58,7 +58,7 @@ void CollisionManager::RemoveCollider(const Ptr<Collider>& collider)
 
 		for (auto veciter = vec.begin(); veciter != vec.end(); ++veciter)
 		{
-			if (collider.GetAddressOf() == veciter->GetAddressOf())
+			if (collider.Get() == veciter->Get())
 			{
 				// CollisionSet에 등록된 경우 제거
 				for (auto setiter = m_collisionSet.begin(); setiter != m_collisionSet.end(); ++setiter)
