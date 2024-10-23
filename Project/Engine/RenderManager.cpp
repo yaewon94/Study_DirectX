@@ -99,7 +99,7 @@ void RenderManager::AddLight2D(Ptr<Light2D> light)
 	// 중복체크
 	for (auto& _light : m_light2Ds)
 	{
-		if (_light.GetAddressOf() == light.GetAddressOf())
+		if (_light.Get() == light.Get())
 		{
 			throw std::logic_error("이미 등록된 Light2D 입니다");
 		}
@@ -108,19 +108,17 @@ void RenderManager::AddLight2D(Ptr<Light2D> light)
 	m_light2Ds.push_back(light);
 
 	// 2D 광원 정보 바인딩
-	static vector<Light2dInfo> vecInfo;
-	vecInfo.push_back(light->GetInfo());
+	m_light2dInfos.push_back(light->GetInfo());
 
-	if (m_light2dBuffer->GetElementCount() < vecInfo.size())
+	if (m_light2dBuffer->GetElementCount() < m_light2dInfos.size())
 	{
-		m_light2dBuffer->CreateOnGpu(sizeof(Light2dInfo), (UINT)vecInfo.size());
+		m_light2dBuffer->CreateOnGpu(sizeof(Light2dInfo), (UINT)m_light2dInfos.size());
 	}
-	m_light2dBuffer->SetData(vecInfo.data(), vecInfo.size());
-	m_light2dBuffer->BindOnGpu(TEXTURE_PARAM::LIGHT_2D);
+	//m_light2dBuffer->SetData(m_infos.data(), m_infos.size());
+	//m_light2dBuffer->BindOnGpu(TEXTURE_PARAM::LIGHT_2D);
 
-	// TODO : 매 프레임마다 바뀌는 정보가 추가되면 BindOnGpu()에서 호출할 것
 	// 전역 정보 바인딩
-	static Ptr<ConstBuffer> cb = Device::GetInstance()->GetConstBuffer(CB_TYPE::GLOBAL);
+	Ptr<ConstBuffer> cb = Device::GetInstance()->GetConstBuffer(CB_TYPE::GLOBAL);
 	g_global.Light2dCount = (int)m_light2Ds.size();
 	cb->SetData(&g_global);
 	cb->BindOnGpu();
@@ -164,7 +162,7 @@ void RenderManager::Render()
 	Clear();
 
 	// 데이터 및 리소스 바인딩
-	//BindOnGpu();
+	BindOnGpu();
 
 	// 카메라 렌더링
 	for (auto& pair : m_cameraMap)
@@ -185,9 +183,17 @@ void RenderManager::Clear()
 	CONTEXT->ClearDepthStencilView(m_dsTex->GetDepthStencilView().Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
 }
 
-//void RenderManager::BindOnGpu()
-//{
-//}
+void RenderManager::BindOnGpu()
+{
+	int lightCount = m_light2dInfos.size();
+
+	for (int i=0; i<lightCount; ++i)
+	{
+		m_light2dInfos[i] = m_light2Ds[i]->GetInfo();
+	}
+	m_light2dBuffer->SetData(m_light2dInfos.data(), lightCount);
+	m_light2dBuffer->BindOnGpu(TEXTURE_PARAM::LIGHT_2D);
+}
 
 void RenderManager::InitDebugShape(Ptr<GameObject> obj, const DebugShapeInfo& info)
 {

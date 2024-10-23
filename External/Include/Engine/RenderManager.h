@@ -8,7 +8,8 @@ class Camera;
 class GameObject;
 class Texture;
 class Light2D;
-class Texture;
+struct Light2dInfo;
+
 
 // 렌더링 담당 클래스
 class RenderManager : public Singleton<RenderManager>
@@ -22,8 +23,9 @@ private:
 	Ptr<Texture> m_dsTex;	// Depth Stencil
 	Ptr<Texture> m_postProcessTex;	// 후처리용 텍스처 (렌더타겟 복사용도)
 
-	vector<Ptr<Light2D>> m_light2Ds;
 	Ptr<StructuredBuffer> m_light2dBuffer;
+	vector<Ptr<Light2D>> m_light2Ds;
+	vector<Light2dInfo> m_light2dInfos;
 
 public:
 	int ChangeCameraType(Ptr<Camera> camera, CAMERA_TYPE type);
@@ -40,7 +42,7 @@ public:
 	void CopyRenderTarget();
 
 private:
-	//void BindOnGpu();
+	void BindOnGpu();
 	void Clear();
 
 #ifdef _DEBUG
