@@ -8,6 +8,7 @@ ImVec2 CameraUI::s_childSize = ImVec2(0, CHILDSIZE_ROW * 8);
 
 CameraUI::CameraUI(Ptr<GameObject> target) 
 	: ComponentUI("Camera", target)
+	, m_camera(target->GetComponent<Camera>())
 {
 }
 
@@ -27,43 +28,41 @@ Ptr<Component> CameraUI::GetComponent(bool isBaseType)
 
 void CameraUI::RenderUpdate()
 {
-	static Ptr<Camera> camera = GetTarget()->GetComponent<Camera>();
-
 	RenderTitle();
 
 	// 카메라 타입 (렌더링 우선순위)
-	int camType = (int)(camera->GetCameraType());
+	int camType = (int)(m_camera->GetCameraType());
 	ImGui::Text("Camera Type\n(Render priority)");
 	ImGui::SameLine(SAMELINE_VALUE);
 	if (ImGui::Combo("##cam_type", &camType, CameraTypeArr, CameraTypeArrSize))
 	{
-		camera->SetCameraType((CAMERA_TYPE)camType);
+		m_camera->SetCameraType((CAMERA_TYPE)camType);
 	}
 
 	// 투영 타입
-	int projType = (int)(camera->GetProjectionType());
+	int projType = (int)(m_camera->GetProjectionType());
 	ImGui::Text("Projection");
 	ImGui::SameLine(SAMELINE_VALUE);
 	if (ImGui::Combo("##cam_proj", &projType, ProjTypeArr, ProjTypeArrSize))
 	{
-		camera->SetProjectionType((PROJECTION_TYPE)projType);
+		m_camera->SetProjectionType((PROJECTION_TYPE)projType);
 	}
 
 	// 카메라 기준 Z축 렌더링 범위 (near ~ far)
-	float Near = camera->GetNear();
-	float Far = camera->GetFar();
+	float Near = m_camera->GetNear();
+	float Far = m_camera->GetFar();
 	ImGui::Text("Near");
 	ImGui::SameLine(SAMELINE_VALUE);
 	if (ImGui::InputFloat("##cam_near", &Near, 0.0f, 0.0f, "%.f", ImGuiInputTextFlags_::ImGuiInputTextFlags_EnterReturnsTrue))
 	{
 		if (Near >= Far)
 		{
-			Near = camera->GetNear();
+			Near = m_camera->GetNear();
 			MessageBoxA(nullptr, "near값은 far값보다 작아야 합니다", "컴포넌트 값 변경 실패", MB_OK);
 		}
 		else
 		{
-			camera->SetNear(Near);
+			m_camera->SetNear(Near);
 		}
 	}
 
@@ -73,45 +72,45 @@ void CameraUI::RenderUpdate()
 	{
 		if (Far <= Near)
 		{
-			Far = camera->GetFar();
+			Far = m_camera->GetFar();
 			MessageBoxA(nullptr, "far값은 near값보다 커야 합니다", "컴포넌트 값 변경 실패", MB_OK);
 		}
 		else
 		{
-			camera->SetFar(Far);
+			m_camera->SetFar(Far);
 		}
 	}
 
 	// 카메라 기준 X,Y축 렌더링 범위
-	float width = camera->GetViewWidth();
+	float width = m_camera->GetViewWidth();
 	ImGui::Text("View Width");
 	ImGui::SameLine(SAMELINE_VALUE);
 	if (ImGui::InputFloat("##cam_width", &width, 0.0f, 0.0f, "%.f", ImGuiInputTextFlags_::ImGuiInputTextFlags_EnterReturnsTrue))
 	{
 		if (width <= 0.f)
 		{
-			width = camera->GetViewWidth();
+			width = m_camera->GetViewWidth();
 			MessageBoxA(nullptr, "view width 값은 양수여야 합니다", "컴포넌트 값 변경 실패", MB_OK);
 		}
 		else
 		{
-			camera->SetViewWidth(width);
+			m_camera->SetViewWidth(width);
 		}
 	}
 
-	float height = camera->GetViewHeight();
+	float height = m_camera->GetViewHeight();
 	ImGui::Text("View Height");
 	ImGui::SameLine(SAMELINE_VALUE);
 	if (ImGui::InputFloat("##cam_height", &height, 0.0f, 0.0f, "%.f", ImGuiInputTextFlags_::ImGuiInputTextFlags_EnterReturnsTrue))
 	{
 		if (height <= 0.f)
 		{
-			height = camera->GetViewHeight();
+			height = m_camera->GetViewHeight();
 			MessageBoxA(nullptr, "view height 값은 양수여야 합니다", "컴포넌트 값 변경 실패", MB_OK);
 		}
 		else
 		{
-			camera->SetViewHeight(height);
+			m_camera->SetViewHeight(height);
 		}
 	}
 
@@ -121,10 +120,10 @@ void CameraUI::RenderUpdate()
 		// 시야각
 		ImGui::Text("Field of view");
 		ImGui::SameLine(SAMELINE_VALUE);
-		int fov = camera->GetFieldOfView() * 180.f / XM_PI;
+		int fov = m_camera->GetFieldOfView() * 180.f / XM_PI;
 		if (ImGui::InputInt("##cam_fov", &fov, 0))
 		{
-			camera->SetFieldOfView(fov);
+			m_camera->SetFieldOfView(fov);
 		}
 	}
 	// 직교투영 (2D 렌더링) 모드
@@ -133,23 +132,23 @@ void CameraUI::RenderUpdate()
 		// 투영 배율
 		ImGui::Text("View Scale");
 		ImGui::SameLine(SAMELINE_VALUE);
-		float scale = camera->GetScale();
+		float scale = m_camera->GetScale();
 		if (ImGui::InputFloat("##cam_scale", &scale, 0.0f, 0.0f, "%.3f", ImGuiInputTextFlags_::ImGuiInputTextFlags_EnterReturnsTrue))
 		{
 			if (scale <= 0.f)
 			{
-				scale = camera->GetScale();
+				scale = m_camera->GetScale();
 				MessageBoxA(nullptr, "view scale 값은 양수여야 합니다", "컴포넌트 값 변경 실패", MB_OK);
 			}
 			else
 			{
-				camera->SetScale(scale);
+				m_camera->SetScale(scale);
 			}
 		}
 	}
 
 	// 렌더링할 레이어 조합
-	LAYER_TYPES layers = camera->GetRenderLayers();
+	LAYER_TYPES layers = m_camera->GetRenderLayers();
 	ImGui::Text("Layers");
 	ImGui::BeginTable("##cam_layers_table", 4);
 	for (const auto& tuple : LayerTypeArr)
@@ -161,7 +160,7 @@ void CameraUI::RenderUpdate()
 		ImGui::TableNextColumn();
 		if (ImGui::Checkbox(layerName, &flag))
 		{
-			camera->SetLayerOnOff(layer);
+			m_camera->SetLayerOnOff(layer);
 		}
 	}
 	ImGui::EndTable();

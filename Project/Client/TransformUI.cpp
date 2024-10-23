@@ -8,6 +8,7 @@ ImVec2 TransformUI::s_childSize = ImVec2(0, CHILDSIZE_ROW * 3);
 
 TransformUI::TransformUI(Ptr<GameObject> target)
 	: ComponentUI("Transform", target)
+	, m_tr(target->GetTransform())
 {
 }
 
@@ -17,10 +18,9 @@ TransformUI::~TransformUI()
 
 void TransformUI::RenderUpdate()
 {
-	static Ptr<Transform> tr = GetTarget()->GetTransform();
-	Vec3 localPos = tr->GetLocalPos();
-	Vec3 localScale = tr->GetLocalScale();
-	Vec3 localRot = tr->GetLocalRotation();
+	Vec3 localPos = m_tr->GetLocalPos();
+	Vec3 localScale = m_tr->GetLocalScale();
+	Vec3 localRot = m_tr->GetLocalRotation();
 
 	RenderTitle();
 
@@ -29,7 +29,7 @@ void TransformUI::RenderUpdate()
 	ImGui::InputFloat3("##tr_pos", localPos);	// 입력칸 (@param : 라벨명, 입력값을 저장할 변수)
 	//if (ImGui::DragFloat3("##pos", localPos))
 	//{
-		tr->SetLocalPos(localPos);
+		m_tr->SetLocalPos(localPos);
 	//}
 
 	ImGui::Text("Local Scale");
@@ -37,7 +37,7 @@ void TransformUI::RenderUpdate()
 	ImGui::InputFloat3("##tr_scale", localScale);
 	//if (ImGui::DragFloat3("##scale", localScale))
 	//{
-		tr->SetLocalScale(localScale);
+		m_tr->SetLocalScale(localScale);
 	//}
 
 	ImGui::Text("Local Rotation");
@@ -47,7 +47,7 @@ void TransformUI::RenderUpdate()
 	//if (ImGui::DragFloat3("##Rotation", localRot, 0.1f))
 	//{
 		localRot = (localRot / 180) * XM_PI;
-		tr->SetLocalRotation(localRot);
+		m_tr->SetLocalRotation(localRot);
 	//}
 }
 

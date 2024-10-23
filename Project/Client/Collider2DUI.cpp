@@ -7,6 +7,7 @@ ImVec2 Collider2DUI::s_childSize = ImVec2(0, CHILDSIZE_ROW * 2);
 
 Collider2DUI::Collider2DUI(Ptr<GameObject> target) 
 	: ComponentUI("Collider2D", target)
+	, m_collider(target->GetComponent<Collider2D>())
 {
 }
 
@@ -16,21 +17,20 @@ Collider2DUI::~Collider2DUI()
 
 void Collider2DUI::RenderUpdate()
 {
-	static Ptr<Collider2D> collider = GetTarget()->GetComponent<Collider2D>();
-	Vec2 offset = collider->GetOffset();
-	Vec2 scale = collider->GetScale();
+	Vec2 offset = m_collider->GetOffset();
+	Vec2 scale = m_collider->GetScale();
 
 	RenderTitle();
 
 	ImGui::Text("Offset");
 	ImGui::SameLine(SAMELINE_VALUE);
 	ImGui::InputFloat2("##collider_offset", offset);
-	collider->SetOffset(offset);
+	m_collider->SetOffset(offset);
 
 	ImGui::Text("Scale");
 	ImGui::SameLine(SAMELINE_VALUE);
 	ImGui::InputFloat2("##collider_scale", scale);
-	collider->SetScale(scale);
+	m_collider->SetScale(scale);
 }
 
 Ptr<Component> Collider2DUI::AddComponent()

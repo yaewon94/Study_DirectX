@@ -3,6 +3,7 @@
 
 class Component;
 class GameObject;
+class MeshRender;
 
 class MeshRenderUI final : public ComponentUI
 {
@@ -10,6 +11,7 @@ class MeshRenderUI final : public ComponentUI
 
 private:
 	static ImVec2 s_childSize;
+	Ptr<MeshRender> m_meshRender;
 
 public:
 	MeshRenderUI(Ptr<GameObject> target);

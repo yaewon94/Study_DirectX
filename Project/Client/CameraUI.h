@@ -3,6 +3,7 @@
 
 class Component;
 class GameObject;
+class Camera;
 
 class CameraUI final : public ComponentUI
 {
@@ -10,6 +11,7 @@ class CameraUI final : public ComponentUI
 
 private:
 	static ImVec2 s_childSize;
+	Ptr<Camera> m_camera;
 
 public:
 	CameraUI(Ptr<GameObject> target);

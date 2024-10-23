@@ -3,6 +3,7 @@
 
 class Component;
 class GameObject;
+class Collider2D;
 
 class Collider2DUI final : public ComponentUI
 {
@@ -10,6 +11,7 @@ class Collider2DUI final : public ComponentUI
 
 private:
 	static ImVec2 s_childSize;
+	Ptr<Collider2D> m_collider;
 
 public:
 	Collider2DUI(Ptr<GameObject> target);

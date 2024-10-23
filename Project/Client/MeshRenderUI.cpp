@@ -9,6 +9,7 @@ ImVec2 MeshRenderUI::s_childSize = ImVec2(0, CHILDSIZE_ROW * 2);
 
 MeshRenderUI::MeshRenderUI(Ptr<GameObject> target) 
 	: ComponentUI("MeshRender", target)
+	, m_meshRender(target->GetComponent<MeshRender>())
 {
 }
 
@@ -29,9 +30,8 @@ Ptr<Component> MeshRenderUI::GetComponent(bool isBaseType)
 
 void MeshRenderUI::RenderUpdate()
 {
-	static Ptr<MeshRender> meshRender = GetTarget()->GetComponent<MeshRender>();
-	Ptr<Mesh> mesh = meshRender->GetMesh();
-	Ptr<Material> material = meshRender->GetMaterial();
+	Ptr<Mesh> mesh = m_meshRender->GetMesh();
+	Ptr<Material> material = m_meshRender->GetMaterial();
 	string meshName = "None";
 
 	RenderTitle();
