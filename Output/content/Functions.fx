@@ -40,7 +40,6 @@ void CalcLight2D(int lightIdx, float2 objPos, inout float3 lightColor)
     else if (g_light2dInfo[lightIdx].type == SPOT_LIGHT)
     {
         // 방향 체크 (LEFT, RIGHT, UP, DOWN)
-        //float3 vecMinus = worldPos - g_light2dInfo[lightIdx].worldPos;
         float2 vecMinus = objPos - g_light2dInfo[lightIdx].worldPos;
 
         // 오브젝트 픽셀이 광원 방향에 있는지 확인
@@ -57,8 +56,6 @@ void CalcLight2D(int lightIdx, float2 objPos, inout float3 lightColor)
             // 빛의 진행방향으로 수직으로 내린 직선과 오브젝트 픽셀이 존재하는 축이 만나는 지점(V)
             // 사이의 거리
             // (g_light2dInfo[0].dir 는 Light2D클래스에서 단위벡터로 입력됨)
-            //float OVdis = distance(worldPos * g_light2dInfo[lightIdx].dir
-            //                        , g_light2dInfo[lightIdx].worldPos * g_light2dInfo[lightIdx].dir);
             float OVdis = distance(objPos * g_light2dInfo[lightIdx].dir
                                     , g_light2dInfo[lightIdx].worldPos * g_light2dInfo[lightIdx].dir);
             
@@ -79,7 +76,6 @@ void CalcLight2D(int lightIdx, float2 objPos, inout float3 lightColor)
             if (g_light2dInfo[lightIdx].dir.y != 0.f)
                 unitVec.y = 0.f;
             
-            //float VPdis = distance(worldPos * unitVec, g_light2dInfo[lightIdx].worldPos * unitVec);
             float VPdis = distance(objPos * unitVec, g_light2dInfo[lightIdx].worldPos * unitVec);
 
             if (VPdis < Radius)

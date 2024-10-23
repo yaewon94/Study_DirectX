@@ -29,20 +29,23 @@ void Level::Init()
 		// [임시]
 		// 광원 오브젝트 추가
 		Ptr<GameObject> obj = Ptr<GameObject>();
+		obj->SetName(L"Light1");
 		obj->GetTransform()->SetLocalPos(Vec3(-100.f, 150.f, 0.f));
 		Ptr<Light2D> light = obj->AddComponent<Light2D>();
-		light->SetType(LIGHT_TYPE::SPOT);
+		light->SetLightType(LIGHT_TYPE::SPOT);
 		light->SetColor(COLOR_RED);
-		light->SetDirection(DIRECTION_VEC::DOWN);
+		light->SetDirection(DIRECTION_2D::DOWN);
 		light->SetAngle(45);
 
 		obj = obj.DeepCopy();
+		obj->SetName(L"Light2");
 		obj->GetTransform()->SetLocalPos(Vec3(100.f, 150.f, 0.f));
 		light = obj->GetComponent<Light2D>();
 		light->SetColor(COLOR_GREEN);
 
 		// 타일맵 오브젝트 추가
 		obj = Ptr<GameObject>();
+		obj->SetName(L"Ground");
 		obj->GetTransform()->SetLocalPosY(-100.f);
 		Ptr<TileMap> tileMap = obj->AddComponent<TileMap>();
 		tileMap->SetAtlasTexture(AssetManager::GetInstance()->AddAsset<Texture>("TileMapTex", "TileTest.png"), Vec2(8, 8));
@@ -52,6 +55,7 @@ void Level::Init()
 
 		// 플레이어 오브젝트 추가
 		Ptr<GameObject> g_player = Ptr<GameObject>();
+		g_player->SetName(L"Player");
 		g_player->AddComponent<Player>();
 
 		//// 플레이어의 자식 오브젝트 추가

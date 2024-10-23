@@ -4,13 +4,13 @@
 
 struct Light2dInfo
 {
-	Vec3 color;
-	Vec2 worldPos;
-	Vec2 dir;
+	Vec3 color = Vec3(0.f, 0.f, 0.f);
+	Vec2 worldPos = Vec2(0.f, 0.f);
+	Vec2 dir = Vec2(0.f, 0.f);
 	LIGHT_TYPE type;
-	float radius;
-	float angle;
-	double padding; // 16바이트의 배수로 맞추기 위한 공간
+	float radius = 0.f;
+	float angle = 0.f;
+	double padding = 0.; // 16바이트의 배수로 맞추기 위한 공간
 };
 
 // 2D 조명
@@ -18,6 +18,7 @@ class Light2D final : public Light
 {
 private:
 	Light2dInfo m_info;
+	DIRECTION_2D m_dirType;
 
 public:
 	Light2D(const Ptr<GameObject>& owner);
@@ -30,13 +31,22 @@ public:
 	}
 
 public:
-	const Light2dInfo& GetInfo();
+	const Light2dInfo& GetInfo() { return m_info; }
 	
-	void SetAngle(int angle); // @angle : 0 ~ 360
+	int GetAngle() { return (int)(m_info.angle * 180.f / XM_PI); }
+	void SetAngle(int angle); // @angle : 0 ~ 90
+
+	Vec3 GetColor() { return m_info.color; }
 	void SetColor(Vec3 color) { m_info.color = color; }
-	void SetDirection(DIRECTION_VEC type) { m_info.dir = Directions[(UINT)type].XY(); }
-	void SetRadius(float radius) { m_info.radius = radius; }
-	void SetType(LIGHT_TYPE type) { m_info.type = type; }
+
+	DIRECTION_2D GetDirection() { return m_dirType; }
+	void SetDirection(DIRECTION_2D dir) { m_dirType = dir; m_info.dir = Direction2dValueArr[(UINT)dir]; }
+
+	float GetRadius() { return m_info.radius; }
+	void SetRadius(float radius);
+
+	LIGHT_TYPE GetLightType() { return m_info.type; }
+	void SetLightType(LIGHT_TYPE type) { m_info.type = type; }
 
 public:
 	virtual void Init() final;

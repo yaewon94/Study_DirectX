@@ -7,8 +7,8 @@
 
 Light2D::Light2D(const Ptr<GameObject>& owner) 
 	: Light(owner)
+	, m_info{}, m_dirType(DIRECTION_2D::LEFT)
 {
-	GetOwner()->SetLayer(LAYER_TYPE::LIGHT);
 }
 
 Light2D::Light2D(const Ptr<Component>& origin, const Ptr<GameObject>& owner) 
@@ -16,26 +16,27 @@ Light2D::Light2D(const Ptr<Component>& origin, const Ptr<GameObject>& owner)
 {
 	auto pOrigin = origin.ptr_dynamic_cast<Light2D>();
 	m_info = pOrigin->m_info;
-	GetOwner()->SetLayer(LAYER_TYPE::LIGHT);
+	m_dirType = pOrigin->m_dirType;
 }
 
 Light2D::~Light2D()
 {
 }
 
-const Light2dInfo& Light2D::GetInfo()
-{
-	m_info.worldPos = GetOwner()->GetTransform()->GetWorldPos();
-	return m_info;
-}
-
-// @angle : 0 ~ 360
+// @angle : 0 ~ 90
 void Light2D::SetAngle(int angle)
 {
-	if (angle >= 0) angle %= 360;
-	else angle = (angle % -360) + 360;
+	if (angle >= 0) angle %= 90;
+	else angle = (angle % -90) + 90;
 	m_info.angle = angle * XM_PI / 180.f;
 }
+
+void Light2D::SetRadius(float radius)
+{
+	if (radius < 0.f) throw std::logic_error("radius값은 양수여야 합니다");
+	m_info.radius = radius;
+}
+
 void Light2D::Init()
 {
 	RenderManager::GetInstance()->AddLight2D(Ptr<Light2D>(this));
@@ -43,9 +44,6 @@ void Light2D::Init()
 
 void Light2D::FinalTick()
 {
-	Ptr<Transform> tr = GetOwner()->GetTransform();
-
-	// 위치정보 갱신
-	m_info.worldPos = tr->GetWorldPos();
-	m_info.dir = tr->GetWorldDirection(DIRECTION_VEC::RIGHT);
+	// TODO : 좌표 바뀔때만 호출하도록 구현
+	m_info.worldPos = GetOwner()->GetTransform()->GetWorldPos();
 }
