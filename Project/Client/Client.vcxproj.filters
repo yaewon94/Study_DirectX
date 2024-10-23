@@ -78,6 +78,9 @@
     <ClInclude Include="CameraUI.h">
       <Filter>EditorUI</Filter>
     </ClInclude>
+    <ClInclude Include="Light2DUI.h">
+      <Filter>EditorUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -140,6 +143,9 @@
       <Filter>EditorUI</Filter>
     </ClCompile>
     <ClCompile Include="CameraUI.cpp">
+      <Filter>EditorUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Light2DUI.cpp">
       <Filter>EditorUI</Filter>
     </ClCompile>
   </ItemGroup>
