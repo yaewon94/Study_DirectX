@@ -4,10 +4,10 @@
 
 struct Light2dInfo
 {
-	Vec3 color = Vec3(0.f, 0.f, 0.f);
+	Vec3 color = Vec3(1.f, 1.f, 1.f);
 	Vec2 worldPos = Vec2(0.f, 0.f);
 	Vec2 dir = Vec2(0.f, 0.f);
-	LIGHT_TYPE type;
+	LIGHT_TYPE type = LIGHT_TYPE::DIRECTIONAL;
 	float radius = 0.f;
 	float angle = 0.f;
 	double padding = 0.; // 16바이트의 배수로 맞추기 위한 공간

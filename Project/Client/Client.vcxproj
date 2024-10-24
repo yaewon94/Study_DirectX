@@ -144,6 +144,7 @@
     <ClInclude Include="Collider2DUI.h" />
     <ClInclude Include="ComponentUI.h" />
     <ClInclude Include="EditorUI.h" />
+    <ClInclude Include="EditorUIValues.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="ImguiManager.h" />
     <ClInclude Include="imgui\imconfig.h" />
@@ -156,6 +157,7 @@
     <ClInclude Include="imgui\imstb_truetype.h" />
     <ClInclude Include="InspectorUI.h" />
     <ClInclude Include="Light2DUI.h" />
+    <ClInclude Include="ListUI.h" />
     <ClInclude Include="MeshRenderUI.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Resource.h" />
@@ -177,6 +179,7 @@
     <ClCompile Include="imgui\imgui_widgets.cpp" />
     <ClCompile Include="InspectorUI.cpp" />
     <ClCompile Include="Light2DUI.cpp" />
+    <ClCompile Include="ListUI.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MeshRenderUI.cpp" />
     <ClCompile Include="pch.cpp">

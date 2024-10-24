@@ -28,7 +28,7 @@ void Level::Init()
 	{	 
 		// [임시]
 		// 광원 오브젝트 추가
-		Ptr<GameObject> obj = Ptr<GameObject>();
+		/*Ptr<GameObject> obj = Ptr<GameObject>();
 		obj->SetName(L"Light1");
 		obj->GetTransform()->SetLocalPos(Vec3(-100.f, 150.f, 0.f));
 		Ptr<Light2D> light = obj->AddComponent<Light2D>();
@@ -41,7 +41,9 @@ void Level::Init()
 		obj->SetName(L"Light2");
 		obj->GetTransform()->SetLocalPos(Vec3(100.f, 150.f, 0.f));
 		light = obj->GetComponent<Light2D>();
-		light->SetColor(COLOR_GREEN);
+		light->SetColor(COLOR_GREEN);*/
+		Ptr<GameObject> obj = Ptr<GameObject>();
+		obj->AddComponent<Light2D>();
 
 		// 타일맵 오브젝트 추가
 		obj = Ptr<GameObject>();
@@ -56,6 +58,7 @@ void Level::Init()
 		// 플레이어 오브젝트 추가
 		Ptr<GameObject> g_player = Ptr<GameObject>();
 		g_player->SetName(L"Player");
+		g_player->GetTransform()->SetLocalPosX(-300.f);
 		g_player->AddComponent<Player>();
 
 		//// 플레이어의 자식 오브젝트 추가
@@ -69,7 +72,6 @@ void Level::Init()
 
 		// 몬스터 오브젝트 추가
 		Ptr<GameObject> monster = Ptr<GameObject>();
-		monster->GetTransform()->SetLocalPosX(400.f);
 		Ptr<MeshRender> meshRender = monster->AddComponent<MeshRender>();
 		meshRender->SetMesh(AssetManager::GetInstance()->FindAsset<Mesh>("CircleMesh"));
 		// 동적 재질 사용

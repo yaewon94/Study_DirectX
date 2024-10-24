@@ -13,6 +13,9 @@
     <Filter Include="imgui\Manager">
       <UniqueIdentifier>{79c2e0bf-7ede-4625-b1bb-6680c7ee2c72}</UniqueIdentifier>
     </Filter>
+    <Filter Include="EditorUI\ComponentUI">
+      <UniqueIdentifier>{e26e3896-9437-49b6-9d9c-d952c7117a6c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -60,25 +63,31 @@
     <ClInclude Include="EditorUI.h">
       <Filter>EditorUI</Filter>
     </ClInclude>
-    <ClInclude Include="TransformUI.h">
-      <Filter>EditorUI</Filter>
-    </ClInclude>
     <ClInclude Include="InspectorUI.h">
       <Filter>EditorUI</Filter>
     </ClInclude>
-    <ClInclude Include="ComponentUI.h">
-      <Filter>EditorUI</Filter>
+    <ClInclude Include="CameraUI.h">
+      <Filter>EditorUI\ComponentUI</Filter>
     </ClInclude>
     <ClInclude Include="Collider2DUI.h">
-      <Filter>EditorUI</Filter>
+      <Filter>EditorUI\ComponentUI</Filter>
     </ClInclude>
-    <ClInclude Include="MeshRenderUI.h">
-      <Filter>EditorUI</Filter>
-    </ClInclude>
-    <ClInclude Include="CameraUI.h">
-      <Filter>EditorUI</Filter>
+    <ClInclude Include="ComponentUI.h">
+      <Filter>EditorUI\ComponentUI</Filter>
     </ClInclude>
     <ClInclude Include="Light2DUI.h">
+      <Filter>EditorUI\ComponentUI</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshRenderUI.h">
+      <Filter>EditorUI\ComponentUI</Filter>
+    </ClInclude>
+    <ClInclude Include="TransformUI.h">
+      <Filter>EditorUI\ComponentUI</Filter>
+    </ClInclude>
+    <ClInclude Include="ListUI.h">
+      <Filter>EditorUI</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorUIValues.h">
       <Filter>EditorUI</Filter>
     </ClInclude>
   </ItemGroup>
@@ -127,25 +136,28 @@
     <ClCompile Include="EditorUI.cpp">
       <Filter>EditorUI</Filter>
     </ClCompile>
-    <ClCompile Include="TransformUI.cpp">
-      <Filter>EditorUI</Filter>
-    </ClCompile>
     <ClCompile Include="InspectorUI.cpp">
       <Filter>EditorUI</Filter>
     </ClCompile>
-    <ClCompile Include="ComponentUI.cpp">
-      <Filter>EditorUI</Filter>
+    <ClCompile Include="CameraUI.cpp">
+      <Filter>EditorUI\ComponentUI</Filter>
     </ClCompile>
     <ClCompile Include="Collider2DUI.cpp">
-      <Filter>EditorUI</Filter>
+      <Filter>EditorUI\ComponentUI</Filter>
     </ClCompile>
-    <ClCompile Include="MeshRenderUI.cpp">
-      <Filter>EditorUI</Filter>
-    </ClCompile>
-    <ClCompile Include="CameraUI.cpp">
-      <Filter>EditorUI</Filter>
+    <ClCompile Include="ComponentUI.cpp">
+      <Filter>EditorUI\ComponentUI</Filter>
     </ClCompile>
     <ClCompile Include="Light2DUI.cpp">
+      <Filter>EditorUI\ComponentUI</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshRenderUI.cpp">
+      <Filter>EditorUI\ComponentUI</Filter>
+    </ClCompile>
+    <ClCompile Include="TransformUI.cpp">
+      <Filter>EditorUI\ComponentUI</Filter>
+    </ClCompile>
+    <ClCompile Include="ListUI.cpp">
       <Filter>EditorUI</Filter>
     </ClCompile>
   </ItemGroup>

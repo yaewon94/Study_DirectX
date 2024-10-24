@@ -18,6 +18,8 @@ public:
 	~MeshRenderUI();
 
 public:
+	virtual EDITOR_UI_TYPE GetType() final { return EDITOR_UI_TYPE::MESH_RENDER; }
+
 	virtual Ptr<Component> AddComponent() final;
 	virtual Ptr<Component> GetComponent(bool isBaseType = true) final;
 
@@ -25,4 +27,8 @@ public:
 
 public:
 	virtual void RenderUpdate() final;
+
+private:
+	void OnSelectMesh(void* _name);
+	void OnSelectMaterial(void* _name);
 };
