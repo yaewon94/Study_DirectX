@@ -76,9 +76,16 @@ void Light2DUI::RenderUpdate()
 		int angle = m_light->GetAngle();
 		ImGui::Text("Angle");
 		ImGui::SameLine(SAMELINE_VALUE);
-		if (ImGui::InputInt("##light_angle", &angle, 0))
+		if (ImGui::InputInt("##light_angle", &angle, 0, 0, ImGuiInputTextFlags_::ImGuiInputTextFlags_EnterReturnsTrue))
 		{
-			m_light->SetAngle(angle);
+			if (angle < 0 || angle > 90)
+			{
+				MessageBoxA(nullptr, "angle값은 0~90 사이여야 합니다", "컴포넌트 값 변경 실패", MB_OK);
+			}
+			else
+			{
+				m_light->SetAngle(angle);
+			}
 		}
 	}
 

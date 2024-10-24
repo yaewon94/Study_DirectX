@@ -26,8 +26,7 @@ Light2D::~Light2D()
 // @angle : 0 ~ 90
 void Light2D::SetAngle(int angle)
 {
-	if (angle >= 0) angle %= 90;
-	else angle = (angle % -90) + 90;
+	if (angle < 0 || angle > 90) throw std::logic_error("angle값은 0~90 사이여야 합니다");
 	m_info.angle = angle * XM_PI / 180.f;
 }
 
