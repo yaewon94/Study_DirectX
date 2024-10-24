@@ -48,6 +48,8 @@ public:
 		else return nullptr;
 	}
 
+	void GetAssetNames(ASSET_TYPE type, vector<const char*>& vec);
+
 private:
 	// 에셋 추가
 	template<typename T> requires std::derived_from<T, Asset>

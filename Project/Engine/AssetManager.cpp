@@ -69,6 +69,14 @@ Ptr<Texture> AssetManager::CreateTexture(const string& Key, Vec2 size, DXGI_FORM
 	return newTex;
 }
 
+void AssetManager::GetAssetNames(ASSET_TYPE type, vector<const char*>& vec)
+{
+	for (auto& pair : assetMapArr[(UINT)type])
+	{
+		vec.push_back(pair.first.c_str());
+	}
+}
+
 int AssetManager::CreateDefaultMesh()
 {
 	Ptr<Mesh> mesh;
