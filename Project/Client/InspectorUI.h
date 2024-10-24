@@ -14,6 +14,8 @@ public:
 	~InspectorUI();
 
 public:
+	virtual EDITOR_UI_TYPE GetType() final { return EDITOR_UI_TYPE::INSPECTOR; }
+
 	template<typename T> requires std::derived_from<T, ComponentUI>
 	void AddChild(Ptr<GameObject> target)
 	{

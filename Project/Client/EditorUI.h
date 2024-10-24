@@ -8,6 +8,8 @@
 class ComponentUI;
 class EditorUI;
 
+typedef void(EditorUI::* EUI_CALLBACK)(void*);
+
 template<typename T>
 concept not_component_ui = std::is_base_of_v<EditorUI, T> && !std::is_base_of_v<ComponentUI, T>;
 
@@ -26,6 +28,8 @@ private:
 // about EditorUI
 private:
 	bool m_isActive;
+	bool m_isModal;	// 모달 윈도우가 활성화 되어있는 동안은, 다른 작업을 할 수 없다
+
 	// imgui 객체의 이름이 같으면 똑같은 객체로 취급한다
 	// ## 뒤의 문자열은 화면에 출력되지 않는다
 	// ex) box##1, box##2 이런 식으로 실제 이름은 다르되, 화면에 출력되는 이름은 같게 할 수 있다
@@ -34,15 +38,27 @@ private:
 	EditorUI* m_parent;
 	vector<EditorUI*> m_children;
 
-// Constructor, Destructor
+// Destructor
+protected:
+	virtual ~EditorUI();
+
+// Constructor, call Destructor
 public:
 	EditorUI(const string& name);
-	virtual ~EditorUI();
+	void Destroy();
 
 // [public] Getter, Setter
 public:
-	const string& GetName() const { return m_name; }
+	virtual EDITOR_UI_TYPE GetType() = 0;
+
 	bool IsActive() { return m_isActive; }
+	void SetActive(bool isActive);
+
+	bool IsModal() { return m_isModal; }
+	void SetModal(bool isModal) { m_isModal = isModal; }
+
+	const string& GetName() const { return m_name; }
+
 	const EditorUI* const GetParent() { return m_parent; }
 	virtual ImVec2 GetChildSize() { return ImVec2(0, 0); }
 	
@@ -60,7 +76,6 @@ public:
 		return nullptr;
 	}
 
-	void SetActive(bool isActive);
 	
 	// 템플릿 메소드는 virtual 사용 불가라 이 방법으로 함
 	template<typename T> requires not_component_ui<T>
@@ -84,6 +99,8 @@ protected:
 	virtual void TickUpdate() {}
 	virtual void RenderUpdate() = 0;
 
+	virtual void ActivateOnOff() {}
+
 protected:
 	// 실제 UI 객체를 메모리에 등록
 	template<typename T> requires std::derived_from<T, EditorUI>
@@ -97,4 +114,9 @@ protected:
 
 	// 타이틀 렌더링
 	void RenderTitle();
+
+private:
+	void RenderModal();
+	void RenderModalless();
+	void RenderChild();
 };

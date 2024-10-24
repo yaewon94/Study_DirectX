@@ -18,6 +18,8 @@ public:
 	~CameraUI();
 
 public:
+	virtual EDITOR_UI_TYPE GetType() final { return EDITOR_UI_TYPE::CAMERA; }
+
 	virtual Ptr<Component> AddComponent() final;
 	virtual Ptr<Component> GetComponent(bool isBaseType = true) final;
 

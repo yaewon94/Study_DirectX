@@ -1,0 +1,7 @@
+#pragma once
+
+enum class EDITOR_UI_TYPE
+{
+	INSPECTOR, LIST
+	, CAMERA, COLLIDER_2D, LIGHT_2D, MESH_RENDER, TRANSFORM
+};

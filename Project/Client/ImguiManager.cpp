@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "ImguiManager.h"
 #include "EditorUI.h"
+#include "ListUI.h"
 
 #include "Engine/Engine.h"
 #include "Engine/Device.h"
@@ -25,36 +26,93 @@ ImguiManager::~ImguiManager()
 
     // EditorUI 메모리 해제
     auto iter = m_mapUI.begin();
-    while (iter != m_mapUI.end())
+    while(iter != m_mapUI.end())
     {
-        if (iter->second->GetParent() == nullptr)
+        bool iterDeleted = false;
+        auto iter2 = iter->second.begin();
+        while (iter2 != iter->second.end())
         {
-            delete iter->second;
-            iter = m_mapUI.begin();
+            if (iter2->second->GetParent() == nullptr)
+            {
+                if (iter->second.size() == 1)
+                {
+                    iter2->second->Destroy();
+                    iterDeleted = true; // iter이 가리키는 것 자체가 삭제되었으므로
+                    break;
+                }
+                else
+                {
+                    iter2->second->Destroy();
+                    iter2 = iter->second.begin();
+                }
+            }
+            else
+            {
+                ++iter2;
+            }
         }
-        else
-        {
-            ++iter;
-        }
+
+        if (iterDeleted) iter = m_mapUI.begin();
+        else ++iter;
     }
 }
 
 void ImguiManager::AddUI(EditorUI& ui)
 {
-    m_mapUI.insert(make_pair(ui.GetName(), &ui));
+    const auto iter = m_mapUI.find(ui.GetType());
+
+    if(iter != m_mapUI.end())
+    {
+        for (auto& pair : iter->second)
+        {
+            if (pair.first == ui.GetName()) throw std::logic_error("이미 등록된 UI 입니다");
+        }
+
+        iter->second.insert(make_pair(ui.GetName(), &ui));
+        iter->second.emplace();
+    }
+    else
+    {
+        m_mapUI.insert(make_pair(ui.GetType(), unordered_map<string, EditorUI*>()));
+        m_mapUI.find(ui.GetType())->second.insert(make_pair(ui.GetName(), &ui));
+    }
 }
 
-void ImguiManager::DeleteUI(const EditorUI& ui)
+void ImguiManager::DeleteUI(EditorUI& ui)
 {
-    const auto iter = m_mapUI.find(ui.GetName());
+    const auto iter = m_mapUI.find(ui.GetType());
 
     if (iter != m_mapUI.end())
     {
+        for (auto iter2 = iter->second.begin(); iter2 != iter->second.end(); ++iter2)
+        {
+            if (ui.GetName() == iter2->first)
+            {
+                iter->second.erase(iter2);
+                break;
+            }
+        }
 
-        iter->second = nullptr;
-        m_mapUI.erase(iter);
+        auto& test = iter->second;
 
+        if (iter->second.empty())
+        {
+            m_mapUI.erase(iter);
+            auto& test = m_mapUI;
+        }
     }
+    else
+    {
+        throw std::logic_error("등록된 UI가 아닙니다");
+    }
+}
+
+EditorUI* const ImguiManager::FindUI(EDITOR_UI_TYPE type)
+{
+    const auto iter = m_mapUI.find(type);
+
+    if (iter != m_mapUI.end()) return iter->second.begin()->second;
+    else return nullptr;
 }
 
 int ImguiManager::Init()
@@ -107,7 +165,7 @@ int ImguiManager::Init()
     //ImFont* font = io.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\ArialUni.ttf", 18.0f, nullptr, io.Fonts->GetGlyphRangesJapanese());
     //IM_ASSERT(font != nullptr);
     
-    Test_CreateEditorUI();
+    CreateDefaultUI();
 
     return S_OK;
 }
@@ -122,7 +180,10 @@ void ImguiManager::Tick()
 {
     for (const auto& pair : m_mapUI)
     {
-        pair.second->Tick();
+        for (const auto& pair2 : pair.second)
+        {
+            pair2.second->Tick();
+        }
     }
 }
 
@@ -141,7 +202,10 @@ void ImguiManager::Render()
     // EditorUI 렌더링
     for (const auto& pair : m_mapUI)
     {
-        if(pair.second->GetParent() == nullptr) pair.second->Render();
+        for (const auto& pair2 : pair.second)
+        {
+            if (pair2.second->GetParent() == nullptr) pair2.second->Render();
+        }
     }
     
     // 화면 내부 UI 들 렌더링
@@ -157,12 +221,21 @@ void ImguiManager::Render()
 }
 
 #include "InspectorUI.h"
-void ImguiManager::Test_CreateEditorUI()
+void ImguiManager::CreateDefaultUI()
 {
     EditorUI* ui = nullptr;
+
+    ui = new ListUI;
+    ui->SetActive(false);
+    ui->SetModal(true);
+    AddUI(*ui);
+
+    // Test
+    // Inspector
     //Ptr<GameObject> obj = LevelManager::GetInstance()->GetGameObject(LAYER_TYPE::PLAYER);
     //Ptr<GameObject> obj = LevelManager::GetInstance()->GetGameObject(LAYER_TYPE::CAMERA);
-    Ptr<GameObject> obj = LevelManager::GetInstance()->GetGameObject(LAYER_TYPE::LIGHT);
+    //Ptr<GameObject> obj = LevelManager::GetInstance()->GetGameObject(LAYER_TYPE::LIGHT);
+    Ptr<GameObject> obj = LevelManager::GetInstance()->GetGameObject(LAYER_TYPE::MONSTER);
     ui = new InspectorUI(obj);
     AddUI(*ui);
 }
