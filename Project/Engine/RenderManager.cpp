@@ -31,6 +31,13 @@ int RenderManager::ChangeCameraType(Ptr<Camera> camera, CAMERA_TYPE type)
 		throw std::logic_error("CAMERA_TYPE::NONE 으로 변경할 수 없습니다");
 	}
 
+	// TODO : 에디터 모드 카메라
+	if (type == CAMERA_TYPE::EDITOR_CAMERA)
+	{
+		return S_OK;
+	}
+
+	// 인게임 카메라
 	// 중복 체크
 	if (m_cameraMap.find(type) != m_cameraMap.end())
 	{

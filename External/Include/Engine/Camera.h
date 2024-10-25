@@ -56,12 +56,12 @@ public:
 	float GetViewHeight() { return m_viewHeight; }
 	void SetViewHeight(float height);
 
-	// perspective
 	float GetFieldOfView() { return m_fov; }
-	void SetFieldOfView(int fov);	// @fov : 0 ~ 360
+	// mode : perspective, @fov : 0 ~ 360
+	void SetFieldOfView(int fov);
 
-	// orthographic
 	float GetScale() { return m_scale; }
+	// mode : orthographic
 	void SetScale(float scale);
 
 	void SetLayerOnOff(LAYER_TYPE layer);

@@ -3,6 +3,7 @@
 // Ä«¸Þ¶ó index
 enum class CAMERA_TYPE : int
 {
+	EDITOR_CAMERA = -100,
 	NONE = -1,
 	MAIN_CAMERA = 0,
 	CAMERA_MINIMAP = 1

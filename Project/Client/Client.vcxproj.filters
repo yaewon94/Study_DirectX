@@ -90,6 +90,9 @@
     <ClInclude Include="EditorUIValues.h">
       <Filter>EditorUI</Filter>
     </ClInclude>
+    <ClInclude Include="EditorManager.h">
+      <Filter>EditorUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -158,6 +161,9 @@
       <Filter>EditorUI\ComponentUI</Filter>
     </ClCompile>
     <ClCompile Include="ListUI.cpp">
+      <Filter>EditorUI</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorManager.cpp">
       <Filter>EditorUI</Filter>
     </ClCompile>
   </ItemGroup>

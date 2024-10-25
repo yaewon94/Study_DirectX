@@ -88,7 +88,7 @@ Ptr<RenderComponent> GameObject::GetRenderComponent()
 	return m_renderComponent;
 }
 
-// TODO : 레벨매니저, 렌더매니저 오브젝트 등록,삭제를 Init() 호출 이전에는 하지 않게 해야함
+// TODO : 에디터 모드일때 레벨매니저, 메인카메라에 등록하지 않기
 void GameObject::SetLayer(LAYER_TYPE layer)
 {
 	if (m_layer == layer) return;

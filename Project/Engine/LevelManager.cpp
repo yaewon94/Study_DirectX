@@ -23,7 +23,6 @@ void LevelManager::Init()
 	cameraObj->SetName(L"Main Camera");
 	Ptr<Camera> camera = cameraObj->AddComponent<Camera>();
 	camera->SetCameraType(CAMERA_TYPE::MAIN_CAMERA);
-	cameraObj->SetLayer(LAYER_TYPE::CAMERA);
 
 	// 현재레벨 Init()
 	curLevel->Init();

@@ -22,6 +22,7 @@ Camera::Camera(const Ptr<GameObject>& owner)
 	, m_fov(XM_PI / 2.f)
 	, m_scale(1.f)
 {
+	GetOwner()->SetLayer(LAYER_TYPE::CAMERA);
 }
 
 Camera::Camera(const Ptr<Component>& origin, const Ptr<GameObject>& owner) 
@@ -37,6 +38,7 @@ Camera::Camera(const Ptr<Component>& origin, const Ptr<GameObject>& owner)
 	m_layers = cam->m_layers;
 	m_fov = cam->m_fov;
 	m_scale = cam->m_scale;
+	GetOwner()->SetLayer(LAYER_TYPE::CAMERA);
 }
 
 Camera::~Camera()

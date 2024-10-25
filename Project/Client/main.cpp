@@ -29,6 +29,7 @@
 // 내부파일 include
 #include "ImguiManager.h"
 #include "imgui/imgui.h"
+#include "EditorManager.h"
 
 // extern 선언
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -69,6 +70,10 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         return FALSE;
     }
 
+    // TODO : 에디터 모드, 인게임 모드에 따라 초기화 분기처리
+    // =============================================
+    // 인게임 모드
+    // =============================================
     // 게임엔진 초기화
     if (FAILED(Engine::GetInstance()->Init(g_hWnd)))
     {
@@ -76,10 +81,20 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         return FALSE;
     }
 
+    // =============================================
+    // 에디터 모드
+    // =============================================
     // imgui 초기화
     if (FAILED(ImguiManager::GetInstance()->Init()))
     {
         MessageBox(nullptr, L"imgui 초기화 실패", L"애플리케이션 시작 실패", MB_OK);
+        return FALSE;
+    }
+
+    // EditorManager 초기화
+    if (FAILED(EditorManager::GetInstance()->Init()))
+    {
+        MessageBox(nullptr, L"EditorManager 초기화 실패", L"애플리케이션 시작 실패", MB_OK);
         return FALSE;
     }
 
@@ -104,14 +119,13 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         else
         {
             // TODO : 인게임 모드일때만 호출하도록 변경
-            // 게임 엔진 구동
             Engine::GetInstance()->Progress();
 
             // TODO : 에디터 모드일때만 호출하도록 변경
-            // imgui 구동
+            EditorManager::GetInstance()->Progress();
             ImguiManager::GetInstance()->Progress();
 
-            // 화면 렌더링
+            // 화면 출력
             Device::GetInstance()->Present();
         }
     }

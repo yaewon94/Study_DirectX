@@ -143,6 +143,7 @@
     <ClInclude Include="Client.h" />
     <ClInclude Include="Collider2DUI.h" />
     <ClInclude Include="ComponentUI.h" />
+    <ClInclude Include="EditorManager.h" />
     <ClInclude Include="EditorUI.h" />
     <ClInclude Include="EditorUIValues.h" />
     <ClInclude Include="framework.h" />
@@ -168,6 +169,7 @@
     <ClCompile Include="CameraUI.cpp" />
     <ClCompile Include="Collider2DUI.cpp" />
     <ClCompile Include="ComponentUI.cpp" />
+    <ClCompile Include="EditorManager.cpp" />
     <ClCompile Include="EditorUI.cpp" />
     <ClCompile Include="ImguiManager.cpp" />
     <ClCompile Include="imgui\imgui.cpp" />
