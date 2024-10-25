@@ -30,6 +30,7 @@ void ListUI::AddItem(const string& name)
 void ListUI::RenderUpdate()
 {
 	const int Size = m_nameList.size();
+	bool isDoubleClicked = false;
 
 	for (int i = 0; i < Size; ++i)
 	{
@@ -42,7 +43,6 @@ void ListUI::RenderUpdate()
 
 		if (ImGui::TreeNodeEx(m_nameList[i].c_str(), flags))
 		{
-			// TODO : ImGui::IsItemHovered() 빼도 제대로 작동하는지 확인
 			if (ImGui::IsItemHovered())
 			{
 				if (ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
@@ -50,6 +50,7 @@ void ListUI::RenderUpdate()
 					if (m_onDoubleClickedUI != nullptr && m_onDoubleClickedFunc != nullptr)
 					{
 						(m_onDoubleClickedUI->*m_onDoubleClickedFunc)(&m_nameList[i]);
+						isDoubleClicked = true;
 					}
 				}
 				else if (ImGui::IsMouseClicked(ImGuiMouseButton_Left))
@@ -59,8 +60,11 @@ void ListUI::RenderUpdate()
 			}
 
 			ImGui::TreePop();
+			if (isDoubleClicked) break;
 		}
 	}
+
+	if(isDoubleClicked) SetActive(false);
 }
 
 void ListUI::ActivateOnOff()
