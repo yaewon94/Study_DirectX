@@ -14,7 +14,8 @@
 #include "TileMap.h"
 #include "Light2D.h"
 
-Level::Level()
+Level::Level() 
+	: m_state(LEVEL_STATE::NONE)
 {
 }
 

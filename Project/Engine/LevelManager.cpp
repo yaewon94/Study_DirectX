@@ -1,6 +1,5 @@
 #include "pch.h"
 #include "LevelManager.h"
-#include "Level.h"
 #include "GameObject.h"
 #include "Camera.h"
 #include "RenderManager.h"
@@ -47,4 +46,12 @@ void LevelManager::DeleteObject(const Ptr<GameObject>& obj)
 Ptr<GameObject> LevelManager::GetGameObject(LAYER_TYPE layer)
 {
 	return curLevel->GetGameObject(layer);
+}
+
+void LevelManager::ChangeState(LEVEL_STATE state)
+{
+	if (curLevel->GetState() == state) return;
+	if (state == LEVEL_STATE::NONE) throw std::logic_error("none으로 변경할 수 없습니다");
+
+	curLevel->ChangeState(state);
 }

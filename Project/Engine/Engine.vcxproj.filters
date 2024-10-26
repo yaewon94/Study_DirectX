@@ -182,9 +182,6 @@
     <ClInclude Include="CollisionManager.h">
       <Filter>Manager</Filter>
     </ClInclude>
-    <ClInclude Include="CommonTypes.h">
-      <Filter>Header</Filter>
-    </ClInclude>
     <ClInclude Include="Component.h">
       <Filter>Entity\Component</Filter>
     </ClInclude>
