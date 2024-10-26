@@ -17,7 +17,8 @@ class RenderManager : public Singleton<RenderManager>
 	SINGLETON(RenderManager);
 	
 private:
-	map<CAMERA_TYPE, Ptr<Camera>> m_cameraMap;
+	Ptr<Camera> m_editorCam;
+	map<CAMERA_TYPE, Ptr<Camera>> m_levelCameraMap;
 
 	Ptr<Texture> m_rtTex;	// Render Target
 	Ptr<Texture> m_dsTex;	// Depth Stencil
@@ -27,7 +28,10 @@ private:
 	vector<Ptr<Light2D>> m_light2Ds;
 	vector<Light2dInfo> m_light2dInfos;
 
+	bool m_isEditorMode;
+
 public:
+	void SetEditorMode(bool isEditorMode) { m_isEditorMode = isEditorMode; }
 	int ChangeCameraType(Ptr<Camera> camera, CAMERA_TYPE type);
 	void AddRenderObj(Ptr<GameObject> obj, CAMERA_TYPE type = CAMERA_TYPE::MAIN_CAMERA);
 	void DeleteRenderObj(Ptr<GameObject> obj, CAMERA_TYPE type = CAMERA_TYPE::MAIN_CAMERA);

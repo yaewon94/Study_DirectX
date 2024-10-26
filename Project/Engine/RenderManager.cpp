@@ -16,7 +16,9 @@
 
 #define CLEAR_COLOR Vec4(0.f, 0.f, 0.f, 1.f)
 
-RenderManager::RenderManager()
+RenderManager::RenderManager() 
+	: m_editorCam(nullptr)
+	, m_isEditorMode(false)
 {
 }
 
@@ -31,15 +33,17 @@ int RenderManager::ChangeCameraType(Ptr<Camera> camera, CAMERA_TYPE type)
 		throw std::logic_error("CAMERA_TYPE::NONE 으로 변경할 수 없습니다");
 	}
 
-	// TODO : 에디터 모드 카메라
+	// 에디터 모드 카메라
 	if (type == CAMERA_TYPE::EDITOR_CAMERA)
 	{
+		if (m_editorCam != nullptr) throw std::logic_error("에디터 카메라가 이미 등록되어 있습니다");
+		m_editorCam = camera;
 		return S_OK;
 	}
 
 	// 인게임 카메라
 	// 중복 체크
-	if (m_cameraMap.find(type) != m_cameraMap.end())
+	if (m_levelCameraMap.find(type) != m_levelCameraMap.end())
 	{
 		MessageBoxA(nullptr, "이미 같은 타입의 카메라가 등록되어 있습니다", "카메라 타입 변경 실패", MB_OK);
 		return E_FAIL;
@@ -47,13 +51,13 @@ int RenderManager::ChangeCameraType(Ptr<Camera> camera, CAMERA_TYPE type)
 	else
 	{
 		// 기존 내 타입으로 등록되어 있던 카메라 삭제
-		const auto iter = m_cameraMap.find(camera->GetCameraType());
-		if (iter != m_cameraMap.end())
+		const auto iter = m_levelCameraMap.find(camera->GetCameraType());
+		if (iter != m_levelCameraMap.end())
 		{
-			m_cameraMap.erase(iter);
+			m_levelCameraMap.erase(iter);
 		}
 		// 새 타입으로 등록
-		m_cameraMap.insert(make_pair(type, camera));
+		m_levelCameraMap.insert(make_pair(type, camera));
 		return S_OK;
 	}
 }
@@ -65,9 +69,9 @@ void RenderManager::AddRenderObj(Ptr<GameObject> obj, CAMERA_TYPE type)
 		throw std::logic_error("잘못된 접근입니다");
 	}
 
-	const auto iter = m_cameraMap.find(type);
+	const auto iter = m_levelCameraMap.find(type);
 
-	if (iter != m_cameraMap.end())
+	if (iter != m_levelCameraMap.end())
 	{
 		iter->second->AddRenderObj(obj);
 	}
@@ -84,9 +88,9 @@ void RenderManager::DeleteRenderObj(Ptr<GameObject> obj, CAMERA_TYPE type)
 		throw std::logic_error("잘못된 접근입니다");
 	}
 
-	const auto iter = m_cameraMap.find(type);
+	const auto iter = m_levelCameraMap.find(type);
 
-	if (iter != m_cameraMap.end())
+	if (iter != m_levelCameraMap.end())
 	{
 		iter->second->DeleteRenderObj(obj);
 	}
@@ -171,10 +175,17 @@ void RenderManager::Render()
 	// 데이터 및 리소스 바인딩
 	BindOnGpu();
 
-	// 카메라 렌더링
-	for (auto& pair : m_cameraMap)
+	// 에디터 모드, 인게임 모드 분리
+	if (m_isEditorMode)
 	{
-		pair.second->Render();
+		m_editorCam->Render();
+	}
+	else
+	{
+		for (auto& pair : m_levelCameraMap)
+		{
+			pair.second->Render();
+		}
 	}
 }
 
@@ -193,6 +204,7 @@ void RenderManager::Clear()
 void RenderManager::BindOnGpu()
 {
 	int lightCount = m_light2dInfos.size();
+	if (lightCount == 0) return;
 
 	for (int i=0; i<lightCount; ++i)
 	{
