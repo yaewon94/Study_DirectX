@@ -56,11 +56,11 @@ void Level::Init()
 		tileMap->SetTileCount(Vec2(10, 1));
 		obj->SetLayer(LAYER_TYPE::GROUND); // TODO : Ground script에서 추가하도록 수정
 
-		// 플레이어 오브젝트 추가
-		Ptr<GameObject> g_player = Ptr<GameObject>();
-		g_player->SetName(L"Player");
-		g_player->GetTransform()->SetLocalPosX(-300.f);
-		g_player->AddComponent<Player>();
+		//// 플레이어 오브젝트 추가
+		//Ptr<GameObject> g_player = Ptr<GameObject>();
+		//g_player->SetName(L"Player");
+		//g_player->GetTransform()->SetLocalPosX(-300.f);
+		//g_player->AddComponent<Player>();
 
 		//// 플레이어의 자식 오브젝트 추가
 		//Ptr<GameObject> child = Ptr<GameObject>();

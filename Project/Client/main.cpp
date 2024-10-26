@@ -70,10 +70,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         return FALSE;
     }
 
-    // TODO : 에디터 모드, 인게임 모드에 따라 초기화 분기처리
-    // =============================================
-    // 인게임 모드
-    // =============================================
     // 게임엔진 초기화
     if (FAILED(Engine::GetInstance()->Init(g_hWnd)))
     {
@@ -81,9 +77,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         return FALSE;
     }
 
-    // =============================================
-    // 에디터 모드
-    // =============================================
     // imgui 초기화
     if (FAILED(ImguiManager::GetInstance()->Init()))
     {
@@ -118,10 +111,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         }
         else
         {
-            // TODO : 인게임 모드일때만 호출하도록 변경
             Engine::GetInstance()->Progress();
-
-            // TODO : 에디터 모드일때만 호출하도록 변경
             EditorManager::GetInstance()->Progress();
             ImguiManager::GetInstance()->Progress();
 

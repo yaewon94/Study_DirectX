@@ -3,6 +3,10 @@
 #include "GameObject.h"
 #include "Camera.h"
 #include "RenderManager.h"
+#include "TaskManager.h"
+#include "TimeManager.h"
+#include "Player.h"
+#include "Transform.h"
 
 LevelManager::LevelManager()
 {
@@ -18,13 +22,19 @@ void LevelManager::Init()
 
 	// ===================== 필수 오브젝트 추가 =======================
 	// 메인카메라 추가
-	Ptr<GameObject> cameraObj = Ptr<GameObject>();
-	cameraObj->SetName(L"Main Camera");
-	Ptr<Camera> camera = cameraObj->AddComponent<Camera>();
+	Ptr<GameObject> obj = Ptr<GameObject>();
+	obj->SetName(L"Main Camera");
+	Ptr<Camera> camera = obj->AddComponent<Camera>();
 	camera->SetCameraType(CAMERA_TYPE::MAIN_CAMERA);
 
-	// 현재레벨 Init()
-	curLevel->Init();
+	// 플레이어 오브젝트 추가
+	obj = Ptr<GameObject>();
+	obj->SetName(L"Player");
+	obj->GetTransform()->SetLocalPosX(-300.f);
+	obj->AddComponent<Player>();
+
+	// 레벨 플레이 준비
+	TaskManager::GetInstance()->ChangeLevelState(LEVEL_STATE::STOP);
 }
 
 void LevelManager::Tick()
@@ -51,7 +61,19 @@ Ptr<GameObject> LevelManager::GetGameObject(LAYER_TYPE layer)
 void LevelManager::ChangeState(LEVEL_STATE state)
 {
 	if (curLevel->GetState() == state) return;
-	if (state == LEVEL_STATE::NONE) throw std::logic_error("none으로 변경할 수 없습니다");
 
-	curLevel->ChangeState(state);
+	if (state == LEVEL_STATE::NONE) throw std::logic_error("none으로 변경할 수 없습니다");
+	else if (state == LEVEL_STATE::STOP || state == LEVEL_STATE::PAUSE)
+	{
+		TimeManager::GetInstance()->SetLevelStop(true);
+		RenderManager::GetInstance()->SetEditorMode(true);
+		curLevel->ChangeState(state);
+	}
+	else if (state == LEVEL_STATE::PLAY)
+	{
+		TimeManager::GetInstance()->SetLevelStop(false);
+		RenderManager::GetInstance()->SetEditorMode(false);
+		curLevel->ChangeState(state);
+		if (curLevel->GetState() == LEVEL_STATE::STOP || curLevel->GetState() == LEVEL_STATE::NONE) curLevel->Init();
+	}
 }
