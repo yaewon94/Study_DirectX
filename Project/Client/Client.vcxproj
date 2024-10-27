@@ -166,6 +166,7 @@
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="TransformUI.h" />
+    <ClInclude Include="TreeUI.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CameraUI.cpp" />
@@ -192,6 +193,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="TransformUI.cpp" />
+    <ClCompile Include="TreeUI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc" />

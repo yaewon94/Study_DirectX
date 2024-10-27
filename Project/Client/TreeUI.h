@@ -1,0 +1,15 @@
+#pragma once
+#include "EditorUI.h"
+
+class TreeUI final : public EditorUI
+{
+public:
+	TreeUI();
+	~TreeUI();
+
+public:
+	virtual void RenderUpdate() final;
+
+public:
+	virtual EDITOR_UI_TYPE GetType() final { return EDITOR_UI_TYPE::TREE; }
+};
