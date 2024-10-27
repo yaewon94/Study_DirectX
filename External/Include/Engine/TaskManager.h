@@ -31,11 +31,17 @@ private:
 	vector<TaskInfo> m_taskVec;
 	void AddTask(const TaskInfo& task) { m_taskVec.push_back(task); }
 
+	bool m_isLevelChanged;
+
 public:
 	void Tick();
 
 public:
 	void CreateObject(Ptr<GameObject> obj, LAYER_TYPE layer);
 	void DeleteObject(Ptr<GameObject> obj);
+
+	bool IsLevelChanged() { return m_isLevelChanged; }
 	void ChangeLevelState(LEVEL_STATE state);
+	// TEST
+	void ChangeLevel();
 };

@@ -36,5 +36,7 @@ public:
 
 public:
 	virtual EDITOR_UI_TYPE GetType() final { return EDITOR_UI_TYPE::TREE; }
+
 	TreeNode* const AddItem(const string& name, DWORD_PTR data, TreeNode* const parent = nullptr);
+	void ClearItems();
 };

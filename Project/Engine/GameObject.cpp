@@ -107,6 +107,14 @@ void GameObject::SetLayer(LAYER_TYPE layer)
 	LevelManager::GetInstance()->AddObject(obj);
 }
 
+void GameObject::GetChildren(vector<Ptr<GameObject>>& children)
+{
+	for (auto& child : m_children)
+	{
+		children.push_back(child);
+	}
+}
+
 void GameObject::AddChild(const Ptr<GameObject>& child, bool isSameLayer)
 {
 	if(isSameLayer) child->SetLayer(m_layer);

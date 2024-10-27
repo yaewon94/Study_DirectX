@@ -14,7 +14,7 @@ class Light;
 class GameObject : public Entity
 {
 protected:
-	wstring m_name;
+	string m_name;
 
 	map<COMPONENT_TYPE, Ptr<Component>> m_components;	// 엔진 기본 컴포넌트만 등록
 	vector<Ptr<Script>> m_scripts;						// 사용자 정의 컴포넌트 등록
@@ -39,8 +39,8 @@ public:
 	GameObject& operator=(const GameObject& other);
 
 public:
-	const wstring& GetName() { return m_name; }
-	void SetName(const wstring& name) { m_name = name; }
+	const string& GetName() { return m_name; }
+	void SetName(const string& name) { m_name = name; }
 
 	virtual void SetLayer(LAYER_TYPE layer);
 	LAYER_TYPE GetLayer() { return m_layer; }
@@ -50,6 +50,7 @@ public:
 	Ptr<Collider> GetCollider();
 
 	Ptr<GameObject> GetParent() { return m_parent; }
+	void GetChildren(vector<Ptr<GameObject>>& children);
 	void AddChild(const Ptr<GameObject>& child, bool isSameLayer = true);
 
 	bool IsDead() { return m_isDead; }

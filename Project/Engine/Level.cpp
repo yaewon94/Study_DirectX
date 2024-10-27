@@ -44,11 +44,12 @@ void Level::Init()
 		light = obj->GetComponent<Light2D>();
 		light->SetColor(COLOR_GREEN);*/
 		Ptr<GameObject> obj = Ptr<GameObject>();
+		obj->SetName("Light");
 		obj->AddComponent<Light2D>();
 
 		// 타일맵 오브젝트 추가
 		obj = Ptr<GameObject>();
-		obj->SetName(L"Ground");
+		obj->SetName("Ground");
 		obj->GetTransform()->SetLocalPosY(-100.f);
 		Ptr<TileMap> tileMap = obj->AddComponent<TileMap>();
 		tileMap->SetAtlasTexture(AssetManager::GetInstance()->AddAsset<Texture>("TileMapTex", "TileTest.png"), Vec2(8, 8));
@@ -73,6 +74,7 @@ void Level::Init()
 
 		// 몬스터 오브젝트 추가
 		Ptr<GameObject> monster = Ptr<GameObject>();
+		monster->SetName("Monster");
 		Ptr<MeshRender> meshRender = monster->AddComponent<MeshRender>();
 		meshRender->SetMesh(AssetManager::GetInstance()->FindAsset<Mesh>("CircleMesh"));
 		// 동적 재질 사용
@@ -111,6 +113,14 @@ void Level::FinalTick()
 	for (auto& layer : m_layerMap)
 	{
 		layer.second->FinalTick();
+	}
+}
+
+void Level::GetLayers(vector<LAYER_TYPE>& layers)
+{
+	for (auto& pair : m_layerMap)
+	{
+		layers.push_back(pair.first);
 	}
 }
 
@@ -164,5 +174,19 @@ Ptr<GameObject> Level::GetGameObject(LAYER_TYPE layer)
 	else
 	{
 		return iter->second->GetGameObject();
+	}
+}
+
+void Level::GetGameObjects(LAYER_TYPE layer, vector<Ptr<GameObject>>& objs)
+{
+	const auto iter = m_layerMap.find(layer);
+
+	if (iter == m_layerMap.end())
+	{
+		throw std::logic_error("오브젝트 찾기 실패 : 현재 레벨에 등록된 레이어가 아닙니다");
+	}
+	else
+	{
+		return iter->second->GetGameObjects(objs);
 	}
 }

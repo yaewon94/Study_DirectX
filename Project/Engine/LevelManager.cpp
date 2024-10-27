@@ -22,22 +22,23 @@ LevelManager::~LevelManager()
 void LevelManager::Init()
 {
 	curLevel = Ptr<Level>();
+	TaskManager::GetInstance()->ChangeLevel();
 
 	// ===================== 필수 오브젝트 추가 =======================
 	// 메인카메라 추가
 	Ptr<GameObject> obj = Ptr<GameObject>();
-	obj->SetName(L"Main Camera");
+	obj->SetName("Main Camera");
 	Ptr<Camera> camera = obj->AddComponent<Camera>();
 	camera->SetCameraType(CAMERA_TYPE::MAIN_CAMERA);
 
 	// 플레이어 오브젝트 추가
 	obj = Ptr<GameObject>();
-	obj->SetName(L"Player");
+	obj->SetName("Player");
 	obj->GetTransform()->SetLocalPosX(-300.f);
 	obj->AddComponent<Player>();
 
 	// 레벨 플레이 준비
-	TaskManager::GetInstance()->ChangeLevelState(LEVEL_STATE::STOP);
+	TaskManager::GetInstance()->ChangeLevelState(LEVEL_STATE::PLAY);
 }
 
 void LevelManager::Tick()
@@ -70,6 +71,11 @@ Ptr<GameObject> LevelManager::GetGameObject(LAYER_TYPE layer)
 	return curLevel->GetGameObject(layer);
 }
 
+void LevelManager::GetGameObjects(LAYER_TYPE layer, vector<Ptr<GameObject>>& objs)
+{
+	curLevel->GetGameObjects(layer, objs);
+}
+
 void LevelManager::ChangeState(LEVEL_STATE state)
 {
 	if (curLevel->GetState() == state) return;
@@ -85,7 +91,7 @@ void LevelManager::ChangeState(LEVEL_STATE state)
 	{
 		TimeManager::GetInstance()->SetLevelStop(false);
 		RenderManager::GetInstance()->SetEditorMode(false);
-		curLevel->ChangeState(state);
 		if (curLevel->GetState() == LEVEL_STATE::STOP || curLevel->GetState() == LEVEL_STATE::NONE) curLevel->Init();
+		curLevel->ChangeState(state);
 	}
 }

@@ -3,7 +3,8 @@
 #include "LevelManager.h"
 #include "GameObject.h"
 
-TaskManager::TaskManager()
+TaskManager::TaskManager() 
+	: m_isLevelChanged(false)
 {
 }
 
@@ -13,13 +14,19 @@ TaskManager::~TaskManager()
 
 void TaskManager::Tick()
 {
+	m_isLevelChanged = false;
+
 	for (auto& task : m_taskVec)
 	{
 		if (task.Type == TASK_TYPE::CREATE_OBJECT)
 		{
 			Ptr<GameObject> obj = Ptr<GameObject>(task.param0);
 			obj->SetLayer((LAYER_TYPE)task.param1);
-			obj->Init();
+			if (LevelManager::GetInstance()->GetState() == LEVEL_STATE::PLAY
+				|| LevelManager::GetInstance()->GetState() == LEVEL_STATE::PAUSE)
+			{
+				obj->Init();
+			}
 		}
 		else if (task.Type == TASK_TYPE::DELETE_OBJECT)
 		{
@@ -32,6 +39,7 @@ void TaskManager::Tick()
 		}
 		else if (task.Type == TASK_TYPE::CHANGE_LEVEL)
 		{
+			m_isLevelChanged = true;
 		}
 		else
 		{
@@ -62,7 +70,15 @@ void TaskManager::DeleteObject(Ptr<GameObject> obj)
 void TaskManager::ChangeLevelState(LEVEL_STATE state)
 {
 	TaskInfo info = {};
-	info.Type = TASK_TYPE::CHANGE_LEVEL;
+	info.Type = TASK_TYPE::CHANGE_LEVEL_STATE;
 	info.param0 = (DWORD_PTR)state;
+	AddTask(info);
+}
+
+// TEST
+void TaskManager::ChangeLevel()
+{
+	TaskInfo info = {};
+	info.Type = TASK_TYPE::CHANGE_LEVEL;
 	AddTask(info);
 }

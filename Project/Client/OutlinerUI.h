@@ -1,6 +1,9 @@
 #pragma once
 #include "EditorUI.h"
 
+struct TreeNode;
+class GameObject;
+
 class OutlinerUI final : public EditorUI
 {
 private:
@@ -15,4 +18,8 @@ public:
 
 public:
 	virtual EDITOR_UI_TYPE GetType() final { return EDITOR_UI_TYPE::OUTLINER; }
+
+private:
+	void AddGameObject(TreeNode* const parent, Ptr<GameObject> obj);
+	void RenewGameObjects();
 };

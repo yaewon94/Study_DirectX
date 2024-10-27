@@ -8,6 +8,7 @@
 #include "TimeManager.h"
 #include "LevelManager.h"
 #include "RenderManager.h"
+#include "TaskManager.h"
 
 Engine::Engine() : hwnd(nullptr)
 {
@@ -50,4 +51,7 @@ void Engine::Progress()
 	
 	// 렌더링
 	RenderManager::GetInstance()->Render();
+
+	// 다음 프레임에 처리할 작업 준비
+	TaskManager::GetInstance()->Tick();
 }

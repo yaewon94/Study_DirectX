@@ -1,6 +1,9 @@
 #include "pch.h"
 #include "TreeUI.h"
 
+//#define DEFAULT_TREE_FLAGS ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick
+#define DEFAULT_TREE_FLAGS ImGuiTreeNodeFlags_Leaf
+
 TreeUI::TreeUI() 
 	: EditorUI("TreeUI")
 	, m_root(nullptr)
@@ -9,11 +12,7 @@ TreeUI::TreeUI()
 
 TreeUI::~TreeUI()
 {
-	if (m_root != nullptr)
-	{
-		delete m_root;
-		m_root = nullptr;
-	}
+	ClearItems();
 }
 
 void TreeUI::RenderUpdate()
@@ -40,6 +39,15 @@ TreeNode* const TreeUI::AddItem(const string& name, DWORD_PTR data, TreeNode* co
 	return node;
 }
 
+void TreeUI::ClearItems()
+{
+	if (m_root)
+	{
+		delete m_root;
+		m_root = nullptr;
+	}
+}
+
 TreeNode::TreeNode() 
 	: m_data(0), m_parent(nullptr)
 {
@@ -61,7 +69,13 @@ TreeNode::~TreeNode()
 
 void TreeNode::RenderUpdate()
 {
-	if (ImGui::TreeNodeEx(m_name.c_str(), ImGuiTreeNodeFlags_Leaf))
+	// TODO : 같은 레벨에 있는 트리는 같은 플래그 쓰도록 변경
+	// 플래그 설정
+	ImGuiTreeNodeFlags flags = DEFAULT_TREE_FLAGS;
+	if (!m_children.empty()) flags |= ImGuiTreeNodeFlags_Framed;
+
+	// 자식노드까지 트리구조로 렌더링
+	if (ImGui::TreeNodeEx(m_name.c_str(), flags))
 	{
 		for (auto child : m_children)
 		{

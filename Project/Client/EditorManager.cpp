@@ -15,7 +15,7 @@ int EditorManager::Init()
 {
 	// 에디터 카메라 등록
 	Ptr<GameObjectEx> obj;
-	obj->SetName(L"Editor Camera");
+	obj->SetName("Editor Camera");
 	Ptr<Camera> camera = obj->AddComponent<Camera>();
 	camera->SetCameraType(CAMERA_TYPE::EDITOR_CAMERA);
 	camera->SetProjectionType(PROJECTION_TYPE::ORTHOGRAPHIC);

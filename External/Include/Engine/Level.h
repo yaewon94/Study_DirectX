@@ -35,11 +35,13 @@ private:
 	virtual void FinalTick();
 
 private:
+	void GetLayers(vector<LAYER_TYPE>& layers);
+
 	Ptr<GameObject> AddObject(const Ptr<GameObject>& obj);
 	void DeleteObject(const Ptr<GameObject>& obj);
-
 	// @return : layer의 게임오브젝트 중 가장 먼저 등록된 것 리턴
 	Ptr<GameObject> GetGameObject(LAYER_TYPE layer);
+	void GetGameObjects(LAYER_TYPE layer, vector<Ptr<GameObject>>& objs);
 
 	void ChangeState(LEVEL_STATE state) { m_state = state; }
 };

@@ -15,7 +15,7 @@ Player::Player(const Ptr<GameObject>& owner)
 	: Script(owner)
 {
 	// 이름, 좌표 설정
-	owner->SetName(L"Player");
+	owner->SetName("Player");
 	owner->GetTransform()->SetLocalScale(Vec3(200.f, 200.f, 0.f));
 
 	//=======================================

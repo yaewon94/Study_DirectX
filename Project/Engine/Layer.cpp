@@ -49,6 +49,14 @@ Ptr<GameObject> Layer::GetGameObject()
 	throw std::logic_error("오브젝트 찾기 실패 : 해당 레이어에 등록된 오브젝트가 없습니다");
 }
 
+void Layer::GetGameObjects(vector<Ptr<GameObject>>& objs)
+{
+	for (auto& obj : m_objs)
+	{
+		objs.push_back(obj);
+	}
+}
+
 void Layer::Init()
 {
 	for (auto& obj : m_objs)

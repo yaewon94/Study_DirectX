@@ -23,6 +23,8 @@ public:
 	Ptr<GameObject> AddObject(const Ptr<GameObject>& _obj);
 	void DeleteObject(const Ptr<GameObject>& obj);
 	Ptr<GameObject> GetGameObject();
+	void GetGameObjects(vector<Ptr<GameObject>>& objs);
+
 	bool IsEmpty() { return m_objs.empty(); }
 
 public:
