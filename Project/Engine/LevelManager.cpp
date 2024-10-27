@@ -42,8 +42,11 @@ void LevelManager::Init()
 
 void LevelManager::Tick()
 {
-	curLevel->Tick();
-	curLevel->FinalTick();
+	if (curLevel->GetState() == LEVEL_STATE::PLAY)
+	{
+		curLevel->Tick();
+		curLevel->FinalTick();
+	}
 }
 
 Ptr<GameObject> LevelManager::AddObject(const Ptr<GameObject>& obj)
