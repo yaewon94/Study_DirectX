@@ -63,7 +63,7 @@ public:
 	virtual ImVec2 GetChildSize() { return ImVec2(0, 0); }
 	
 	template<typename T> requires std::derived_from<T, EditorUI>
-	EditorUI* GetChild()
+	EditorUI* const GetChild()
 	{
 		for (EditorUI* child : m_children)
 		{
@@ -79,14 +79,14 @@ public:
 	
 	// 템플릿 메소드는 virtual 사용 불가라 이 방법으로 함
 	template<typename T> requires not_component_ui<T>
-	void AddChild()
+	T* const AddChild()
 	{
 		if (GetChild<T>() != nullptr)
 		{
 			throw std::logic_error("이미 가지고 있는 UI 입니다");
 		}
 
-		RegisterChild<T>(*new T);
+		return (T*)RegisterChild<T>(new T);
 	}
 
 // about EditorUI functions called every frame
@@ -104,12 +104,12 @@ protected:
 protected:
 	// 실제 UI 객체를 메모리에 등록
 	template<typename T> requires std::derived_from<T, EditorUI>
-	const EditorUI& RegisterChild(T& t)
+	EditorUI* const RegisterChild(T* const t)
 	{
-		m_children.push_back(&t);
+		m_children.push_back(t);
 		m_children.back()->m_parent = this; // 부모 설정
 		ImguiManager::GetInstance()->AddUI(*m_children.back()); // ImguiManager에 등록
-		return *(m_children.back());
+		return m_children.back();
 	}
 
 	// 타이틀 렌더링

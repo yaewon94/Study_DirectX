@@ -3,6 +3,9 @@
 
 class OutlinerUI final : public EditorUI
 {
+private:
+	class TreeUI* m_tree;
+
 public:
 	OutlinerUI();
 	~OutlinerUI();

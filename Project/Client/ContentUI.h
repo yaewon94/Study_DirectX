@@ -3,6 +3,9 @@
 
 class ContentUI final : public EditorUI
 {
+private:
+	class TreeUI* m_tree;
+
 public:
 	ContentUI();
 	~ContentUI();

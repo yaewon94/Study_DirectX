@@ -41,13 +41,13 @@ public:
 				// 추가 가능한 경우
 				else
 				{
-					RegisterChild<T>(*componentUI);
+					RegisterChild<T>(componentUI);
 				}
 			}
 			// 컴포넌트가 없는 경우 : UI 추가, 컴포넌트 추가
 			else
 			{
-				((ComponentUI&)RegisterChild<T>(*componentUI)).AddComponent();
+				((ComponentUI*)RegisterChild<T>(componentUI))->AddComponent();
 			}
 		}
 	}

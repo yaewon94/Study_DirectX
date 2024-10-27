@@ -17,6 +17,7 @@ private:
 	~TreeNode();
 
 	void RenderUpdate();
+
 	void AddChild(TreeNode* const child);
 };
 
