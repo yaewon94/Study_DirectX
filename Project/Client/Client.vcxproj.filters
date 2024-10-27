@@ -108,6 +108,9 @@
     <ClInclude Include="OutlinerUI.h">
       <Filter>EditorUI</Filter>
     </ClInclude>
+    <ClInclude Include="ContentUI.h">
+      <Filter>EditorUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -191,6 +194,9 @@
       <Filter>EditorUI</Filter>
     </ClCompile>
     <ClCompile Include="OutlinerUI.cpp">
+      <Filter>EditorUI</Filter>
+    </ClCompile>
+    <ClCompile Include="ContentUI.cpp">
       <Filter>EditorUI</Filter>
     </ClCompile>
   </ItemGroup>

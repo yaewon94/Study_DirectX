@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "ImguiManager.h"
-#include "EditorUI.h"
+#include "ContentUI.h"
 #include "InspectorUI.h"
 #include "ListUI.h"
 #include "MenuUI.h"
@@ -72,7 +72,6 @@ void ImguiManager::AddUI(EditorUI& ui)
         }
 
         iter->second.insert(make_pair(ui.GetName(), &ui));
-        iter->second.emplace();
     }
     else
     {
@@ -237,8 +236,12 @@ void ImguiManager::CreateDefaultUI()
     ui = new MenuUI;
     AddUI(*ui);
 
-    // OutlinerUI
+    // Outliner UI
     ui = new OutlinerUI;
+    AddUI(*ui);
+
+    // Content UI
+    ui = new ContentUI;
     AddUI(*ui);
 
     //// Inspector
