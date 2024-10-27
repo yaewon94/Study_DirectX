@@ -49,6 +49,10 @@ public:
 	}
 
 	void GetAssetNames(ASSET_TYPE type, vector<const char*>& vec);
+	const map<string, Ptr<Asset>>& GetAssets(ASSET_TYPE type, map<string, Ptr<Asset>>& map)
+	{
+		return assetMapArr[(UINT)type];
+	}
 
 private:
 	// 에셋 추가

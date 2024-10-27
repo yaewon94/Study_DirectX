@@ -14,6 +14,15 @@ enum class ASSET_TYPE : UINT
 	MESH, GRAPHIC_SHADER, TEXTURE, MATERIAL, SPRITE, COUNT_END
 };
 
+static const char* AssetNameArr[] 
+	= { "Mesh"
+	, "Graphic Shader"
+	, "Texture"
+	, "Material"
+	, "Sprite"};
+static int AssetNameArrSize = sizeof(AssetNameArr) / sizeof(const char*);
+
+
 template<typename T> requires std::derived_from<T, Asset>
 static ASSET_TYPE GetType()
 {
