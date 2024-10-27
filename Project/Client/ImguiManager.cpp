@@ -4,6 +4,7 @@
 #include "InspectorUI.h"
 #include "ListUI.h"
 #include "MenuUI.h"
+#include "OutlinerUI.h"
 
 #include "Engine/Engine.h"
 #include "Engine/Device.h"
@@ -234,6 +235,10 @@ void ImguiManager::CreateDefaultUI()
 
     // Menu UI
     ui = new MenuUI;
+    AddUI(*ui);
+
+    // OutlinerUI
+    ui = new OutlinerUI;
     AddUI(*ui);
 
     //// Inspector

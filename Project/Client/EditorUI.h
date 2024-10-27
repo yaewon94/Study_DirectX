@@ -86,7 +86,7 @@ public:
 			throw std::logic_error("이미 가지고 있는 UI 입니다");
 		}
 
-		RegisterChild<T>(new T);
+		RegisterChild<T>(*new T);
 	}
 
 // about EditorUI functions called every frame
