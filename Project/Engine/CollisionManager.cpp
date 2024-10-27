@@ -14,10 +14,7 @@ CollisionManager::~CollisionManager()
 void CollisionManager::AddCollider(const Ptr<Collider>& collider)
 {
 	LAYER_TYPE layer = collider->GetOwner()->GetLayer();
-	if (layer <= LAYER_TYPE::CAMERA)
-	{
-		throw std::logic_error("잘못된 접근입니다");
-	}
+	if (layer <= LAYER_TYPE::CAMERA) return;
 	const auto iter = m_colliderMap.find(layer);
 
 	if (iter == m_colliderMap.end())
@@ -46,10 +43,7 @@ void CollisionManager::RemoveCollider(const Ptr<Collider>& collider)
 	if (collider == nullptr) return;
 
 	LAYER_TYPE layer = collider->GetOwner()->GetLayer();
-	if (layer <= LAYER_TYPE::CAMERA)
-	{
-		throw std::logic_error("잘못된 접근입니다");
-	}
+	if (layer <= LAYER_TYPE::CAMERA) return;
 	const auto mapiter = m_colliderMap.find(layer);
 
 	if (mapiter != m_colliderMap.end())

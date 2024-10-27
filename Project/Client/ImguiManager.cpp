@@ -231,11 +231,11 @@ void ImguiManager::CreateDefaultUI()
     AddUI(*ui);
 
     // Test
-    // Inspector
-    //Ptr<GameObject> obj = LevelManager::GetInstance()->GetGameObject(LAYER_TYPE::PLAYER);
-    //Ptr<GameObject> obj = LevelManager::GetInstance()->GetGameObject(LAYER_TYPE::CAMERA);
-    //Ptr<GameObject> obj = LevelManager::GetInstance()->GetGameObject(LAYER_TYPE::LIGHT);
-    Ptr<GameObject> obj = LevelManager::GetInstance()->GetGameObject(LAYER_TYPE::MONSTER);
-    ui = new InspectorUI(obj);
-    AddUI(*ui);
+    //// Inspector
+    ////Ptr<GameObject> obj = LevelManager::GetInstance()->GetGameObject(LAYER_TYPE::PLAYER);
+    ////Ptr<GameObject> obj = LevelManager::GetInstance()->GetGameObject(LAYER_TYPE::CAMERA);
+    ////Ptr<GameObject> obj = LevelManager::GetInstance()->GetGameObject(LAYER_TYPE::LIGHT);
+    //Ptr<GameObject> obj = LevelManager::GetInstance()->GetGameObject(LAYER_TYPE::MONSTER);
+    //ui = new InspectorUI(obj);
+    //AddUI(*ui);
 }

@@ -1,12 +1,13 @@
 #include "pch.h"
 #include "LevelManager.h"
 #include "GameObject.h"
-#include "Camera.h"
 #include "RenderManager.h"
-#include "TaskManager.h"
-#include "TimeManager.h"
+#include "RenderComponent.h"
+#include "Camera.h"
 #include "Player.h"
 #include "Transform.h"
+#include "TaskManager.h"
+#include "TimeManager.h"
 
 LevelManager::LevelManager()
 {
@@ -45,12 +46,15 @@ void LevelManager::Tick()
 
 Ptr<GameObject> LevelManager::AddObject(const Ptr<GameObject>& obj)
 {
+	if (obj->GetRenderComponent() != nullptr) RenderManager::GetInstance()->AddRenderObj(obj);
 	return curLevel->AddObject(obj);
 }
 
 void LevelManager::DeleteObject(const Ptr<GameObject>& obj)
 {
+	if (obj->GetLayer() == LAYER_TYPE::NONE) return;
 	curLevel->DeleteObject(obj);
+	if (obj->GetRenderComponent() != nullptr) RenderManager::GetInstance()->DeleteRenderObj(obj);
 }
 
 Ptr<GameObject> LevelManager::GetGameObject(LAYER_TYPE layer)

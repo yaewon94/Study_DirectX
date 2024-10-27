@@ -64,10 +64,7 @@ int RenderManager::ChangeCameraType(Ptr<Camera> camera, CAMERA_TYPE type)
 
 void RenderManager::AddRenderObj(Ptr<GameObject> obj, CAMERA_TYPE type)
 {
-	if (type == CAMERA_TYPE::NONE)
-	{
-		throw std::logic_error("잘못된 접근입니다");
-	}
+	if (type <= CAMERA_TYPE::NONE) return;
 
 	const auto iter = m_levelCameraMap.find(type);
 
@@ -83,6 +80,7 @@ void RenderManager::AddRenderObj(Ptr<GameObject> obj, CAMERA_TYPE type)
 
 void RenderManager::DeleteRenderObj(Ptr<GameObject> obj, CAMERA_TYPE type)
 {
+	if (obj->GetLayer() <= LAYER_TYPE::CAMERA) return;
 	if (type == CAMERA_TYPE::NONE)
 	{
 		throw std::logic_error("잘못된 접근입니다");

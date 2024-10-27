@@ -30,6 +30,7 @@ private:
 	vector<Ptr<GameObject>> m_children;
 
 	LAYER_TYPE m_layer;
+	bool m_isDead;
 
 public:
 	GameObject();
@@ -39,19 +40,23 @@ public:
 
 public:
 	const wstring& GetName() { return m_name; }
-	LAYER_TYPE GetLayer() { return m_layer; }
-	Ptr<GameObject> GetParent() { return m_parent; }
+	void SetName(const wstring& name) { m_name = name; }
 
-	// 컴포넌트 빨리 접근하기 위한 용도
+	// 0 이상의 값만 현재 Level에 등록됨
+	void SetLayer(LAYER_TYPE layer);
+	LAYER_TYPE GetLayer() { return m_layer; }
+
 	Ptr<Transform> GetTransform();
 	Ptr<RenderComponent> GetRenderComponent();
 
-	void SetName(const wstring& name) { m_name = name; }
-	// 0 이상의 값만 현재 Level에 등록됨
-	void SetLayer(LAYER_TYPE layer);
+	Ptr<GameObject> GetParent() { return m_parent; }
 	void AddChild(const Ptr<GameObject>& child, bool isSameLayer = true);
 
-public:
+	bool IsDead() { return m_isDead; }
+	// only TaskManager can call
+	void SetDead() { m_isDead = true; }
+
+
 	template<typename T> requires std::derived_from<T, Component>
 	Ptr<T> AddComponent()
 	{

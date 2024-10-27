@@ -31,6 +31,7 @@ private:
 	bool m_isEditorMode;
 
 public:
+	bool IsEditorMode() { return m_isEditorMode; }
 	void SetEditorMode(bool isEditorMode) { m_isEditorMode = isEditorMode; }
 	int ChangeCameraType(Ptr<Camera> camera, CAMERA_TYPE type);
 	void AddRenderObj(Ptr<GameObject> obj, CAMERA_TYPE type = CAMERA_TYPE::MAIN_CAMERA);

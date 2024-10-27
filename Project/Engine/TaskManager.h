@@ -36,5 +36,6 @@ public:
 
 public:
 	void CreateObject(Ptr<GameObject> obj, LAYER_TYPE layer);
+	void DeleteObject(Ptr<GameObject> obj);
 	void ChangeLevelState(LEVEL_STATE state);
 };

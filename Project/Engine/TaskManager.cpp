@@ -23,6 +23,8 @@ void TaskManager::Tick()
 		}
 		else if (task.Type == TASK_TYPE::DELETE_OBJECT)
 		{
+			Ptr<GameObject> obj = Ptr<GameObject>(task.param0);
+			obj->SetDead();
 		}
 		else if (task.Type == TASK_TYPE::CHANGE_LEVEL_STATE)
 		{
@@ -46,6 +48,14 @@ void TaskManager::CreateObject(Ptr<GameObject> obj, LAYER_TYPE layer)
 	info.Type = TASK_TYPE::CREATE_OBJECT;
 	info.param0 = (DWORD_PTR)(obj.Get());
 	info.param1 = (DWORD_PTR)layer;
+	AddTask(info);
+}
+
+void TaskManager::DeleteObject(Ptr<GameObject> obj)
+{
+	TaskInfo info = {};
+	info.Type = TASK_TYPE::DELETE_OBJECT;
+	info.param0 = (DWORD_PTR)(obj.Get());
 	AddTask(info);
 }
 

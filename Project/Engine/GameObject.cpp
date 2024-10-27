@@ -16,6 +16,7 @@ GameObject::GameObject()
 	, m_collider(nullptr)
 	, m_light(nullptr)
 	, m_parent(nullptr)
+	, m_isDead(false)
 {
 	m_transform = AddComponent<Transform>();
 }
@@ -27,6 +28,7 @@ GameObject::GameObject(const GameObject& origin)
 	, m_collider(nullptr)
 	, m_light(nullptr)
 	, m_parent(nullptr)
+	, m_isDead(origin.m_isDead)
 {
 	*this = origin;
 }
@@ -88,36 +90,29 @@ Ptr<RenderComponent> GameObject::GetRenderComponent()
 	return m_renderComponent;
 }
 
-// TODO : 에디터 모드일때 레벨매니저, 메인카메라에 등록하지 않기
 void GameObject::SetLayer(LAYER_TYPE layer)
 {
 	if (m_layer == layer) return;
 
 	Ptr<GameObject> obj = Ptr<GameObject>(this);
 
-	// 기존 레이어 처리
-	if (m_layer != LAYER_TYPE::NONE)
+	// 에디터 모드
+	if (RenderManager::GetInstance()->IsEditorMode())
+	{
+		if (m_collider != nullptr) CollisionManager::GetInstance()->RemoveCollider(m_collider);
+
+		m_layer = layer;
+		if (m_collider != nullptr) CollisionManager::GetInstance()->AddCollider(m_collider);
+	}
+	// 인게임 모드
+	else
 	{
 		LevelManager::GetInstance()->DeleteObject(obj);
+		if (m_collider != nullptr) CollisionManager::GetInstance()->RemoveCollider(m_collider);
 
-		if (m_layer > LAYER_TYPE::CAMERA)
-		{
-			if(m_collider != nullptr) CollisionManager::GetInstance()->RemoveCollider(m_collider);
-			if(m_renderComponent != nullptr) RenderManager::GetInstance()->DeleteRenderObj(obj);
-		}
-	}
-
-	// 새로운 레이어 처리
-	m_layer = layer;
-	if (m_layer != LAYER_TYPE::NONE)
-	{
+		m_layer = layer;
 		LevelManager::GetInstance()->AddObject(obj);
-
-		if (m_layer > LAYER_TYPE::CAMERA)
-		{
-			if (m_collider != nullptr) CollisionManager::GetInstance()->AddCollider(m_collider);
-			if (m_renderComponent != nullptr) RenderManager::GetInstance()->AddRenderObj(obj);
-		}
+		if (m_collider != nullptr) CollisionManager::GetInstance()->AddCollider(m_collider);
 	}
 }
 
@@ -156,6 +151,42 @@ void GameObject::FinalTick()
 	{
 		component.second->FinalTick();
 	}
+
+	// TODO : 자식 오브젝트를 자주 지우게 되면 자료구조 list로 변경
+	// 에디터 모드
+	if (RenderManager::GetInstance()->IsEditorMode())
+	{
+		for (auto iter = m_children.begin(); iter != m_children.end();)
+		{
+			if ((*iter)->IsDead())
+			{
+				if ((*iter)->m_collider != nullptr) CollisionManager::GetInstance()->RemoveCollider((*iter)->m_collider);
+				iter = m_children.erase(iter);
+			}
+			else
+			{
+				++iter;
+			}
+		}
+	}
+	// 인게임 모드
+	else
+	{
+		for (auto iter = m_children.begin(); iter != m_children.end();)
+		{
+			if ((*iter)->IsDead())
+			{
+				LevelManager::GetInstance()->DeleteObject(*iter);
+				if ((*iter)->m_collider != nullptr) CollisionManager::GetInstance()->RemoveCollider((*iter)->m_collider);
+				iter = m_children.erase(iter);
+			}
+			else
+			{
+				++iter;
+			}
+		}
+	}
+
 }
 
 void GameObject::Render()
