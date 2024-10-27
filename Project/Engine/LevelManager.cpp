@@ -8,6 +8,8 @@
 #include "Transform.h"
 #include "TaskManager.h"
 #include "TimeManager.h"
+#include "CollisionManager.h"
+#include "Collider.h"
 
 LevelManager::LevelManager()
 {
@@ -46,7 +48,9 @@ void LevelManager::Tick()
 
 Ptr<GameObject> LevelManager::AddObject(const Ptr<GameObject>& obj)
 {
+	if (obj->GetLayer() == LAYER_TYPE::NONE) return nullptr;
 	if (obj->GetRenderComponent() != nullptr) RenderManager::GetInstance()->AddRenderObj(obj);
+	if (obj->GetCollider() != nullptr) CollisionManager::GetInstance()->AddCollider(obj->GetCollider());
 	return curLevel->AddObject(obj);
 }
 
@@ -55,6 +59,7 @@ void LevelManager::DeleteObject(const Ptr<GameObject>& obj)
 	if (obj->GetLayer() == LAYER_TYPE::NONE) return;
 	curLevel->DeleteObject(obj);
 	if (obj->GetRenderComponent() != nullptr) RenderManager::GetInstance()->DeleteRenderObj(obj);
+	if (obj->GetCollider() != nullptr) CollisionManager::GetInstance()->RemoveCollider(obj->GetCollider());
 }
 
 Ptr<GameObject> LevelManager::GetGameObject(LAYER_TYPE layer)

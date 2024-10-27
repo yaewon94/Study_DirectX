@@ -11,9 +11,9 @@ class Collider;
 class Light;
 
 // 게임오브젝트
-class GameObject final : public Entity
+class GameObject : public Entity
 {
-private:
+protected:
 	wstring m_name;
 
 	map<COMPONENT_TYPE, Ptr<Component>> m_components;	// 엔진 기본 컴포넌트만 등록
@@ -42,12 +42,12 @@ public:
 	const wstring& GetName() { return m_name; }
 	void SetName(const wstring& name) { m_name = name; }
 
-	// 0 이상의 값만 현재 Level에 등록됨
-	void SetLayer(LAYER_TYPE layer);
+	virtual void SetLayer(LAYER_TYPE layer);
 	LAYER_TYPE GetLayer() { return m_layer; }
 
 	Ptr<Transform> GetTransform();
 	Ptr<RenderComponent> GetRenderComponent();
+	Ptr<Collider> GetCollider();
 
 	Ptr<GameObject> GetParent() { return m_parent; }
 	void AddChild(const Ptr<GameObject>& child, bool isSameLayer = true);
@@ -167,7 +167,7 @@ public:
 public:
 	void Init();
 	void Tick();
-	void FinalTick();
+	virtual void FinalTick();
 	void Render();
 
 public:

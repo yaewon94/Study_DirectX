@@ -7,14 +7,17 @@
     <Filter Include="EditorUI">
       <UniqueIdentifier>{cae073eb-dc6d-46fc-b11f-ca6a53b3c661}</UniqueIdentifier>
     </Filter>
-    <Filter Include="imgui">
-      <UniqueIdentifier>{226a4521-9aec-4ce7-a40d-b6c1c22af905}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="imgui\Manager">
-      <UniqueIdentifier>{79c2e0bf-7ede-4625-b1bb-6680c7ee2c72}</UniqueIdentifier>
-    </Filter>
     <Filter Include="EditorUI\ComponentUI">
       <UniqueIdentifier>{e26e3896-9437-49b6-9d9c-d952c7117a6c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EditorUI\imgui">
+      <UniqueIdentifier>{226a4521-9aec-4ce7-a40d-b6c1c22af905}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EditorUI\imgui\Manager">
+      <UniqueIdentifier>{79c2e0bf-7ede-4625-b1bb-6680c7ee2c72}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EditorUI\GameObject">
+      <UniqueIdentifier>{51e2ba3f-92dc-4a2d-b240-04b0ce87a979}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -34,31 +37,31 @@
       <Filter>Windows</Filter>
     </ClInclude>
     <ClInclude Include="ImguiManager.h">
-      <Filter>imgui\Manager</Filter>
+      <Filter>EditorUI\imgui\Manager</Filter>
     </ClInclude>
     <ClInclude Include="imgui\imconfig.h">
-      <Filter>imgui</Filter>
+      <Filter>EditorUI\imgui</Filter>
     </ClInclude>
     <ClInclude Include="imgui\imgui.h">
-      <Filter>imgui</Filter>
+      <Filter>EditorUI\imgui</Filter>
     </ClInclude>
     <ClInclude Include="imgui\imgui_impl_dx11.h">
-      <Filter>imgui</Filter>
+      <Filter>EditorUI\imgui</Filter>
     </ClInclude>
     <ClInclude Include="imgui\imgui_impl_win32.h">
-      <Filter>imgui</Filter>
+      <Filter>EditorUI\imgui</Filter>
     </ClInclude>
     <ClInclude Include="imgui\imgui_internal.h">
-      <Filter>imgui</Filter>
+      <Filter>EditorUI\imgui</Filter>
     </ClInclude>
     <ClInclude Include="imgui\imstb_rectpack.h">
-      <Filter>imgui</Filter>
+      <Filter>EditorUI\imgui</Filter>
     </ClInclude>
     <ClInclude Include="imgui\imstb_textedit.h">
-      <Filter>imgui</Filter>
+      <Filter>EditorUI\imgui</Filter>
     </ClInclude>
     <ClInclude Include="imgui\imstb_truetype.h">
-      <Filter>imgui</Filter>
+      <Filter>EditorUI\imgui</Filter>
     </ClInclude>
     <ClInclude Include="EditorUI.h">
       <Filter>EditorUI</Filter>
@@ -93,6 +96,9 @@
     <ClInclude Include="EditorManager.h">
       <Filter>EditorUI</Filter>
     </ClInclude>
+    <ClInclude Include="GameObjectEx.h">
+      <Filter>EditorUI\GameObject</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -113,28 +119,28 @@
       <Filter>Windows</Filter>
     </ClCompile>
     <ClCompile Include="ImguiManager.cpp">
-      <Filter>imgui\Manager</Filter>
+      <Filter>EditorUI\imgui\Manager</Filter>
     </ClCompile>
     <ClCompile Include="imgui\imgui.cpp">
-      <Filter>imgui</Filter>
+      <Filter>EditorUI\imgui</Filter>
     </ClCompile>
     <ClCompile Include="imgui\imgui_draw.cpp">
-      <Filter>imgui</Filter>
+      <Filter>EditorUI\imgui</Filter>
     </ClCompile>
     <ClCompile Include="imgui\imgui_impl_dx11.cpp">
-      <Filter>imgui</Filter>
+      <Filter>EditorUI\imgui</Filter>
     </ClCompile>
     <ClCompile Include="imgui\imgui_impl_win32.cpp">
-      <Filter>imgui</Filter>
+      <Filter>EditorUI\imgui</Filter>
     </ClCompile>
     <ClCompile Include="imgui\imgui_demo.cpp">
-      <Filter>imgui</Filter>
+      <Filter>EditorUI\imgui</Filter>
     </ClCompile>
     <ClCompile Include="imgui\imgui_tables.cpp">
-      <Filter>imgui</Filter>
+      <Filter>EditorUI\imgui</Filter>
     </ClCompile>
     <ClCompile Include="imgui\imgui_widgets.cpp">
-      <Filter>imgui</Filter>
+      <Filter>EditorUI\imgui</Filter>
     </ClCompile>
     <ClCompile Include="EditorUI.cpp">
       <Filter>EditorUI</Filter>
@@ -166,10 +172,13 @@
     <ClCompile Include="EditorManager.cpp">
       <Filter>EditorUI</Filter>
     </ClCompile>
+    <ClCompile Include="GameObjectEx.cpp">
+      <Filter>EditorUI\GameObject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="imgui\LICENSE.txt">
-      <Filter>imgui</Filter>
+      <Filter>EditorUI\imgui</Filter>
     </Text>
   </ItemGroup>
 </Project>

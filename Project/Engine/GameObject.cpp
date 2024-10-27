@@ -3,10 +3,8 @@
 #include "LevelManager.h"
 #include "Component.h"
 #include "Transform.h"
-#include "RenderManager.h"
 #include "RenderComponent.h"
 #include "Script.h"
-#include "CollisionManager.h"
 #include "Collider.h"
 #include "Light.h"
 
@@ -90,30 +88,23 @@ Ptr<RenderComponent> GameObject::GetRenderComponent()
 	return m_renderComponent;
 }
 
+Ptr<Collider> GameObject::GetCollider()
+{
+	return m_collider;
+}
+
 void GameObject::SetLayer(LAYER_TYPE layer)
 {
 	if (m_layer == layer) return;
 
 	Ptr<GameObject> obj = Ptr<GameObject>(this);
 
-	// 에디터 모드
-	if (RenderManager::GetInstance()->IsEditorMode())
-	{
-		if (m_collider != nullptr) CollisionManager::GetInstance()->RemoveCollider(m_collider);
+	// 이전 레이어 처리
+	LevelManager::GetInstance()->DeleteObject(obj);
 
-		m_layer = layer;
-		if (m_collider != nullptr) CollisionManager::GetInstance()->AddCollider(m_collider);
-	}
-	// 인게임 모드
-	else
-	{
-		LevelManager::GetInstance()->DeleteObject(obj);
-		if (m_collider != nullptr) CollisionManager::GetInstance()->RemoveCollider(m_collider);
-
-		m_layer = layer;
-		LevelManager::GetInstance()->AddObject(obj);
-		if (m_collider != nullptr) CollisionManager::GetInstance()->AddCollider(m_collider);
-	}
+	// 새로운 레이어 처리
+	m_layer = layer;
+	LevelManager::GetInstance()->AddObject(obj);
 }
 
 void GameObject::AddChild(const Ptr<GameObject>& child, bool isSameLayer)
@@ -153,40 +144,19 @@ void GameObject::FinalTick()
 	}
 
 	// TODO : 자식 오브젝트를 자주 지우게 되면 자료구조 list로 변경
-	// 에디터 모드
-	if (RenderManager::GetInstance()->IsEditorMode())
+	// 지워야 할 자식 오브젝트 체크
+	for (auto iter = m_children.begin(); iter != m_children.end();)
 	{
-		for (auto iter = m_children.begin(); iter != m_children.end();)
+		if ((*iter)->IsDead())
 		{
-			if ((*iter)->IsDead())
-			{
-				if ((*iter)->m_collider != nullptr) CollisionManager::GetInstance()->RemoveCollider((*iter)->m_collider);
-				iter = m_children.erase(iter);
-			}
-			else
-			{
-				++iter;
-			}
+			LevelManager::GetInstance()->DeleteObject(*iter);
+			iter = m_children.erase(iter);
+		}
+		else
+		{
+			++iter;
 		}
 	}
-	// 인게임 모드
-	else
-	{
-		for (auto iter = m_children.begin(); iter != m_children.end();)
-		{
-			if ((*iter)->IsDead())
-			{
-				LevelManager::GetInstance()->DeleteObject(*iter);
-				if ((*iter)->m_collider != nullptr) CollisionManager::GetInstance()->RemoveCollider((*iter)->m_collider);
-				iter = m_children.erase(iter);
-			}
-			else
-			{
-				++iter;
-			}
-		}
-	}
-
 }
 
 void GameObject::Render()

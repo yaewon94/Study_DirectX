@@ -147,6 +147,7 @@
     <ClInclude Include="EditorUI.h" />
     <ClInclude Include="EditorUIValues.h" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="GameObjectEx.h" />
     <ClInclude Include="ImguiManager.h" />
     <ClInclude Include="imgui\imconfig.h" />
     <ClInclude Include="imgui\imgui.h" />
@@ -171,6 +172,7 @@
     <ClCompile Include="ComponentUI.cpp" />
     <ClCompile Include="EditorManager.cpp" />
     <ClCompile Include="EditorUI.cpp" />
+    <ClCompile Include="GameObjectEx.cpp" />
     <ClCompile Include="ImguiManager.cpp" />
     <ClCompile Include="imgui\imgui.cpp" />
     <ClCompile Include="imgui\imgui_demo.cpp" />
