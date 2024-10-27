@@ -1,7 +1,9 @@
 #include "pch.h"
 #include "ImguiManager.h"
 #include "EditorUI.h"
+#include "InspectorUI.h"
 #include "ListUI.h"
+#include "MenuUI.h"
 
 #include "Engine/Engine.h"
 #include "Engine/Device.h"
@@ -220,17 +222,20 @@ void ImguiManager::Render()
     }
 }
 
-#include "InspectorUI.h"
 void ImguiManager::CreateDefaultUI()
 {
     EditorUI* ui = nullptr;
 
+    // List UI
     ui = new ListUI;
     ui->SetActive(false);
     ui->SetModal(true);
     AddUI(*ui);
 
-    // Test
+    // Menu UI
+    ui = new MenuUI;
+    AddUI(*ui);
+
     //// Inspector
     ////Ptr<GameObject> obj = LevelManager::GetInstance()->GetGameObject(LAYER_TYPE::PLAYER);
     ////Ptr<GameObject> obj = LevelManager::GetInstance()->GetGameObject(LAYER_TYPE::CAMERA);

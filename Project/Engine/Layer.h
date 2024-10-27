@@ -11,6 +11,8 @@ class Layer final : public Entity
 
 private:
 	const LAYER_TYPE m_Type;
+
+	// TODO : 최상위 부모 오브젝트만 등록하기
 	vector<Ptr<GameObject>> m_objs;
 
 public:

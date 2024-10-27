@@ -99,6 +99,9 @@
     <ClInclude Include="GameObjectEx.h">
       <Filter>EditorUI\GameObject</Filter>
     </ClInclude>
+    <ClInclude Include="MenuUI.h">
+      <Filter>EditorUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -174,6 +177,9 @@
     </ClCompile>
     <ClCompile Include="GameObjectEx.cpp">
       <Filter>EditorUI\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuUI.cpp">
+      <Filter>EditorUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

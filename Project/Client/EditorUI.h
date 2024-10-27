@@ -92,7 +92,7 @@ public:
 // about EditorUI functions called every frame
 public:
 	virtual void Tick() final;
-	virtual void Render() final;
+	virtual void Render();
 
 // functions for overriding
 protected:
