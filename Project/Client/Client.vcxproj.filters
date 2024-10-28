@@ -19,6 +19,9 @@
     <Filter Include="EditorUI\GameObject">
       <UniqueIdentifier>{51e2ba3f-92dc-4a2d-b240-04b0ce87a979}</UniqueIdentifier>
     </Filter>
+    <Filter Include="EditorUI\Manager">
+      <UniqueIdentifier>{ee9b58b8-814d-4bde-9632-aaee6fad6e5d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -93,9 +96,6 @@
     <ClInclude Include="EditorUIValues.h">
       <Filter>EditorUI</Filter>
     </ClInclude>
-    <ClInclude Include="EditorManager.h">
-      <Filter>EditorUI</Filter>
-    </ClInclude>
     <ClInclude Include="GameObjectEx.h">
       <Filter>EditorUI\GameObject</Filter>
     </ClInclude>
@@ -110,6 +110,9 @@
     </ClInclude>
     <ClInclude Include="ContentUI.h">
       <Filter>EditorUI</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorManager.h">
+      <Filter>EditorUI\Manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -181,9 +184,6 @@
     <ClCompile Include="ListUI.cpp">
       <Filter>EditorUI</Filter>
     </ClCompile>
-    <ClCompile Include="EditorManager.cpp">
-      <Filter>EditorUI</Filter>
-    </ClCompile>
     <ClCompile Include="GameObjectEx.cpp">
       <Filter>EditorUI\GameObject</Filter>
     </ClCompile>
@@ -198,6 +198,9 @@
     </ClCompile>
     <ClCompile Include="ContentUI.cpp">
       <Filter>EditorUI</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorManager.cpp">
+      <Filter>EditorUI\Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

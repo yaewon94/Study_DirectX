@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "OutlinerUI.h"
 #include "TreeUI.h"
+#include "InspectorUI.h"
 #include "Engine/TaskManager.h"
 #include "Engine/LevelManager.h"
 #include "Engine/GameObject.h"
@@ -9,6 +10,7 @@ OutlinerUI::OutlinerUI()
 	: EditorUI("OutlinerUI")
 	, m_tree(AddChild<TreeUI>())
 {
+	m_tree->SetOnSelectCallback(this, (EUI_CALLBACK)&OutlinerUI::SelectGameObject);
 }
 
 OutlinerUI::~OutlinerUI()
@@ -54,4 +56,11 @@ void OutlinerUI::RenewGameObjects()
 			if (obj->GetParent() == nullptr) AddGameObject(root, obj);
 		}
 	}
+}
+
+void OutlinerUI::SelectGameObject(TreeNode* const node)
+{
+	GameObject* target = (GameObject*)node->GetData();
+	InspectorUI* inspector = (InspectorUI*)ImguiManager::GetInstance()->FindUI(EDITOR_UI_TYPE::INSPECTOR);
+	inspector->SetTargetObject(Ptr<GameObject>(target));
 }

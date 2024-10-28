@@ -10,11 +10,13 @@ class InspectorUI final : public EditorUI
 	NO_COPY_ASSIGN(InspectorUI);
 
 public:
-	InspectorUI(const Ptr<GameObject>& target);
+	InspectorUI();
 	~InspectorUI();
 
 public:
 	virtual EDITOR_UI_TYPE GetType() final { return EDITOR_UI_TYPE::INSPECTOR; }
+
+	void SetTargetObject(Ptr<GameObject> obj);
 
 	template<typename T> requires std::derived_from<T, ComponentUI>
 	void AddChild(Ptr<GameObject> target)

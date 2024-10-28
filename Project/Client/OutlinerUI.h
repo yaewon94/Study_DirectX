@@ -22,4 +22,5 @@ public:
 private:
 	void AddGameObject(TreeNode* const parent, Ptr<GameObject> obj);
 	void RenewGameObjects();
+	void SelectGameObject(TreeNode* const node);
 };

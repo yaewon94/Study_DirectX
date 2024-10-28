@@ -226,6 +226,10 @@ void ImguiManager::CreateDefaultUI()
 {
     EditorUI* ui = nullptr;
 
+    // Inspector UI
+    ui = new InspectorUI;
+    AddUI(*ui);
+
     // List UI
     ui = new ListUI;
     ui->SetActive(false);
@@ -240,15 +244,7 @@ void ImguiManager::CreateDefaultUI()
     ui = new OutlinerUI;
     AddUI(*ui);
 
-    // Content UI
-    ui = new ContentUI;
-    AddUI(*ui);
-
-    //// Inspector
-    ////Ptr<GameObject> obj = LevelManager::GetInstance()->GetGameObject(LAYER_TYPE::PLAYER);
-    ////Ptr<GameObject> obj = LevelManager::GetInstance()->GetGameObject(LAYER_TYPE::CAMERA);
-    ////Ptr<GameObject> obj = LevelManager::GetInstance()->GetGameObject(LAYER_TYPE::LIGHT);
-    //Ptr<GameObject> obj = LevelManager::GetInstance()->GetGameObject(LAYER_TYPE::MONSTER);
-    //ui = new InspectorUI(obj);
+    //// Content UI
+    //ui = new ContentUI;
     //AddUI(*ui);
 }
