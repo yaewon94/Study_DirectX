@@ -22,6 +22,9 @@
     <Filter Include="EditorUI\Manager">
       <UniqueIdentifier>{ee9b58b8-814d-4bde-9632-aaee6fad6e5d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="EditorUI\AssetUI">
+      <UniqueIdentifier>{443c03d1-a1ab-417d-b236-5fdc6ffc9648}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -114,6 +117,9 @@
     <ClInclude Include="EditorManager.h">
       <Filter>EditorUI\Manager</Filter>
     </ClInclude>
+    <ClInclude Include="AssetUI.h">
+      <Filter>EditorUI\AssetUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -201,6 +207,9 @@
     </ClCompile>
     <ClCompile Include="EditorManager.cpp">
       <Filter>EditorUI\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="AssetUI.cpp">
+      <Filter>EditorUI\AssetUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

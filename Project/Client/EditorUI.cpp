@@ -53,11 +53,6 @@ void EditorUI::DeleteChildren()
 	m_children.clear();
 }
 
-void EditorUI::Tick()
-{
-	if (m_isActive) TickUpdate();
-}
-
 void EditorUI::Render()
 {
 	if (m_isActive)

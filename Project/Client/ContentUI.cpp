@@ -1,13 +1,16 @@
 #include "pch.h"
 #include "ContentUI.h"
 #include "TreeUI.h"
+#include "InspectorUI.h"
 #include "Engine/AssetManager.h"
 
 ContentUI::ContentUI() 
 	: EditorUI("ContentUI")
 	, m_tree(AddChild<TreeUI>())
 {
-	// TEST : 에셋 가져오기
+	m_tree->SetOnSelectCallback(this, (EUI_CALLBACK)&ContentUI::SelectAsset);
+
+	// 모든 에셋 가져오기
 	TreeNode* root = m_tree->AddItem("Asset", 0);
 
 	for (UINT i=0; i<(UINT)ASSET_TYPE::COUNT_END; ++i)
@@ -28,4 +31,11 @@ ContentUI::~ContentUI()
 
 void ContentUI::RenderUpdate()
 {
+}
+
+void ContentUI::SelectAsset(TreeNode* const node)
+{
+	Asset* asset = (Asset*)node->GetData();
+	InspectorUI* inspector = (InspectorUI*)ImguiManager::GetInstance()->FindUI(EDITOR_UI_TYPE::INSPECTOR);
+	inspector->SetTargetAsset(Ptr<Asset>(asset));
 }

@@ -87,12 +87,11 @@ protected:
 
 // about EditorUI functions called every frame
 public:
-	virtual void Tick() final;
+	virtual void Tick() {}
 	virtual void Render();
 
 // functions for overriding
 protected:
-	virtual void TickUpdate() {}
 	virtual void RenderUpdate() = 0;
 
 	virtual void ActivateOnOff() {}

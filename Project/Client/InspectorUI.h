@@ -1,9 +1,11 @@
 #pragma once
 #include "EditorUI.h"
 
+enum class ASSET_TYPE;
 enum class COMPONENT_TYPE;
 class ComponentUI;
 class GameObject;
+class Asset;
 
 // 하나의 게임오브젝트가 가지고 있는 모든 컴포넌트들을 종합적으로 보여주는 UI
 class InspectorUI final : public EditorUI
@@ -11,7 +13,8 @@ class InspectorUI final : public EditorUI
 	NO_COPY_ASSIGN(InspectorUI);
 
 private:
-	Ptr<GameObject> m_target;
+	Ptr<GameObject> m_targetObj;
+	Ptr<Asset> m_targetAsset;
 
 public:
 	static const EDITOR_UI_TYPE Type = EDITOR_UI_TYPE::INSPECTOR;
@@ -26,11 +29,14 @@ public:
 	void SetTargetObject(Ptr<GameObject> obj);
 	Ptr<GameObject> GetTargetObject();
 
+	void SetTargetAsset(Ptr<Asset> asset);
+
 public:
 	virtual void RenderUpdate() final {}
 
 private:
-	void AddChild(COMPONENT_TYPE type);
+	void AddChild(COMPONENT_TYPE type); // Component UI
+	void AddChild(ASSET_TYPE type);		// Asset UI
 
 //private:
 //	template<typename T> requires std::derived_from<T, ComponentUI>

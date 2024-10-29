@@ -244,7 +244,7 @@ void ImguiManager::CreateDefaultUI()
     ui = new OutlinerUI;
     AddUI(*ui);
 
-    //// Content UI
-    //ui = new ContentUI;
-    //AddUI(*ui);
+    // Content UI
+    ui = new ContentUI;
+    AddUI(*ui);
 }

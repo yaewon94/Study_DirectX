@@ -9,9 +9,9 @@ class Texture;
 class Material;
 
 // 에셋 타입
-enum class ASSET_TYPE : UINT
+enum class ASSET_TYPE
 {
-	MESH, GRAPHIC_SHADER, TEXTURE, MATERIAL, SPRITE, COUNT_END
+	MESH = 0, GRAPHIC_SHADER, TEXTURE, MATERIAL, SPRITE, COUNT_END
 };
 
 static const char* AssetNameArr[] 
