@@ -7,6 +7,9 @@ class Texture final : public Asset
 {
 	NO_COPY_ASSIGN(Texture);
 
+public:
+	static const ASSET_TYPE Type = ASSET_TYPE::TEXTURE;
+
 private:
 	ScratchImage m_img;						// 이미지파일 로딩, 저장 기능
 	ComPtr<ID3D11Texture2D> m_tex2D;		// (ScratchImage)SysMem -> GPUMem
@@ -24,6 +27,7 @@ public:
 	~Texture();
 
 public:
+	virtual ASSET_TYPE GetType() final { return Type; }
 	TEXTURE_PARAM GetRegisterNum() { return m_registerNum; }
 	UINT GetWidth() { return m_desc.Width; }
 	UINT GetHeight() { return m_desc.Height; }

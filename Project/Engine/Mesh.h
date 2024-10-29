@@ -14,6 +14,9 @@ class Mesh final : public Asset
 {
 	NO_COPY_ASSIGN(Mesh);
 
+public:
+	static const ASSET_TYPE Type = ASSET_TYPE::MESH;
+
 private:
 	ComPtr<ID3D11Buffer> vertexBuffer;
 	ComPtr<ID3D11Buffer> indexBuffer;
@@ -30,6 +33,9 @@ private:
 public:
 	Mesh(const string& key, const string& relativePath);
 	~Mesh();
+
+public:
+	virtual ASSET_TYPE GetType() final { return Type; }
 
 public:
 	int CreateOnGpu(Vertex* vertexSysMem, UINT vertexCount, UINT* indexSysMem, UINT indexCount);

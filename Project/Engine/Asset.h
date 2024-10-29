@@ -22,19 +22,6 @@ static const char* AssetNameArr[]
 	, "Sprite"};
 static int AssetNameArrSize = sizeof(AssetNameArr) / sizeof(const char*);
 
-
-template<typename T> requires std::derived_from<T, Asset>
-static ASSET_TYPE GetType()
-{
-	if constexpr (std::is_same_v<T, Mesh>) return ASSET_TYPE::MESH;
-	if constexpr (std::is_same_v<T, GraphicShader>) return ASSET_TYPE::GRAPHIC_SHADER;
-	if constexpr (std::is_same_v<T, Texture>) return ASSET_TYPE::TEXTURE;
-	if constexpr (std::is_same_v<T, Material>) return ASSET_TYPE::MATERIAL;
-	if constexpr (std::is_same_v<T, Sprite>) return ASSET_TYPE::SPRITE;
-
-	throw std::logic_error(MSG_INVALID_TYPE_CASTING);
-}
-
 // 에셋 최상위 클래스
 class Asset : public Entity
 {
@@ -50,6 +37,7 @@ protected:
 
 public:
 	const string& GetKey() { return Key; }
+	virtual ASSET_TYPE GetType() = 0;
 
 protected:
 	const string& GetRelativePath() { return relativePath; }

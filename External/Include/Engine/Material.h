@@ -8,6 +8,9 @@ class Texture;
 // ÀçÁú
 class Material final : public Asset
 {
+public:
+	static const ASSET_TYPE Type = ASSET_TYPE::MATERIAL;
+
 private:
 	Ptr<GraphicShader> m_shader;
 	array<Ptr<Texture>, TEXTURE_PARAM::COUNT_END> m_textures;
@@ -24,6 +27,8 @@ public:
 	virtual int Load() final { return S_OK; }
 
 public:
+	virtual ASSET_TYPE GetType() final { return Type; }
+
 	// shader
 	Ptr<GraphicShader> GetShader();
 	void SetShader(const Ptr<GraphicShader>& shader);

@@ -40,7 +40,7 @@ public:
 	template<typename T> requires std::derived_from<T, Asset> 
 	Ptr<T> FindAsset(const string& Key, const string& relativePath = "")
 	{
-		auto& assetMap = assetMapArr[(UINT)GetType<T>()];
+		auto& assetMap = assetMapArr[(UINT)T::Type];
 		const auto iter = assetMap.find(Key);
 
 		if (iter != assetMap.end()) return (iter->second).ptr_dynamic_cast<T>();
@@ -59,7 +59,7 @@ private:
 	template<typename T> requires std::derived_from<T, Asset>
 	Ptr<T> AddAsset(const string& Key, Ptr<T>& asset)
 	{
-		assetMapArr[(UINT)GetType<T>()].insert(make_pair(Key, asset.ptr_dynamic_cast<Asset>()));
+		assetMapArr[(UINT)T::Type].insert(make_pair(Key, asset.ptr_dynamic_cast<Asset>()));
 
 		return asset;
 	}
@@ -75,7 +75,7 @@ private:
 			return nullptr;
 		}
 
-		assetMapArr[(UINT)GetType<T>()].insert(make_pair(Key, asset.ptr_dynamic_cast<Asset>()));
+		assetMapArr[(UINT)T::Type].insert(make_pair(Key, asset.ptr_dynamic_cast<Asset>()));
 
 		return asset;
 	}

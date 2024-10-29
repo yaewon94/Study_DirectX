@@ -8,6 +8,9 @@ class Sprite final : public Asset
 {
 	NO_COPY_ASSIGN(Sprite);
 
+public:
+	static const ASSET_TYPE Type = ASSET_TYPE::SPRITE;
+
 private:
 	Ptr<Texture> m_atlas;
 	Vec2 m_sliceUV;
@@ -21,6 +24,7 @@ public:
 	~Sprite();
 
 public:
+	virtual ASSET_TYPE GetType() final { return Type; }
 	Ptr<Texture> GetAtlasTexture();
 	UINT GetFPS() { return m_fps; }
 	UINT GetFrameCount() { return m_frameCount; }

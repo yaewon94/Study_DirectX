@@ -6,6 +6,9 @@ class GraphicShader final : public Shader
 {
 	NO_COPY_ASSIGN(GraphicShader);
 
+public:
+	static const ASSET_TYPE Type = ASSET_TYPE::GRAPHIC_SHADER;
+
 private:
 	SHADER_DOMAIN domain;
 
@@ -28,6 +31,8 @@ public:
 	~GraphicShader();
 
 public:
+	virtual ASSET_TYPE GetType() final { return Type; }
+
 	SHADER_DOMAIN GetDomain() { return domain; }
 	BLEND_TYPE GetBlendType() { return bsType; }
 
