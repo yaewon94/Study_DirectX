@@ -1,15 +1,16 @@
 #include "pch.h"
 #include "TransformUI.h"
+#include "InspectorUI.h"
 #include "Engine/LayerValues.h"
 #include "Engine/GameObject.h"
 #include "Engine/Transform.h"
 
 ImVec2 TransformUI::s_childSize = ImVec2(0, CHILDSIZE_ROW * 3);
 
-TransformUI::TransformUI(Ptr<GameObject> target)
-	: ComponentUI("Transform", target)
-	, m_tr(target->GetTransform())
+TransformUI::TransformUI()
+	: ComponentUI("Transform")
 {
+	m_tr = ((InspectorUI*)ImguiManager::GetInstance()->FindUI(EDITOR_UI_TYPE::INSPECTOR))->GetTargetObject()->GetTransform();
 }
 
 TransformUI::~TransformUI()
@@ -51,12 +52,12 @@ void TransformUI::RenderUpdate()
 	//}
 }
 
-Ptr<Component> TransformUI::AddComponent()
-{
-	return GetTarget()->AddComponent<Transform>().ptr_dynamic_cast<Component>();
-}
-
-Ptr<Component> TransformUI::GetComponent(bool isBaseType)
-{
-	return GetTarget()->GetTransform().ptr_dynamic_cast<Component>();
-}
+//Ptr<Component> TransformUI::AddComponent()
+//{
+//	return GetTarget()->AddComponent<Transform>().ptr_dynamic_cast<Component>();
+//}
+//
+//Ptr<Component> TransformUI::GetComponent(bool isBaseType)
+//{
+//	return GetTarget()->GetTransform().ptr_dynamic_cast<Component>();
+//}

@@ -10,9 +10,6 @@ class EditorUI;
 
 typedef void(EditorUI::* EUI_CALLBACK)(void*);
 
-template<typename T>
-concept not_component_ui = std::is_base_of_v<EditorUI, T> && !std::is_base_of_v<ComponentUI, T>;
-
 // 에디터모드 모든 UI들의 최상위 클래스 (추상클래스)
 // TODO : 게임오브젝트 생성 기능
 // TODO : 각 EditorUI의 X 표시를 누르면 해당 컴포넌트 제거 (TransformUI 제외)
@@ -36,7 +33,7 @@ private:
 	const string m_name;
 
 	EditorUI* m_parent;
-	vector<EditorUI*> m_children;
+	map<EDITOR_UI_TYPE, EditorUI*> m_children;
 
 // Destructor
 protected:
@@ -63,22 +60,15 @@ public:
 	virtual ImVec2 GetChildSize() { return ImVec2(0, 0); }
 	
 	template<typename T> requires std::derived_from<T, EditorUI>
-	EditorUI* const GetChild()
+	T* const GetChild()
 	{
-		for (EditorUI* child : m_children)
-		{
-			if (dynamic_cast<T*>(child) != nullptr)
-			{
-				return child;
-			}
-		}
-
-		return nullptr;
+		const auto iter = m_children.find(T::Type);
+		if (iter != m_children.end()) return (T*)(iter->second);
+		else return nullptr;
 	}
 
-	
-	// 템플릿 메소드는 virtual 사용 불가라 이 방법으로 함
-	template<typename T> requires not_component_ui<T>
+protected:
+	template<typename T> requires std::derived_from<T, EditorUI>
 	T* const AddChild()
 	{
 		if (GetChild<T>() != nullptr)
@@ -86,8 +76,14 @@ public:
 			throw std::logic_error("이미 가지고 있는 UI 입니다");
 		}
 
-		return (T*)RegisterChild<T>(new T);
+		T* t = new T;
+		m_children.insert(make_pair(T::Type, t));
+		t->m_parent = this; // 부모 설정
+		ImguiManager::GetInstance()->AddUI(*t); // ImguiManager에 등록
+		return t;
 	}
+
+	void DeleteChildren();
 
 // about EditorUI functions called every frame
 public:
@@ -102,16 +98,6 @@ protected:
 	virtual void ActivateOnOff() {}
 
 protected:
-	// 실제 UI 객체를 메모리에 등록
-	template<typename T> requires std::derived_from<T, EditorUI>
-	EditorUI* const RegisterChild(T* const t)
-	{
-		m_children.push_back(t);
-		m_children.back()->m_parent = this; // 부모 설정
-		ImguiManager::GetInstance()->AddUI(*m_children.back()); // ImguiManager에 등록
-		return m_children.back();
-	}
-
 	// 타이틀 렌더링
 	void RenderTitle();
 

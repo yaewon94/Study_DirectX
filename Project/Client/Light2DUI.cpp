@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "Light2DUI.h"
+#include "InspectorUI.h"
 #include "Engine/GameObject.h"
 #include "Engine/Light2D.h"
 #include "Engine/TransformValues.h"
@@ -7,26 +8,26 @@
 ImVec2 Light2DUI::s_childSize = ImVec2(0, CHILDSIZE_ROW * 4);
 
 
-Light2DUI::Light2DUI(Ptr<GameObject> target) 
-	: ComponentUI("Light2D", target)
-	, m_light(target->GetComponent<Light2D>())
+Light2DUI::Light2DUI() 
+	: ComponentUI("Light2D")
 {
+	m_light = ((InspectorUI*)ImguiManager::GetInstance()->FindUI(EDITOR_UI_TYPE::INSPECTOR))->GetTargetObject()->GetComponent<Light2D>();
 }
 
 Light2DUI::~Light2DUI()
 {
 }
 
-Ptr<Component> Light2DUI::AddComponent()
-{
-	return GetTarget()->AddComponent<Light2D>().ptr_dynamic_cast<Component>();
-}
-
-Ptr<Component> Light2DUI::GetComponent(bool isBaseType)
-{
-	if (isBaseType) return GetTarget()->GetComponent<Light>().ptr_dynamic_cast<Component>();
-	else return GetTarget()->GetComponent<Light2D>().ptr_dynamic_cast<Component>();
-}
+//Ptr<Component> Light2DUI::AddComponent()
+//{
+//	return GetTarget()->AddComponent<Light2D>().ptr_dynamic_cast<Component>();
+//}
+//
+//Ptr<Component> Light2DUI::GetComponent(bool isBaseType)
+//{
+//	if (isBaseType) return GetTarget()->GetComponent<Light>().ptr_dynamic_cast<Component>();
+//	else return GetTarget()->GetComponent<Light2D>().ptr_dynamic_cast<Component>();
+//}
 
 void Light2DUI::RenderUpdate()
 {

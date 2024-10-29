@@ -2,7 +2,6 @@
 #include "ComponentUI.h"
 
 class Component;
-class GameObject;
 class Transform;
 
 // 게임오브젝트의 좌표, 크기, 각도를 설정하는 UI
@@ -16,15 +15,16 @@ private:
 	Ptr<Transform> m_tr;
 
 public:
-	TransformUI(Ptr<GameObject> target);
+	static const EDITOR_UI_TYPE Type = EDITOR_UI_TYPE::TRANSFORM;
+
+public:
+	TransformUI();
 	~TransformUI();
 
 public:
-	virtual EDITOR_UI_TYPE GetType() final { return EDITOR_UI_TYPE::TRANSFORM; }
-
-	virtual Ptr<Component> AddComponent() final;
-	virtual Ptr<Component> GetComponent(bool isBaseType = true) final;
-
+	virtual EDITOR_UI_TYPE GetType() final { return Type; }
+	/*virtual Ptr<Component> AddComponent() final;
+	virtual Ptr<Component> GetComponent(bool isBaseType = true) final;*/
 	virtual ImVec2 GetChildSize() final { return s_childSize; }
 
 public:

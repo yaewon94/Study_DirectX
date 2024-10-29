@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "MeshRenderUI.h"
-#include "ImguiManager.h"
+#include "InspectorUI.h"
 #include "ListUI.h"
 #include "Engine/GameObject.h"
 #include "Engine/AssetManager.h"
@@ -10,26 +10,26 @@
 
 ImVec2 MeshRenderUI::s_childSize = ImVec2(0, CHILDSIZE_ROW * 2);
 
-MeshRenderUI::MeshRenderUI(Ptr<GameObject> target) 
-	: ComponentUI("MeshRender", target)
-	, m_meshRender(target->GetComponent<MeshRender>())
+MeshRenderUI::MeshRenderUI() 
+	: ComponentUI("MeshRender")
 {
+	m_meshRender = ((InspectorUI*)ImguiManager::GetInstance()->FindUI(EDITOR_UI_TYPE::INSPECTOR))->GetTargetObject()->GetComponent<MeshRender>();
 }
 
 MeshRenderUI::~MeshRenderUI()
 {
 }
 
-Ptr<Component> MeshRenderUI::AddComponent()
-{
-	return GetTarget()->AddComponent<MeshRender>().ptr_dynamic_cast<Component>();
-}
-
-Ptr<Component> MeshRenderUI::GetComponent(bool isBaseType)
-{
-	if(isBaseType) return GetTarget()->GetRenderComponent().ptr_dynamic_cast<Component>();
-	else return GetTarget()->GetComponent<MeshRender>().ptr_dynamic_cast<Component>();
-}
+//Ptr<Component> MeshRenderUI::AddComponent()
+//{
+//	return GetTarget()->AddComponent<MeshRender>().ptr_dynamic_cast<Component>();
+//}
+//
+//Ptr<Component> MeshRenderUI::GetComponent(bool isBaseType)
+//{
+//	if(isBaseType) return GetTarget()->GetRenderComponent().ptr_dynamic_cast<Component>();
+//	else return GetTarget()->GetComponent<MeshRender>().ptr_dynamic_cast<Component>();
+//}
 
 void MeshRenderUI::RenderUpdate()
 {

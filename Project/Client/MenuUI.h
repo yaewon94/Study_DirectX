@@ -5,6 +5,9 @@
 class MenuUI final : public EditorUI
 {
 public:
+	static const EDITOR_UI_TYPE Type = EDITOR_UI_TYPE::MENU;
+
+public:
 	MenuUI();
 	~MenuUI();
 
@@ -13,8 +16,8 @@ public:
 	virtual void RenderUpdate() final {}
 
 public:
-	virtual EDITOR_UI_TYPE GetType() final { return EDITOR_UI_TYPE::MENU; }
-
+	virtual EDITOR_UI_TYPE GetType() final { return Type; }
+	
 private:
 	void MenuAsset();
 	void MenuEditor();

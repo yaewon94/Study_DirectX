@@ -14,11 +14,14 @@ private:
 	EUI_CALLBACK m_onDoubleClickedFunc;
 
 public:
+	static const EDITOR_UI_TYPE Type = EDITOR_UI_TYPE::LIST;
+
+public:
 	ListUI();
 	virtual ~ListUI();
 
 public:
-	virtual EDITOR_UI_TYPE GetType() final { return EDITOR_UI_TYPE::LIST; }
+	virtual EDITOR_UI_TYPE GetType() final { return Type; }
 
 	void AddItem(const string& name);
 

@@ -39,6 +39,9 @@ private:
 	EUI_CALLBACK m_onSelectCallbackFunc;
 
 public:
+	static const EDITOR_UI_TYPE Type = EDITOR_UI_TYPE::TREE;
+
+public:
 	TreeUI();
 	~TreeUI();
 
@@ -46,7 +49,7 @@ public:
 	virtual void RenderUpdate() final;
 
 public:
-	virtual EDITOR_UI_TYPE GetType() final { return EDITOR_UI_TYPE::TREE; }
+	virtual EDITOR_UI_TYPE GetType() final { return Type; }
 
 	TreeNode* const AddItem(const string& name, DWORD_PTR data, TreeNode* const parent = nullptr);
 	void ClearItems();

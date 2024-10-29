@@ -1,30 +1,31 @@
 #include "pch.h"
 #include "CameraUI.h"
+#include "InspectorUI.h"
 #include "Engine/GameObject.h"
 #include "Engine/Camera.h"
 
 ImVec2 CameraUI::s_childSize = ImVec2(0, CHILDSIZE_ROW * 8);
 
 
-CameraUI::CameraUI(Ptr<GameObject> target) 
-	: ComponentUI("Camera", target)
-	, m_camera(target->GetComponent<Camera>())
+CameraUI::CameraUI() 
+	: ComponentUI("Camera")
 {
+	m_camera = ((InspectorUI*)ImguiManager::GetInstance()->FindUI(EDITOR_UI_TYPE::INSPECTOR))->GetTargetObject()->GetComponent<Camera>();
 }
 
 CameraUI::~CameraUI()
 {
 }
 
-Ptr<Component> CameraUI::AddComponent()
-{
-	return GetTarget()->AddComponent<Camera>().ptr_dynamic_cast<Component>();
-}
-
-Ptr<Component> CameraUI::GetComponent(bool isBaseType)
-{
-	return GetTarget()->GetComponent<Camera>().ptr_dynamic_cast<Component>();
-}
+//Ptr<Component> CameraUI::AddComponent()
+//{
+//	return GetTarget()->AddComponent<Camera>().ptr_dynamic_cast<Component>();
+//}
+//
+//Ptr<Component> CameraUI::GetComponent(bool isBaseType)
+//{
+//	return GetTarget()->GetComponent<Camera>().ptr_dynamic_cast<Component>();
+//}
 
 void CameraUI::RenderUpdate()
 {

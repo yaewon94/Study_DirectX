@@ -18,15 +18,7 @@ EditorUI::~EditorUI()
 
 void EditorUI::Destroy()
 {
-	for (EditorUI* child : m_children)
-	{
-		if (child != nullptr)
-		{
-			child->Destroy();
-			child = nullptr;
-		}
-	}
-
+	DeleteChildren();
 	ImguiManager::GetInstance()->DeleteUI(*this); // 소멸자에서 이거 호출하면 this->GetType() 순수가상함수라 쓰레기값 나옴
 	delete this;
 }
@@ -37,13 +29,28 @@ void EditorUI::SetActive(bool isActive)
 	{
 		m_isActive = isActive;
 
-		for (const auto& child : m_children)
+		for (auto& pair : m_children)
 		{
-			child->SetActive(isActive);
+			pair.second->SetActive(isActive);
 		}
 
 		ActivateOnOff();
 	}
+}
+
+void EditorUI::DeleteChildren()
+{
+	for (auto& pair : m_children)
+	{
+		EditorUI* child = pair.second;
+		if (child != nullptr)
+		{
+			child->Destroy();
+			child = nullptr;
+		}
+	}
+
+	m_children.clear();
 }
 
 void EditorUI::Tick()
@@ -91,9 +98,9 @@ void EditorUI::RenderModal()
 	if (ImGui::BeginPopupModal(szName, &preActive))
 	{
 		RenderUpdate();
-		for (EditorUI* child : m_children)
+		for (auto& pair : m_children)
 		{
-			child->Render();
+			pair.second->Render();
 			//ImGui::Separator();
 		}
 
@@ -113,9 +120,9 @@ void EditorUI::RenderModalless()
 	ImGui::Begin(m_name.c_str(), &m_isActive);
 	if (preActive != m_isActive) SetActive(preActive);
 	RenderUpdate();
-	for (EditorUI* child : m_children)
+	for (auto& pair : m_children)
 	{
-		child->Render();
+		pair.second->Render();
 		//ImGui::Separator();
 	}
 	ImGui::End();
@@ -125,9 +132,9 @@ void EditorUI::RenderChild()
 {
 	ImGui::BeginChild(m_name.c_str(), GetChildSize());
 	RenderUpdate();
-	for (EditorUI* child : m_children)
+	for (auto& pair : m_children)
 	{
-		child->Render();
+		pair.second->Render();
 		//ImGui::Separator();
 	}
 	ImGui::EndChild();
