@@ -78,6 +78,11 @@ GameObject& GameObject::operator=(const GameObject& other)
 	return *this;
 }
 
+const map<COMPONENT_TYPE, Ptr<Component>>& GameObject::GetComponents()
+{
+	return m_components;
+}
+
 Ptr<Transform> GameObject::GetTransform()
 {
 	return m_transform;

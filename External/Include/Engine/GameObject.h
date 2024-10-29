@@ -44,7 +44,8 @@ public:
 
 	virtual void SetLayer(LAYER_TYPE layer);
 	LAYER_TYPE GetLayer() { return m_layer; }
-
+	
+	const map<COMPONENT_TYPE, Ptr<Component>>& GetComponents();
 	Ptr<Transform> GetTransform();
 	Ptr<RenderComponent> GetRenderComponent();
 	Ptr<Collider> GetCollider();
