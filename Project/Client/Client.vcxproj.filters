@@ -120,6 +120,9 @@
     <ClInclude Include="AssetUI.h">
       <Filter>EditorUI\AssetUI</Filter>
     </ClInclude>
+    <ClInclude Include="MeshUI.h">
+      <Filter>EditorUI\AssetUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -209,6 +212,9 @@
       <Filter>EditorUI\Manager</Filter>
     </ClCompile>
     <ClCompile Include="AssetUI.cpp">
+      <Filter>EditorUI\AssetUI</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshUI.cpp">
       <Filter>EditorUI\AssetUI</Filter>
     </ClCompile>
   </ItemGroup>

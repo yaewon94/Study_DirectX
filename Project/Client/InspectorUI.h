@@ -30,6 +30,7 @@ public:
 	Ptr<GameObject> GetTargetObject();
 
 	void SetTargetAsset(Ptr<Asset> asset);
+	Ptr<Asset> GetTargetAsset();
 
 public:
 	virtual void RenderUpdate() final {}

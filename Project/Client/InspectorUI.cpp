@@ -5,6 +5,7 @@
 #include "CameraUI.h"
 #include "Light2DUI.h"
 #include "MeshRenderUI.h"
+#include "MeshUI.h"
 #include "Engine/GameObject.h"
 #include "Engine/Component.h"
 #include "Engine/Asset.h"
@@ -50,6 +51,11 @@ void InspectorUI::SetTargetAsset(Ptr<Asset> asset)
 	AddChild(asset->GetType());
 }
 
+Ptr<Asset> InspectorUI::GetTargetAsset()
+{
+	return m_targetAsset;
+}
+
 void InspectorUI::AddChild(COMPONENT_TYPE type)
 {
 	// TODO : if문 안쓰고 바로 매칭할 수 있는 방법 찾기
@@ -63,4 +69,5 @@ void InspectorUI::AddChild(COMPONENT_TYPE type)
 
 void InspectorUI::AddChild(ASSET_TYPE type)
 {
+	if (type == ASSET_TYPE::MESH) EditorUI::AddChild<MeshUI>();
 }

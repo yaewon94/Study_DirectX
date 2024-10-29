@@ -37,6 +37,12 @@ public:
 public:
 	virtual ASSET_TYPE GetType() final { return Type; }
 
+	int GetVertexCount() { return vertexCount; }
+	const Vertex& GetVertexInfo(int idx) { return vertexSysMem[idx]; }
+
+	int GetIndexCount() { return indexCount; }
+	const UINT* const GetIndexInfo() { return indexSysMem; }
+
 public:
 	int CreateOnGpu(Vertex* vertexSysMem, UINT vertexCount, UINT* indexSysMem, UINT indexCount);
 	void Render();
