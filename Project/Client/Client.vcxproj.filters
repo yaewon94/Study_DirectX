@@ -123,6 +123,9 @@
     <ClInclude Include="MeshUI.h">
       <Filter>EditorUI\AssetUI</Filter>
     </ClInclude>
+    <ClInclude Include="GraphicShaderUI.h">
+      <Filter>EditorUI\AssetUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -215,6 +218,9 @@
       <Filter>EditorUI\AssetUI</Filter>
     </ClCompile>
     <ClCompile Include="MeshUI.cpp">
+      <Filter>EditorUI\AssetUI</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicShaderUI.cpp">
       <Filter>EditorUI\AssetUI</Filter>
     </ClCompile>
   </ItemGroup>

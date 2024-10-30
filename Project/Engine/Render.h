@@ -103,29 +103,49 @@ struct CB_Transform
 // Shader
 // ======================
 // 셰이더 동작 분류 (value : 렌더링 순서)
-enum class SHADER_DOMAIN : UINT
+enum class SHADER_DOMAIN
 {
-	DOMAIN_OPAQUE,			// 불투명
-	DOMAIN_MASK,			// 불투명 or 투명
-	DOMAIN_TRANSPARENT,		// 반투명 + 투명
-	DOMAIN_POSTPROCESS,		// 후처리
+	DOMAIN_OPAQUE = 0,	// 불투명
+	DOMAIN_MASK,		// 불투명 or 투명
+	DOMAIN_TRANSPARENT,	// 반투명 + 투명
+	DOMAIN_POSTPROCESS,	// 후처리
 	COUNT_END
 };
+
+static const char* ShaderDomainArr[] = {"Opaque", "Mask", "Transparent", "Postprocess"};
+static constexpr byte ShaderDomainArrSize = sizeof(ShaderDomainArr) / sizeof(const char*);
+
+// 래스터라이즈 타입
+enum class RASTERIZE_TYPE
+{
+	// culling : 오브젝트에서 필요없는 부분을 렌더링 하지 않게 하는 기법 
+	CULL_NONE = 0,
+	CULL_BACK,	// 뒷면 컬링 (DEFAULT)
+	CULL_FRONT,	// 앞면 컬링
+	WIRE_FRAME,	// 와이어 프레임
+	COUNT_END
+};
+
+static const char* RsArr[] = { "None", "Cull back", "Cull front", "Wireframe" };
+static constexpr byte RsArrSize = sizeof(RsArr) / sizeof(const char*);
 
 // Blend State
-enum class BLEND_TYPE : UINT
+enum class BLEND_TYPE
 {
-	DEFAULT,				// 강제출력
-	ALPHABLEND,				// 알파값 적용
-	ALPHABLEND_COVERAGE,	// 알파블렌드 + AlphaToCoverage
-	ONE_ONE,				// 1:1 블렌딩
+	DEFAULT = 0,		// 강제출력
+	ALPHABLEND,			// 알파값 적용
+	ALPHABLEND_COVERAGE,// 알파블렌드 + AlphaToCoverage
+	ONE_ONE,			// 1:1 블렌딩
 	COUNT_END
 };
 
+static const char* BsArr[] = { "Default", "Alphablend", "Alphablend coverage", "1 : 1" };
+static constexpr byte BsArrSize = sizeof(BsArr) / sizeof(const char*);
+
 // 깊이판정 타입
-enum class DEPTH_STENCIL_TYPE : UINT
+enum class DEPTH_STENCIL_TYPE
 {
-	LESS,
+	LESS = 0,
 	LESS_EQUAL,
 	GREATER,		// 겹쳐있는 영역
 	NO_TEST,		// 깊이판정 X
@@ -134,16 +154,8 @@ enum class DEPTH_STENCIL_TYPE : UINT
 	COUNT_END
 };
 
-// 래스터라이즈 타입
-enum class RASTERIZE_TYPE : UINT
-{
-	// culling : 오브젝트에서 필요없는 부분을 렌더링 하지 않게 하는 기법 
-	CULL_BACK,	// 뒷면 컬링 (DEFAULT)
-	CULL_FRONT,	// 앞면 컬링
-	CULL_NONE,
-	WIRE_FRAME,	// 와이어 프레임
-	COUNT_END
-};
+static const char* DsArr[] = { "Less", "Less equal", "Greater", "No test", "No write", "No test No write" };
+static constexpr byte DsArrSize = sizeof(DsArr) / sizeof(const char*);
 
 // 샘플링 타입
 enum class SAMPLER_TYPE : UINT

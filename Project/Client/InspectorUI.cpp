@@ -1,13 +1,16 @@
 #include "pch.h"
 #include "InspectorUI.h"
+
 #include "TransformUI.h"
 #include "Collider2DUI.h"
 #include "CameraUI.h"
 #include "Light2DUI.h"
 #include "MeshRenderUI.h"
-#include "MeshUI.h"
 #include "Engine/GameObject.h"
 #include "Engine/Component.h"
+
+#include "MeshUI.h"
+#include "GraphicShaderUI.h"
 #include "Engine/Asset.h"
 
 InspectorUI::InspectorUI() 
@@ -70,4 +73,5 @@ void InspectorUI::AddChild(COMPONENT_TYPE type)
 void InspectorUI::AddChild(ASSET_TYPE type)
 {
 	if (type == ASSET_TYPE::MESH) EditorUI::AddChild<MeshUI>();
+	else if (type == ASSET_TYPE::GRAPHIC_SHADER) EditorUI::AddChild<GraphicShaderUI>();
 }
