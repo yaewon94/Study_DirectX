@@ -25,6 +25,11 @@ void Sprite::SetAtlasTexture(const Ptr<Texture>& atlas, UINT frameCount)
 {
 	// 필드 초기화
 	m_atlas = atlas;
+	SetFrameCount(frameCount);
+}
+
+void Sprite::SetFrameCount(UINT frameCount)
+{
 	m_frameCount = frameCount;
 	m_sliceUV = Vec2(1.f / m_frameCount, 1.f);
 

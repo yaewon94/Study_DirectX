@@ -25,12 +25,24 @@ public:
 
 public:
 	virtual ASSET_TYPE GetType() final { return Type; }
-	Ptr<Texture> GetAtlasTexture();
-	UINT GetFPS() { return m_fps; }
-	UINT GetFrameCount() { return m_frameCount; }
-	bool IsRepeat() { return m_isRepeat; }
 
+	Ptr<Texture> GetAtlasTexture();
 	void SetAtlasTexture(const Ptr<Texture>& atlas, UINT frameCount);
+	UINT GetFrameCount() { return m_frameCount; }
+	void SetFrameCount(UINT frameCount);
+
+	bool IsRepeat() { return m_isRepeat; }
+	void SetRepeatOnOff() { m_isRepeat = !m_isRepeat; }
+	UINT GetFPS() { return m_fps; }
+	void SetFPS(int fps)
+	{
+		if (fps <= 0 || fps > 60)
+		{
+			throw std::logic_error("fps값은 1 이상 60 이하만 가능합니다");
+		}
+
+		m_fps = fps;
+	}
 
 public:
 	virtual int Load() final { return S_OK; }
