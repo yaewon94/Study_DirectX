@@ -3,6 +3,9 @@
 #include "imgui/imgui.h"
 
 #define SAMELINE_VALUE 130
+#define MAIN_TITLE_SAMELINE_VALUE 80
+#define SMALL_TITLE_SAMELINE_VALUE 50
+
 #define CHILDSIZE_ROW 35
 
 class ComponentUI;

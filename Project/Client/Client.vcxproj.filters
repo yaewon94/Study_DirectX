@@ -126,6 +126,9 @@
     <ClInclude Include="GraphicShaderUI.h">
       <Filter>EditorUI\AssetUI</Filter>
     </ClInclude>
+    <ClInclude Include="TextureUI.h">
+      <Filter>EditorUI\AssetUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -221,6 +224,9 @@
       <Filter>EditorUI\AssetUI</Filter>
     </ClCompile>
     <ClCompile Include="GraphicShaderUI.cpp">
+      <Filter>EditorUI\AssetUI</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureUI.cpp">
       <Filter>EditorUI\AssetUI</Filter>
     </ClCompile>
   </ItemGroup>

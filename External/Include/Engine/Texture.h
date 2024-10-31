@@ -20,20 +20,21 @@ private:
 
 	D3D11_TEXTURE2D_DESC m_desc;
 
-	TEXTURE_PARAM m_registerNum;
-
 public:
 	Texture(const string& Key, const string& relativePath);
 	~Texture();
 
 public:
 	virtual ASSET_TYPE GetType() final { return Type; }
-	TEXTURE_PARAM GetRegisterNum() { return m_registerNum; }
-	UINT GetWidth() { return m_desc.Width; }
-	UINT GetHeight() { return m_desc.Height; }
+
+	ComPtr<ID3D11Texture2D> GetTexture2D() { return m_tex2D; }
+
+	int GetWidth() { return m_desc.Width; }
+	int GetHeight() { return m_desc.Height; }
+
 	ComPtr<ID3D11RenderTargetView> GetRenderTargetView() { return m_rtView; }
 	ComPtr<ID3D11DepthStencilView> GetDepthStencilView() { return m_dsView; }
-	ComPtr<ID3D11Texture2D> GetTexture2D() { return m_tex2D; }
+	ComPtr<ID3D11ShaderResourceView> GetShaderResourceView() { return m_srView; }
 
 public:
 	virtual int Load() final;
@@ -41,8 +42,8 @@ public:
 public:
 	int CreateOnGpu(ComPtr<ID3D11Texture2D> texture);
 	int CreateOnGpu(Vec2 size, DXGI_FORMAT format, UINT bindFlags, D3D11_USAGE usage);
-	void BindOnGpu(TEXTURE_PARAM param);
-	void Clear();
+	void BindOnGpu(TEXTURE_PARAM registerNum);
+	void Clear(TEXTURE_PARAM registerNum);
 
 private:
 	int CreateView(UINT bindFlags);

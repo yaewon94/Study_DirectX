@@ -4,7 +4,7 @@
 
 Texture::Texture(const string& Key, const string& relativePath) 
 	: Asset(Key, relativePath)
-	, m_desc{}, m_registerNum(TEXTURE_PARAM::NULL_PARAM)
+	, m_desc{}
 {
 }
 
@@ -108,30 +108,23 @@ int Texture::CreateOnGpu(Vec2 size, DXGI_FORMAT format, UINT bindFlags, D3D11_US
 	return S_OK;
 }
 
-void Texture::BindOnGpu(TEXTURE_PARAM param)
+void Texture::BindOnGpu(TEXTURE_PARAM registerNum)
 {
-	m_registerNum = param;
-	CONTEXT->VSSetShaderResources(param, 1, m_srView.GetAddressOf());	// Vertex Shader
-	CONTEXT->HSSetShaderResources(param, 1, m_srView.GetAddressOf());	// Hull Shader
-	CONTEXT->DSSetShaderResources(param, 1, m_srView.GetAddressOf());	// Domain Shader
-	CONTEXT->GSSetShaderResources(param, 1, m_srView.GetAddressOf());	// Geometry Shader
-	CONTEXT->PSSetShaderResources(param, 1, m_srView.GetAddressOf());	// Pixel Shader
+	CONTEXT->VSSetShaderResources(registerNum, 1, m_srView.GetAddressOf());	// Vertex Shader
+	CONTEXT->HSSetShaderResources(registerNum, 1, m_srView.GetAddressOf());	// Hull Shader
+	CONTEXT->DSSetShaderResources(registerNum, 1, m_srView.GetAddressOf());	// Domain Shader
+	CONTEXT->GSSetShaderResources(registerNum, 1, m_srView.GetAddressOf());	// Geometry Shader
+	CONTEXT->PSSetShaderResources(registerNum, 1, m_srView.GetAddressOf());	// Pixel Shader
 }
 
-void Texture::Clear()
+void Texture::Clear(TEXTURE_PARAM registerNum)
 {
-	if (m_registerNum == TEXTURE_PARAM::NULL_PARAM)
-	{
-		throw std::logic_error("레지스터에 등록되어 있지 않은 텍스처입니다");
-	}
-
 	ID3D11ShaderResourceView* srv = nullptr;
-	CONTEXT->VSSetShaderResources(m_registerNum, 1, &srv);
-	CONTEXT->HSSetShaderResources(m_registerNum, 1, &srv);
-	CONTEXT->DSSetShaderResources(m_registerNum, 1, &srv);
-	CONTEXT->GSSetShaderResources(m_registerNum, 1, &srv);
-	CONTEXT->PSSetShaderResources(m_registerNum, 1, &srv);
-	m_registerNum = TEXTURE_PARAM::NULL_PARAM;
+	CONTEXT->VSSetShaderResources(registerNum, 1, &srv);
+	CONTEXT->HSSetShaderResources(registerNum, 1, &srv);
+	CONTEXT->DSSetShaderResources(registerNum, 1, &srv);
+	CONTEXT->GSSetShaderResources(registerNum, 1, &srv);
+	CONTEXT->PSSetShaderResources(registerNum, 1, &srv);
 }
 
 int Texture::CreateView(UINT bindFlags)
@@ -145,7 +138,8 @@ int Texture::CreateView(UINT bindFlags)
 			return E_FAIL;
 		}
 	}
-	else if (m_desc.BindFlags & D3D11_BIND_RENDER_TARGET)
+
+	if (m_desc.BindFlags & D3D11_BIND_RENDER_TARGET)
 	{
 		if (FAILED(DEVICE->CreateRenderTargetView(m_tex2D.Get(), nullptr, m_rtView.GetAddressOf())))
 		{
@@ -153,18 +147,13 @@ int Texture::CreateView(UINT bindFlags)
 			return E_FAIL;
 		}
 	}
-	else if (m_desc.BindFlags & D3D11_BIND_SHADER_RESOURCE)
+	if (m_desc.BindFlags & D3D11_BIND_SHADER_RESOURCE)
 	{
 		if (FAILED(DEVICE->CreateShaderResourceView(m_tex2D.Get(), nullptr, m_srView.GetAddressOf())))
 		{
 			MessageBox(nullptr, L"Shader Resource View 생성 실패", L"텍스처 생성 실패", MB_OK);
 			return E_FAIL;
 		}
-	}
-	else
-	{
-		MessageBox(nullptr, L"알맞은 BindFlag 조합이 아닙니다", L"텍스처 생성 실패", MB_OK);
-		return E_FAIL;
 	}
 
 	return S_OK;

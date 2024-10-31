@@ -30,6 +30,11 @@ int Mesh::CreateOnGpu(Vertex* vertexSysMem, UINT vertexCount, UINT* indexSysMem,
 	// =============================================
 	// Vertex
 	// =============================================
+	if (this->vertexSysMem != nullptr)
+	{
+		delete this->vertexSysMem;
+	}
+
 	this->vertexCount = vertexCount;
 	this->vertexSysMem = new Vertex[vertexCount];
 	memcpy(this->vertexSysMem, vertexSysMem, sizeof(Vertex) * vertexCount);
@@ -53,6 +58,11 @@ int Mesh::CreateOnGpu(Vertex* vertexSysMem, UINT vertexCount, UINT* indexSysMem,
 	//================
 	// Index
 	// ===============
+	if (this->indexSysMem != nullptr)
+	{
+		delete this->indexSysMem;
+	}
+
 	this->indexCount = indexCount;
 	this->indexSysMem = new UINT[indexCount];
 	memcpy(this->indexSysMem, indexSysMem, sizeof(UINT) * indexCount);

@@ -18,7 +18,6 @@
 // 텍스처 타입 (value : 레지스터 번호)
 enum TEXTURE_PARAM
 {
-	NULL_PARAM = -1,	// 레지스터 할당 이전 값
 	TEX_0, TEX_1, TEX_2, TEX_3, TEX_4, TEX_5,
 	TEXARR_0, TEXARR_1, TEXARR_2, TEXARR_3,
 	CUBE_0, CUBE_1,

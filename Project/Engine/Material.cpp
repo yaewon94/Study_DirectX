@@ -105,8 +105,7 @@ void Material::UnloadTexture(TEXTURE_PARAM param)
 		throw std::logic_error("empty 레지스터 입니다");
 	}
 
-	TEXTURE_PARAM registerNum = m_textures[param]->GetRegisterNum();
-	m_cb.bTex[registerNum] = 0;
-	m_textures[param]->Clear();
+	m_cb.bTex[param] = 0;
+	m_textures[param]->Clear(param);
 	m_textures[param] = nullptr;
 }

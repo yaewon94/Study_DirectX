@@ -65,5 +65,5 @@ void Sprite::Clear()
 	cb->SetData(&info);
 	cb->BindOnGpu();
 
-	m_atlas->Clear();
+	m_atlas->Clear(TEXTURE_PARAM::SPRITE_TEX);
 }
