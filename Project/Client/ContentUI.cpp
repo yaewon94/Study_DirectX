@@ -35,6 +35,7 @@ void ContentUI::RenderUpdate()
 
 void ContentUI::SelectAsset(TreeNode* const node)
 {
+	if (node->GetData() == 0) return;
 	Asset* asset = (Asset*)node->GetData();
 	InspectorUI* inspector = (InspectorUI*)ImguiManager::GetInstance()->FindUI(EDITOR_UI_TYPE::INSPECTOR);
 	inspector->SetTargetAsset(Ptr<Asset>(asset));

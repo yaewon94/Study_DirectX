@@ -60,6 +60,7 @@ void OutlinerUI::RenewGameObjects()
 
 void OutlinerUI::SelectGameObject(TreeNode* const node)
 {
+	if (node->GetData() == 0) return;
 	GameObject* target = (GameObject*)node->GetData();
 	InspectorUI* inspector = (InspectorUI*)ImguiManager::GetInstance()->FindUI(EDITOR_UI_TYPE::INSPECTOR);
 	inspector->SetTargetObject(Ptr<GameObject>(target));
