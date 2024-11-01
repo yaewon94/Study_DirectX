@@ -48,10 +48,8 @@ public:
 		else return nullptr;
 	}
 
-	void GetAssetNames(ASSET_TYPE type, vector<const char*>& vec);
 	const map<string, Ptr<Asset>>& GetAssets(ASSET_TYPE type)
 	{
-		assert(nullptr);
 		return assetMapArr[(UINT)type];
 	}
 

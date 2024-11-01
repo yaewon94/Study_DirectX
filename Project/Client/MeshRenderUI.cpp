@@ -36,49 +36,41 @@ void MeshRenderUI::RenderUpdate()
 	RenderTitle();
 
 	// Mesh
-	string meshName = "None";
+	string meshName = "null";
 	Ptr<Mesh> mesh = m_meshRender->GetMesh();
 	if (mesh != nullptr) meshName = mesh->GetKey();
 	ImGui::Text("Mesh");
 	ImGui::SameLine(SAMELINE_VALUE);
-	ImGui::SetNextItemWidth(150);
-	ImGui::InputText("##mesh", (char*)meshName.c_str(), meshName.length(), ImGuiInputTextFlags_ReadOnly);
-	ImGui::SameLine();
-	if (ImGui::Button("Select##mesh"))
+	if (ImGui::BeginCombo("##meshRender_mesh", meshName.c_str()))
 	{
-		ListUI* ui = (ListUI*)ImguiManager::GetInstance()->FindUI(EDITOR_UI_TYPE::LIST);
-		ui->SetActive(true);
-		ui->AddItem("None");
-		vector<const char*> vec;
-		AssetManager::GetInstance()->GetAssetNames(ASSET_TYPE::MESH, vec);
-		for (auto item : vec)
+		for (auto& pair : AssetManager::GetInstance()->GetAssets(ASSET_TYPE::MESH))
 		{
-			ui->AddItem(item);
+			if (ImGui::Selectable(pair.first.c_str(), mesh.Get() == pair.second.Get()))
+			{
+				m_meshRender->SetMesh(pair.second.ptr_dynamic_cast<Mesh>());
+				ImGui::SetItemDefaultFocus();
+			}
 		}
-		ui->SetDoubleClick(*this, (EUI_CALLBACK)&MeshRenderUI::OnSelectMesh);
+		ImGui::EndCombo();
 	}
 
 	// Material
-	string mtrlName = "None";
+	string mtrlName = "null";
 	Ptr<Material> mtrl = m_meshRender->GetMaterial();
 	if (mtrl != nullptr) mtrlName = mtrl->GetKey();
 	ImGui::Text("Material");
 	ImGui::SameLine(SAMELINE_VALUE);
-	ImGui::SetNextItemWidth(150);
-	ImGui::InputText("##material", (char*)mtrlName.c_str(), mtrlName.length(), ImGuiInputTextFlags_ReadOnly);
-	ImGui::SameLine();
-	if (ImGui::Button("Select##material"))
+	if (ImGui::BeginCombo("##meshRender_mtrl", mtrlName.c_str()))
 	{
-		ListUI* ui = (ListUI*)ImguiManager::GetInstance()->FindUI(EDITOR_UI_TYPE::LIST);
-		ui->SetActive(true);
-		ui->AddItem("None");
-		vector<const char*> vec;
-		AssetManager::GetInstance()->GetAssetNames(ASSET_TYPE::MATERIAL, vec);
-		for (auto item : vec)
+		for (auto& pair : AssetManager::GetInstance()->GetAssets(ASSET_TYPE::MATERIAL))
 		{
-			ui->AddItem(item);
+			if (ImGui::Selectable(pair.first.c_str(), mtrl.Get() == pair.second.Get()))
+			{
+				m_meshRender->SetMaterial(pair.second.ptr_dynamic_cast<Material>());
+				ImGui::SetItemDefaultFocus();
+			}
 		}
-		ui->SetDoubleClick(*this, (EUI_CALLBACK)&MeshRenderUI::OnSelectMaterial);
+		ImGui::EndCombo();
 	}
 }
 
