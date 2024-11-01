@@ -11,7 +11,7 @@ public:
 	static constexpr auto Type = EDITOR_UI_TYPE::TEXTURE;
 
 private:
-	static constexpr auto ChildSize = ImVec2(0, CHILDSIZE_ROW * 5);
+	static constexpr auto ChildSize = ImVec2(0, CHILDSIZE_ROW * 7);
 	Ptr<Texture> m_tex;
 
 public:

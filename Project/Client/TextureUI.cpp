@@ -42,6 +42,9 @@ void TextureUI::RenderUpdate()
 	ImGui::EndGroup();
 	ImGui::NewLine();
 
-	// TODO : Image (key, relativePath)
-	//ImGui::Image();
+	// Image
+	ImGui::Text("Image");
+	int imgWidth = 400;
+	int imgHeight = imgWidth * (height / (float)width);
+	ImGui::Image(m_tex->GetShaderResourceView().Get(), ImVec2(imgWidth, imgHeight));
 }

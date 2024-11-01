@@ -46,5 +46,5 @@ public:
 	void Clear(TEXTURE_PARAM registerNum);
 
 private:
-	int CreateView(UINT bindFlags);
+	int CreateView();
 };

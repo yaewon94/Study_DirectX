@@ -67,7 +67,7 @@ int Texture::CreateOnGpu(ComPtr<ID3D11Texture2D> texture)
 {
 	m_tex2D = texture;
 	m_tex2D->GetDesc(&m_desc);
-	if (FAILED(CreateView(m_desc.BindFlags))) return E_FAIL;
+	if (FAILED(CreateView())) return E_FAIL;
 
 	return S_OK;
 }
@@ -103,7 +103,7 @@ int Texture::CreateOnGpu(Vec2 size, DXGI_FORMAT format, UINT bindFlags, D3D11_US
 	}
 
 	// view 积己
-	if (FAILED(CreateView(m_desc.BindFlags))) return E_FAIL;
+	if (FAILED(CreateView())) return E_FAIL;
 	
 	return S_OK;
 }
@@ -127,7 +127,7 @@ void Texture::Clear(TEXTURE_PARAM registerNum)
 	CONTEXT->PSSetShaderResources(registerNum, 1, &srv);
 }
 
-int Texture::CreateView(UINT bindFlags)
+int Texture::CreateView()
 {
 	// view 积己
 	if (m_desc.BindFlags & D3D11_BIND_DEPTH_STENCIL)
@@ -138,21 +138,23 @@ int Texture::CreateView(UINT bindFlags)
 			return E_FAIL;
 		}
 	}
-
-	if (m_desc.BindFlags & D3D11_BIND_RENDER_TARGET)
+	else
 	{
-		if (FAILED(DEVICE->CreateRenderTargetView(m_tex2D.Get(), nullptr, m_rtView.GetAddressOf())))
+		if (m_desc.BindFlags & D3D11_BIND_RENDER_TARGET)
 		{
-			MessageBox(nullptr, L"RenderTarget View 积己 角菩", L"咆胶贸 积己 角菩", MB_OK);
-			return E_FAIL;
+			if (FAILED(DEVICE->CreateRenderTargetView(m_tex2D.Get(), nullptr, m_rtView.GetAddressOf())))
+			{
+				MessageBox(nullptr, L"RenderTarget View 积己 角菩", L"咆胶贸 积己 角菩", MB_OK);
+				return E_FAIL;
+			}
 		}
-	}
-	if (m_desc.BindFlags & D3D11_BIND_SHADER_RESOURCE)
-	{
-		if (FAILED(DEVICE->CreateShaderResourceView(m_tex2D.Get(), nullptr, m_srView.GetAddressOf())))
+		if (m_desc.BindFlags & D3D11_BIND_SHADER_RESOURCE)
 		{
-			MessageBox(nullptr, L"Shader Resource View 积己 角菩", L"咆胶贸 积己 角菩", MB_OK);
-			return E_FAIL;
+			if (FAILED(DEVICE->CreateShaderResourceView(m_tex2D.Get(), nullptr, m_srView.GetAddressOf())))
+			{
+				MessageBox(nullptr, L"Shader Resource View 积己 角菩", L"咆胶贸 积己 角菩", MB_OK);
+				return E_FAIL;
+			}
 		}
 	}
 
