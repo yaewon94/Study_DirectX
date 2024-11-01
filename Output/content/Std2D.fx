@@ -6,6 +6,8 @@
 #include "Values.fx"
 #include "Functions.fx"
 
+#define ALPHA g_float_0
+
 // Vertex Shader
 struct VS_IN
 {
@@ -67,7 +69,7 @@ float4 PS_Std2D_AlphaBlend(VS_OUT input) : SV_Target
 {
     float4 color = (float4) 0.f;
     
-    if (g_float_0 == 0.f)
+    if (ALPHA == 0.f)
     {
         discard;
     }
@@ -101,7 +103,7 @@ float4 PS_Std2D_AlphaBlend(VS_OUT input) : SV_Target
             color = PS_Std2D(input);
         }
         
-        color.a = g_float_0;
+        color.a = ALPHA;
     }
     
     return color;
@@ -121,11 +123,11 @@ float4 PS_PaperBurn(VS_OUT input) : SV_Target
     if (g_bTex_1)
     {
         float4 noise = g_tex_1.Sample(g_sampler0, input.uv);
-        if (noise.r + g_float_0 > 1.f)
+        if (noise.a + ALPHA > 1.f)
             discard;
     }
     
-    if (color.a == 0.f)
+    if (ALPHA == 0.f)
         discard;
 
     return color;

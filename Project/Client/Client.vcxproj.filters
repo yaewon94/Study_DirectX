@@ -132,6 +132,9 @@
     <ClInclude Include="SpriteUI.h">
       <Filter>EditorUI\AssetUI</Filter>
     </ClInclude>
+    <ClInclude Include="MaterialUI.h">
+      <Filter>EditorUI\AssetUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -233,6 +236,9 @@
       <Filter>EditorUI\AssetUI</Filter>
     </ClCompile>
     <ClCompile Include="SpriteUI.cpp">
+      <Filter>EditorUI\AssetUI</Filter>
+    </ClCompile>
+    <ClCompile Include="MaterialUI.cpp">
       <Filter>EditorUI\AssetUI</Filter>
     </ClCompile>
   </ItemGroup>

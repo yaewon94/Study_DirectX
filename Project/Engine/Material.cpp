@@ -6,11 +6,13 @@
 #include "Texture.h"
 
 Material::Material(const string& Key, const string& relativePath) 
-	: Asset(Key, relativePath), m_cb{}
+	: Asset(Key, relativePath), m_cb{}, m_copy(1)
 {
 }
 
-Material::Material(const Material& origin) : Asset("", "")
+Material::Material(const Material& origin) 
+	: Asset(origin.GetKey() + "##" + std::to_string(++m_copy), "")
+	, m_copy(1)
 {
 	*this = origin;
 }
@@ -25,7 +27,7 @@ Material& Material::operator=(const Material& other)
 	{
 		// 주소 공유 (에셋이므로 깊은복사 X)
 		m_shader = other.m_shader;
-		m_textures = other.m_textures;
+		m_texMap = other.m_texMap;
 
 		// 개별 주소
 		m_cb = other.m_cb;
@@ -39,13 +41,10 @@ void Material::BindOnGpu()
 	if (m_shader != nullptr)
 	{
 		// Texture
-		for (int i=0; i<TEXTURE_PARAM::COUNT_END; ++i)
+		for (auto& pair : m_texMap)
 		{
-			if(m_textures[i] != nullptr)
-			{
-				m_cb.bTex[i] = 1;
-				m_textures[i]->BindOnGpu((TEXTURE_PARAM)i);
-			}
+			m_cb.bTex[pair.first] = 1;
+			pair.second->BindOnGpu(pair.first);
 		}
 
 		// Const Buffer
@@ -65,6 +64,8 @@ Ptr<GraphicShader> Material::GetShader()
 
 void Material::SetShader(const Ptr<GraphicShader>& shader)
 {
+	if (m_shader.Get() == shader.Get()) return;
+
 	m_shader = shader;
 
 	// 알파블렌드 타입일 경우, 불투명도 100%로 초기화
@@ -93,19 +94,36 @@ void Material::SetAlpha(float alpha)
 	}
 }
 
-void Material::SetTextureParam(TEXTURE_PARAM type, const Ptr<Texture>& texture)
+Ptr<Texture> Material::GetTexture(TEXTURE_PARAM type)
 {
-	m_textures[type] = texture;
+	const auto iter = m_texMap.find(type);
+
+	if (iter != m_texMap.end()) return iter->second;
+	else return nullptr;
 }
 
-void Material::UnloadTexture(TEXTURE_PARAM param)
+void Material::SetTextureParam(TEXTURE_PARAM type, const Ptr<Texture>& texture)
 {
-	if (m_textures[param] == nullptr)
-	{
-		throw std::logic_error("empty 레지스터 입니다");
-	}
+	if (type < 0) throw std::logic_error("type은 양수만 가능합니다");
+	if (type >= TEXTURE_PARAM::COUNT_END) throw std::logic_error("전용 파라미터는 사용할 수 없습니다");
 
-	m_cb.bTex[param] = 0;
-	m_textures[param]->Clear(param);
-	m_textures[param] = nullptr;
+	const auto iter = m_texMap.find(type);
+
+	if (iter != m_texMap.end())
+	{
+		if (texture == nullptr)
+		{
+			m_cb.bTex[type] = 0;
+			iter->second->Clear(type);
+			m_texMap.erase(iter);
+		}
+		else
+		{
+			iter->second = texture;
+		}
+	}
+	else
+	{
+		if(texture != nullptr) m_texMap.insert(make_pair(type, texture));
+	}
 }

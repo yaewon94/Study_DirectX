@@ -36,7 +36,7 @@ protected:
 	~Asset();
 
 public:
-	const string& GetKey() { return Key; }
+	const string& GetKey() const { return Key; }
 	virtual ASSET_TYPE GetType() = 0;
 
 protected:

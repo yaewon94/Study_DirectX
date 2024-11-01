@@ -12,8 +12,9 @@ public:
 	static const ASSET_TYPE Type = ASSET_TYPE::MATERIAL;
 
 private:
+	UINT m_copy; // 1 : 자기 자신, 2 이상 : 얘를 복사한 Material이 있음
 	Ptr<GraphicShader> m_shader;
-	array<Ptr<Texture>, TEXTURE_PARAM::COUNT_END> m_textures;
+	map<TEXTURE_PARAM, Ptr<Texture>> m_texMap;
 	CB_Material m_cb;
 
 public:
@@ -32,12 +33,16 @@ public:
 	// shader
 	Ptr<GraphicShader> GetShader();
 	void SetShader(const Ptr<GraphicShader>& shader);
+
 	void SetAlpha(float alpha);
 	void SetColor(Vec4 color) { m_cb.v4Arr[0] = color; }
 
 	// texture
+	Ptr<Texture> GetTexture(TEXTURE_PARAM type);
 	void SetTextureParam(TEXTURE_PARAM type, const Ptr<Texture>& texture);
-	void UnloadTexture(TEXTURE_PARAM type);
+
+	// const buffer
+	const CB_Material& GetConstBuffer() { return m_cb; }
 
 	template<typename T>
 	void SetScalarParam(SCALAR_PARAM type, const T& data)

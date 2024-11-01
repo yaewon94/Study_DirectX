@@ -13,6 +13,7 @@
 #include "GraphicShaderUI.h"
 #include "TextureUI.h"
 #include "SpriteUI.h"
+#include "MaterialUI.h"
 #include "Engine/Asset.h"
 
 InspectorUI::InspectorUI() 
@@ -78,4 +79,5 @@ void InspectorUI::AddChild(ASSET_TYPE type)
 	else if (type == ASSET_TYPE::GRAPHIC_SHADER) EditorUI::AddChild<GraphicShaderUI>();
 	else if (type == ASSET_TYPE::TEXTURE) EditorUI::AddChild<TextureUI>();
 	else if (type == ASSET_TYPE::SPRITE) EditorUI::AddChild<SpriteUI>();
+	else if (type == ASSET_TYPE::MATERIAL) EditorUI::AddChild<MaterialUI>();
 }

@@ -3,6 +3,8 @@
 
 #include "Values.fx"
 
+#define COLOR g_vec4_0
+
 // Vertex Shader
 struct VS_IN
 {
@@ -29,7 +31,7 @@ VS_OUT VS_Debug(VS_IN input)
 // Pixel Shader
 float4 PS_Debug(VS_OUT input) : SV_Target
 {
-    return g_vec4_0;
+    return COLOR;
     //float4 color = float4(0.f, 1.f, 0.f, 1.f);
     
     ////float thickNess = 0.01f;
