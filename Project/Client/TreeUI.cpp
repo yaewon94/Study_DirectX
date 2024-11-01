@@ -110,6 +110,14 @@ void TreeNode::RenderUpdate()
 			m_owner->SelectNode(this);
 		}
 
+		// Drag and Drop
+		if (ImGui::BeginDragDropSource())
+		{
+			ImGui::SetDragDropPayload(m_owner->GetName().c_str(), this, sizeof(this));
+			ImGui::Text(m_name.c_str());
+			ImGui::EndDragDropSource();
+		}
+
 		// 자식노드 렌더링 호출
 		for (auto child : m_children)
 		{
